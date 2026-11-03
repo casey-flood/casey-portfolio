@@ -1,0 +1,99 @@
+---
+import Base from '../layouts/Base.astro';
+import { CHAT_ENDPOINT, starters, offline, fallback } from '../data/chat';
+const offlineData = offline.map((o) => ({ m: o.match.source, f: o.match.flags, r: o.reply }));
+---
+
+<Base title="Chat with me" description="Ask an AI version of Casey about her work, process, and story.">
+	<section class="chat">
+		<div class="shell chat__shell">
+			<p class="eyebrow">Chat with me</p>
+			<h1 class="chat__h1">Ask me <em>anything</em> about my work.</h1>
+			<p class="chat__sub">An AI assistant trained on my portfolio. It points you to the right case study, and it is not actually me.</p>
+
+			<div class="chat__log" id="chat-log" aria-live="polite">
+				<div class="msg msg--bot">Hi, I'm Casey's portfolio assistant. Ask about Dandy, Amwell, the design system, or how I got here.</div>
+			</div>
+
+			<div class="chat__starters" id="chat-starters">
+				{starters.map((s) => <button type="button" class="chip">{s}</button>)}
+			</div>
+
+			<form class="chat__form" id="chat-form" autocomplete="off">
+				<input id="chat-input" type="text" maxlength="500" placeholder="Ask a question…" aria-label="Your question" required />
+				<button type="submit" class="button">Send</button>
+			</form>
+		</div>
+	</section>
+</Base>
+
+<script is:inline define:vars={{ ENDPOINT: CHAT_ENDPOINT, OFFLINE: offlineData, FALLBACK: fallback }}>
+	const log = document.getElementById('chat-log');
+	const form = document.getElementById('chat-form');
+	const input = document.getElementById('chat-input');
+	const starters = document.getElementById('chat-starters');
+	const history = [];
+
+	// Render text with [[Label|/path]] tokens as link chips (internal paths only).
+	function render(el, text) {
+		el.textContent = '';
+		let last = 0;
+		for (const m of text.matchAll(/\[\[([^\]|]+)\|(\/[^\]\s]*)\]\]/g)) {
+			el.append(document.createTextNode(text.slice(last, m.index)));
+			const a = document.createElement('a');
+			a.className = 'msg__link';
+			a.href = m[2];
+			a.textContent = m[1] + ' →';
+			el.append(a);
+			last = m.index + m[0].length;
+		}
+		el.append(document.createTextNode(text.slice(last)));
+	}
+	function add(role, text) {
+		const el = document.createElement('div');
+		el.className = 'msg msg--' + role;
+		render(el, text);
+		log.append(el);
+		el.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+		return el;
+	}
+	function offlineReply(q) {
+		for (const o of OFFLINE) if (new RegExp(o.m, o.f).test(q)) return o.r;
+		return FALLBACK;
+	}
+	async function ask(q) {
+		starters.hidden = true;
+		add('user', q);
+		history.push({ role: 'user', content: q });
+		const wait = add('bot', '…');
+		wait.classList.add('msg--wait');
+		let reply;
+		try {
+			if (!ENDPOINT) throw new Error('offline');
+			const res = await fetch(ENDPOINT, {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ messages: history }),
+			});
+			const data = await res.json();
+			reply = data.reply || FALLBACK;
+		} catch {
+			await new Promise((r) => setTimeout(r, 450));
+			reply = offlineReply(q);
+		}
+		wait.classList.remove('msg--wait');
+		render(wait, reply);
+		history.push({ role: 'assistant', content: reply.replace(/\[\[([^\]|]+)\|[^\]]+\]\]/g, '$1') });
+	}
+	form.addEventListener('submit', (e) => {
+		e.preventDefault();
+		const q = input.value.trim();
+		if (!q) return;
+		input.value = '';
+		ask(q);
+	});
+	starters.addEventListener('click', (e) => {
+		const b = e.target.closest('.chip');
+		if (b) ask(b.textContent);
+	});
+</script>
