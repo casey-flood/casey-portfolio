@@ -1,0 +1,158 @@
+---
+import Base from '../layouts/Base.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { getProjects } from '../lib/projects';
+
+const projects = (await getProjects()).filter(
+	(p) => p.data.featured && p.data.status === 'published',
+);
+
+const proof = [
+	{ v: '45% → 82%', l: 'Task completion in the Amwell admin redesign' },
+	{ v: '+18%', l: 'Engagement from a redesigned patient onboarding flow' },
+	{ v: '#1', l: 'J.D. Power patient satisfaction, on work I led research for' },
+];
+
+const thesis = [
+	{
+		k: '01 / prototype',
+		title: 'Design in the real material',
+		body: 'Storybook prototypes built from the same React components we ship, so a prototype is a first draft of production, not a picture of it.',
+	},
+	{
+		k: '02 / validate',
+		title: 'Test in real workflows',
+		body: 'Designers and operators use working software instead of reacting to static frames, so feedback is about the real thing.',
+	},
+	{
+		k: '03 / systemize',
+		title: 'Grow the system in code',
+		body: 'The design system lives in Storybook, not Figma. Better tools mean faster turnaround, fewer remakes, and a better fit for the people we serve.',
+	},
+];
+
+const how = [
+	{ n: '1', title: 'Understand', body: 'Find the real problem behind the brief by shadowing users and mining support data.' },
+	{ n: '2', title: 'Decide', body: 'Explore real options, test them with users and engineers, and choose with evidence.' },
+	{ n: '3', title: 'Ship in code', body: 'Prototype in the production codebase so what we test is what ships.' },
+];
+---
+
+<Base
+	title="Casey Flood"
+	description="Casey Flood is a product leader and design engineer who prototypes in production code."
+>
+	<section class="hero">
+		<div class="shell hero__grid">
+			<div>
+				<p class="eyebrow">Product leader · Design engineer</p>
+				<h1>I design in code, so great ideas <em>actually ship</em>.</h1>
+				<p class="hero__lede">
+					I'm Casey Flood. I lead product design across healthcare and dental manufacturing, and I
+					prototype in production codebases with Storybook, Cursor, and Claude.
+				</p>
+				<div class="actions">
+					<a class="button" href="/work">See the work</a>
+					<a class="button button--ghost" href="/journey">My story</a>
+				</div>
+			</div>
+			<div class="term" aria-hidden="true">
+				<div class="term__bar"><i></i><i></i><i></i><span>design-workflow</span></div>
+				<div class="term__body">
+					<span class="term__line"><span class="p">$</span> storybook dev</span>
+					<span class="term__line"><span class="ok">✓</span> prototype built from real components</span>
+					<span class="term__line"><span class="p">$</span> cursor . <span class="c"># iterate with AI</span></span>
+					<span class="term__line"><span class="ok">✓</span> validated with real users</span>
+					<span class="term__line"><span class="p">$</span> ship <span class="c"># production UI</span></span>
+					<span class="term__line"><span class="ok">✓</span> design system lives in code<span class="cursor"></span></span>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="section" style="padding-top: 1rem" aria-label="Results">
+		<div class="shell">
+			<ul class="proof">
+				{
+					proof.map((p) => (
+						<li data-reveal>
+							<strong data-count>{p.v}</strong>
+							<span>{p.l}</span>
+						</li>
+					))
+				}
+			</ul>
+		</div>
+	</section>
+
+	<section class="section" aria-labelledby="thesis-heading">
+		<div class="shell">
+			<p class="eyebrow">Design engineering</p>
+			<h2 id="thesis-heading" class="h2">Why I prototype in code.</h2>
+			<div class="thesis" data-reveal>
+				{
+					thesis.map((t) => (
+						<div>
+							<span class="k">{t.k}</span>
+							<h3>{t.title}</h3>
+							<p>{t.body}</p>
+						</div>
+					))
+				}
+			</div>
+		</div>
+	</section>
+
+	<section class="section band" aria-labelledby="featured-heading">
+		<div class="shell">
+			<div class="section__head">
+				<h2 id="featured-heading">Selected work</h2>
+				<a class="section__link" href="/work">All work →</a>
+			</div>
+			<div class="grid">
+				{
+					projects.map((p) => (
+						<ProjectCard
+							title={p.data.title}
+							summary={p.data.summary}
+							kicker={p.data.industry}
+							tags={p.data.tags}
+							href={`/work/${p.id}`}
+							metric={p.data.metrics[0]}
+							accent={p.data.accent}
+						/>
+					))
+				}
+			</div>
+		</div>
+	</section>
+
+	<section class="section" aria-labelledby="how-heading">
+		<div class="shell">
+			<p class="eyebrow">Process</p>
+			<h2 id="how-heading" class="h2">How I work.</h2>
+			<div class="cards3 cards3--3" style="margin-top: 2rem">
+				{
+					how.map((s) => (
+						<div class="tile" data-reveal>
+							<span class="tile__num">{s.n}</span>
+							<h3>{s.title}</h3>
+							<p>{s.body}</p>
+						</div>
+					))
+				}
+			</div>
+		</div>
+	</section>
+
+	<section class="section" id="contact" aria-labelledby="contact-heading">
+		<div class="shell">
+			<div class="cta" data-reveal>
+				<h2 id="contact-heading">Let's build something hard.</h2>
+				<div class="actions">
+					<a class="button" href="mailto:caseylflood@gmail.com">caseylflood@gmail.com</a>
+				</div>
+			</div>
+		</div>
+	</section>
+</Base>

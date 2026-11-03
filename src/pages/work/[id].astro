@@ -1,0 +1,104 @@
+---
+import { render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { getProjects } from '../../lib/projects';
+
+export async function getStaticPaths() {
+	const projects = await getProjects();
+	return projects
+		.filter((p) => p.data.status === 'published' && !p.data.custom)
+		.map((project) => ({
+			params: { id: project.id },
+			props: { project },
+		}));
+}
+
+const { project } = Astro.props;
+const { Content, headings } = await render(project);
+const { title, outcome, metrics, prototypeUrl, role, timeline, industry } = project.data;
+const sections = headings.filter((h) => h.depth === 2);
+---
+
+<Base title={title} description={outcome} progress>
+	<section class="study-hero">
+		<div class="shell">
+			<a class="back" href="/work">← All work</a>
+			<p class="eyebrow eyebrow--mint">{industry}</p>
+			<h1>{title}</h1>
+			<p class="outcome">{outcome}</p>
+			<ul class="meta-row">
+				{role && <li>{role}</li>}
+				{timeline && <li>{timeline}</li>}
+			</ul>
+			{
+				metrics.length > 0 && (
+					<ul class="metrics">
+						{metrics.map((m) => (
+							<li>
+								<strong data-count>{m.value}</strong>
+								<span>{m.label}</span>
+							</li>
+						))}
+					</ul>
+				)
+			}
+		</div>
+	</section>
+
+	<nav class="chapters" aria-label="Case study sections">
+		<div class="shell">
+			<ol>
+				{
+					sections.map((s) => (
+						<li>
+							<a href={`#${s.slug}`} data-chapter={s.slug}>
+								{s.text}
+							</a>
+						</li>
+					))
+				}
+				{
+					prototypeUrl && (
+						<li>
+							<a href="#prototype" data-chapter="prototype">
+								Prototype
+							</a>
+						</li>
+					)
+				}
+			</ol>
+		</div>
+	</nav>
+
+	<div class="shell" style="padding: 3.5rem 0">
+		<div class="story" data-reveal>
+			<Content />
+		</div>
+	</div>
+
+	{
+		prototypeUrl && (
+			<section class="chapter" id="prototype" style="padding-top: 0">
+				<div class="shell">
+					<div class="proto" data-reveal>
+						<div>
+							<p class="eyebrow">Interactive</p>
+							<h2>Try the prototype</h2>
+							<p class="lead" style="margin-top: 0.75rem">
+								Walk through the flow from import to a link you can send.
+							</p>
+						</div>
+						<a
+							class="button button--ghost"
+							href={prototypeUrl}
+							target="_blank"
+							rel="noopener noreferrer"
+						>
+							Open prototype ↗
+						</a>
+					</div>
+				</div>
+			</section>
+		)
+	}
+</Base>

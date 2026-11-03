@@ -1,0 +1,49 @@
+---
+// One media item (photo, GIF, video, or placeholder). Used in the hero and in highlight sheets.
+interface Media {
+	src?: string;
+	alt?: string;
+	kind?: 'image' | 'video';
+	poster?: string;
+	fit?: 'contain' | 'cover';
+	cap?: string;
+	href?: string;
+	label?: string;
+	hint?: string;
+}
+const { m, k = 0 } = Astro.props as { m: Media; k?: number };
+---
+
+<figure
+	class={`mi ${m.fit === 'contain' ? 'mi--contain' : ''}`}
+	style={`--k:${k}`}
+	data-zoom={m.src ? '' : undefined}
+	data-cap={m.cap ?? m.alt ?? m.label ?? ''}
+	data-href={m.href ?? ''}
+>
+	{
+		!m.src ? (
+			<div class="gi__ph">
+				<svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5">
+					<rect x="3" y="4" width="18" height="16" rx="3" />
+					<circle cx="9" cy="10" r="1.8" />
+					<path d="m4 18 5-5 4 4 3-3 4 4" />
+				</svg>
+				<b>{m.label}</b>
+				<span>{m.hint}</span>
+			</div>
+		) : m.kind === 'video' ? (
+			<video src={m.src} poster={m.poster} aria-label={m.alt} muted loop playsinline preload="metadata" data-autoplay />
+		) : (
+			<img src={m.src} alt={m.alt} loading="lazy" />
+		)
+	}
+	{
+		m.src && (
+			<>
+				<figcaption>{m.cap ?? m.alt}</figcaption>
+				<span class="mi__zoom" aria-hidden="true">⤢</span>
+			</>
+		)
+	}
+</figure>

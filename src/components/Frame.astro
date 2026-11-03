@@ -1,0 +1,46 @@
+---
+// A photo / GIF / video slot. Shows a placeholder until `media` is provided.
+interface Props {
+	media?: { src: string; alt: string; kind?: 'image' | 'video'; poster?: string; autoplay?: boolean };
+	label?: string;
+	hint?: string;
+	ratio?: string;
+}
+
+const { media, label = 'Photo or GIF', hint, ratio = '4 / 3' } = Astro.props;
+---
+
+<figure class="frame" style={`--ratio: ${ratio}`}>
+	{
+		media ? (
+			media.kind === 'video' ? (
+				media.autoplay ? (
+					<video
+						src={media.src}
+						poster={media.poster}
+						aria-label={media.alt}
+						muted
+						loop
+						playsinline
+						preload="metadata"
+						data-autoplay
+					/>
+				) : (
+					<video src={media.src} poster={media.poster} aria-label={media.alt} controls muted playsinline loop preload="metadata" />
+				)
+			) : (
+				<img src={media.src} alt={media.alt} loading="lazy" />
+			)
+		) : (
+			<div class="frame__ph" role="img" aria-label={`Placeholder: ${label}`}>
+				<svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5">
+					<rect x="3" y="4" width="18" height="16" rx="3"></rect>
+					<circle cx="9" cy="10" r="1.8"></circle>
+					<path d="M4 18l5-5 4 4 3-3 4 4"></path>
+				</svg>
+				<b>{label}</b>
+				{hint && <span>{hint}</span>}
+			</div>
+		)
+	}
+</figure>

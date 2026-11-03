@@ -1,0 +1,44 @@
+---
+import DandyStory from '../../layouts/DandyStory.astro';
+---
+
+<DandyStory
+	title="Clickable prototypes in Storybook · Dandy"
+	description="How I build fully clickable, interactive prototypes from real production components at Dandy."
+	eyebrow="Dandy · 2025 – now"
+	h1="I build clickable prototypes from the real components."
+	lede="Once the design system existed, I could assemble full, interactive flows in Storybook that engineers and stakeholders click through."
+	meta={[
+		{ k: 'Tools', v: 'Storybook, Cursor, Claude' },
+		{ k: 'Built on', v: 'The Dandy Design Center design system' },
+		{ k: 'When', v: '2025 – now' },
+	]}
+	hero={{ label: 'Clickable prototype walkthrough', hint: 'Add a screen recording or GIF of a flow in Storybook' }}
+	prev={{ href: '/work/dandy-design-system', label: 'Back to the design system' }}
+	sections={[
+		{
+			id: 'why',
+			label: 'Why',
+			title: 'A static file cannot show how 3D software feels.',
+			text: 'Dandy Design Center is 3D, interactive software. Static Figma frames cannot capture how a tool behaves, but a clickable prototype lets people feel it and give lightweight, useful feedback.',
+		},
+		{
+			id: 'how',
+			label: 'How',
+			title: 'Real components, assembled into real flows.',
+			text: 'I compose the components from the design system into full flows in Storybook, using Cursor and Claude to iterate in minutes. Everything is built on the production code, so what people click is what would ship.',
+			media: { label: 'A flow, assembled in Storybook', hint: 'Add a screenshot or recording' },
+		},
+		{
+			id: 'impact',
+			label: 'The impact',
+			title: 'Prototypes became the engineering reference.',
+			points: [
+				'Prototypes now serve as implementation references for engineering.',
+				'Engineering partners found them more effective for 3D collaboration than static Figma files.',
+				'Designers and stakeholders could try an idea before it was built.',
+			],
+			quotes: [{ q: 'Casey’s prototype is much more compelling than presenting a bulleted list.', who: 'Eileen', role: 'Dandy design' }],
+		},
+	]}
+/>

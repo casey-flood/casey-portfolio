@@ -1,0 +1,44 @@
+---
+import DandyStory from '../../layouts/DandyStory.astro';
+---
+
+<DandyStory
+	title="Teaching it: the Product Design Hub · Dandy"
+	description="How I turned a personal workflow into a team practice at Dandy: onboarding docs, design jams, and the Product Design Hub."
+	eyebrow="Dandy · 2025 – now"
+	h1="I taught it to everyone else, so it is a team practice, not a personal hack."
+	lede="Design-in-code only matters if more people can do it. I built the Product Design Hub and the supporting habits to spread it."
+	meta={[
+		{ k: 'What', v: 'Product Design Hub, Cursor learning hub, onboarding docs' },
+		{ k: 'For', v: 'Product designers and PMs at Dandy' },
+		{ k: 'When', v: '2025 – now' },
+	]}
+	hero={{ label: 'The Product Design Hub', hint: 'Add a screenshot or walkthrough' }}
+	prev={{ href: '/work/dandy-design-system', label: 'Back to the design system' }}
+	sections={[
+		{
+			id: 'why',
+			label: 'Why',
+			title: 'A practice only one person uses does not scale.',
+			text: 'I had set up a faster way to design, in code, with Storybook and Cursor. The next step was making sure other designers could use it without needing me.',
+		},
+		{
+			id: 'what',
+			label: 'What I built',
+			title: 'A hub, a learning path, and a rhythm.',
+			points: [
+				'The Product Design Hub, a home for design resources and how-tos.',
+				'A Cursor learning hub, so designers can get started themselves.',
+				'Onboarding docs and 1:1s to help teammates set up their own automations.',
+				'Weekly design jams, with Storybook as the review artifact.',
+			],
+			media: { label: 'Inside the Product Design Hub', hint: 'Add a screenshot or short walkthrough' },
+		},
+		{
+			id: 'impact',
+			label: 'The impact',
+			title: 'The team picked it up.',
+			text: 'In team feedback gathered by my manager, the Cursor work was genuinely appreciated, and everyone mentioned it.',
+		},
+	]}
+/>

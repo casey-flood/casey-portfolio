@@ -1,0 +1,1042 @@
+---
+import Base from '../layouts/Base.astro';
+import Frame from '../components/Frame.astro';
+import MiFig from '../components/MiFig.astro';
+import { paper, pratt, newyork, testing, mytrips, amwell, freelance, dandy } from '../data/journey';
+
+const slots: Record<number, number[][]> = {
+	1: [[50, 50, -2]],
+	2: [[30, 38, -5], [68, 62, 4]],
+	3: [[24, 32, -6], [72, 34, 5], [46, 74, -2]],
+	4: [[24, 30, -6], [74, 30, 5], [28, 74, 3], [72, 74, -4]],
+	5: [[20, 27, -6], [56, 23, 4], [83, 47, -3], [38, 74, 5], [16, 68, -4]],
+};
+const parts = (text: string) => {
+	const out: { t: string; k?: number }[] = [];
+	let last = 0;
+	for (const m of text.matchAll(/\[\[(\d+)\|([^\]]+)\]\]/g)) {
+		if (m.index! > last) out.push({ t: text.slice(last, m.index) });
+		out.push({ t: m[2], k: Number(m[1]) });
+		last = m.index! + m[0].length;
+	}
+	if (last < text.length) out.push({ t: text.slice(last) });
+	return out;
+};
+const ph = (label: string, hint: string) => ({ label, hint });
+const events = [
+	{
+		id: 'start', slides: ['start'], year: '1990s', pill: 'Origins',
+		kicker: 'Where it started', title: 'I was always making things.',
+		body: 'Long before design was a job title, I was drawing, building, and rearranging the world around me. That curiosity about how things look, feel, and work is still the through line.',
+		hero: ph('Baby Casey with artwork', 'A childhood photo'),
+		highlights: [] as any[], minor: true,
+	},
+	{
+		id: 'jmu', slides: ['jmu'], year: '2016', pill: 'JMU',
+		kicker: 'James Madison University', title: 'Where design met code.',
+		body: 'I studied interactive media and design alongside computer information systems, with a foot in both worlds. It is why I still prototype in code today.',
+		hero: ph('JMU', 'Campus or graduation photo'),
+		highlights: [] as any[], minor: true,
+	},
+	{
+		id: 'paper', slides: ['paper'], year: '2017', pill: 'Paper Airplane',
+		kicker: 'Paper Airplane · Boston', title: 'I did anything and everything.',
+		body: 'My first design job was at an early-stage dating app, where I did anything and everything: [[0|brand and guerrilla marketing]], [[1|research and UI for the product]], and [[2|working with developers on APIs]].',
+		hero: { src: '/paper-airplane/brand-1.webp', alt: 'Paper Airplane brand material', cap: 'Paper Airplane' },
+		highlights: [
+			{ title: 'Brand & guerrilla marketing', text: 'I helped shape the brand and got the app in front of people with guerrilla marketing around Boston.', media: [
+				{ src: '/paper-airplane/brand-1.webp', alt: 'Brand material', cap: 'Brand' },
+				{ src: '/paper-airplane/brand-2.webp', alt: 'Marketing material', cap: 'Marketing' },
+				{ src: '/paper-airplane/brand-3.webp', alt: 'Brand', cap: 'Brand' },
+				ph('Guerrilla marketing', 'Photo from the street team'),
+			] },
+			{ title: 'The product', text: '41 survey responses, 4 interviews, and 6 card sorts led to a three-feature MVP and 13 final screens in Figma.', href: '/work/paper-airplane', hrefLabel: 'Read the case study', media: [
+				{ src: '/paper-airplane/screen-01.webp', alt: 'App screen', fit: 'contain', cap: 'Final UI' },
+				{ src: '/paper-airplane/screen-02.webp', alt: 'App screen', fit: 'contain', cap: 'Venue screen' },
+				{ src: '/paper-airplane/screen-03.webp', alt: 'App screen', fit: 'contain', cap: 'Final UI' },
+			] },
+			{ title: 'Working with developers', text: 'Even then I worked closely with devs to understand the APIs and dependencies, planning around the Google Maps API with a custom layer to count people at each venue.', media: [ph('API notes', 'The technical diagrams you found')] },
+		],
+		link: { href: '/work/paper-airplane', label: 'Read the case study' },
+	},
+	{
+		id: 'pratt', slides: ['pratt', 'testing', 'mytrips'], year: '2018', pill: 'Pratt & My Trips',
+		kicker: 'Pratt Institute · My Trips', title: 'I learned the craft, then tested it with real people.',
+		body: 'Formal training turned instinct into method. I applied [[0|research methods]] to a real project, ran [[1|in-person testing]], and built [[2|My Trips]], a capstone for spontaneous travelers.',
+		hero: { src: '/journey/pratt-scrapbook.png', alt: 'Pratt scrapbook collage', fit: 'contain', cap: 'Pratt scrapbook' },
+		highlights: [
+			{ title: 'Research methods', text: 'Card sorting, empathy mapping, mind mapping, interviews, and hand-drawn user flows, all applied to a real project.', media: [{ src: '/journey/pratt-scrapbook.png', alt: 'Pratt scrapbook collage', fit: 'contain', cap: 'Pratt scrapbook' }] },
+			{ title: 'In-person testing', text: 'People dropped off when asked to review everything at once, so I added daily review prompts.', media: [{ src: '/journey/usertesting.mp4', poster: '/journey/usertesting-poster.jpg', alt: 'Card sorting and usability testing sessions', kind: 'video', cap: 'In-person user testing' }] },
+			{ title: 'My Trips', text: 'An itinerary creator for spontaneous travelers. Testing showed 94% less time to share a trip.', href: '/work/mytrips', hrefLabel: 'Read the case study', media: [ph('My Trips prototype', 'A screen recording or GIF')] },
+		],
+		link: { href: '/work/mytrips', label: 'Read the case study' },
+	},
+	{
+		id: 'newyork', slides: ['newyork'], year: '2018', pill: 'NYC',
+		kicker: 'New York City · Cooper Hewitt', title: 'New York made me obsessed with design.',
+		body: 'Pratt was my first time living in New York, one of the biggest design communities in the world. The Cooper Hewitt became my favorite museum and where I started to see the psychology and empathy behind design.',
+		hero: { src: '/journey/cooper-hewitt-scrapbook.png', alt: 'Cooper Hewitt scrapbook collage', fit: 'contain', cap: 'Cooper Hewitt' },
+		highlights: [] as any[], minor: true,
+	},
+	{
+		id: 'amwell', slides: ['amwell'], year: '2019', pill: 'Amwell',
+		kicker: 'Amwell · 2019 – 2024', title: 'From UX Designer to Senior Product Designer.',
+		body: 'I climbed from UX Designer to Senior Product Designer: redesigning the [[0|admin platform]], helping earn [[1|the #1 J.D. Power ranking]], [[2|leading and mentoring]] other designers, and working alongside a [[3|great team]].',
+		hero: { src: '/amwell/framework-nav.jpg', alt: 'Amwell admin framework navigation', cap: 'Admin framework' },
+		highlights: [
+			{ title: 'Admin platform redesign', text: 'I redesigned the admin platform with a scalable multi-tier framework, lifting task completion from 45% to 82%.', href: '/work/amwell', hrefLabel: 'Read the case study', media: [
+				{ src: '/amwell/framework-nav.jpg', alt: 'Admin framework navigation', cap: 'Framework navigation' },
+				{ src: '/amwell/wireframes.jpg', alt: 'Wireframes', cap: 'Wireframes' },
+				{ src: '/amwell/collapserator.jpg', alt: 'Collapsible navigation exploration', cap: 'Collapsible nav' },
+			] },
+			{ title: '#1 J.D. Power ranking', text: 'The patient experience work I led helped Amwell earn the #1 J.D. Power satisfaction ranking.', media: [ph('J.D. Power', 'Award or result screenshot')] },
+			{ title: 'Leading & mentoring', text: 'Talks, workshops, mentoring junior designers, and standardizing components across teams.', media: [ph('Talk or workshop', 'A photo from a session')] },
+			{ title: 'My Amwell team', text: 'Great coworkers made the hard problems fun.', media: [ph('Team photo', 'Offsite or launch day')] },
+		],
+		link: { href: '/work/amwell', label: 'Read the case study' },
+	},
+	{
+		id: 'freelance', slides: ['freelance'], year: '2023', pill: 'Freelance',
+		kicker: 'Freelance · caseyflood.design', title: 'And always a few side quests.',
+		body: 'Alongside full-time roles I have freelanced in [[0|healthcare]], [[1|finance]], [[2|travel]], [[3|construction]], and [[4|digital media]]. It keeps me fast at learning new domains.',
+		hero: ph('Freelance work', 'A collage of projects'),
+		highlights: ['Healthcare', 'Finance', 'Travel', 'Construction', 'Digital media'].map((t) => ({ title: t, text: `A ${t.toLowerCase()} project. Add a sentence on the problem and what you shipped.`, media: [ph(`${t} project`, 'Image or GIF')] })),
+	},
+	{
+		id: 'dandy', slides: ['dandy'], year: '2025', pill: 'Dandy',
+		kicker: 'Dandy · 2025 – now', title: 'Today, I design in the real material.',
+		body: "At Dandy I'm the [[0|sole designer on the Design Editor]], where lab designers prep scans and design restorations. I prototype in code with [[1|AI tools like Cursor and Claude]], built a [[2|design system in Storybook]], ran [[3|in-person usability testing in Cairo]], and do it all alongside [[4|teammates I really love]].",
+		hero: ph('Design Editor', 'Screenshot or short GIF'),
+		highlights: [
+			{ title: 'Sole designer on the Design Editor', text: 'Lab designers prep scans, design restorations, and check quality across fixed, removable, and implant workflows. I own the design for all of it.', media: [ph('Design Editor', 'Screenshot or GIF'), ph('Workflow', 'A short screen recording')] },
+			{ title: 'AI in my workflow', text: 'Cursor and Claude sit inside how I design. I iterate on real components, connect MCPs, and test ideas in code before they become specs.', media: [ph('Cursor session', 'A screenshot or recording'), ph('MCP setup', 'How it is wired up')] },
+			{ title: 'A design system built with Cursor', text: 'Dandy Design Center, where lab technicians and designers design every restoration, had no design system. As its only senior product designer, I built one from scratch in Storybook with Cursor, on production code. Iteration dropped from 30–45 minutes in Figma to 5–10 minutes.', href: '/work/dandy-design-system', hrefLabel: 'Read more',
+				cover: { src: '/journey/storybook-ds-cover.jpg', alt: 'Storybook open next to Cursor', cap: 'The design system in Storybook', preview: '/journey/storybook-ds-preview.mp4', pos: '62% 28%' },
+				media: [{ src: '/journey/storybook-ds.mp4', poster: '/journey/storybook-ds-cover.jpg', alt: 'Walkthrough of the design system', kind: 'video', cap: 'Walkthrough' }],
+			},
+			{ title: 'Usability testing in Cairo', text: 'I traveled to Cairo to run in-person usability testing with the people who use our tools every day.', media: [ph('Testing in Cairo', 'Photos from the sessions'), ph('Findings', 'A photo or note wall')] },
+			{ title: 'My teammates & the culture', text: 'The best part of Dandy is the people.', media: [ph('The team', 'Team photo'), ph('Egypt trip', 'A photo from the trip')] },
+		],
+	},
+].reverse(); // most recent first: scrolling goes back in time
+---
+
+<Base
+	title="My story"
+	description="How Casey Flood grew from scrappy generalist to product leader and design engineer."
+	progress
+>
+	<div id="story" class="story-root">
+		<!-- INTRO -->
+		<section class="intro intro--compact">
+			<div class="shell">
+				<p class="eyebrow">My story</p>
+				<h1>I design in code today. Here is <em>how I got here</em>.</h1>
+				<p class="lede">Starting today and going back in time. Scroll to rewind.</p>
+			</div>
+		</section>
+
+		<!-- STORY: year pills + event stage with a media gallery -->
+		<div class="scrolly" id="st" style={`--n:${events.length}`}>
+		<div class="st shell">
+			<div class="ll" id="ll">
+				<div class="clock" aria-hidden="true" title="Going back in time">
+					<svg viewBox="0 0 40 40" width="40" height="40"><circle cx="20" cy="20" r="17" fill="none" stroke="currentColor" stroke-width="2"></circle><path class="clock__tick" d="M20 5v3M35 20h-3M20 35v-3M5 20h3" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path><line class="clock__h" x1="20" y1="20" x2="20" y2="11" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"></line><line class="clock__m" x1="20" y1="20" x2="20" y2="7.5" stroke="var(--accent)" stroke-width="2" stroke-linecap="round"></line></svg>
+				</div>
+				<div class="ll__scroll" id="ll-scroll" role="tablist" aria-label="Career timeline, most recent first">
+					<div class="ll__rail" style={`--n:${events.length - 1}`}>
+						<span class="ll__line"></span>
+						<span class="ll__fill" id="ll-fill"></span>
+						<span class="ll__cap ll__cap--l">Today</span>
+						<span class="ll__cap ll__cap--r">Where it started</span>
+						{
+							events.map((e, i) => (
+								<button type="button" role="tab" class={`lm ${e.minor ? 'lm--minor' : ''}`} data-i={i} style={`--x:${i}`} aria-selected={i === 0} aria-label={`${e.year} ${e.pill}`}>
+									<span class="lm__name">{e.pill}</span>
+									<i class="lm__dot"></i>
+									<b class="lm__year">{e.year}</b>
+								</button>
+						))
+						}
+					</div>
+				</div>
+			</div>
+			<div class="st__stage">
+				{
+					events.map((e, i) => (
+						<article class="stp" role="tabpanel" data-id={e.id} data-slides={e.slides.join(',')} hidden={i !== 0}>
+							<div class="stp__txt">
+								<span class="stp__kick">{e.kicker}</span>
+								<p class="stp__year">{e.year}</p>
+								<h2 class="stp__title">{e.title}</h2>
+								<p class="stp__body">
+									{parts(e.body).map((x) => (x.k === undefined ? x.t : <button type="button" class="kw" data-k={x.k} data-tpl={`tpl-${e.id}-${x.k}`}>{x.t}</button>))}
+								</p>
+								<div class="stp__act">
+									<button type="button" class={`button js-deeper ${e.highlights.length ? '' : 'js-deeper--solo'}`} aria-expanded="false" data-label={e.highlights.length ? `Explore all ${e.pill} highlights ↓` : 'Read the full story ↓'}>{e.highlights.length ? `Explore all ${e.pill} highlights ↓` : 'Read the full story ↓'}</button>
+									{e.link && <a class="button button--ghost" href={e.link.href}>{e.link.label} →</a>}
+								</div>
+							</div>
+							<div class="pola" data-n={Math.max(1, e.highlights.length)}>
+								{e.highlights.length > 0 ? (
+									e.highlights.map((h: any, k: number) => {
+										const m = h.cover ?? h.media[0];
+										return (
+											<button type="button" class="tile" data-k={k} data-tpl={`tpl-${e.id}-${k}`} style={`--d:${k * 0.08}s`} aria-label={h.title}>
+												<span class={`tile__img ${m.fit === 'contain' ? 'is-contain' : ''}`}>
+													{!m.src ? (
+														<span class="tile__ph"><b>{m.label}</b><small>{m.hint}</small></span>
+													) : m.kind === 'video' ? (
+														<video src={m.src} poster={m.poster} muted loop playsinline preload="metadata" data-autoplay></video>
+													) : (
+														<img src={m.src} alt="" loading="lazy" style={m.pos ? `object-position:${m.pos}` : undefined} />
+													)}
+													{m.preview && <video class="tile__preview" src={m.preview} muted loop playsinline preload="none" style={m.pos ? `object-position:${m.pos}` : undefined}></video>}
+												</span>
+												<span class="tile__cap"><b>{h.title}</b><span class="tile__desc">{h.text}</span></span>
+											</button>
+										);
+									})
+								) : (
+									<div class="tile tile--solo" style="--d:0s">
+										<div class="tile__img is-solo"><MiFig m={e.hero} k={0} /></div>
+										<span class="tile__cap"><b>{e.hero.cap ?? e.hero.label ?? e.pill}</b></span>
+									</div>
+								)}
+							</div>
+						</article>
+					))
+				}
+			</div>
+		</div>
+
+			<div class="st__prog" aria-hidden="true"><i id="st-prog"></i></div>
+			<p class="st__hint" id="st-hint" aria-hidden="true">Scroll <b>↓</b></p>
+		</div>
+		</div>
+
+		{
+			events.flatMap((e) =>
+				e.highlights.map((h: any, k: number) => (
+					<template id={`tpl-${e.id}-${k}`} data-title={h.title} data-text={h.text} data-href={h.href ?? ''} data-link={h.hrefLabel ?? ''} data-kick={`${e.year} · ${e.pill}`}>
+						<div class="mosaic mosaic--sheet" data-n={h.media.length}>
+							{h.media.map((m: any, j: number) => <MiFig m={m} k={j} />)}
+						</div>
+					</template>
+				)),
+			)
+		}
+
+		<div class="hsheet" id="hsheet" hidden role="dialog" aria-modal="true" aria-labelledby="hs-title">
+			<div class="hsheet__card">
+				<button type="button" class="hsheet__x" id="hs-close" aria-label="Close">×</button>
+				<p class="hsheet__kick" id="hs-kick"></p>
+				<h3 id="hs-title"></h3>
+				<p class="hsheet__text" id="hs-text"></p>
+				<div id="hs-body"></div>
+				<a class="button hsheet__link" id="hs-link" href="#" hidden></a>
+				<div class="hsheet__nav" id="hs-nav">
+					<button type="button" id="hs-prev">← Previous</button>
+					<span id="hs-count"></span>
+					<button type="button" id="hs-next">Next →</button>
+				</div>
+			</div>
+		</div>
+
+		<div class="lb" id="lb" hidden role="dialog" aria-modal="true" aria-label="Media viewer">
+			<button type="button" class="lb__x" aria-label="Close">×</button>
+			<button type="button" class="lb__nav lb__nav--prev" aria-label="Previous">←</button>
+			<div class="lb__body" id="lb-body"></div>
+			<div class="lb__cap"><span id="lb-cap"></span><a id="lb-link" href="#" hidden>Open the project →</a></div>
+			<button type="button" class="lb__nav lb__nav--next" aria-label="Next">→</button>
+		</div>
+
+		<div class="hs deep" id="deep" hidden>
+			<button type="button" class="deep__back" id="deep-back">← Back to the timeline</button>
+			<div class="track" id="track" tabindex="-1" aria-live="polite">
+		<!-- START -->
+		<section data-slide class="scene-wrap" id="start">
+			<div class="scene">
+				<div class="shell scene__grid">
+					<div class="scene__text">
+						<p class="bigyear">1990s</p>
+						<p class="card__kicker">Where it started</p>
+						<h2>I was always making things.</h2>
+						<p class="body">Long before design was a job title, I was drawing, building, and rearranging the world around me. That curiosity about how things look, feel, and work is still the through line.</p>
+					</div>
+					<div class="scene__media"><Frame label="Baby Casey with artwork" hint="A childhood photo with your artwork" /></div>
+				</div>
+			</div>
+		</section>
+
+		<!-- JMU -->
+		<section data-slide class="scene-wrap" id="jmu">
+			<div class="scene">
+				<div class="shell scene__grid">
+					<div class="scene__text">
+					<p class="bigyear">2016</p>
+					<p class="card__kicker">James Madison University</p>
+					<h2>Where design met code.</h2>
+					<p class="body">I studied interactive media and design alongside computer information systems. It gave me a foot in both worlds, which is why I still prototype in code today.</p>
+					</div>
+					<div class="scene__media"><Frame label="JMU" hint="A campus photo, a project, or graduation" /></div>
+				</div>
+			</div>
+		</section>
+
+		<!-- DANDY -->
+		<section data-slide class="scene-wrap" id="dandy" style="--len: 216vh" data-steps="2">
+			<div class="scene">
+				<span class="rail" aria-hidden="true"><i></i></span>
+				<div class="shell">
+					<p class="bigyear sx" style="--a: -0.4">{dandy.year}</p>
+					<p class="card__kicker sx" style="--a: -0.4">{dandy.kicker}</p>
+					<h2 class="sx" style="--a: -0.4">{dandy.title}</h2>
+					<p class="sx body" style="--a: 0.08">{dandy.body}</p>
+
+					<div class="versus sx" style="--a: 0.14" data-stepper>
+						<div class="versus__tabs" role="tablist">
+							<button class="stepbtn" role="tab" type="button" aria-selected="true"><b>{dandy.now.label}</b></button>
+							<button class="stepbtn" role="tab" type="button" aria-selected="false"><b>{dandy.then.label}</b></button>
+						</div>
+						{
+							[dandy.now, dandy.then].map((side, i) => (
+								<div class={`steppanel versus__panel ${i === 0 ? 'is-now' : ''}`} role="tabpanel">
+									<div class="steppanel__main">
+										<p class="scope">{side.note}</p>
+										<ol class="flowlist">
+											{side.steps.map((s) => <li>{s}</li>)}
+										</ol>
+										{i === 0 && <p class="outcome-line">{dandy.outcome}</p>}
+									</div>
+									{i === 0 ? (
+										<Frame media={dandy.media} label="Dandy · Design Editor" hint={dandy.hint} ratio="16 / 10" />
+									) : (
+										<Frame label="Amwell · Figma era" hint="A Figma or whiteboard screenshot from then" ratio="16 / 10" />
+									)}
+								</div>
+							))
+						}
+					</div>
+				</div>
+				<a class="nextcue" href="#freelance"><span>Next · Side quests</span><i aria-hidden="true">→</i></a>
+				<span class="scrollhint" aria-hidden="true"><i>↓</i></span>
+			</div>
+		</section>
+
+		<!-- FREELANCE -->
+		<section data-slide class="scene-wrap" id="freelance" style="--len: 144vh">
+			<div class="scene">
+				<span class="rail" aria-hidden="true"><i></i></span>
+				<div class="shell">
+					<p class="bigyear sx" style="--a: -0.4">{freelance.year}</p>
+					<p class="card__kicker sx" style="--a: -0.4">{freelance.kicker}</p>
+					<h2 class="sx" style="--a: -0.4">{freelance.title}</h2>
+					<p class="sx body" style="--a: 0.1">{freelance.body}</p>
+				</div>
+				<div class="hscroll sx" style="--a: 0.14" tabindex="0" aria-label="Freelance project areas">
+					<ul>
+						{
+							freelance.cards.map((c) => (
+								<li>
+									<Frame media={c.media} label={c.label} hint="Project image or GIF" ratio="4 / 5" />
+									<p>{c.label}</p>
+								</li>
+							))
+						}
+					</ul>
+				</div>
+				<a class="nextcue" href="#amwell"><span>Next · 2019 · Amwell</span><i aria-hidden="true">→</i></a>
+				<span class="scrollhint" aria-hidden="true"><i>↓</i></span>
+			</div>
+		</section>
+
+		<!-- AMWELL -->
+		<section data-slide class="scene-wrap" id="amwell" style="--len: 245vh" data-steps={amwell.ranks.length}>
+			<div class="scene">
+				<span class="rail" aria-hidden="true"><i></i></span>
+				<div class="shell">
+					<p class="bigyear sx" style="--a: -0.4">{amwell.year}</p>
+					<p class="card__kicker sx" style="--a: -0.4">{amwell.kicker}</p>
+					<h2 class="sx" style="--a: -0.4">{amwell.title}</h2>
+
+					<div class="stepper2 sx" style="--a: 0.08" data-stepper>
+						<div class="stepper2__tabs" role="tablist">
+							{
+								[...amwell.ranks].reverse().map((r, i) => (
+									<button class="stepbtn" role="tab" type="button" aria-selected={i === 0}>
+										<small>{r.year}</small>
+										<b>{r.title}</b>
+									</button>
+								))
+							}
+						</div>
+						<div class="stepper2__bar"><span></span></div>
+						{
+							[...amwell.ranks].reverse().map((r) => (
+								<div class="steppanel" role="tabpanel">
+									<div class="steppanel__main">
+										<p class="scope">Scope · {r.scope}</p>
+										<p class="body">{r.summary}</p>
+										<ul class="jres">
+											{r.results.map((x) => (
+												<li>
+													<strong>{x.v}</strong>
+													<span>{x.l}</span>
+												</li>
+											))}
+										</ul>
+									</div>
+									<Frame media={r.media} label={`Amwell · ${r.title}`} hint={r.hint} ratio="16 / 10" />
+								</div>
+							))
+						}
+					</div>
+					<p class="sx" style="--a: 0.18">
+						<a class="button button--ghost" href={amwell.link.href}>{amwell.link.label} →</a>
+					</p>
+				</div>
+				<a class="nextcue" href="#mytrips"><span>Next · 2018 · My Trips</span><i aria-hidden="true">→</i></a>
+				<span class="scrollhint" aria-hidden="true"><i>↓</i></span>
+			</div>
+		</section>
+
+		<!-- MY TRIPS -->
+		<section data-slide class="scene-wrap" id="mytrips" style="--len: 158vh">
+			<div class="scene">
+				<span class="rail" aria-hidden="true"><i></i></span>
+				<div class="shell scene__grid scene__grid--phone">
+					<div class="scene__text">
+						<p class="card__kicker sx" style="--a: -0.4">{mytrips.kicker}</p>
+						<h2 class="sx" style="--a: -0.4">{mytrips.title}</h2>
+						<p class="sx body" style="--a: 0.1">{mytrips.body}</p>
+						<ul class="jres sx" style="--a: 0.17">
+							{mytrips.results.map((x) => (
+								<li>
+									<strong>{x.v}</strong>
+									<span>{x.l}</span>
+								</li>
+							))}
+						</ul>
+						<p class="lesson sx" style="--a: 0.23"><span>Lesson</span>{pratt.lesson}</p>
+						<p class="actions sx" style="--a: 0.28; margin-top: 0.5rem">
+							{
+								mytrips.links.map((l, i) => (
+									<a
+										class={`button ${i === 0 ? '' : 'button--ghost'}`}
+										href={l.href}
+										target={l.external ? '_blank' : undefined}
+										rel={l.external ? 'noopener noreferrer' : undefined}
+									>
+										{l.label} {l.external ? '↗' : '→'}
+									</a>
+								))
+							}
+						</p>
+					</div>
+					<div class="scene__media sx sx--media" style="--a: -0.4">
+						<div class="phone">
+							<Frame media={mytrips.media} label="My Trips" hint={mytrips.hint} ratio="9 / 19" />
+						</div>
+					</div>
+				</div>
+				<a class="nextcue" href="#testing"><span>Next · Testing it</span><i aria-hidden="true">→</i></a>
+				<span class="scrollhint" aria-hidden="true"><i>↓</i></span>
+			</div>
+		</section>
+
+		<!-- TESTING -->
+		<section data-slide class="scene-wrap" id="testing" style="--len: 144vh">
+			<div class="scene">
+				<span class="rail" aria-hidden="true"><i></i></span>
+				<div class="shell scene__grid scene__grid--scrap">
+					<div class="scene__text">
+						<p class="card__kicker sx" style="--a: -0.4">{testing.kicker}</p>
+						<h2 class="sx" style="--a: -0.4">{testing.title}</h2>
+						<p class="sx body" style="--a: 0.1">{testing.body}</p>
+						<ol class="steps2 sx" style="--a: 0.18">
+							{testing.steps.map((t) => <li>{t}</li>)}
+						</ol>
+					</div>
+					<div class="scene__media sx sx--media" style="--a: -0.4">
+						<Frame media={testing.media} ratio="1200 / 630" />
+					</div>
+				</div>
+				<a class="nextcue" href="#newyork"><span>Next · New York</span><i aria-hidden="true">→</i></a>
+				<span class="scrollhint" aria-hidden="true"><i>↓</i></span>
+			</div>
+		</section>
+
+		<!-- NEW YORK -->
+		<section data-slide class="scene-wrap" id="newyork" style="--len: 137vh">
+			<div class="scene">
+				<span class="rail" aria-hidden="true"><i></i></span>
+				<div class="shell scene__grid scene__grid--scrap">
+					<div class="scene__text">
+						<p class="card__kicker sx" style="--a: -0.4">{newyork.kicker}</p>
+						<h2 class="sx" style="--a: -0.4">{newyork.title}</h2>
+						<p class="sx body" style="--a: 0.1">{newyork.body}</p>
+					</div>
+					<div class="scene__media sx sx--scrap" style="--a: -0.4">
+						<img class="scrap" src={newyork.scrapbook.src} alt={newyork.scrapbook.alt} loading="lazy" />
+					</div>
+				</div>
+				<a class="nextcue" href="#pratt"><span>Next · 2018 · Pratt</span><i aria-hidden="true">→</i></a>
+				<span class="scrollhint" aria-hidden="true"><i>↓</i></span>
+			</div>
+		</section>
+
+		<!-- PRATT -->
+		<section data-slide class="scene-wrap" id="pratt" style="--len: 187vh">
+			<div class="scene">
+				<span class="rail" aria-hidden="true"><i></i></span>
+				<div class="shell scene__grid scene__grid--scrap">
+					<div class="scene__text">
+						<p class="bigyear sx" style="--a: -0.4">{pratt.year}</p>
+						<p class="card__kicker sx" style="--a: -0.4">{pratt.kicker}</p>
+						<h2 class="sx" style="--a: -0.4">{pratt.title}</h2>
+						<p class="sx body" style="--a: 0.12">{pratt.body}</p>
+						<div class="methods sx" style="--a: 0.18">
+							<p class="mini">Tap a method</p>
+							<ul class="chips" id="method-chips">
+								{
+									pratt.methods.map((m, i) => (
+										<li>
+											<button type="button" class="chipbtn" data-what={m.what} data-trip={m.trip ?? ''} data-name={m.name} aria-pressed={i === 0}>
+												{m.name}
+											</button>
+										</li>
+									))
+								}
+							</ul>
+							<div class="methodbox" id="method-box" aria-live="polite">
+								<b id="method-name"></b>
+								<p id="method-what"></p>
+								<p id="method-trip" class="methodbox__trip"></p>
+							</div>
+						</div>
+					</div>
+					<div class="scene__media sx sx--scrap" style="--a: -0.4">
+						<img class="scrap" src={pratt.scrapbook.src} alt={pratt.scrapbook.alt} loading="lazy" />
+					</div>
+				</div>
+				<a class="nextcue" href="#paper"><span>Next · 2017 · Paper Airplane</span><i aria-hidden="true">→</i></a>
+				<span class="scrollhint" aria-hidden="true"><i>↓</i></span>
+			</div>
+		</section>
+
+		<!-- PAPER AIRPLANE -->
+		<section data-slide class="scene-wrap" id="paper" style="--len: 166vh">
+			<div class="scene">
+				<span class="rail" aria-hidden="true"><i></i></span>
+				<div class="shell scene__grid">
+					<div class="scene__text">
+						<p class="bigyear sx" style="--a: -0.4">{paper.year}</p>
+						<p class="card__kicker sx" style="--a: -0.4">{paper.kicker}</p>
+						<h2 class="sx" style="--a: -0.4">{paper.title}</h2>
+						<p class="sx body" style="--a: 0.13">{paper.body}</p>
+						<div class="methods sx" style="--a: 0.18">
+							<p class="mini">The hats I wore</p>
+							<ul class="chips" id="hat-chips">
+								{
+									paper.hats.map((h, i) => (
+										<li>
+											<button type="button" class="chipbtn hatbtn" data-line={h.line} data-name={h.name} aria-pressed={i === 0}>
+												{h.name}
+											</button>
+										</li>
+									))
+								}
+							</ul>
+							<div class="methodbox" aria-live="polite">
+								<b id="hat-name"></b>
+								<p id="hat-line"></p>
+							</div>
+						</div>
+						<p class="sx" style="--a: 0.26; margin-top: 1rem">
+							<a class="button" href={paper.link.href}>{paper.link.label} →</a>
+						</p>
+					</div>
+					<div class="scene__media sx sx--media" style="--a: -0.4">
+						<Frame media={paper.media} label="Paper Airplane" hint={paper.hint} />
+					</div>
+				</div>
+				<a class="nextcue" href="#close"><span>Next · Where it led</span><i aria-hidden="true">→</i></a>
+				<span class="scrollhint" aria-hidden="true"><i>↓</i></span>
+			</div>
+		</section>
+
+
+			</div>
+		</div>
+
+		<div class="closewrap">
+		<!-- CLOSE -->
+		<section class="closer" id="close">
+			<div class="shell">
+				<p class="eyebrow">Full circle</p>
+				<h2>From guerrilla marketing to design engineering.</h2>
+				<p class="lede">
+					Each stop widened what I own: the product, the journey, the system, the team, and now the
+					code itself. I'd like to bring that range to a team with hard problems.
+				</p>
+				<div class="actions">
+					<a class="button" href="/work">See the work</a>
+					<a class="button button--ghost" href="/#contact">Say hi</a>
+				</div>
+			</div>
+		</section>
+		</div>
+	</div>
+</Base>
+
+<script>
+	const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+	// ---- steppers (tabs) ----
+	type Stepper = { el: HTMLElement; tabs: HTMLElement[]; panels: HTMLElement[]; manual: boolean; set: (i: number) => void };
+	const steppers = new Map<HTMLElement, Stepper>();
+	document.querySelectorAll<HTMLElement>('[data-stepper]').forEach((el) => {
+		const tabs = Array.from(el.querySelectorAll<HTMLElement>('[role="tab"]'));
+		const panels = Array.from(el.querySelectorAll<HTMLElement>('[role="tabpanel"]'));
+		const bar = el.querySelector<HTMLElement>('.stepper2__bar span');
+		const s: Stepper = {
+			el,
+			tabs,
+			panels,
+			manual: false,
+			set(i) {
+				tabs.forEach((t, j) => t.setAttribute('aria-selected', String(i === j)));
+				panels.forEach((p, j) => (p.hidden = i !== j));
+				if (bar) bar.style.width = `${((i + 1) / tabs.length) * 100}%`;
+			},
+		};
+		tabs.forEach((t, i) =>
+			t.addEventListener('click', () => {
+				s.manual = true;
+				s.set(i);
+			}),
+		);
+		s.set(0);
+		const wrap = el.closest<HTMLElement>('.scene-wrap');
+		if (wrap) steppers.set(wrap, s);
+	});
+
+	// ---- hats (Paper Airplane) ----
+	const hatBtns = Array.from(document.querySelectorAll<HTMLButtonElement>('.hatbtn'));
+	const hName = document.getElementById('hat-name');
+	const hLine = document.getElementById('hat-line');
+	const showHat = (b: HTMLButtonElement) => {
+		hatBtns.forEach((c) => c.setAttribute('aria-pressed', String(c === b)));
+		if (hName) hName.textContent = b.dataset.name ?? '';
+		if (hLine) hLine.textContent = b.dataset.line ?? '';
+	};
+	hatBtns.forEach((b) => b.addEventListener('click', () => showHat(b)));
+	if (hatBtns[0]) showHat(hatBtns[0]);
+
+	// ---- research methods ----
+	const chips = Array.from(document.querySelectorAll<HTMLButtonElement>('#method-chips .chipbtn'));
+	const mName = document.getElementById('method-name');
+	const mWhat = document.getElementById('method-what');
+	const mTrip = document.getElementById('method-trip');
+	const showMethod = (b: HTMLButtonElement) => {
+		chips.forEach((c) => c.setAttribute('aria-pressed', String(c === b)));
+		if (mName) mName.textContent = b.dataset.name ?? '';
+		if (mWhat) mWhat.textContent = b.dataset.what ?? '';
+		if (mTrip) {
+			mTrip.textContent = b.dataset.trip ? `In My Trips: ${b.dataset.trip}` : '';
+			mTrip.hidden = !b.dataset.trip;
+		}
+	};
+	chips.forEach((b) => b.addEventListener('click', () => showMethod(b)));
+	if (chips[0]) showMethod(chips[0]);
+
+	// ---- autoplay videos only while visible ----
+	document.querySelectorAll<HTMLVideoElement>('video[data-autoplay]').forEach((v) => {
+		if (reduce) {
+			v.controls = true;
+			return;
+		}
+		if (!('IntersectionObserver' in window)) return;
+		new IntersectionObserver(
+			(entries) =>
+				entries.forEach((e) => {
+					if (e.isIntersecting) v.play().catch(() => {});
+					else v.pause();
+				}),
+			{ threshold: 0.35 },
+		).observe(v);
+	});
+
+	// ---- timeline: year pills + stage ----
+	const pillsEl = document.getElementById('ll-scroll');
+	const pills = Array.from(document.querySelectorAll<HTMLButtonElement>('.lm'));
+	const llFill = document.getElementById('ll-fill');
+	const llBox = document.getElementById('ll');
+	const panels = Array.from(document.querySelectorAll<HTMLElement>('.stp'));
+	const deep = document.getElementById('deep');
+	const allSlides = Array.from(document.querySelectorAll<HTMLElement>('[data-slide]'));
+	let cur = -1;
+
+	// small fireworks when the line reaches today
+	const burst = (el: HTMLElement) => {
+		const host = el.parentElement;
+		if (!host) return;
+		const colors = ['#2b59ff', '#ff6a3d', '#ffc531', '#21c18d', '#a78bfa'];
+		for (let k = 0; k < 28; k++) {
+			const d = document.createElement('i');
+			d.className = 'spark';
+			const a = (k / 28) * Math.PI * 2 + Math.random() * 0.4;
+			const r = 40 + Math.random() * 50;
+			d.style.left = `${el.offsetLeft}px`;
+			d.style.setProperty('--dx', `${Math.cos(a) * r}px`);
+			d.style.setProperty('--dy', `${Math.sin(a) * r}px`);
+			d.style.background = colors[k % colors.length];
+			host.appendChild(d);
+			setTimeout(() => d.remove(), 1100);
+		}
+	};
+	if (llBox && 'IntersectionObserver' in window) {
+		const io = new IntersectionObserver((en) => {
+			if (en[0].isIntersecting) {
+				llBox.classList.add('is-drawn');
+				io.disconnect();
+			}
+		}, { threshold: 0.3 });
+		io.observe(llBox);
+	} else llBox?.classList.add('is-drawn');
+
+	const closeDeep = () => {
+		if (deep) deep.hidden = true;
+		document.querySelectorAll<HTMLButtonElement>('.js-deeper').forEach((b) => {
+			b.setAttribute('aria-expanded', 'false');
+			b.textContent = b.dataset.label ?? 'Explore ↓';
+		});
+	};
+
+	const feed = () => window.matchMedia('(max-width: 900px)').matches;
+
+	const select = (i: number, userAction = true) => {
+		const n = Math.max(0, Math.min(panels.length - 1, i));
+		if (n === cur) return;
+		const first = cur === -1;
+		const prev = cur;
+		cur = n;
+		const stEl = document.querySelector<HTMLElement>('.scrolly .st');
+		if (stEl) stEl.dataset.year = (panels[n].querySelector('.stp__year')?.textContent ?? '').trim();
+		document.documentElement.style.setProperty('--age', String(panels.length > 1 ? n / (panels.length - 1) : 0));
+		if (!first && !reduce && !feed()) {
+			const yEl = panels[n].querySelector<HTMLElement>('.stp__year');
+			const from = parseInt(panels[prev]?.querySelector('.stp__year')?.textContent ?? '', 10);
+			const to = parseInt(yEl?.textContent ?? '', 10);
+			const suffix = (yEl?.textContent ?? '').replace(/^\d+/, '');
+			if (yEl && from && to && from !== to) {
+				const t0 = performance.now();
+				const tick = (t: number) => {
+					const k = Math.min(1, (t - t0) / 650);
+					const e = 1 - Math.pow(1 - k, 3);
+					yEl.textContent = k < 1 ? String(Math.round(from + (to - from) * e)) : `${to}${suffix}`;
+					if (k < 1) requestAnimationFrame(tick);
+				};
+				requestAnimationFrame(tick);
+			}
+		}
+		pills.forEach((p, k) => p.setAttribute('aria-selected', String(k === n)));
+		panels.forEach((p, k) => {
+			if (feed()) {
+				p.hidden = false;
+				return;
+			}
+			p.hidden = k !== n;
+			if (k === n && !first) {
+				p.dataset.dir = n > prev ? 'back' : 'fwd';
+				p.classList.remove('is-in');
+				void p.offsetWidth;
+				p.classList.add('is-in');
+			}
+		});
+		const ids = (panels[n].dataset.slides ?? '').split(',');
+		allSlides.forEach((sl) => sl.classList.toggle('is-active', ids.includes(sl.id)));
+		closeDeep();
+		if (pillsEl && pills[n]) {
+			const pl = pills[n];
+			pillsEl.scrollTo({ left: pl.offsetLeft - pillsEl.clientWidth / 2, behavior: reduce ? 'auto' : 'smooth' });
+			if (llFill) llFill.style.width = `${pl.offsetLeft}px`;
+			if (n === 0 && !first && !reduce) burst(pl);
+		}
+		if (userAction && navigator.vibrate) navigator.vibrate(10);
+		history.replaceState(null, '', `#${panels[n].dataset.id}`);
+	};
+
+	// ---- scroll-driven: one event at a time ----
+	const scrolly = document.getElementById('st');
+	const progEl = document.getElementById('st-prog');
+	const hintEl = document.getElementById('st-hint');
+	const OFFSET = 72; // sticky header height
+	const stepPx = () => window.innerHeight * 0.7;
+	const scrollyTop = () => (scrolly ? scrolly.getBoundingClientRect().top + window.scrollY : 0);
+	const scrollToEvent = (i: number) => {
+		if (feed()) {
+			panels[i]?.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+			return;
+		}
+		window.scrollTo({ top: scrollyTop() - OFFSET + i * stepPx() + 2, behavior: reduce ? 'auto' : 'smooth' });
+	};
+	const onScroll = () => {
+		if (!scrolly || feed()) return;
+		const total = (panels.length - 1) * stepPx();
+		const px = Math.max(0, Math.min(total, OFFSET - scrolly.getBoundingClientRect().top));
+		select(Math.round(px / stepPx()));
+		if (progEl) progEl.style.height = `${total ? (px / total) * 100 : 0}%`;
+		if (hintEl) hintEl.classList.toggle('is-hidden', px > 30);
+		const r = scrolly.getBoundingClientRect();
+		document.querySelector('.scrolly .st')?.toggleAttribute('data-live', r.top < window.innerHeight * 0.55 && r.bottom > window.innerHeight * 0.45);
+	};
+	let ticking = false;
+	window.addEventListener('scroll', () => {
+		if (ticking) return;
+		ticking = true;
+		requestAnimationFrame(() => {
+			ticking = false;
+			onScroll();
+		});
+	}, { passive: true });
+	window.addEventListener('resize', onScroll);
+	pills.forEach((p, i) => p.addEventListener('click', () => scrollToEvent(i)));
+	document.getElementById('deep-back')?.addEventListener('click', () => {
+		closeDeep();
+		scrollToEvent(cur);
+	});
+	pillsEl?.addEventListener('keydown', (e) => {
+		if (['ArrowDown', 'ArrowRight'].includes(e.key)) { e.preventDefault(); scrollToEvent(Math.min(panels.length - 1, cur + 1)); }
+		else if (['ArrowUp', 'ArrowLeft'].includes(e.key)) { e.preventDefault(); scrollToEvent(Math.max(0, cur - 1)); }
+	});
+
+	document.querySelectorAll<HTMLButtonElement>('.js-deeper').forEach((b) =>
+		b.addEventListener('click', () => {
+			if (feed()) {
+				openSheetAt(b.closest<HTMLElement>('.stp')?.dataset.id ?? '', 0);
+				return;
+			}
+			if (!deep) return;
+			const open = deep.hidden;
+			deep.hidden = !open;
+			b.setAttribute('aria-expanded', String(open));
+			b.textContent = open ? 'Hide the details ↑' : (b.dataset.label ?? 'Explore ↓');
+			if (open) {
+				deep.querySelectorAll<HTMLVideoElement>('video[data-autoplay]').forEach((v) => v.play().catch(() => {}));
+				deep.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+			}
+		}),
+	);
+
+	// ---- media mosaic + lightbox ----
+	const lb = document.getElementById('lb');
+	const lbBody = document.getElementById('lb-body');
+	const lbCap = document.getElementById('lb-cap');
+	const lbLink = document.getElementById('lb-link') as HTMLAnchorElement | null;
+	let lbX = 0;
+	let lbItems: HTMLElement[] = [];
+	let lbIdx = 0;
+	const lbShow = (k: number) => {
+		if (!lbBody) return;
+		lbIdx = (k + lbItems.length) % lbItems.length;
+		const it = lbItems[lbIdx];
+		lbBody.innerHTML = '';
+		const src = it.querySelector('img,video');
+		if (!src) return;
+		const c = src.cloneNode(true) as HTMLElement;
+		c.style.filter = 'none';
+		if (c instanceof HTMLVideoElement) {
+			c.controls = true;
+			c.autoplay = true;
+			c.muted = true;
+			c.loop = true;
+			c.removeAttribute('data-autoplay');
+		}
+		lbBody.appendChild(c);
+		if (lbCap) lbCap.textContent = it.dataset.cap ?? '';
+		if (lbLink) {
+			lbLink.hidden = !it.dataset.href;
+			lbLink.href = it.dataset.href ?? '#';
+		}
+		lb?.classList.toggle('lb--single', lbItems.length < 2);
+	};
+	const lbClose = () => {
+		if (lb) lb.hidden = true;
+		if (lbBody) lbBody.innerHTML = '';
+		document.body.style.overflow = document.getElementById('hsheet')?.hidden === false ? 'hidden' : '';
+	};
+	document.addEventListener('click', (e) => {
+		const f = (e.target as HTMLElement).closest<HTMLElement>('.mi[data-zoom]');
+		if (!f || !lb) return;
+		const g = f.closest('.mosaic');
+		lbItems = Array.from(g?.querySelectorAll<HTMLElement>('.mi[data-zoom]') ?? [f]);
+		lb.hidden = false;
+		document.body.style.overflow = 'hidden';
+		lbShow(lbItems.indexOf(f));
+	});
+
+	// ---- keyword <-> polaroid linking ----
+	panels.forEach((panel) => {
+		const pola = panel.querySelector('.pola');
+		const link = (k: string | undefined, on: boolean) => {
+			panel.querySelectorAll(`[data-k="${k}"]`).forEach((el) => el.classList.toggle('is-hl', on));
+			pola?.classList.toggle('has-hl', on);
+		};
+		panel.querySelectorAll<HTMLElement>('.kw, .tile[data-k]').forEach((el) => {
+			el.addEventListener('mouseenter', () => link(el.dataset.k, true));
+			el.addEventListener('mouseleave', () => link(el.dataset.k, false));
+			el.addEventListener('focus', () => link(el.dataset.k, true));
+			el.addEventListener('blur', () => link(el.dataset.k, false));
+		});
+	});
+
+	// ---- hover (or in-view on phones) plays a short preview clip ----
+	document.querySelectorAll<HTMLElement>('.tile').forEach((t) => {
+		const pv = t.querySelector<HTMLVideoElement>('.tile__preview');
+		if (!pv) return;
+		const play = () => { pv.play().catch(() => {}); t.classList.add('is-playing'); };
+		const stop = () => { pv.pause(); t.classList.remove('is-playing'); };
+		t.addEventListener('mouseenter', () => !feed() && play());
+		t.addEventListener('mouseleave', () => !feed() && stop());
+		t.addEventListener('focus', () => !feed() && play());
+		t.addEventListener('blur', () => !feed() && stop());
+		if ('IntersectionObserver' in window)
+			new IntersectionObserver((en) => {
+				if (!feed()) return;
+				en[0].isIntersecting ? play() : stop();
+			}, { threshold: 0.7 }).observe(t);
+	});
+
+	// ---- highlight sheet ----
+	const sheet = document.getElementById('hsheet');
+	const hsBody = document.getElementById('hs-body');
+	const hsLink = document.getElementById('hs-link') as HTMLAnchorElement | null;
+	const sheetClose = () => {
+		if (sheet) sheet.hidden = true;
+		if (hsBody) hsBody.innerHTML = '';
+		document.body.style.overflow = '';
+	};
+	document.addEventListener('click', (e) => {
+		const chip = (e.target as HTMLElement).closest<HTMLElement>('.hchip, .tile[data-tpl], .kw[data-tpl]');
+		if (!chip || !sheet || !hsBody) return;
+		// on touch screens, the first tap on a keyword highlights its photo; a second tap opens it
+		if (chip.classList.contains('kw') && (window.matchMedia('(hover: none)').matches || feed()) && !chip.classList.contains('is-hl')) {
+			chip.closest('.stp')?.querySelectorAll('.is-hl').forEach((x) => x.classList.remove('is-hl'));
+			chip.closest('.stp')?.querySelectorAll(`[data-k="${chip.dataset.k}"]`).forEach((x) => x.classList.add('is-hl'));
+			const pl = chip.closest('.stp')?.querySelector<HTMLElement>('.pola');
+			pl?.classList.add('has-hl');
+			const tl = pl?.querySelector<HTMLElement>(`.tile[data-k="${chip.dataset.k}"]`);
+			if (pl && tl && feed()) pl.scrollTo({ left: tl.offsetLeft - (pl.clientWidth - tl.offsetWidth) / 2, behavior: 'smooth' });
+			return;
+		}
+		const m = (chip.dataset.tpl ?? '').match(/^tpl-(.+)-(\d+)$/);
+		if (m) openSheetAt(m[1], Number(m[2]));
+	});
+	let shEvt = '';
+	let shK = 0;
+	function openSheetAt(evt: string, k: number) {
+		const tpls = Array.from(document.querySelectorAll<HTMLTemplateElement>(`template[id^="tpl-${evt}-"]`));
+		if (!tpls.length || !sheet || !hsBody) return;
+		shEvt = evt;
+		shK = (k + tpls.length) % tpls.length;
+		const tpl = tpls[shK];
+		document.getElementById('hs-kick')!.textContent = tpl.dataset.kick ?? '';
+		document.getElementById('hs-title')!.textContent = tpl.dataset.title ?? '';
+		document.getElementById('hs-text')!.textContent = tpl.dataset.text ?? '';
+		if (hsLink) {
+			hsLink.hidden = !tpl.dataset.href;
+			hsLink.href = tpl.dataset.href ?? '#';
+			hsLink.textContent = `${tpl.dataset.link || 'Open the project'} →`;
+		}
+		hsBody.replaceChildren(tpl.content.cloneNode(true));
+		hsBody.querySelectorAll('video').forEach((v) => {
+			v.muted = true;
+			v.play().catch(() => {});
+		});
+		const nav = document.getElementById('hs-nav');
+		if (nav) nav.hidden = tpls.length < 2;
+		const cnt = document.getElementById('hs-count');
+		if (cnt) cnt.textContent = `${shK + 1} of ${tpls.length}`;
+		sheet.hidden = false;
+		sheet.scrollTop = 0;
+		sheet.querySelector('.hsheet__card')?.scrollTo({ top: 0 });
+		document.body.style.overflow = 'hidden';
+	}
+	document.getElementById('hs-prev')?.addEventListener('click', () => openSheetAt(shEvt, shK - 1));
+	document.getElementById('hs-next')?.addEventListener('click', () => openSheetAt(shEvt, shK + 1));
+	document.getElementById('hs-close')?.addEventListener('click', sheetClose);
+	sheet?.addEventListener('click', (e) => { if (e.target === sheet) sheetClose(); });
+	document.addEventListener('keydown', (e) => {
+		if (e.key === 'Escape' && sheet && !sheet.hidden && lb?.hidden !== false) sheetClose();
+	});
+	lb?.querySelector('.lb__x')?.addEventListener('click', lbClose);
+	lb?.addEventListener('click', (e) => { if (e.target === lb || e.target === lbBody) lbClose(); });
+	lb?.querySelector('.lb__nav--prev')?.addEventListener('click', () => lbShow(lbIdx - 1));
+	lb?.querySelector('.lb__nav--next')?.addEventListener('click', () => lbShow(lbIdx + 1));
+	lb?.addEventListener('touchstart', (e) => (lbX = e.touches[0].clientX), { passive: true });
+	lb?.addEventListener('touchend', (e) => {
+		const dx = e.changedTouches[0].clientX - lbX;
+		if (Math.abs(dx) > 50 && lbItems.length > 1) lbShow(lbIdx + (dx < 0 ? 1 : -1));
+	}, { passive: true });
+	document.addEventListener('keydown', (e) => {
+		if (lb && !lb.hidden) {
+			if (e.key === 'Escape') lbClose();
+			else if (e.key === 'ArrowRight') lbShow(lbIdx + 1);
+			else if (e.key === 'ArrowLeft') lbShow(lbIdx - 1);
+		}
+	});
+
+	const fromHash = panels.findIndex((p) => (p.dataset.slides ?? '').split(',').includes(location.hash.replace('#', '')) || p.dataset.id === location.hash.replace('#', ''));
+	select(fromHash >= 0 ? fromHash : 0, false);
+	if (fromHash > 0) setTimeout(() => scrollToEvent(fromHash), 50);
+	onScroll();
+
+	// ---- phone: a normal vertical feed, with the rail pinned and following along ----
+	const stRoot = document.querySelector<HTMLElement>('.scrolly .st');
+	let feedIO: IntersectionObserver | null = null;
+	const applyMode = () => {
+		feedIO?.disconnect();
+		if (feed()) {
+			panels.forEach((p) => (p.hidden = false));
+			stRoot?.setAttribute('data-live', '');
+			feedIO = new IntersectionObserver(
+				(en) => en.forEach((x) => x.isIntersecting && select(panels.indexOf(x.target as HTMLElement), false)),
+				{ rootMargin: '-28% 0px -62% 0px' },
+			);
+			panels.forEach((p) => feedIO!.observe(p));
+		} else {
+			panels.forEach((p, k) => (p.hidden = k !== cur));
+			onScroll();
+		}
+	};
+	window.matchMedia('(max-width: 900px)').addEventListener('change', applyMode);
+
+	// carousel dots under each row of photos
+	document.querySelectorAll<HTMLElement>('.pola').forEach((pl) => {
+		const tiles = Array.from(pl.querySelectorAll<HTMLElement>('.tile'));
+		if (tiles.length < 2) return;
+		const dots = document.createElement('div');
+		dots.className = 'pdots';
+		dots.setAttribute('aria-hidden', 'true');
+		tiles.forEach(() => dots.appendChild(document.createElement('i')));
+		pl.after(dots);
+		const upd = () => {
+			const mid = pl.scrollLeft + pl.clientWidth / 2;
+			let best = 0;
+			let bd = Infinity;
+			tiles.forEach((t, k) => {
+				const d = Math.abs(t.offsetLeft + t.offsetWidth / 2 - mid);
+				if (d < bd) {
+					bd = d;
+					best = k;
+				}
+			});
+			Array.from(dots.children).forEach((d, k) => d.classList.toggle('is-on', k === best));
+		};
+		pl.addEventListener('scroll', upd, { passive: true });
+		upd();
+	});
+	applyMode();
+</script>

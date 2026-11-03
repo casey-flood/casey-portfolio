@@ -1,0 +1,62 @@
+---
+interface Metric {
+	value: string;
+	label: string;
+}
+
+interface Props {
+	title: string;
+	summary: string;
+	href?: string;
+	tags?: string[];
+	comingSoon?: boolean;
+	lead?: boolean;
+	metric?: Metric;
+	kicker?: string;
+	accent?: 'coral' | 'sun' | 'mint' | 'sky' | 'lilac';
+}
+
+const {
+	title,
+	summary,
+	href,
+	tags = [],
+	comingSoon = false,
+	lead = false,
+	metric,
+	kicker,
+	accent = 'sun',
+} = Astro.props;
+
+const Tag = href ? 'a' : 'article';
+---
+
+<Tag
+	class:list={['card', `card--${accent}`, { 'card--soon': comingSoon, 'card--lead': lead }]}
+	href={href}
+	data-reveal
+>
+	<div class="card__main">
+		<p class="card__kicker">{comingSoon ? title : kicker}</p>
+		<h3>{comingSoon ? 'Coming soon' : title}</h3>
+		<p class="card__summary">{summary}</p>
+		{
+			tags.length > 0 && (
+				<ul class="tags">
+					{tags.map((tag) => (
+						<li>{tag}</li>
+					))}
+				</ul>
+			)
+		}
+		{!comingSoon && <p class="card__action">View case study</p>}
+	</div>
+	{
+		metric && (
+			<p class="card__stat">
+				<span>{metric.value}</span>
+				{metric.label}
+			</p>
+		)
+	}
+</Tag>

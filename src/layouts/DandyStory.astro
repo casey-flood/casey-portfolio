@@ -1,0 +1,139 @@
+---
+import Base from './Base.astro';
+
+// A highlight page in the same format as the design system page: chapter bar, numbered chapters, focus-dimming.
+interface Section {
+	id: string;
+	label: string;
+	title: string;
+	text?: string;
+	points?: string[];
+	quotes?: { q: string; who: string; role: string }[];
+	media?: { label: string; hint: string };
+}
+interface Props {
+	title: string;
+	description: string;
+	eyebrow: string;
+	h1: string;
+	lede: string;
+	meta: { k: string; v: string }[];
+	hero: { label: string; hint: string };
+	sections: Section[];
+	prev: { href: string; label: string };
+}
+const { title, description, eyebrow, h1, lede, meta, hero, sections, prev } = Astro.props;
+---
+
+<Base title={title} description={description}>
+	<nav class="dz-nav" aria-label="Chapters">
+		<div class="shell">
+			<ol id="dz-nav">
+				{sections.map((s, i) => <li><a href={`#${s.id}`} class={i === 0 ? 'is-on' : ''}><span>{String(i + 1).padStart(2, '0')}</span>{s.label}</a></li>)}
+			</ol>
+		</div>
+	</nav>
+
+	<article class="ds">
+		<div class="shell">
+			<a class="ds__back" href={prev.href}>← {prev.label}</a>
+
+			<header class="ds__head">
+				<p class="eyebrow">{eyebrow}</p>
+				<h1>{h1}</h1>
+				<p class="ds__lede">{lede}</p>
+				<dl class="ds__meta">
+					{meta.map((m) => <div><dt>{m.k}</dt><dd>{m.v}</dd></div>)}
+				</dl>
+			</header>
+
+			<div class="dz-ph dz-ph--hero" role="img" aria-label={`Placeholder: ${hero.label}`}>
+				<b>{hero.label}</b>
+				<span>{hero.hint}</span>
+			</div>
+
+			{
+				sections.map((s, i) => (
+					<section class="dz-ch" id={s.id}>
+						<div class="dz-ch__head">
+							<span class="dz-ch__no">{String(i + 1).padStart(2, '0')}</span>
+							<div>
+								<p class="dz-ch__k">{s.label}</p>
+								<h2>{s.title}</h2>
+							</div>
+						</div>
+						<div class:list={['dz-feature', { 'dz-feature--solo': !s.media }]}>
+							<div class="dz-copy">
+								{s.text && <p>{s.text}</p>}
+								{s.points && <ul class="dz-points">{s.points.map((p) => <li>{p}</li>)}</ul>}
+								{
+									s.quotes && (
+										<div class="dz-q">
+											{s.quotes.map((q) => (
+												<figure class="ds__quote">
+													<blockquote>“{q.q}”</blockquote>
+													<figcaption><b>{q.who}</b>, {q.role}</figcaption>
+												</figure>
+											))}
+										</div>
+									)
+								}
+							</div>
+							{
+								s.media && (
+									<div class="dz-ph" role="img" aria-label={`Placeholder: ${s.media.label}`}>
+										<b>{s.media.label}</b>
+										<span>{s.media.hint}</span>
+									</div>
+								)
+							}
+						</div>
+					</section>
+				))
+			}
+
+			<footer class="ds__foot">
+				<a class="button" href={prev.href}>← {prev.label}</a>
+				<a class="button button--ghost" href="/journey#dandy">Back to my time at Dandy</a>
+			</footer>
+		</div>
+	</article>
+</Base>
+
+<script>
+	const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+	// chapter bar highlight
+	const links = Array.from(document.querySelectorAll<HTMLAnchorElement>('#dz-nav a'));
+	const chapterEls = links.map((a) => document.getElementById(a.getAttribute('href')!.slice(1))!);
+	const spy = new IntersectionObserver(
+		(en) =>
+			en.forEach((e) => {
+				if (!e.isIntersecting) return;
+				const i = chapterEls.indexOf(e.target as HTMLElement);
+				links.forEach((a, k) => a.classList.toggle('is-on', k === i));
+			}),
+		{ rootMargin: '-35% 0px -55% 0px' },
+	);
+	chapterEls.forEach((el) => el && spy.observe(el));
+
+	// focus: what is near the middle of the screen is bright, the rest recedes
+	const units = Array.from(document.querySelectorAll<HTMLElement>('.dz-ch__head, .dz-feature'));
+	const focus = () => {
+		const vh = window.innerHeight;
+		const c = vh * 0.5;
+		units.forEach((u) => {
+			const r = u.getBoundingClientRect();
+			const d = r.top < c && r.bottom > c ? 0 : Math.min(Math.abs(r.top - c), Math.abs(r.bottom - c));
+			const o = Math.max(0.2, Math.min(1, 1 - (d / (vh * 0.42)) * 0.8));
+			u.style.opacity = o.toFixed(2);
+			u.style.transform = `translateY(${((1 - o) * 14).toFixed(1)}px)`;
+		});
+	};
+	if (!reduceMotion) {
+		units.forEach((u) => (u.style.transition = 'opacity 0.25s ease-out, transform 0.25s ease-out'));
+		window.addEventListener('scroll', focus, { passive: true });
+		window.addEventListener('resize', focus);
+		focus();
+	}
+</script>

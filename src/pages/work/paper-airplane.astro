@@ -1,0 +1,523 @@
+---
+import Base from '../../layouts/Base.astro';
+
+const title = 'Paper Airplane';
+const outcome =
+	'A dating app that gets people off their phones and into the same room. I took it from first survey to a tested, 13-screen prototype.';
+const figma =
+	'https://www.figma.com/proto/nIDN6ItTCTis1kyGdCHZnN/Prototypes?page-id=0%3A1&type=design&node-id=2-181&viewport=1015%2C-28%2C0.21&t=8kYnj9ILyX60XP4S-1&scaling=min-zoom&mode=design';
+const miro = 'https://miro.com/app/board/uXjVNtHj0nE=/?moveToWidget=3458764580878575232&cot=14';
+const b = '/paper-airplane';
+
+const stats = [
+	{ v: '41', l: 'people surveyed' },
+	{ v: '4', l: 'in-depth interviews' },
+	{ v: '4', l: 'usability tests' },
+	{ v: '13', l: 'final screens' },
+];
+
+const chapters = [
+	['bet', 'The bet'],
+	['listen', 'Listening'],
+	['shape', 'Shaping'],
+	['dev', 'With developers'],
+	['test', 'Testing'],
+	['result', 'Result'],
+];
+
+const venues = [
+	{ id: 'a', name: "Bill's Bar", here: 6, x: 62, y: 38 },
+	{ id: 'b', name: 'The Loft', here: 12, x: 24, y: 28 },
+	{ id: 'c', name: 'Harbor Café', here: 3, x: 38, y: 66 },
+	{ id: 'd', name: 'Rooftop 9', here: 4, x: 74, y: 70 },
+];
+
+const insights = [
+	['Anxiety before meeting', 'People feel anxiety and mistrust with online dating before they ever meet anyone.'],
+	['In person wins', 'Meeting in person builds stronger connections than chatting online: the "right place, right time" mindset.'],
+	['App juggling', 'People search for venues and dates at the same time, across separate apps.'],
+];
+
+const personas = [
+	{
+		name: 'Amicable Amy',
+		meta: '27 · San Francisco · Marketing',
+		story: 'A long relationship ended about six months ago. New to the city, she wants more than endless swiping.',
+		wants: 'Meaningful connections, a guaranteed second date, getting out of her comfort zone',
+		pain: 'Same messages again and again, tired of swiping, juggling several apps',
+	},
+	{
+		name: 'Old-School Oliver',
+		meta: '32 · Boston · Financial advisor',
+		story: 'A romantic who believes in soulmates, but work leaves no time for socializing.',
+		wants: 'Find a life-long partner, meet people with similar interests, date efficiently',
+		pain: 'Rushed and distracted by work, intimidated by dating apps',
+	},
+];
+
+const features = [
+	{
+		tab: 'Map',
+		line: 'An interactive map of nearby venues, with a count of compatible people at each.',
+		img: 'screen-09.webp',
+	},
+	{
+		tab: 'Chat',
+		line: 'Messaging before you meet, so the first hello is less nerve-racking.',
+		img: 'screen-13.webp',
+	},
+	{
+		tab: 'Preferences',
+		line: 'Filters that give people control over who they see.',
+		img: 'screen-08.webp',
+	},
+];
+
+const specs = [
+	{
+		tab: 'Sign in',
+		img: 'spec-login.webp',
+		title: 'Facebook login',
+		text: 'A first-time user signs in with Facebook. We mapped exactly which permissions the app needed.',
+		code: ['permissions:', '  public_profile', '  email', '  user_birthday'],
+	},
+	{
+		tab: 'Heat map',
+		img: 'spec-heatmap.webp',
+		title: 'Outside a venue',
+		text: 'If you are logged in but not inside a geo-fenced venue, you land on the heat map.',
+		code: ['GET /venues', '// all venues geo-fenced by the app'],
+	},
+	{
+		tab: 'Current venue',
+		img: 'spec-venue.webp',
+		title: 'Inside a venue',
+		text: 'Step inside a geo-fenced venue and the app loads that venue and the people checked in.',
+		code: ['GET /venue/{venueGUID}', '// unique ID per registered venue'],
+	},
+	{
+		tab: 'Preferences',
+		img: 'spec-prefs.webp',
+		title: 'Discovery preferences',
+		text: 'Changes apply instantly. Hiding your profile had to be secured, so no one could hide or impersonate someone else.',
+		code: ['PUT /user/{fbId}', 'PUT /user/{fbId}/hide', '// secured: only you can hide you'],
+	},
+	{
+		tab: 'Chat',
+		img: 'it-chat.webp',
+		title: 'Messaging',
+		text: 'Only mutually accepted users can chat, and messages are stored on our servers, not a third party.',
+		code: ['POST /conversation', 'GET /conversation/{from}/{to}'],
+	},
+];
+
+const issues = [
+	{
+		tab: 'Map',
+		title: 'The map was overwhelming',
+		found: '4 of 4 testers said Google Maps showed too many icons. They struggled to spot our logo and wanted a smaller area and a list view.',
+		fixed: 'Fewer pins, a calmer map, and a Map and List toggle.',
+		before: 'it-nearby.webp',
+		after: 'screen-09.webp',
+	},
+	{
+		tab: 'Venue details',
+		title: 'The venue view buried what mattered',
+		found: 'The details were useful, but the layout felt long and confusing, and the match count was easy to miss.',
+		fixed: 'Matches, shared interests, and distance now lead the screen, with one clear Check in button.',
+		before: 'it-spot.webp',
+		after: 'screen-11.webp',
+	},
+	{
+		tab: 'Icons',
+		title: 'The icons were confusing',
+		found: 'Our logo looked like the send-message icon, directions had no icon, and Check in was not intuitive.',
+		fixed: 'Each action got its own clear, labeled control.',
+	},
+];
+
+const measure = [
+	['A/B test', 'Original designs against newer ones, using conversion and completion rates.'],
+	['Heatmaps', 'Hotjar or Crazy Egg to see where people tap and stall.'],
+	['Funnels', 'Looker or Google Analytics to find where people drop off.'],
+];
+
+const hats = [
+	['Researcher', 'Uncovering insights that guided intuitive interfaces.'],
+	['UI designer', 'Turning research into visuals, learning from Figma kits on the go.'],
+	['Product manager', 'Balancing user needs with business goals and timelines.'],
+	['Solutions architect', 'Designing within what the technology, like APIs, could actually do.'],
+];
+---
+
+<Base title={title} description={outcome} progress>
+	<div class="pa">
+		<!-- HERO -->
+		<section class="pa-hero">
+			<svg class="pa-trail" viewBox="0 0 900 360" aria-hidden="true">
+				<path id="trail" d="M10 320 C 120 320, 150 200, 260 220 S 330 330, 300 290 S 260 200, 380 160 S 560 190, 640 120 S 800 40, 890 60" />
+				<g class="pa-plane">
+					<path d="M22 0 L-20 -14 L-10 0 L-20 14 Z" fill="#fff" />
+					<path d="M-10 0 L-20 14 L2 4 Z" fill="#bfeee3" />
+					<animateMotion dur="10s" repeatCount="indefinite" rotate="auto">
+						<mpath href="#trail" />
+					</animateMotion>
+				</g>
+			</svg>
+			<div class="shell pa-hero__in">
+				<a class="back" href="/work">← All work</a>
+				<p class="pa-eyebrow">Paper Airplane · 2017 · Startup</p>
+				<h1>Dating, but in the same room.</h1>
+				<p class="pa-lede">{outcome}</p>
+				<ul class="pa-meta">
+					<li>UX Designer</li>
+					<li>Team of 7</li>
+					<li>Figma · Miro · UserTesting</li>
+				</ul>
+				<ul class="pa-stats">
+					{
+						stats.map((s) => (
+							<li>
+								<strong data-count>{s.v}</strong>
+								<span>{s.l}</span>
+							</li>
+						))
+					}
+				</ul>
+				<p class="actions">
+					<a class="pa-btn" href={figma} target="_blank" rel="noopener noreferrer">Open the prototype ↗</a>
+				</p>
+			</div>
+		</section>
+
+		<nav class="chapters pa-nav" aria-label="Case study sections">
+			<div class="shell">
+				<ol>
+					{
+						chapters.map(([id, label]) => (
+							<li>
+								<a href={`#${id}`} data-chapter={id}>{label}</a>
+							</li>
+						))
+					}
+				</ol>
+			</div>
+		</nav>
+
+		<!-- 1 · THE BET -->
+		<section class="pa-sec" id="bet">
+			<div class="shell pa-two">
+				<div>
+					<p class="pa-kicker">01 · The bet</p>
+					<h2>How do we make meeting in person less intimidating?</h2>
+					<p class="pa-body">
+						Swiping keeps people behind screens. Paper Airplane flips it: see how many compatible
+						people are at a venue near you, then go meet them there.
+					</p>
+					<p class="pa-hint">Try it. Tap a pin.</p>
+				</div>
+				<div class="pa-demo" data-reveal>
+					<div class="pa-phone">
+						<div class="pa-map" id="pa-map">
+							<span class="pa-you" style="left: 50%; top: 52%"></span>
+							{
+								venues.map((v) => (
+									<button
+										type="button"
+										class="pa-pin"
+										style={`left:${v.x}%;top:${v.y}%`}
+										data-name={v.name}
+										data-here={v.here}
+										aria-label={`${v.name}, ${v.here} people`}
+									>
+										{v.here}
+									</button>
+								))
+							}
+						</div>
+						<div class="pa-sheet">
+							<p class="pa-sheet__title" id="pa-venue">Tap a pin</p>
+							<p class="pa-sheet__sub" id="pa-count">Compatible people nearby will show here.</p>
+							<button type="button" class="pa-checkin" id="pa-checkin" disabled>Check in</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- 2 · LISTENING -->
+		<section class="pa-sec pa-sec--mint" id="listen">
+			<div class="shell">
+				<p class="pa-kicker">02 · Listening first</p>
+				<h2>I started with who this was really for.</h2>
+				<p class="pa-body">
+					A survey found the audience. Interviews went deeper. I also benchmarked Tinder, Bumble, and
+					Hinge against Nielsen's 10 usability heuristics.
+				</p>
+
+				<ol class="pa-funnel" data-reveal>
+					<li style="--w: 100%"><strong>41</strong><span>survey responses in a few days</span></li>
+					<li style="--w: 56%"><strong>4</strong><span>interviews, 32 open-ended questions</span></li>
+					<li style="--w: 30%"><strong>2</strong><span>personas to design for</span></li>
+				</ol>
+
+				<div class="pa-grid3" data-reveal>
+					{
+						insights.map(([t, d]) => (
+							<div class="pa-card">
+								<b>{t}</b>
+								<p>{d}</p>
+							</div>
+						))
+					}
+				</div>
+
+				<div class="tabs pa-tabs" data-tabs>
+					<div class="tablist" role="tablist">
+						{
+							personas.map((p, i) => (
+								<button class="tab" role="tab" type="button" aria-selected={i === 0}>{p.name}</button>
+							))
+						}
+					</div>
+					{
+						personas.map((p) => (
+							<div class="tabpanel pa-persona" role="tabpanel">
+								<p class="pa-persona__meta">{p.meta}</p>
+								<p class="pa-persona__story">{p.story}</p>
+								<dl>
+									<div><dt>Wants</dt><dd>{p.wants}</dd></div>
+									<div><dt>Struggles with</dt><dd>{p.pain}</dd></div>
+								</dl>
+							</div>
+						))
+					}
+				</div>
+
+				<p class="pa-decision" data-reveal>
+					<span>Decision</span>
+					I interviewed after the survey, recruiting from its demographics, so the personas came from
+					people who matched real users.
+				</p>
+			</div>
+		</section>
+
+		<!-- 3 · SHAPING -->
+		<section class="pa-sec" id="shape">
+			<div class="shell">
+				<p class="pa-kicker">03 · Shaping the product</p>
+				<h2>Three features, organized the way people think.</h2>
+				<p class="pa-body">
+					User stories became a three-feature MVP. Six remote card sorts on KardSort then grouped
+					everything into three categories: Venue Mapping, Communication, and Profile.
+					<a href={miro} target="_blank" rel="noopener noreferrer">See the flow in Miro ↗</a>
+				</p>
+				<div class="tabs pa-tabs" data-tabs>
+					<div class="tablist" role="tablist">
+						{
+							features.map((f, i) => (
+								<button class="tab" role="tab" type="button" aria-selected={i === 0}>{f.tab}</button>
+							))
+						}
+					</div>
+					{
+						features.map((f) => (
+							<div class="tabpanel pa-feature" role="tabpanel">
+								<p>{f.line}</p>
+								<img src={`${b}/${f.img}`} alt={`${f.tab} screen`} loading="lazy" />
+							</div>
+						))
+					}
+				</div>
+			</div>
+		</section>
+
+		<!-- 4 · DEVELOPERS -->
+		<section class="pa-sec pa-sec--deep" id="dev">
+			<div class="shell">
+				<p class="pa-kicker">04 · Working with developers</p>
+				<h2>Even in 2017, I designed alongside the APIs.</h2>
+				<p class="pa-body">
+					Screen by screen, I worked with the developers to understand what each view needed from the
+					API, and what depended on what. The biggest rule: where you are decides what you see.
+				</p>
+
+				<ol class="pa-logic" data-reveal>
+					<li>Open the app</li>
+					<li>Inside a venue?</li>
+					<li class="yes">Yes → Current venue</li>
+					<li class="no">No → Heat map</li>
+				</ol>
+
+				<div class="tabs pa-tabs pa-tabs--dark" data-tabs>
+					<div class="tablist" role="tablist">
+						{
+							specs.map((s, i) => (
+								<button class="tab" role="tab" type="button" aria-selected={i === 0}>{s.tab}</button>
+							))
+						}
+					</div>
+					{
+						specs.map((s) => (
+							<div class="tabpanel pa-spec" role="tabpanel">
+								<img src={`${b}/${s.img}`} alt={`${s.title} screen`} loading="lazy" />
+								<div>
+									<h3>{s.title}</h3>
+									<p>{s.text}</p>
+									<pre><code>{s.code.join('\n')}</code></pre>
+								</div>
+							</div>
+						))
+					}
+				</div>
+			</div>
+		</section>
+
+		<!-- 5 · TESTING -->
+		<section class="pa-sec" id="test">
+			<div class="shell">
+				<p class="pa-kicker">05 · Testing</p>
+				<h2>Four tests. Three fixes.</h2>
+				<p class="pa-body">
+					I built a clickable Figma prototype and tested it on UserTesting.com, focusing on the venue
+					map and check-in.
+				</p>
+				<div class="tabs pa-tabs" data-tabs>
+					<div class="tablist" role="tablist">
+						{
+							issues.map((x, i) => (
+								<button class="tab" role="tab" type="button" aria-selected={i === 0}>
+									{i + 1} · {x.tab}
+								</button>
+							))
+						}
+					</div>
+					{
+						issues.map((x) => (
+							<div class="tabpanel pa-issue" role="tabpanel">
+								<div>
+									<h3>{x.title}</h3>
+									<p class="pa-label">What we found</p>
+									<p>{x.found}</p>
+									<p class="pa-label">What I changed</p>
+									<p>{x.fixed}</p>
+									{x.before && <p class="pa-hint">Drag to compare an earlier iteration with the final design.</p>}
+								</div>
+								{x.before && (
+									<div class="pa-cmp" style="--pos: 50%">
+										<div class="pa-cmp__stage">
+											<img class="pa-cmp__after" src={`${b}/${x.after}`} alt="Final design" loading="lazy" />
+											<div class="pa-cmp__before">
+												<img src={`${b}/${x.before}`} alt="Earlier iteration" loading="lazy" />
+											</div>
+											<span class="pa-cmp__handle" aria-hidden="true"></span>
+										</div>
+										<input type="range" min="0" max="100" value="50" aria-label="Compare iteration and final" class="pa-cmp__range" />
+										<p class="pa-cmp__labels"><span>Iteration</span><span>Final</span></p>
+									</div>
+								)}
+							</div>
+						))
+					}
+				</div>
+			</div>
+		</section>
+
+		<!-- 6 · RESULT -->
+		<section class="pa-sec pa-sec--mint" id="result">
+			<div class="shell">
+				<p class="pa-kicker">06 · Where it landed</p>
+				<h2>13 screens in the brand's own colors.</h2>
+				<p class="pa-body">
+					A light, fresh, open look built around the message "date in real life." Swipe through the
+					flow, or open the prototype.
+				</p>
+			</div>
+			<div class="hscroll pa-shots" tabindex="0" aria-label="Final screens, scroll sideways">
+				<ul>
+					{
+						Array.from({ length: 13 }, (_, i) => (
+							<li>
+								<img src={`${b}/screen-${String(i + 1).padStart(2, '0')}.webp`} alt={`Final screen ${i + 1} of 13`} loading="lazy" />
+							</li>
+						))
+					}
+				</ul>
+			</div>
+			<div class="shell">
+				<p class="actions">
+					<a class="pa-btn" href={figma} target="_blank" rel="noopener noreferrer">Open the prototype ↗</a>
+				</p>
+				<div class="pa-brand" data-reveal>
+					<img src={`${b}/brand-1.webp`} alt="Woman smiling while holding a phone showing the app's filters" loading="lazy" />
+					<img src={`${b}/brand-2.webp`} alt="Two people sharing a phone showing a venue and a Check in here button" loading="lazy" />
+					<img src={`${b}/brand-3.webp`} alt="A hand holding a phone showing a list of matches" loading="lazy" />
+				</div>
+			</div>
+		</section>
+
+		<!-- CLOSE -->
+		<section class="pa-sec pa-sec--deep pa-close">
+			<div class="shell">
+				<p class="pa-kicker">What I took from it</p>
+				<h2>My first project wearing almost every hat.</h2>
+				<div class="tabs pa-tabs pa-tabs--dark" data-tabs>
+					<div class="tablist" role="tablist">
+						{
+							hats.map(([t], i) => (
+								<button class="tab" role="tab" type="button" aria-selected={i === 0}>{t}</button>
+							))
+						}
+					</div>
+					{
+						hats.map(([t, d]) => (
+							<div class="tabpanel" role="tabpanel">
+								<h3>{t}</h3>
+								<p style="margin-top: 0.5rem; font-size: 1.1rem">{d}</p>
+							</div>
+						))
+					}
+				</div>
+				<p class="pa-next">
+					<b>What I'd measure next:</b> A/B tests, heatmaps, and funnel analysis, to pair our
+					qualitative findings with numbers. The team couldn't resource more, so my time ended after
+					the first round of visual design.
+				</p>
+				<p class="actions">
+					<a class="pa-btn" href="/journey#paper">Back to my story</a>
+					<a class="pa-btn pa-btn--ghost" href="/work">More work</a>
+				</p>
+			</div>
+		</section>
+	</div>
+</Base>
+
+<script>
+	// Concept demo: tap a venue pin
+	const pins = Array.from(document.querySelectorAll<HTMLButtonElement>('.pa-pin'));
+	const vName = document.getElementById('pa-venue');
+	const vCount = document.getElementById('pa-count');
+	const check = document.getElementById('pa-checkin') as HTMLButtonElement | null;
+	pins.forEach((p) =>
+		p.addEventListener('click', () => {
+			pins.forEach((x) => x.classList.toggle('is-on', x === p));
+			if (vName) vName.textContent = p.dataset.name ?? '';
+			if (vCount) vCount.textContent = `${p.dataset.here} compatible people are here right now`;
+			if (check) {
+				check.disabled = false;
+				check.textContent = 'Check in';
+			}
+		}),
+	);
+	check?.addEventListener('click', () => {
+		check.textContent = 'You’re in. Say hi.';
+		check.disabled = true;
+	});
+	pins[0]?.click();
+
+	// Before / after sliders
+	document.querySelectorAll<HTMLElement>('.pa-cmp').forEach((c) => {
+		const r = c.querySelector<HTMLInputElement>('.pa-cmp__range');
+		r?.addEventListener('input', () => c.style.setProperty('--pos', `${r.value}%`));
+	});
+</script>
