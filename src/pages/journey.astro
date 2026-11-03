@@ -182,7 +182,7 @@ const events = [
 									e.highlights.map((h: any, k: number) => {
 										const m = h.cover ?? h.media[0];
 										return (
-											<button type="button" class="tile" data-k={k} data-tpl={`tpl-${e.id}-${k}`} style={`--d:${k * 0.08}s`} aria-label={h.title}>
+											<button type="button" class="tile stile" data-k={k} data-tpl={`tpl-${e.id}-${k}`} style={`--d:${k * 0.08}s`} aria-label={h.title}>
 												<span class={`tile__img ${m.fit === 'contain' ? 'is-contain' : ''}`}>
 													{!m.src ? (
 														<span class="tile__ph"><b>{m.label}</b><small>{m.hint}</small></span>
@@ -198,7 +198,7 @@ const events = [
 										);
 									})
 								) : (
-									<div class="tile tile--solo" style="--d:0s">
+									<div class="tile stile stile--solo" style="--d:0s">
 										<div class="tile__img is-solo"><MiFig m={e.hero} k={0} /></div>
 										<span class="tile__cap"><b>{e.hero.cap ?? e.hero.label ?? e.pill}</b></span>
 									</div>
