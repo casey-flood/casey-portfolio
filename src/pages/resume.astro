@@ -1,0 +1,99 @@
+---
+import Base from '../layouts/Base.astro';
+
+const values = [
+	{
+		color: 'coral',
+		title: 'Design in the real material',
+		body: 'Storybook prototypes built from the same React components we ship, so a prototype is a first draft of production, not a picture of it.',
+	},
+	{
+		color: 'sun',
+		title: 'Alignment is a deliverable',
+		body: 'A great design nobody agrees on never ships. I align PM, clinical, engineering, and ops as carefully as I design the screen.',
+	},
+	{
+		color: 'mint',
+		title: 'Curiosity before opinions',
+		body: 'I shadow people doing the work before I draw anything. The best ideas hide in the workarounds.',
+	},
+	{
+		color: 'sky',
+		title: 'Measure what matters',
+		body: "Every project starts with how we'll know it worked, and ends by checking.",
+	},
+];
+
+const path = [
+	{
+		when: 'Mar 2025 – Present',
+		t: 'Senior Product Designer, Dandy',
+		d: 'First the dentist-facing ordering and chairside flows, then sole product designer on the Design Editor, where lab designers prep scans and design restorations. I prototype in Storybook with real React components and built the Design Editor design system from scratch.',
+	},
+	{
+		when: 'Jan 2019 – Feb 2024',
+		t: 'UX Designer to Senior Product Designer, Amwell',
+		d: 'Five years on white-label virtual urgent care across patients, providers, and admin. I led patient UX strategy, redesigned the admin platform with a multi-tier framework, and mentored two junior designers.',
+	},
+	{
+		when: 'May 2017 – May 2018',
+		t: 'UX Designer, Paper Airplane',
+		d: 'Early-stage dating app startup. Part of a seven-person team shaping the interface and marketing strategy.',
+	},
+	{
+		when: '2018 – Present',
+		t: 'Product design, freelance and consulting',
+		d: 'Independent product design and research alongside full-time roles.',
+	},
+];
+---
+
+<Base
+	title="Resume"
+	description="Where Casey Flood has worked: Dandy, Amwell, Paper Airplane, and independent product design."
+>
+	<section class="page-intro">
+		<div class="shell">
+			<p class="eyebrow eyebrow--mint">Resume</p>
+			<h1>Where I've worked.</h1>
+		</div>
+	</section>
+
+	<section class="section" style="padding-top: 2rem" aria-labelledby="path-heading">
+		<div class="shell">
+			<h2 id="path-heading" class="visually-hidden">Experience</h2>
+			<ol class="timeline">
+				{
+					path.map((p) => (
+						<li data-reveal>
+							<p class="card__kicker">{p.when}</p>
+							<h3>{p.t}</h3>
+							<p>{p.d}</p>
+						</li>
+					))
+				}
+			</ol>
+		</div>
+	</section>
+
+	<section class="section band" aria-labelledby="how-heading">
+		<div class="shell">
+			<p class="eyebrow eyebrow--sky">Values</p>
+			<h2 id="how-heading" class="h2">How I work.</h2>
+			<div class="cards3 cards3--4" style="margin-top: 2.5rem">
+				{
+					values.map((v) => (
+						<div class={`tile tile--${v.color}`} data-reveal>
+							<h3>{v.title}</h3>
+							<p>{v.body}</p>
+						</div>
+					))
+				}
+			</div>
+			<div class="actions">
+				<a class="button" href="/work">See my work →</a>
+				<a class="button button--ghost" href="mailto:caseylflood@gmail.com">Say hi</a>
+			</div>
+		</div>
+	</section>
+</Base>

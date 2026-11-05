@@ -1,50 +1,21 @@
 ---
 import Base from '../layouts/Base.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { getProjects } from '../lib/projects';
 
-const values = [
-	{
-		color: 'coral',
-		title: 'Design in the real material',
-		body: 'Storybook prototypes built from the same React components we ship, so a prototype is a first draft of production, not a picture of it.',
-	},
-	{
-		color: 'sun',
-		title: 'Alignment is a deliverable',
-		body: 'A great design nobody agrees on never ships. I align PM, clinical, engineering, and ops as carefully as I design the screen.',
-	},
-	{
-		color: 'mint',
-		title: 'Curiosity before opinions',
-		body: 'I shadow people doing the work before I draw anything. The best ideas hide in the workarounds.',
-	},
-	{
-		color: 'sky',
-		title: 'Measure what matters',
-		body: "Every project starts with how we'll know it worked, and ends by checking.",
-	},
-];
+const projects = (await getProjects()).filter(
+	(p) => p.data.featured && p.data.status === 'published',
+);
 
-const path = [
-	{
-		when: 'Mar 2025 – Present',
-		t: 'Senior Product Designer, Dandy',
-		d: 'First the dentist-facing ordering and chairside flows, then sole product designer on the Design Editor, where lab designers prep scans and design restorations. I prototype in Storybook with real React components and built the Design Editor design system from scratch.',
-	},
-	{
-		when: 'Jan 2019 – Feb 2024',
-		t: 'UX Designer to Senior Product Designer, Amwell',
-		d: 'Five years on white-label virtual urgent care across patients, providers, and admin. I led patient UX strategy, redesigned the admin platform with a multi-tier framework, and mentored two junior designers.',
-	},
-	{
-		when: 'May 2017 – May 2018',
-		t: 'UX Designer, Paper Airplane',
-		d: 'Early-stage dating app startup. Part of a seven-person team shaping the interface and marketing strategy.',
-	},
-	{
-		when: '2018 – Present',
-		t: 'Product design, freelance and consulting',
-		d: 'Independent product design and research alongside full-time roles.',
-	},
+// Story teaser: newest first, each year jumps into that moment on /journey
+const years = [
+	{ y: '2025', l: 'Dandy', id: 'dandy' },
+	{ y: '2023', l: 'Freelance', id: 'freelance' },
+	{ y: '2019', l: 'Amwell', id: 'amwell' },
+	{ y: '2018', l: 'Pratt', id: 'pratt' },
+	{ y: '2017', l: 'Paper Airplane', id: 'paper' },
+	{ y: '2016', l: 'JMU', id: 'jmu' },
+	{ y: '1990s', l: 'Origins', id: 'start' },
 ];
 ---
 
@@ -58,12 +29,12 @@ const path = [
 				<p class="eyebrow">Product leader · Design engineer</p>
 				<h1>I design in code, so great ideas <em>actually ship</em>.</h1>
 				<p class="hero__lede">
-					I'm Casey Flood. I lead product design across healthcare and dental manufacturing, and I
-					prototype in production codebases with Storybook, Cursor, and Claude.
+					I'm Casey Flood. I lead product design across healthcare and dental manufacturing, taking
+					ideas from research to production UI with Storybook, Cursor, and Claude.
 				</p>
 				<div class="actions">
-					<a class="button" href="/work">See the work</a>
-					<a class="button button--ghost" href="/journey">My story</a>
+					<a class="button button--lg" href="/work">See my work →</a>
+					<a class="button button--ghost button--lg" href="/journey">My story</a>
 				</div>
 			</div>
 			<div class="hero__stage">
@@ -90,54 +61,45 @@ const path = [
 		</div>
 	</section>
 
-	<section class="section" style="padding-top: 1rem" aria-label="Intro">
-		<div class="shell about-grid">
-			<p class="statement" data-reveal>
-				A senior product designer with a <mark>design-engineering practice</mark>: I prototype in the
-				production codebase so we iterate faster and hand off less guesswork.
-			</p>
-			<div data-reveal>
-				<p style="font-size: 1.2rem; margin-bottom: 1.25rem">
-					At Dandy I've worked both sides of the dental journey, from dentist-facing ordering to the
-					lab designers' Design Editor. Before that, five years at Amwell designing virtual urgent care
-					for health systems and consumer brands.
-				</p>
-				<div class="actions">
-					<a class="button button--lg" href="/work">See my work →</a>
-					<a class="button button--ghost" href="/journey">My story</a>
-				</div>
-			</div>
-		</div>
-	</section>
-
-	<section class="section band" id="how" aria-labelledby="how-heading">
+	<section class="section" aria-labelledby="work-heading" style="padding-top: 1rem">
 		<div class="shell">
-			<p class="eyebrow eyebrow--sky">Values</p>
-			<h2 id="how-heading" class="h2">How I work.</h2>
-			<div class="cards3 cards3--4" style="margin-top: 2.5rem">
+			<div class="section__head">
+				<h2 id="work-heading">Selected work</h2>
+				<a class="section__link" href="/work">All work →</a>
+			</div>
+			<div class="grid">
 				{
-					values.map((v) => (
-						<div class={`tile tile--${v.color}`} data-reveal>
-							<h3>{v.title}</h3>
-							<p>{v.body}</p>
-						</div>
+					projects.map((p) => (
+						<ProjectCard
+							title={p.data.title}
+							summary={p.data.summary}
+							kicker={p.data.industry}
+							tags={p.data.tags}
+							href={`/work/${p.id}`}
+							metric={p.data.metrics[0]}
+							accent={p.data.accent}
+						/>
 					))
 				}
 			</div>
 		</div>
 	</section>
 
-	<section class="section" aria-labelledby="path-heading">
+	<section class="section band" aria-labelledby="story-heading">
 		<div class="shell">
-			<p class="eyebrow eyebrow--mint">Path</p>
-			<h2 id="path-heading" class="h2">Where I've worked.</h2>
-			<ol class="timeline">
+			<div class="section__head">
+				<h2 id="story-heading">Rewind my story</h2>
+				<a class="section__link" href="/journey">Take the scroll →</a>
+			</div>
+			<ol class="rewind" aria-label="Jump into my story">
 				{
-					path.map((p) => (
-						<li data-reveal>
-							<p class="card__kicker">{p.when}</p>
-							<h3>{p.t}</h3>
-							<p>{p.d}</p>
+					years.map((e) => (
+						<li>
+							<a href={`/journey#${e.id}`}>
+								<i aria-hidden="true"></i>
+								<b>{e.y}</b>
+								<span>{e.l}</span>
+							</a>
 						</li>
 					))
 				}
@@ -145,15 +107,13 @@ const path = [
 		</div>
 	</section>
 
-	<section class="section" id="contact" aria-labelledby="contact-heading">
+	<section class="section" id="contact" aria-label="Contact">
 		<div class="shell">
-			<div class="cta" data-reveal>
-				<h2 id="contact-heading">Let's build something hard.</h2>
-				<div class="actions">
-					<a class="button" href="mailto:caseylflood@gmail.com">caseylflood@gmail.com</a>
-					<a class="button button--ghost" href="/work">See my work</a>
-				</div>
-			</div>
+			<p class="closing">
+				<a href="/resume">Resume</a>
+				<span aria-hidden="true">·</span>
+				<a href="mailto:caseylflood@gmail.com">caseylflood@gmail.com</a>
+			</p>
 		</div>
 	</section>
 </Base>

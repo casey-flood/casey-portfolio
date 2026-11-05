@@ -9975,3 +9975,188 @@ html {
 	padding: 0.95rem 1.7rem;
 	font-size: 1.05rem;
 }
+
+/* homepage doors */
+.doors {
+	display: grid;
+	gap: 1rem;
+	grid-template-columns: 1fr;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.door {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	gap: 0.35rem;
+	min-height: 9.5rem;
+	padding: 1.3rem 1.4rem;
+	background: var(--paper);
+	border: 1.5px solid var(--line-strong);
+	border-radius: 1rem;
+	color: inherit;
+	text-decoration: none;
+	box-shadow: var(--shadow);
+	transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.3, 1.4), box-shadow 0.3s, border-color 0.2s;
+}
+
+.door__k {
+	font-family: var(--mono);
+	font-size: 0.72rem;
+	letter-spacing: 0.06em;
+	color: var(--accent);
+}
+
+.door__t {
+	margin-top: auto;
+	font-family: var(--display);
+	font-size: 1.5rem;
+	font-weight: 700;
+	line-height: 1.1;
+}
+
+.door__b {
+	color: var(--muted);
+	font-size: 0.95rem;
+	overflow-wrap: anywhere;
+}
+
+.door__go {
+	position: absolute;
+	top: 1.1rem;
+	right: 1.2rem;
+	display: grid;
+	place-items: center;
+	width: 2rem;
+	height: 2rem;
+	border-radius: 50%;
+	background: var(--accent-soft);
+	color: var(--accent);
+	transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.3, 1.4), background 0.2s, color 0.2s;
+}
+
+.door:hover,
+.door:focus-visible {
+	transform: translateY(-4px);
+	border-color: var(--accent);
+	box-shadow: var(--shadow-lg);
+	outline: none;
+}
+
+.door:hover .door__go,
+.door:focus-visible .door__go {
+	transform: translateX(4px) rotate(-45deg);
+	background: var(--accent);
+	color: #fff;
+}
+
+@media (min-width: 560px) {
+	.doors {
+		grid-template-columns: repeat(2, 1fr);
+	}
+}
+
+@media (min-width: 960px) {
+	.doors {
+		grid-template-columns: repeat(4, 1fr);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.door,
+	.door__go {
+		transition: none;
+	}
+}
+
+.visually-hidden {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	clip: rect(0 0 0 0);
+	white-space: nowrap;
+}
+
+/* homepage: story teaser strip + closing line */
+.rewind {
+	position: relative;
+	display: flex;
+	gap: 0.5rem;
+	margin: 1.5rem 0 0;
+	padding: 0 0 0.5rem;
+	list-style: none;
+	overflow-x: auto;
+	scrollbar-width: none;
+}
+.rewind::-webkit-scrollbar {
+	display: none;
+}
+.rewind li {
+	position: relative;
+	flex: 1 0 6.5rem;
+}
+.rewind li::before {
+	content: '';
+	position: absolute;
+	top: 0.4rem;
+	left: 0;
+	right: 0;
+	height: 2px;
+	background: var(--line-strong);
+}
+.rewind a {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	gap: 0.15rem;
+	padding-top: 1.4rem;
+	color: inherit;
+	text-decoration: none;
+}
+.rewind i {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 0.85rem;
+	height: 0.85rem;
+	border-radius: 50%;
+	background: var(--paper);
+	border: 2px solid var(--ink);
+	transition: transform 0.25s cubic-bezier(0.2, 0.9, 0.3, 1.5), background 0.2s;
+}
+.rewind b {
+	font-family: var(--display);
+	font-size: 1.35rem;
+}
+.rewind span {
+	color: var(--muted);
+	font-size: 0.85rem;
+}
+.rewind a:hover i,
+.rewind a:focus-visible i {
+	transform: scale(1.5);
+	background: var(--accent);
+	border-color: var(--accent);
+}
+.rewind a:hover b {
+	color: var(--accent);
+}
+.closing {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.6rem 1rem;
+	justify-content: center;
+	margin: 0;
+	color: var(--muted);
+}
+.closing a {
+	color: inherit;
+	font-weight: 600;
+	text-underline-offset: 0.25em;
+}
+.closing a:hover {
+	color: var(--accent);
+}
