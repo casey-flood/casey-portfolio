@@ -1,19 +1,37 @@
 ---
-import { stages, projects, actors, intro, optionalLoop, type ProjectId } from '../data/scan-to-smile';
+import { stages, projects, groups, type ProjectId, type GroupId } from '../data/scan-to-smile';
 import { stageImages } from '../data/scan-to-smile-images';
 
 interface Props {
 	project?: ProjectId | null; // highlight a project's steps and dim the rest
 	compact?: boolean; // small "where this fits" strip
-	controls?: boolean; // project switcher buttons (off by default)
 	listen?: boolean; // react to project cards elsewhere on the page (hover or tap)
 	hubHref?: string;
 }
-const { project = null, compact = false, controls = false, listen = false, hubHref = '/work/dandy' } = Astro.props;
+const { project = null, compact = false, listen = false, hubHref = '/work/dandy' } = Astro.props;
 const uid = `s2s-${Math.random().toString(36).slice(2, 8)}`;
 const proj = project ? projects[project] : null;
 const hl = proj?.stages ?? [];
 const near = proj?.near ?? [];
+const startStep = hl[0] ?? 1;
+
+// Consecutive stages with the same group sit in one colored container.
+const order: GroupId[] = [];
+for (const s of stages) if (!order.includes(s.group)) order.push(s.group);
+const dots: Record<GroupId, string[]> = {
+	patient: ['#e3c34a'],
+	dentist: ['#5b9bd5'],
+	designer: ['#8a4fd0'],
+	ops: ['#8a5a3a'],
+	both: ['#e3c34a', '#5b9bd5'],
+};
+const chipLabel: Record<GroupId, string> = {
+	patient: 'Patient',
+	dentist: 'Dentist',
+	designer: 'Dental designer',
+	ops: 'Manufacturing',
+	both: 'Dentist and patient',
+};
 ---
 
 {
@@ -33,69 +51,56 @@ const near = proj?.near ?? [];
 			</p>
 		</aside>
 	) : (
-		<div class="s2s" data-s2s data-listen={listen || controls ? '' : undefined} data-hl={hl.join(',')} data-near={near.join(',')}>
-			{
-				controls && (
-					<div class="s2s__ctl" role="group" aria-label="Highlight a project">
-						<button type="button" data-p="all" aria-pressed="true">Overview</button>
-						{Object.values(projects).map((p) => (
-							<button type="button" data-p={p.id} data-stages={p.stages.join(',')} data-near={(p.near ?? []).join(',')} data-blurb={p.blurb} aria-pressed="false">
-								{p.label}
-							</button>
-						))}
-					</div>
-				)
-			}
+		<div class="s2s" data-s2s data-start={startStep} data-listen={listen ? '' : undefined} data-hl={hl.join(',')} data-near={near.join(',')}>
+			<div class="s2s__track" data-track>
+				{order.map((g, gi) => {
+					const gs = stages.filter((s) => s.group === g);
+					return (
+						<>
+							<section class:list={['s2s__group', `s2s__group--${g}`, { 'has-hl': gs.some((s) => hl.includes(s.n)) }]} data-group={g} aria-label={groups[g].label} style={`--n:${gs.length}`}>
+								<p class="s2s__glabel">
+									{dots[g].map((c) => <i style={`background:${c}`} />)}
+									{groups[g].label}
+								</p>
+								<ol class="s2s__gsteps">
+									{gs.map((s) => {
+										const img = stageImages[s.n];
+										return (
+											<li class:list={['s2s__step', { 'is-hl': hl.includes(s.n), 'is-near': near.includes(s.n) }]} data-stage={s.n}>
+												<button type="button" class="s2s__card" aria-expanded="false" aria-controls={`${uid}-panel`} data-stage={s.n}>
+													<span class="s2s__no">{s.n}</span>
+														<span class="s2s__img">
+														{img.src ? (
+															<img src={img.src} alt={img.alt} width="400" height="300" loading="lazy" decoding="async" />
+														) : (
+															<span class="s2s__ph" role="img" aria-label={`Placeholder: ${img.hint}`}>
+																<b>{img.label}</b>
+																<small>{img.hint}</small>
+															</span>
+														)}
+														
+													</span>
+													<span class="s2s__t">{s.title}</span>
+													<span class="s2s__chip">
+														{dots[g].map((c) => <i style={`background:${c}`} />)}
+														{chipLabel[g]}
+													</span>
+												</button>
+											</li>
+										);
+									})}
+								</ol>
+							</section>
+							{gi < order.length - 1 && <span class="s2s__arrow" aria-hidden="true"></span>}
+						</>
+					);
+				})}
+			</div>
 
-			<ol class="s2s__flow">
-				{
-					stages.map((s, i) => {
-						const img = stageImages[s.n];
-						const a = actors[s.actor];
-						return (
-							<li class:list={['s2s__step', { 'is-hl': hl.includes(s.n), 'is-near': near.includes(s.n) }]} data-stage={s.n} style={`--o:${s.n * 2}`}>
-								<button type="button" class="s2s__card" aria-expanded="false" aria-controls={`${uid}-panel`} data-stage={s.n}>
-									<span class="s2s__img">
-										{img.src ? (
-											<img src={img.src} alt={img.alt} width="400" height="300" loading="lazy" decoding="async" />
-										) : (
-											<span class="s2s__ph" role="img" aria-label={`Placeholder: ${img.hint}`}>
-												<b>{img.label}</b>
-												<small>{img.hint}</small>
-											</span>
-										)}
-										<span class="s2s__no">{s.n}</span>
-									</span>
-									<span class="s2s__t">{s.title}</span>
-									<span class="s2s__chip">
-										<i style={`background:${a.color}`} />
-										{s.actorLabel ?? a.label}
-									</span>
-								</button>
-								{i < stages.length - 1 && (
-									<span class={`s2s__link s2s__link--${s.mode}`} aria-hidden="true">
-										<em>{s.travels}</em>
-									</span>
-								)}
-							</li>
-						);
-					})
-				}
-				<li class="s2s__loop" aria-label={optionalLoop}>
-					<span>{optionalLoop}</span>
-				</li>
-			</ol>
+			<div class="s2s__panel" id={`${uid}-panel`} role="region" aria-live="polite" aria-label="About this step"></div>
+			{proj && <p class="s2s__hint" data-hint>{proj.blurb}</p>}
 
-			<p class="s2s__legend">
-				<span><i class="lg lg--digital"></i>Travels digitally</span>
-				<span><i class="lg lg--physical"></i>Physical restoration</span>
-				<span class="s2s__intro">{intro}</span>
-			</p>
-
-			<div class="s2s__panel" id={`${uid}-panel`} role="region" aria-live="polite" aria-label="Step details" hidden></div>
-			<p class="s2s__hint" data-hint>{proj ? proj.blurb : 'Select a step to see who does what.'}</p>
-
-			<script type="application/json" data-s2s-json set:html={JSON.stringify({ stages, actors, projects })} />
+			<script type="application/json" data-s2s-json set:html={JSON.stringify({ stages, projects })} />
 		</div>
 	)
 }
@@ -103,14 +108,35 @@ const near = proj?.near ?? [];
 <script>
 	const roots = document.querySelectorAll<HTMLElement>('[data-s2s]');
 	const isMobile = () => window.matchMedia('(max-width: 719px)').matches;
+	const LINK = /\[\[([^|\]]+)\|([^\]]+)\]\]/g;
+
+	// Turns "text [[label|url]] text" into text nodes and links. Only http(s) and site paths become links.
+	const richText = (el: HTMLElement, text: string) => {
+		let last = 0;
+		for (const m of text.matchAll(LINK)) {
+			el.append(document.createTextNode(text.slice(last, m.index)));
+			const href = m[2];
+			if (/^https?:\/\//.test(href) || href.startsWith('/')) {
+				const a = document.createElement('a');
+				a.href = href;
+				a.textContent = m[1];
+				if (href.startsWith('http')) {
+					a.target = '_blank';
+					a.rel = 'noopener';
+				}
+				el.append(a);
+			} else el.append(document.createTextNode(m[1]));
+			last = m.index! + m[0].length;
+		}
+		el.append(document.createTextNode(text.slice(last)));
+	};
 
 	roots.forEach((root) => {
 		const data = JSON.parse(root.querySelector('[data-s2s-json]')!.textContent!);
-		const flow = root.querySelector<HTMLElement>('.s2s__flow')!;
+		const track = root.querySelector<HTMLElement>('[data-track]')!;
 		const steps = Array.from(root.querySelectorAll<HTMLElement>('.s2s__step'));
+		const groupEls = Array.from(root.querySelectorAll<HTMLElement>('.s2s__group'));
 		const panel = root.querySelector<HTMLElement>('.s2s__panel')!;
-		const hint = root.querySelector<HTMLElement>('[data-hint]')!;
-		const defaultHint = hint.textContent ?? '';
 		const startHl = root.dataset.hl ?? '';
 		const startNear = root.dataset.near ?? '';
 		let open = 0;
@@ -123,54 +149,41 @@ const near = proj?.near ?? [];
 				el.classList.toggle('is-hl', hl.includes(n));
 				el.classList.toggle('is-near', near.includes(n));
 			});
+			groupEls.forEach((g) =>
+				g.classList.toggle(
+					'has-hl',
+					Array.from(g.querySelectorAll<HTMLElement>('.s2s__step')).some((el) => hl.includes(Number(el.dataset.stage))),
+				),
+			);
 		};
 		setHl(nums(startHl), nums(startNear));
 
 		const placePanel = (n: number) => {
 			const li = steps.find((el) => Number(el.dataset.stage) === n)!;
-			// On phones the details open right under the tapped step; on larger screens they sit below the whole flow.
-			if (isMobile()) li.append(panel);
-			else root.querySelector('.s2s__legend')!.after(panel);
+			void li;
+			track.after(panel);
 		};
-		const close = () => {
-			open = 0;
-			panel.hidden = true;
-			steps.forEach((el) => el.querySelector('.s2s__card')!.setAttribute('aria-expanded', 'false'));
-		};
-		const show = (n: number) => {
-			if (open === n) return close();
+
+		const show = (n: number, scroll = true) => {
+			if (open === n) return;
 			open = n;
 			const s = data.stages.find((x: any) => x.n === n);
-			const a = data.actors[s.actor];
 			panel.textContent = '';
+			panel.dataset.g = s.group;
 			const h = document.createElement('h3');
 			h.textContent = `${s.n}. ${s.title}`;
-			const p = document.createElement('p');
-			p.textContent = s.what;
-			const dl = document.createElement('dl');
-			const add = (k: string, v: string) => {
-				const dt = document.createElement('dt');
-				dt.textContent = k;
-				const dd = document.createElement('dd');
-				dd.textContent = v;
-				dl.append(dt, dd);
-			};
-			add('Who', s.actorLabel ?? a.label);
-			add('Software', s.software ?? 'None');
-			add('Travels onward', s.travels);
-			add('Handoff', s.handoff);
-			panel.append(h, p, dl);
-			if (s.links?.length) {
+			panel.append(h);
+			for (const t of s.paras ?? []) {
+				const p = document.createElement('p');
+				richText(p, t);
+				panel.append(p);
+			}
+			if (s.bullets?.length) {
 				const ul = document.createElement('ul');
-				ul.className = 's2s__links';
-				for (const l of s.links) {
+				ul.className = 's2s__bul';
+				for (const t of s.bullets) {
 					const li = document.createElement('li');
-					const link = document.createElement('a');
-					link.href = l.href;
-					link.target = '_blank';
-					link.rel = 'noopener';
-					link.textContent = `${l.label} ↗`;
-					li.append(link);
+					richText(li, t);
 					ul.append(li);
 				}
 				panel.append(ul);
@@ -182,36 +195,24 @@ const near = proj?.near ?? [];
 				panel.append(v);
 			}
 			placePanel(n);
-			panel.hidden = false;
 			steps.forEach((el) =>
 				el.querySelector('.s2s__card')!.setAttribute('aria-expanded', String(Number(el.dataset.stage) === n)),
 			);
-			if (isMobile()) panel.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+			steps.forEach((el) => el.classList.toggle('is-open', Number(el.dataset.stage) === n));
+			if (scroll && isMobile()) panel.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
 		};
 		root.querySelectorAll<HTMLButtonElement>('.s2s__card').forEach((b) =>
 			b.addEventListener('click', () => show(Number(b.dataset.stage))),
 		);
-
-		// optional project switcher
-		const ctl = root.querySelectorAll<HTMLButtonElement>('.s2s__ctl button');
-		const activate = (btn: HTMLButtonElement) => {
-			ctl.forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
-			setHl(nums(btn.dataset.stages), nums(btn.dataset.near));
-			hint.textContent = btn.dataset.blurb ?? defaultHint;
-		};
-		ctl.forEach((b) => b.addEventListener('click', () => activate(b)));
+		show(Number(root.dataset.start) || 1, false); // first (or the project's) step open by default
 
 		// project cards elsewhere on the page light up the steps they affect
 		if (root.hasAttribute('data-listen')) {
 			window.addEventListener('s2s:highlight', (e) => {
 				const d = (e as CustomEvent).detail as { stages: number[] };
-				ctl.forEach((b) => b.setAttribute('aria-pressed', 'false'));
 				setHl(d.stages, []);
 			});
-			window.addEventListener('s2s:reset', () => {
-				if (ctl[0]) activate(ctl[0]);
-				else setHl(nums(startHl), nums(startNear));
-			});
+			window.addEventListener('s2s:reset', () => setHl(nums(startHl), nums(startNear)));
 		}
 	});
 </script>

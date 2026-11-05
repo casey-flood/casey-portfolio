@@ -69,37 +69,28 @@ const systems: Card[] = [
 	title="Dandy"
 	description="Casey Flood's work at Dandy, a digital dental lab: Chairside ordering, the Design Editor, and the systems around them."
 >
-	<section class="page-intro">
+	<section class="page-intro hub-plain">
 		<div class="shell">
+			<img class="hub-plain__logo" src="/brand/dandy-wordmark.svg" alt="Dandy" width="96" height="34" />
 			<p class="eyebrow eyebrow--sky">Work · Dandy</p>
 			<h1>Designing both sides of a digital dental lab.</h1>
 			<p class="lede">
 				Dandy connects dentists, dental designers, and manufacturing through software. I've designed the
 				dentist-facing ordering flows and the designer-facing Design Editor.
 			</p>
-			<dl class="hub-meta">
-				<div><dt>Role</dt><dd>Senior Product Designer</dd></div>
-				<div><dt>When</dt><dd>Mar 2025 – now</dd></div>
-				<div><dt>Focus</dt><dd>Chairside ordering · Design Editor · Design systems</dd></div>
-			</dl>
 		</div>
 	</section>
 
-	<section class="section" aria-labelledby="journey-heading" style="padding-top: 2rem">
+	<section class="section hub-dock" aria-labelledby="journey-heading" style="padding-top: 2rem">
 		<div class="shell">
-			<p class="eyebrow">The bigger picture</p>
+			<p class="eyebrow">Company overview</p>
 			<h2 id="journey-heading" class="h2">From Scan to Smile</h2>
-			<p class="lede" style="max-width: 44rem; margin-bottom: 2rem">
-				Before diving into the projects, here's how a dental restoration moves from the dentist's chair,
-				through digital design and manufacturing, and back to the patient.
+			<p class="lede s2s-lede">
+				How a dental restoration gets from the dentist's chair to the lab and back to the patient. Select a step for details.
 			</p>
 			<ScanToSmile listen />
-		</div>
-	</section>
-
-	<section class="section band" aria-labelledby="work-heading">
-		<div class="shell">
-			<p class="eyebrow eyebrow--mint">My work across it</p>
+			<div class="hub-projects" aria-labelledby="work-heading">
+			<p class="eyebrow eyebrow--mint">My projects</p>
 			<h2 id="work-heading" class="h2">Where I fit in.</h2>
 			<p class="hub-sub">Projects along the journey</p>
 			<ul class="hub-grid">
@@ -108,26 +99,14 @@ const systems: Card[] = [
 						<li>
 							{c.href ? (
 								<a class="hub-card" href={c.href} data-stages={c.stages.join(',')}>
-									<span class="hub-card__k">{c.k}</span>
 									<h3>{c.title}</h3>
 									<p>{c.body}</p>
-								{c.stages.length > 0 && (
-									<span class="hub-card__dots" role="img" aria-label={`Affects steps ${c.stages.join(' and ')}`}>
-										{[1, 2, 3, 4, 5, 6].map((n) => <i class:list={{ on: c.stages.includes(n) }} />)}
-									</span>
-								)}
 									<span class="hub-card__foot">{c.foot}</span>
 								</a>
 							) : (
 								<div class="hub-card hub-card--soon" data-stages={c.stages.join(',')} tabindex="0">
-									<span class="hub-card__k">{c.k}</span>
 									<h3>{c.title}</h3>
 									<p>{c.body}</p>
-								{c.stages.length > 0 && (
-									<span class="hub-card__dots" role="img" aria-label={`Affects steps ${c.stages.join(' and ')}`}>
-										{[1, 2, 3, 4, 5, 6].map((n) => <i class:list={{ on: c.stages.includes(n) }} />)}
-									</span>
-								)}
 									<span class="hub-card__foot">{c.foot}</span>
 								</div>
 							)}
@@ -141,20 +120,15 @@ const systems: Card[] = [
 					systems.map((c) => (
 						<li>
 							<a class="hub-card" href={c.href} data-stages={c.stages.join(',')}>
-								<span class="hub-card__k">{c.k}</span>
 								<h3>{c.title}</h3>
 								<p>{c.body}</p>
-								{c.stages.length > 0 && (
-									<span class="hub-card__dots" role="img" aria-label={`Affects steps ${c.stages.join(' and ')}`}>
-										{[1, 2, 3, 4, 5, 6].map((n) => <i class:list={{ on: c.stages.includes(n) }} />)}
-									</span>
-								)}
 								<span class="hub-card__foot">{c.foot}</span>
 							</a>
 						</li>
 					))
 				}
 			</ul>
+			</div>
 		</div>
 	</section>
 </Base>

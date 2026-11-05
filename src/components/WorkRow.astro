@@ -1,0 +1,23 @@
+---
+import type { Company } from '../data/companies';
+interface Props { company: Company }
+const { company: c } = Astro.props;
+---
+
+<article class="wr" aria-labelledby={`wr-${c.id}`}>
+	<a class="wr__media" href={c.cta?.href} tabindex="-1" aria-hidden="true" data-fit={c.fit ?? 'cover'} data-theme-media={c.theme}>
+		{c.visual.src && <img src={c.visual.src} alt="" loading="lazy" decoding="async" style={c.visual.pos ? `object-position:${c.visual.pos}` : undefined} />}
+	</a>
+	<div class="wr__body">
+		<h2 id={`wr-${c.id}`} class="wr__name">
+			{c.logo ? <img class="wr__logo" src={c.logo} alt={c.name} /> : c.name}
+		</h2>
+		<p class="wr__meta">{c.role} · {c.when}</p>
+		<p class="wr__blurb">{c.blurb}</p>
+		{c.proof && <p class="wr__proof">{c.proof}</p>}
+		<ul class="wr__projects" aria-label={`${c.name} projects`}>
+			{c.tiles.map((t) => <li>{t.href ? <a href={t.href}>{t.title}</a> : <span>{t.title}</span>}</li>)}
+		</ul>
+		{c.cta && <a class="button button--lg wr__cta" href={c.cta.href}>{c.cta.label} <span aria-hidden="true">→</span></a>}
+	</div>
+</article>

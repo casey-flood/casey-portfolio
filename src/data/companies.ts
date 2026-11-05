@@ -17,6 +17,7 @@ export interface Tile {
 	metric?: { value: string; label: string };
 	note?: string; // short line when there is no metric
 	visual: Visual;
+	tag?: { label: string; kind: 'dentist' | 'designer' | 'systems' }; // compact teaser style when set
 }
 
 export interface Company {
@@ -24,6 +25,7 @@ export interface Company {
 	name: string;
 	logo?: string; // optional SVG path in /public/work/
 	theme: 'dark' | 'blue' | 'paper';
+	simple?: boolean; // big image + text only, projects listed as one quiet line
 	flip?: boolean; // image on the left
 	role: string;
 	when: string;
@@ -38,37 +40,27 @@ export const companies: Company[] = [
 		id: 'dandy',
 		name: 'Dandy',
 		theme: 'dark',
+		simple: true,
+		logo: '/brand/dandy-wordmark.svg',
 		role: 'Senior Product Designer',
 		when: 'Mar 2025 – now',
 		blurb:
 			'Designing both sides of a digital dental lab.',
 		cta: { label: 'Overview and all projects', href: '/work/dandy' },
 		visual: {
-			src: '/journey/storybook-ds-cover.jpg',
-			alt: 'Storybook open next to Cursor, building the Design Editor design system',
+			src: '/work/dandy-vision.webp',
+			alt: 'Dandy Vision confirming a scan is lab-ready',
 			label: 'Dandy',
-			hint: 'Hero image or GIF for Dandy',
-			pos: '62% 28%',
+			hint: 'Hero image for Dandy',
+			pos: 'center',
 		},
 		tiles: [
-			{
-				title: 'Design Editor design system',
-				href: '/work/dandy-design-system',
-				metric: { value: '5–10 min', label: 'iteration, down from 30–45' },
-				visual: { src: '/journey/storybook-ds-cover.jpg', alt: 'Storybook open next to Cursor', label: 'Design system', hint: 'Screenshot or GIF', pos: '62% 28%' },
-			},
-			{
-				title: 'Clickable prototypes',
-				href: '/work/dandy-prototype',
-				note: 'Real components, full flows',
-				visual: { alt: 'A clickable prototype in Storybook', label: 'Prototype', hint: 'Recording of a flow' },
-			},
-			{
-				title: 'Product Design Hub',
-				href: '/work/dandy-product-design-hub',
-				note: 'Design-in-code, taught',
-				visual: { alt: 'The Product Design Hub', label: 'Design Hub', hint: 'Screenshot of the hub' },
-			},
+			{ title: 'Dandy Design Editor', href: '/work/dandy-design-editor', tag: { label: 'Designer experience', kind: 'designer' }, note: 'Sole product designer · in progress', visual: { alt: '', label: '', hint: '' } },
+			{ title: 'Instant Design Preview', tag: { label: 'Dentist experience', kind: 'dentist' }, note: 'Chairside · coming soon', visual: { alt: '', label: '', hint: '' } },
+			{ title: 'Goldilocks', tag: { label: 'Dentist experience', kind: 'dentist' }, note: 'Three fits, one right crown · coming soon', visual: { alt: '', label: '', hint: '' } },
+			{ title: 'Design Editor design system', href: '/work/dandy-design-system', tag: { label: 'Systems design', kind: 'systems' }, metric: { value: '5–10 min', label: 'iteration, down from 30–45' }, visual: { alt: '', label: '', hint: '' } },
+			{ title: 'Clickable prototypes', href: '/work/dandy-prototype', tag: { label: 'Systems design', kind: 'systems' }, note: 'Real components, full flows', visual: { alt: '', label: '', hint: '' } },
+			{ title: 'Product Design Hub', href: '/work/dandy-product-design-hub', tag: { label: 'Systems design', kind: 'systems' }, note: 'Design-in-code, taught', visual: { alt: '', label: '', hint: '' } },
 		],
 	},
 	{

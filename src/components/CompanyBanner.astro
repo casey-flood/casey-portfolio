@@ -16,7 +16,7 @@ const v = c.visual;
 const mediaHref = hub ? undefined : c.cta?.href;
 ---
 
-<section class:list={['cb', `cb--${c.theme}`, { 'cb--flip': c.flip, 'cb--solo': !v.src && !hub }]} aria-labelledby={`cb-${c.id}`}>
+<section class:list={['cb', `cb--${c.theme}`, { 'cb--flip': c.flip, 'cb--simple': c.simple, 'cb--solo': !v.src && !hub }]} aria-labelledby={`cb-${c.id}`}>
 	{
 		(v.src || hub) && (
 			<div class="cb__media">
@@ -47,7 +47,7 @@ const mediaHref = hub ? undefined : c.cta?.href;
 	<div class="cb__body">
 		<header class="cb__head">
 			{c.logo ? <img class="cb__logo" src={c.logo} alt="" /> : null}
-			<h2 id={`cb-${c.id}`} class="cb__name">{c.name}</h2>
+			<h2 id={`cb-${c.id}`} class:list={['cb__name', { 'sr-only': !!c.logo }]}>{c.name}</h2>
 			<p class="cb__meta">{c.role} · {c.when}</p>
 		</header>
 		<p class="cb__blurb">{c.blurb}</p>
@@ -62,7 +62,9 @@ const mediaHref = hub ? undefined : c.cta?.href;
 	</div>
 
 	{
-		hub ? (
+		c.simple && !hub ? (
+			<p class="cb__list">{c.tiles.map((t) => t.title).join(' · ')}</p>
+		) : hub ? (
 			<ul class="cb__row cb__tiles cb__tiles--lg">
 				{c.tiles.map((t) => (
 					<li>

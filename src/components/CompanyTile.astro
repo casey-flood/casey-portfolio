@@ -8,6 +8,23 @@ const { t, linked = true } = Astro.props;
 const Tag = linked && t.href ? 'a' : 'div';
 ---
 
+{
+	t.tag ? (
+		<Tag class:list={['cb__tile', 'cb__tile--mini', { 'is-static': !(linked && t.href) }]} href={linked && t.href ? t.href : undefined}>
+			<span class={`cb__tag cb__tag--${t.tag.kind}`}>
+				<i />
+				{t.tag.label}
+			</span>
+			<span class="cb__tile-t">{t.title}</span>
+			{t.metric ? (
+				<span class="cb__tile-m">
+					<b>{t.metric.value}</b> {t.metric.label}
+				</span>
+			) : (
+				<span class="cb__tile-m">{t.note}</span>
+			)}
+		</Tag>
+	) : (
 <Tag class:list={['cb__tile', { 'is-static': !(linked && t.href) }]} href={linked && t.href ? t.href : undefined}>
 	<span class="cb__tile-img">
 		{
@@ -31,3 +48,5 @@ const Tag = linked && t.href ? 'a' : 'div';
 		)
 	}
 </Tag>
+	)
+}
