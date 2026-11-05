@@ -2,13 +2,37 @@
 import Base from '../../layouts/Base.astro';
 import ScanToSmile from '../../components/ScanToSmile.astro';
 import PrototypeEmbed from '../../components/PrototypeEmbed.astro';
+import FlowRow from '../../components/FlowRow.astro';
 
-// Placeholder copy is marked clearly. Replace it as the case study gets written.
+// Everything marked "Placeholder" is yours to fill in. Only add verified numbers and real quotes.
+
+const blueSky = [
+	{ t: 'Prep in DDE', d: 'Scan prep happens inside the editor instead of a separate tool.' },
+	{ t: 'Automated prep', d: 'The editor does the repetitive prep work and the designer reviews it.' },
+	{ t: 'ML-generated crowns', d: 'Designers start from a generated crown instead of a blank slate.' },
+	{ t: 'Better UI, IA, and tools', d: 'A clearer layout and the right tools at each stage of the work.' },
+	{ t: 'One DDE for every case', d: 'Simple and complex cases both fit in the same workspace.' },
+];
+
+// Status values are placeholders until you confirm them: shipped | in-progress | next | confirm
+const stages = [
+	{ n: 1, t: 'Create the design system', d: 'Built in Storybook, on production code, so every later change could ship faster and look consistent.', status: 'shipped', href: '/work/dandy-design-system' },
+	{ n: 2, t: 'Start with simple cases', d: 'Posterior crowns first, in a fixed DDE, to learn in production before tackling harder cases.', status: 'confirm' },
+	{ n: 3, t: 'Introduce IA changes', d: 'Reorganize the workspace around how designers actually move through a case.', status: 'confirm' },
+	{ n: 4, t: 'ML-generated crowns', d: 'Give designers a generated starting point for the restoration.', status: 'confirm' },
+	{ n: 5, t: 'Automated prep', d: 'Automate the repetitive prep steps, with the designer in control.', status: 'confirm' },
+];
+const statusLabel: Record<string, string> = {
+	shipped: 'In production',
+	'in-progress': 'In progress',
+	next: 'Up next',
+	confirm: 'Status to confirm',
+};
 ---
 
 <Base
 	title="Dandy Design Editor"
-	description="The 3D design software where Dandy's dental designers prepare cases and design restorations. A work in progress."
+	description="How Dandy's 3D design software for dental designers is being rebuilt in stages, from a fragmented tool to a blue sky vision."
 >
 	<article class="ds">
 		<div class="shell">
@@ -16,10 +40,10 @@ import PrototypeEmbed from '../../components/PrototypeEmbed.astro';
 
 			<header class="ds__head">
 				<p class="eyebrow">Dandy · Design Editor · In progress</p>
-				<h1>The workspace where dental designers design restorations.</h1>
+				<h1>Rebuilding the workspace where dental designers design restorations.</h1>
 				<p class="ds__lede">
-					The Dandy Design Editor (DDE) is where a dental designer receives a case, prepares the scan, and designs the
-					restoration. I'm the sole product designer on it.
+					The Dandy Design Editor (DDE) is where a dental designer prepares a case and designs the restoration. I'm the sole
+					product designer on it. This is the blue sky version, and the staged plan for getting it into production.
 				</p>
 				<dl class="hub-meta">
 					<div><dt>Role</dt><dd>Sole product designer</dd></div>
@@ -28,55 +52,170 @@ import PrototypeEmbed from '../../components/PrototypeEmbed.astro';
 				</dl>
 			</header>
 
-			<ScanToSmile compact project="dde" />
+			<section class="dd-fit" aria-labelledby="fit-heading">
+				<p class="eyebrow">The bigger picture</p>
+				<h2 id="fit-heading" class="h2">Where DDE fits.</h2>
+				<p class="dd-lede">
+					A restoration travels from the patient's chair, through digital design and manufacturing, and back. DDE is the designer's
+					step.
+				</p>
+				<ScanToSmile project="dde" />
+			</section>
 
-			<section class="dz-ch" id="problem">
+			<section class="dz-ch" id="before">
 				<div class="dz-ch__head">
 					<span class="dz-ch__no">01</span>
 					<div>
-						<p class="dz-ch__k">The problem</p>
-						<h2>Placeholder: what wasn't working.</h2>
+						<p class="dz-ch__k">Before</p>
+						<h2>Fragmented, outdated, and no design system.</h2>
 					</div>
 				</div>
-				<p class="pe__todo">Placeholder. Write what designers struggled with before, who was affected, and how you found out.</p>
+				<p class="dd-lede">
+					Placeholder. Describe what DDE looked and felt like: the fragmented screens, the old UI, and why designers often used
+					3Shape or Exocad instead.
+				</p>
+				<h3 class="dd-sub">The flow inside DDE before</h3>
+				<FlowRow
+					label="The preexisting flow inside DDE"
+					handoff="handoff"
+					steps={[
+						{ title: 'Prep in the browser', chip: 'Prep tool', label: 'Prep screenshot', hint: 'Screenshot of the old browser prep tool' },
+						{ title: 'Designer designs', chip: 'DDE', label: 'Old DDE', hint: 'Screenshot of the old DDE' },
+						{ title: 'QA review', chip: 'QA', label: 'QA step', hint: 'Screenshot or sketch of QA' },
+						{ title: 'Manufacturing', chip: 'Manufacturing', label: 'Manufacturing', hint: 'Handoff to manufacturing' },
+					]}
+					caption="Four steps and three handoffs before a case reached manufacturing."
+				/>
+				<div class="dd-grid">
+					<div class="dd-ph"><b>Screenshots of the old DDE</b><small>Annotate the problems</small></div>
+					<div class="dd-ph"><b>Designer frustrations</b><small>2 or 3 real quotes, with role</small></div>
+					<div class="dd-ph"><b>Satisfaction scores</b><small>Real survey results, with sample size</small></div>
+					<div class="dd-ph"><b>Usage of 3Shape or Exocad vs DDE</b><small>Real usage metrics</small></div>
+				</div>
 			</section>
 
-			<section class="dz-ch" id="prototype">
+			<section class="dz-ch" id="research">
 				<div class="dz-ch__head">
 					<span class="dz-ch__no">02</span>
 					<div>
-						<p class="dz-ch__k">The prototype</p>
-						<h2>Try the designer flow.</h2>
+						<p class="dz-ch__k">Research and decisions</p>
+						<h2>How I got to the vision.</h2>
 					</div>
 				</div>
-				<PrototypeEmbed
-					src="/prototypes/dde/index.html"
-					title="Designer flow, Design Editor"
-					status="In progress"
-					caption="An early, unfinished prototype of the designer flow, from the case queue to submitting a design. It uses sample scans and fictional case data."
-				/>
+				<p class="dd-lede">
+					Placeholder. Show the research that shaped it (shadowing designers, workflow mapping, stakeholder calls) and the design
+					decisions that led to the blue sky version.
+				</p>
+				<div class="dd-grid dd-grid--2">
+					<div class="dd-ph"><b>Research</b><small>Methods, who you talked to, what you learned</small></div>
+					<div class="dd-ph"><b>Key design decisions</b><small>Three or four, each with the tradeoff</small></div>
+				</div>
 			</section>
 
-			<section class="dz-ch" id="decisions">
+			<section class="dz-ch" id="blue-sky">
 				<div class="dz-ch__head">
 					<span class="dz-ch__no">03</span>
 					<div>
-						<p class="dz-ch__k">Design decisions</p>
-						<h2>Placeholder: the key choices.</h2>
+						<p class="dz-ch__k">The blue sky <span class="dd-tag dd-tag--concept">Concept, not in production</span></p>
+						<h2>What it could be.</h2>
 					</div>
 				</div>
-				<p class="pe__todo">Placeholder. Three or four decisions, each with the tradeoff and what you chose.</p>
+				<p class="dd-lede">
+					A reimagined designer experience, built as an interactive prototype. It's a concept, so it shows direction rather than
+					what's live today.
+				</p>
+				<PrototypeEmbed
+					src="/prototypes/dde/index.html"
+					title="Designer flow, blue sky prototype"
+					status="Concept · in progress"
+					caption="An early, unfinished prototype of the designer flow, from the case queue to submitting a design. It uses sample scans and fictional case data."
+				/>
+				<ul class="dd-sky">
+					{
+						blueSky.map((b) => (
+							<li>
+								<h3>{b.t}</h3>
+								<p>{b.d}</p>
+							</li>
+						))
+					}
+				</ul>
+				<div class="dd-grid dd-grid--2">
+					<div class="dd-ph"><b>Feedback from designers who tried it</b><small>Real quotes only, with how many people</small></div>
+					<div class="dd-ph"><b>Concept satisfaction</b><small>Real scores from a walkthrough, labeled as a concept test</small></div>
+				</div>
 			</section>
 
-			<section class="dz-ch" id="impact">
+			<section class="dz-ch" id="why-stages">
 				<div class="dz-ch__head">
 					<span class="dz-ch__no">04</span>
 					<div>
-						<p class="dz-ch__k">Impact</p>
-						<h2>Placeholder: what changed.</h2>
+						<p class="dz-ch__k">Reality check</p>
+						<h2>You can't go from zero to a hundred in a day.</h2>
 					</div>
 				</div>
-				<p class="pe__todo">Placeholder. Add verified results only.</p>
+				<p class="dd-lede">
+					Placeholder. Explain the technical challenges, such as backend architecture, the 3D pipeline, and how long it takes to
+					change them, and why shipping it all at once wasn't an option.
+				</p>
+				<div class="dd-grid">
+					<div class="dd-ph"><b>Challenge 1</b><small>For example, backend architecture</small></div>
+					<div class="dd-ph"><b>Challenge 2</b><small>What it blocks</small></div>
+					<div class="dd-ph"><b>Challenge 3</b><small>What it blocks</small></div>
+				</div>
+			</section>
+
+			<section class="dz-ch" id="stages">
+				<div class="dz-ch__head">
+					<span class="dz-ch__no">05</span>
+					<div>
+						<p class="dz-ch__k">Getting there <span class="dd-tag dd-tag--prod">How it's released</span></p>
+						<h2>Breaking the vision into stages.</h2>
+					</div>
+				</div>
+				<p class="dd-lede">
+					Placeholder framing. Each stage ships on its own, so the team learns in production and every step stands on the one
+					before it.
+				</p>
+				<ol class="rm">
+					{
+						stages.map((s) => (
+							<li class={`rm__step rm__step--${s.status}`}>
+								<span class="rm__n">{s.n}</span>
+								<div class="rm__body">
+									<h3>{s.t}</h3>
+									<p>{s.d}</p>
+									<p class="rm__meta">
+										<span class="rm__status">{statusLabel[s.status]}</span>
+										{s.href && <a href={s.href}>Read the case study →</a>}
+									</p>
+									<div class="dd-grid dd-grid--2 dd-grid--tight">
+										<div class="dd-ph dd-ph--sm"><b>Screenshot</b></div>
+										<div class="dd-ph dd-ph--sm"><b>Result for this stage</b></div>
+									</div>
+								</div>
+							</li>
+						))
+					}
+				</ol>
+			</section>
+
+			<section class="dz-ch" id="results">
+				<div class="dz-ch__head">
+					<span class="dz-ch__no">06</span>
+					<div>
+						<p class="dz-ch__k">Results today <span class="dd-tag dd-tag--prod">In production</span></p>
+						<h2>What shipped, and what it changed.</h2>
+					</div>
+				</div>
+				<p class="dd-lede">
+					Placeholder. Only verified production metrics belong here, each with how it was measured.
+				</p>
+				<div class="dd-grid">
+					<div class="dd-ph"><b>Metric 1</b><small>Value, label, how measured</small></div>
+					<div class="dd-ph"><b>Metric 2</b><small>Value, label, how measured</small></div>
+					<div class="dd-ph"><b>Metric 3</b><small>Value, label, how measured</small></div>
+				</div>
 			</section>
 
 			<footer class="ds__foot">

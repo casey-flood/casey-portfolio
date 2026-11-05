@@ -11605,3 +11605,326 @@ a.cb__tile:hover .cb__tile-img img {
 		transition: none;
 	}
 }
+
+/* DDE case study pieces */
+.dd-lede {
+	max-width: 46rem;
+	margin: 0 0 1.5rem;
+	color: var(--muted);
+	font-size: 1.05rem;
+	line-height: 1.6;
+}
+
+.dd-grid {
+	display: grid;
+	gap: 1rem;
+	grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+	margin: 1.25rem 0 0;
+}
+
+.dd-grid--2 {
+	grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+}
+
+.dd-grid--tight {
+	margin-top: 0.8rem;
+}
+
+.dd-ph {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	gap: 0.25rem;
+	min-height: 9rem;
+	padding: 1rem 1.1rem;
+	border: 1.5px dashed var(--line-strong);
+	border-radius: 0.9rem;
+	color: var(--muted);
+}
+
+.dd-ph b {
+	color: var(--ink);
+	font-size: 0.95rem;
+}
+
+.dd-ph small {
+	font-size: 0.82rem;
+	line-height: 1.4;
+}
+
+.dd-ph--sm {
+	min-height: 5rem;
+}
+
+.dd-tag {
+	display: inline-block;
+	margin-left: 0.5rem;
+	padding: 0.1rem 0.6rem;
+	border-radius: 999px;
+	font-family: var(--sans, inherit);
+	font-size: 0.72rem;
+	font-weight: 600;
+	letter-spacing: 0;
+	text-transform: none;
+	vertical-align: middle;
+}
+
+.dd-tag--concept {
+	background: #ece6ff;
+	color: #4d33b8;
+}
+
+.dd-tag--prod {
+	background: #d6f5e6;
+	color: #0b6b45;
+}
+
+[data-theme='dark'] .dd-tag--concept {
+	background: #2d2557;
+	color: #cfc3ff;
+}
+
+[data-theme='dark'] .dd-tag--prod {
+	background: #123d2c;
+	color: #9fe8c5;
+}
+
+.dd-sky {
+	display: grid;
+	gap: 0.75rem;
+	grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+	margin: 1.5rem 0 0;
+	padding: 0;
+	list-style: none;
+}
+
+.dd-sky li {
+	padding: 1rem 1.1rem;
+	background: var(--paper);
+	border: 1.5px solid var(--line);
+	border-radius: 0.9rem;
+}
+
+.dd-sky h3 {
+	margin: 0 0 0.3rem;
+	font-size: 1.05rem;
+}
+
+.dd-sky p {
+	margin: 0;
+	color: var(--muted);
+	font-size: 0.9rem;
+}
+
+/* staged release */
+.rm {
+	position: relative;
+	display: grid;
+	gap: 1.5rem;
+	margin: 1.5rem 0 0;
+	padding: 0;
+	list-style: none;
+}
+
+.rm::before {
+	content: '';
+	position: absolute;
+	left: 1.15rem;
+	top: 1.2rem;
+	bottom: 1.2rem;
+	width: 2px;
+	background: var(--line-strong);
+}
+
+.rm__step {
+	position: relative;
+	display: grid;
+	grid-template-columns: 2.4rem 1fr;
+	gap: 1rem;
+}
+
+.rm__n {
+	position: relative;
+	z-index: 1;
+	display: grid;
+	place-items: center;
+	width: 2.4rem;
+	height: 2.4rem;
+	border: 2px solid var(--ink);
+	border-radius: 50%;
+	background: var(--bg);
+	font-family: var(--mono);
+	font-size: 0.85rem;
+}
+
+.rm__step--shipped .rm__n {
+	background: #14906b;
+	border-color: #14906b;
+	color: #fff;
+}
+
+.rm__body h3 {
+	margin: 0.2rem 0 0.3rem;
+	font-size: 1.25rem;
+}
+
+.rm__body p {
+	margin: 0 0 0.5rem;
+	max-width: 44rem;
+}
+
+.rm__meta {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 0.4rem 1rem;
+	font-size: 0.85rem;
+}
+
+.rm__status {
+	padding: 0.1rem 0.65rem;
+	border-radius: 999px;
+	background: var(--line);
+	color: var(--muted);
+	font-weight: 600;
+}
+
+.rm__step--shipped .rm__status {
+	background: #d6f5e6;
+	color: #0b6b45;
+}
+
+.rm__meta a {
+	color: var(--accent);
+	font-weight: 600;
+}
+
+/* ===== journey tweaks: link list, static cards, handoff flow, hub card dots ===== */
+@media (min-width: 720px) {
+	.s2s__flow {
+		grid-template-columns: repeat(var(--cols, 6), minmax(0, 1fr));
+	}
+}
+
+.s2s__links {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.4rem 1.2rem;
+	margin: 1rem 0 0;
+	padding: 0;
+	list-style: none;
+}
+
+.s2s__links a {
+	color: var(--accent);
+	font-weight: 600;
+	text-decoration: none;
+}
+
+.s2s__links a:hover {
+	text-decoration: underline;
+}
+
+.s2s__card--static {
+	cursor: default;
+}
+
+.s2s__card--static:hover {
+	transform: none;
+	border-color: var(--line);
+	box-shadow: var(--shadow);
+}
+
+.s2s__link--handoff {
+	color: #c2551a;
+	height: 0;
+}
+
+.s2s__link--handoff::before {
+	height: 2px;
+	top: 0.5px;
+	background: repeating-linear-gradient(90deg, currentColor 0 4px, transparent 4px 8px);
+	background-size: 8px 2px;
+}
+
+.s2s__link--handoff em {
+	position: absolute;
+	left: 50%;
+	bottom: 0.5rem;
+	display: block;
+	transform: translateX(-50%);
+	padding: 0.05rem 0.45rem;
+	border-radius: 999px;
+	background: #fde7da;
+	color: #8a3a0e;
+	font-size: 0.68rem;
+	font-style: normal;
+	font-weight: 600;
+	white-space: nowrap;
+}
+
+[data-theme='dark'] .s2s__link--handoff em {
+	background: #4a2412;
+	color: #ffc7a8;
+}
+
+.s2s--row .s2s__legend--row {
+	margin-top: 1.1rem;
+	color: var(--ink);
+	font-size: 0.95rem;
+}
+
+@media (max-width: 719px) {
+	.s2s--row .s2s__link--handoff {
+		height: 1.6rem;
+	}
+
+	.s2s--row .s2s__link--handoff::before {
+		width: 2px;
+		height: auto;
+		inset: 0 auto 0 0.5px;
+		background: repeating-linear-gradient(180deg, currentColor 0 4px, transparent 4px 8px);
+		background-size: 2px 8px;
+	}
+
+	.s2s--row .s2s__link--handoff em {
+		left: 0.9rem;
+		bottom: auto;
+		top: 50%;
+		transform: translateY(-50%);
+	}
+
+	.s2s__step > .s2s__panel {
+		margin-top: 0.6rem;
+	}
+}
+
+.hub-card__dots {
+	display: flex;
+	gap: 0.3rem;
+	margin-top: 0.25rem;
+}
+
+.hub-card__dots i {
+	width: 0.55rem;
+	height: 0.55rem;
+	border-radius: 50%;
+	background: var(--line-strong);
+	opacity: 0.45;
+}
+
+.hub-card__dots i.on {
+	background: var(--accent);
+	opacity: 1;
+}
+
+.dd-fit {
+	margin-top: 2.5rem;
+}
+
+.dd-sub {
+	margin: 2rem 0 0.5rem;
+	font-size: 1.1rem;
+	color: var(--muted);
+	font-weight: 600;
+}

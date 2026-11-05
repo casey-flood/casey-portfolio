@@ -3,17 +3,17 @@ import { stages, projects, actors, intro, optionalLoop, type ProjectId } from '.
 import { stageImages } from '../data/scan-to-smile-images';
 
 interface Props {
-	project?: ProjectId | null;
-	compact?: boolean; // small "where this fits" strip for case studies
-	controls?: boolean; // project switcher (used on the hub)
+	project?: ProjectId | null; // highlight a project's steps and dim the rest
+	compact?: boolean; // small "where this fits" strip
+	controls?: boolean; // project switcher buttons (off by default)
+	listen?: boolean; // react to project cards elsewhere on the page (hover or tap)
 	hubHref?: string;
 }
-const { project = null, compact = false, controls = false, hubHref = '/work/dandy' } = Astro.props;
+const { project = null, compact = false, controls = false, listen = false, hubHref = '/work/dandy' } = Astro.props;
 const uid = `s2s-${Math.random().toString(36).slice(2, 8)}`;
 const proj = project ? projects[project] : null;
 const hl = proj?.stages ?? [];
 const near = proj?.near ?? [];
-const rowLabels = ['Actor', 'Software', 'What travels onward', 'Handoff', 'Where my work intervened'];
 ---
 
 {
@@ -33,7 +33,7 @@ const rowLabels = ['Actor', 'Software', 'What travels onward', 'Handoff', 'Where
 			</p>
 		</aside>
 	) : (
-		<div class="s2s" data-s2s data-listen={controls ? '' : undefined} data-hl={hl.join(',')} data-near={near.join(',')}>
+		<div class="s2s" data-s2s data-listen={listen || controls ? '' : undefined} data-hl={hl.join(',')} data-near={near.join(',')}>
 			{
 				controls && (
 					<div class="s2s__ctl" role="group" aria-label="Highlight a project">
@@ -95,43 +95,6 @@ const rowLabels = ['Actor', 'Software', 'What travels onward', 'Handoff', 'Where
 			<div class="s2s__panel" id={`${uid}-panel`} role="region" aria-live="polite" aria-label="Step details" hidden></div>
 			<p class="s2s__hint" data-hint>{proj ? proj.blurb : 'Select a step to see who does what.'}</p>
 
-			<button type="button" class="s2s__bp-btn" aria-expanded="false" aria-controls={`${uid}-bp`}>See the blueprint</button>
-			<div class="s2s__bp" id={`${uid}-bp`} hidden>
-				<div class="s2s__bp-scroll">
-					<table>
-						<caption class="sr-only">Service blueprint: who, what software, and what travels at each step</caption>
-						<thead>
-							<tr>
-								<th scope="col"><span class="sr-only">Row</span></th>
-								{stages.map((s) => <th scope="col">{s.n}. {s.title}</th>)}
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<th scope="row">{rowLabels[0]}</th>
-								{stages.map((s) => <td>{s.actorLabel ?? actors[s.actor].label}</td>)}
-							</tr>
-							<tr>
-								<th scope="row">{rowLabels[1]}</th>
-								{stages.map((s) => <td class:list={{ none: !s.software }}>{s.software ?? 'None'}</td>)}
-							</tr>
-							<tr>
-								<th scope="row">{rowLabels[2]}</th>
-								{stages.map((s) => <td>{s.travels}</td>)}
-							</tr>
-							<tr>
-								<th scope="row">{rowLabels[3]}</th>
-								{stages.map((s) => <td>{s.handoff}</td>)}
-							</tr>
-							<tr>
-								<th scope="row">{rowLabels[4]}</th>
-								{stages.map((s) => <td class:list={{ val: !s.intervened }}>{s.intervened ?? 'To validate'}</td>)}
-							</tr>
-						</tbody>
-					</table>
-				</div>
-			</div>
-
 			<script type="application/json" data-s2s-json set:html={JSON.stringify({ stages, actors, projects })} />
 		</div>
 	)
@@ -139,12 +102,17 @@ const rowLabels = ['Actor', 'Software', 'What travels onward', 'Handoff', 'Where
 
 <script>
 	const roots = document.querySelectorAll<HTMLElement>('[data-s2s]');
+	const isMobile = () => window.matchMedia('(max-width: 719px)').matches;
+
 	roots.forEach((root) => {
 		const data = JSON.parse(root.querySelector('[data-s2s-json]')!.textContent!);
+		const flow = root.querySelector<HTMLElement>('.s2s__flow')!;
 		const steps = Array.from(root.querySelectorAll<HTMLElement>('.s2s__step'));
 		const panel = root.querySelector<HTMLElement>('.s2s__panel')!;
 		const hint = root.querySelector<HTMLElement>('[data-hint]')!;
-		const defaultHint = 'Select a step to see who does what.';
+		const defaultHint = hint.textContent ?? '';
+		const startHl = root.dataset.hl ?? '';
+		const startNear = root.dataset.near ?? '';
 		let open = 0;
 
 		const nums = (s?: string | null) => (s ? s.split(',').filter(Boolean).map(Number) : []);
@@ -156,8 +124,14 @@ const rowLabels = ['Actor', 'Software', 'What travels onward', 'Handoff', 'Where
 				el.classList.toggle('is-near', near.includes(n));
 			});
 		};
-		setHl(nums(root.dataset.hl), nums(root.dataset.near));
+		setHl(nums(startHl), nums(startNear));
 
+		const placePanel = (n: number) => {
+			const li = steps.find((el) => Number(el.dataset.stage) === n)!;
+			// On phones the details open right under the tapped step; on larger screens they sit below the whole flow.
+			if (isMobile()) li.append(panel);
+			else root.querySelector('.s2s__legend')!.after(panel);
+		};
 		const close = () => {
 			open = 0;
 			panel.hidden = true;
@@ -186,32 +160,39 @@ const rowLabels = ['Actor', 'Software', 'What travels onward', 'Handoff', 'Where
 			add('Travels onward', s.travels);
 			add('Handoff', s.handoff);
 			panel.append(h, p, dl);
+			if (s.links?.length) {
+				const ul = document.createElement('ul');
+				ul.className = 's2s__links';
+				for (const l of s.links) {
+					const li = document.createElement('li');
+					const link = document.createElement('a');
+					link.href = l.href;
+					link.target = '_blank';
+					link.rel = 'noopener';
+					link.textContent = `${l.label} ↗`;
+					li.append(link);
+					ul.append(li);
+				}
+				panel.append(ul);
+			}
 			if (s.validate) {
 				const v = document.createElement('p');
 				v.className = 's2s__validate';
 				v.textContent = `To validate: ${s.validate}`;
 				panel.append(v);
 			}
+			placePanel(n);
 			panel.hidden = false;
 			steps.forEach((el) =>
 				el.querySelector('.s2s__card')!.setAttribute('aria-expanded', String(Number(el.dataset.stage) === n)),
 			);
+			if (isMobile()) panel.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
 		};
 		root.querySelectorAll<HTMLButtonElement>('.s2s__card').forEach((b) =>
 			b.addEventListener('click', () => show(Number(b.dataset.stage))),
 		);
 
-		// blueprint toggle
-		const bpBtn = root.querySelector<HTMLButtonElement>('.s2s__bp-btn')!;
-		const bp = root.querySelector<HTMLElement>('.s2s__bp')!;
-		bpBtn.addEventListener('click', () => {
-			const o = bp.hidden;
-			bp.hidden = !o;
-			bpBtn.setAttribute('aria-expanded', String(o));
-			bpBtn.textContent = o ? 'Hide the blueprint' : 'See the blueprint';
-		});
-
-		// project switcher + external highlight events (hub cards)
+		// optional project switcher
 		const ctl = root.querySelectorAll<HTMLButtonElement>('.s2s__ctl button');
 		const activate = (btn: HTMLButtonElement) => {
 			ctl.forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
@@ -219,6 +200,8 @@ const rowLabels = ['Actor', 'Software', 'What travels onward', 'Handoff', 'Where
 			hint.textContent = btn.dataset.blurb ?? defaultHint;
 		};
 		ctl.forEach((b) => b.addEventListener('click', () => activate(b)));
+
+		// project cards elsewhere on the page light up the steps they affect
 		if (root.hasAttribute('data-listen')) {
 			window.addEventListener('s2s:highlight', (e) => {
 				const d = (e as CustomEvent).detail as { stages: number[] };
@@ -226,8 +209,8 @@ const rowLabels = ['Actor', 'Software', 'What travels onward', 'Handoff', 'Where
 				setHl(d.stages, []);
 			});
 			window.addEventListener('s2s:reset', () => {
-				const first = ctl[0];
-				if (first) activate(first);
+				if (ctl[0]) activate(ctl[0]);
+				else setHl(nums(startHl), nums(startNear));
 			});
 		}
 	});

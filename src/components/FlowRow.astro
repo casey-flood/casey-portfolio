@@ -1,0 +1,50 @@
+---
+// A simple row of cards with handoffs between them. Used for before/after flows inside a case study.
+interface Step {
+	title: string;
+	chip: string;
+	label: string; // placeholder title when there is no image
+	hint: string; // what to put there
+	src?: string;
+	alt?: string;
+}
+interface Props {
+	steps: Step[];
+	handoff?: string; // label on each connector
+	caption?: string;
+	label?: string; // accessible name
+}
+const { steps, handoff = 'handoff', caption, label = 'Flow' } = Astro.props;
+---
+
+<div class="s2s s2s--row" style={`--cols:${steps.length}; --s2s-gap:3.2rem`}>
+	<ol class="s2s__flow" aria-label={label}>
+		{
+			steps.map((s, i) => (
+				<li class="s2s__step" style={`--o:${(i + 1) * 2}`}>
+					<div class="s2s__card s2s__card--static">
+						<span class="s2s__img">
+							{s.src ? (
+								<img src={s.src} alt={s.alt ?? ''} width="400" height="300" loading="lazy" decoding="async" />
+							) : (
+								<span class="s2s__ph" role="img" aria-label={`Placeholder: ${s.hint}`}>
+									<b>{s.label}</b>
+									<small>{s.hint}</small>
+								</span>
+							)}
+							<span class="s2s__no">{i + 1}</span>
+						</span>
+						<span class="s2s__t">{s.title}</span>
+						<span class="s2s__chip">{s.chip}</span>
+					</div>
+					{i < steps.length - 1 && (
+						<span class="s2s__link s2s__link--handoff" aria-hidden="true">
+							<em>{handoff}</em>
+						</span>
+					)}
+				</li>
+			))
+		}
+	</ol>
+	{caption && <p class="s2s__legend s2s__legend--row">{caption}</p>}
+</div>

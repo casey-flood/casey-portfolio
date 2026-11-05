@@ -25,6 +25,7 @@ export interface Stage {
 	mode: 'human' | 'digital' | 'physical'; // how the case reaches the NEXT step
 	intervened?: string; // where Casey's design work sits
 	validate?: string; // anything on this stage that still needs confirming
+	links?: { label: string; href: string }[]; // learn-more links (open in a new tab)
 }
 
 export const stages: Stage[] = [
@@ -49,6 +50,7 @@ export const stages: Stage[] = [
 		travels: '3D scan',
 		handoff: 'Same dentist, same software',
 		mode: 'digital',
+		links: [{ label: 'Dandy Vision scanner', href: 'https://www.meetdandy.com/technology/intraoral-scanner/' }],
 	},
 	{
 		n: 3,
@@ -85,6 +87,10 @@ export const stages: Stage[] = [
 		handoff: 'Manufacturing to dentist, shipped',
 		mode: 'physical',
 		validate: 'Specific systems and methods per product',
+		links: [
+			{ label: 'Dandy labs: crown and bridge', href: 'https://www.meetdandy.com/labs/crown-and-bridge/' },
+			{ label: 'Dandy labs', href: 'https://www.meetdandy.com/labs-gp/' },
+		],
 	},
 	{
 		n: 6,
@@ -98,6 +104,7 @@ export const stages: Stage[] = [
 		handoff: 'Dentist to patient, in the chair',
 		mode: 'human',
 		intervened: 'Goldilocks outcome',
+		links: [{ label: 'How practices use Dandy', href: 'https://www.meetdandy.com/case-studies/' }],
 	},
 ];
 

@@ -93,7 +93,7 @@ const systems: Card[] = [
 				Before diving into the projects, here's how a dental restoration moves from the dentist's chair,
 				through digital design and manufacturing, and back to the patient.
 			</p>
-			<ScanToSmile controls />
+			<ScanToSmile listen />
 		</div>
 	</section>
 
@@ -111,6 +111,11 @@ const systems: Card[] = [
 									<span class="hub-card__k">{c.k}</span>
 									<h3>{c.title}</h3>
 									<p>{c.body}</p>
+								{c.stages.length > 0 && (
+									<span class="hub-card__dots" role="img" aria-label={`Affects steps ${c.stages.join(' and ')}`}>
+										{[1, 2, 3, 4, 5, 6].map((n) => <i class:list={{ on: c.stages.includes(n) }} />)}
+									</span>
+								)}
 									<span class="hub-card__foot">{c.foot}</span>
 								</a>
 							) : (
@@ -118,6 +123,11 @@ const systems: Card[] = [
 									<span class="hub-card__k">{c.k}</span>
 									<h3>{c.title}</h3>
 									<p>{c.body}</p>
+								{c.stages.length > 0 && (
+									<span class="hub-card__dots" role="img" aria-label={`Affects steps ${c.stages.join(' and ')}`}>
+										{[1, 2, 3, 4, 5, 6].map((n) => <i class:list={{ on: c.stages.includes(n) }} />)}
+									</span>
+								)}
 									<span class="hub-card__foot">{c.foot}</span>
 								</div>
 							)}
@@ -134,6 +144,11 @@ const systems: Card[] = [
 								<span class="hub-card__k">{c.k}</span>
 								<h3>{c.title}</h3>
 								<p>{c.body}</p>
+								{c.stages.length > 0 && (
+									<span class="hub-card__dots" role="img" aria-label={`Affects steps ${c.stages.join(' and ')}`}>
+										{[1, 2, 3, 4, 5, 6].map((n) => <i class:list={{ on: c.stages.includes(n) }} />)}
+									</span>
+								)}
 								<span class="hub-card__foot">{c.foot}</span>
 							</a>
 						</li>
@@ -155,6 +170,7 @@ const systems: Card[] = [
 	cards.forEach((c) => {
 		c.addEventListener('mouseenter', () => send(c));
 		c.addEventListener('focus', () => send(c));
+		c.addEventListener('click', () => send(c));
 		c.addEventListener('mouseleave', () => window.dispatchEvent(new Event('s2s:reset')));
 		c.addEventListener('blur', () => window.dispatchEvent(new Event('s2s:reset')));
 	});
