@@ -1,0 +1,26 @@
+---
+import Base from '../../layouts/Base.astro';
+import CompanyBanner from '../../components/CompanyBanner.astro';
+import { companies } from '../../data/companies';
+const company = companies.find((c) => c.id === 'earlier')!;
+---
+
+<Base
+	title="Earlier and independent work"
+	description="A first startup job, design school, and independent projects."
+>
+	<section class="page-intro">
+		<div class="shell">
+			<a class="back" href="/work">← All work</a>
+			<p class="eyebrow eyebrow--sky">Work · Earlier and independent</p>
+			<h1>Earlier and independent work</h1>
+			<p class="lede">A first startup job, design school, and independent projects.</p>
+		</div>
+	</section>
+
+	<section class="section" style="padding-top: 1.5rem" aria-label="Overview">
+		<div class="shell">
+			<CompanyBanner company={company} mode="hub" />
+		</div>
+	</section>
+</Base>

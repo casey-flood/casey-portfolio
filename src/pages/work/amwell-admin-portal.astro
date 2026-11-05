@@ -1,0 +1,629 @@
+---
+import Base from '../../layouts/Base.astro';
+
+const title = 'Amwell Admin Portal';
+const outcome =
+	'Leadership asked to "make it faster." The real problem was navigation and access across three kinds of admins. I redesigned the architecture, and task completion rose from 45% to 82%.';
+
+const metrics = [
+	{ value: '45% → 82%', label: 'Task completion rate' },
+	{ value: '30%', label: 'Faster admin onboarding' },
+	{ value: '34%', label: 'Fewer configuration errors' },
+	{ value: '25%', label: 'Faster client implementations' },
+	{ value: '8', label: 'Internal teams on one vocabulary' },
+];
+
+const chapters = [
+	['context', 'Context'],
+	['people', 'Who uses it'],
+	['discovery', 'Discovery'],
+	['options', 'Options'],
+	['build', 'How it works'],
+	['feedback', 'Feedback loop'],
+	['final', 'Final designs'],
+	['impact', 'Impact'],
+];
+
+const roles = [
+	{
+		name: 'Implementation Manager',
+		side: 'Internal',
+		desc: 'Builds and configures client instances.',
+		points: [
+			'Works across multiple clients and tenants',
+			'Deep technical knowledge of the entire platform',
+			'Needs access to all configuration options',
+			'Teaches clients how to use the platform',
+			'Must understand the impact of a configuration across the system',
+		],
+	},
+	{
+		name: 'NOC Specialist',
+		side: 'Internal',
+		desc: 'Provides platform-wide support.',
+		points: [
+			'Works across multiple clients and tenants',
+			'Troubleshoots all aspects of the system',
+			'Needs broad access to diagnose issues',
+			'Acts as technical liaison between all parties',
+			'Understands the whole platform architecture',
+		],
+	},
+	{
+		name: 'Health System Admin',
+		side: 'External',
+		desc: 'Manages one organization, such as CVS Health.',
+		points: [
+			'Manages a single tenant',
+			'Configures specific service lines',
+			'Focused on their own provider network',
+			'Limited to their organization\'s settings',
+			'Cares about their patient experience',
+		],
+	},
+	{
+		name: 'Client IT Team',
+		side: 'External',
+		desc: 'Keeps Amwell connected to the client\'s existing IT systems.',
+		points: [
+			'Ensures seamless integration with existing systems',
+			'Works within their own organization\'s boundaries',
+			'Depends on clear, predictable configuration',
+		],
+	},
+];
+
+const tiers = {
+	'Amwell Super Admin': {
+		who: 'Sr. Implementation Manager, Technical Services Manager, NOC Agent',
+		scope: 'Multiple organizations',
+		rows: [
+			['Tenant creation & management', 'Yes', 'full'],
+			['Service line creation & editing', 'Global', 'full'],
+			['User role management', 'All tenants', 'full'],
+			['Branding & customization', 'Global', 'full'],
+			['System-wide configuration', 'Yes', 'full'],
+			['Reporting & analytics', 'Enterprise', 'full'],
+			['Audit logs', 'Yes', 'full'],
+			['Troubleshoot & support', 'Yes', 'full'],
+		],
+	},
+	'Tenant Super Admin': {
+		who: 'Chief Digital Officer, IT Director, Telehealth Program Director',
+		scope: 'One organization',
+		rows: [
+			['Tenant creation & management', 'No', 'none'],
+			['Service line creation & editing', 'Org-level', 'full'],
+			['User role management', 'Org-level', 'full'],
+			['Branding & customization', 'Org-specific', 'full'],
+			['System-wide configuration', 'No', 'none'],
+			['Reporting & analytics', 'Org-level', 'full'],
+			['Audit logs', 'Org-specific', 'full'],
+			['Troubleshoot & support', 'Yes', 'full'],
+		],
+	},
+	'Tenant Basic Admin': {
+		who: 'Department Manager, Service Line Director',
+		scope: 'One department',
+		rows: [
+			['Tenant creation & management', 'No', 'none'],
+			['Service line creation & editing', 'Dept-level', 'full'],
+			['User role management', 'No', 'none'],
+			['Branding & customization', 'No', 'none'],
+			['System-wide configuration', 'No', 'none'],
+			['Reporting & analytics', 'View only', 'limited'],
+			['Audit logs', 'No', 'none'],
+			['Troubleshoot & support', 'Limited', 'limited'],
+		],
+	},
+};
+
+const personas = [
+	{
+		who: 'Amwell Super Admin',
+		role: 'Implementation Manager',
+		story: 'Logs in with full system access across multiple tenants, then drills into one client.',
+		features: [
+			['Global nav', 'Cross-tenant access for the Amwell super admin.'],
+			['Tenant list', 'Search for tenants and add a new one.'],
+			['Global search', 'Find other tenants even while inside one tenant\'s instance.'],
+			['Breadcrumbs', 'Always know the hierarchy and where you came from.'],
+		],
+	},
+	{
+		who: 'Client Super Admin',
+		role: 'Telehealth Program Director, Abundant Health',
+		story: 'Logs into their own organization\'s portal. No global nav, because they don\'t need it.',
+		features: [
+			['Client-specific nav', 'Only what matters to their tenant.'],
+			['Admin audit trail', 'See when information was last updated.'],
+			['Add service line', 'Create service lines within their organization.'],
+			['Configuration access', 'Change the configuration of specific service lines.'],
+		],
+	},
+	{
+		who: 'Tenant Basic Admin',
+		role: 'Department Manager, CVS',
+		story: 'Manages what is theirs and nothing more.',
+		features: [
+			['Manage service lines', 'Configure workflow and branding, but not add new lines.'],
+			['Scoped navigation', 'A focused interface with streamlined workflow tools.'],
+		],
+	},
+	{
+		who: 'Client Support Admin',
+		role: 'Help Desk Staff, CVS',
+		story: 'View-only access so support can answer questions without risking changes.',
+		features: [
+			['View-only access', 'See the configuration. Change nothing.'],
+			['Limited troubleshooting', 'Enough to help, within clear boundaries.'],
+		],
+	},
+];
+
+const flow = [
+	['Feasibility review with dev', 'Is it buildable?'],
+	['Design regroup', 'What did we learn?'],
+	['WCAG office hours', 'Is it accessible?'],
+	['Research office hours', 'Are we asking the right questions?'],
+	['Share Amwell Super Admin', 'Show the work.'],
+];
+---
+
+<Base title={title} description={outcome} progress>
+	<section class="study-hero">
+		<div class="shell">
+			<a class="back" href="/work/amwell">← Amwell</a>
+			<p class="eyebrow eyebrow--sky">Healthcare · Enterprise</p>
+			<h1>One admin portal. Three kinds of admins.</h1>
+			<p class="outcome">{outcome}</p>
+			<ul class="meta-row">
+				<li>Sr. Product Designer</li>
+				<li>3-week sprint</li>
+				<li>Worked with PM, engineering, architecture</li>
+				<li>Figma · Amwell design system</li>
+			</ul>
+			<ul class="metrics metrics--5">
+				{
+					metrics.map((m) => (
+						<li>
+							<strong data-count>{m.value}</strong>
+							<span>{m.label}</span>
+						</li>
+					))
+				}
+			</ul>
+		</div>
+	</section>
+
+	<nav class="chapters" aria-label="Case study sections">
+		<div class="shell">
+			<ol>
+				{
+					chapters.map(([id, label]) => (
+						<li>
+							<a href={`#${id}`} data-chapter={id}>
+								{label}
+							</a>
+						</li>
+					))
+				}
+			</ol>
+		</div>
+	</nav>
+
+	<!-- CONTEXT -->
+	<section class="chapter" id="context">
+		<div class="shell">
+			<p class="eyebrow">01 · Context</p>
+			<h2>"Make it faster" was the wrong problem.</h2>
+			<p class="lead">
+				Amwell is a telehealth platform. Its admin portal is the control hub behind both the
+				patient and provider experiences, used by internal teams and by clients like CVS Health and
+				Cleveland Clinic. Support tickets were piling up, and leadership's ask was simply to make
+				it faster.
+			</p>
+			<div class="split" data-reveal>
+				<div class="bigstat">
+					<strong data-count>30%</strong>
+					<span>of support tickets tied to navigation and workflow inefficiencies, across 400+ users.</span>
+				</div>
+				<div class="step">
+					<b>The real issue</b>
+					<p>
+						The structure was complex and outdated, so even small tasks were cumbersome. Speed
+						wasn't the bottleneck. Finding things and knowing what you could do was.
+					</p>
+					<p style="margin-top: 0.75rem">
+						Amwell was also moving its patient and provider platforms to the modular Converge UI
+						framework, which was the chance to modernize the admin experience at the same time.
+					</p>
+				</div>
+			</div>
+			<div class="stepper" data-reveal>
+				<div class="step"><b>1 · Understand</b>Find the root cause and define success metrics.</div>
+				<div class="step"><b>2 · Decide</b>Explore and choose between research-based options.</div>
+				<div class="step"><b>3 · Measure</b>Implement and prove it through testing.</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- PEOPLE -->
+	<section class="chapter chapter--tint" id="people">
+		<div class="shell">
+			<p class="eyebrow eyebrow--coral">02 · Who uses it</p>
+			<h2>Four roles. Two sides of the platform.</h2>
+			<p class="lead">
+				Internal teams build and support the platform. Clients use and manage their own instance.
+				Tap each role to see what they need.
+			</p>
+			<div class="tabs" data-tabs>
+				<div class="tablist" role="tablist">
+					{
+						roles.map((r, i) => (
+							<button class="tab" role="tab" type="button" aria-selected={i === 0}>
+								{r.name}
+							</button>
+						))
+					}
+				</div>
+				{
+					roles.map((r) => (
+						<div class="tabpanel" role="tabpanel">
+							<span class={`side ${r.side === 'Internal' ? 'side--int' : 'side--ext'}`}>
+								{r.side}
+							</span>
+							<h3>{r.name}</h3>
+							<p style="margin-top: 0.5rem; font-size: 1.1rem">{r.desc}</p>
+							<ul>
+								{r.points.map((p) => (
+									<li>{p}</li>
+								))}
+							</ul>
+						</div>
+					))
+				}
+			</div>
+		</div>
+	</section>
+
+	<!-- DISCOVERY -->
+	<section class="chapter" id="discovery">
+		<div class="shell">
+			<p class="eyebrow eyebrow--mint">03 · Discovery</p>
+			<h2>What three months of tickets and eight interviews told us.</h2>
+			<p class="lead">
+				We analyzed three months of support tickets, then validated them with 5 shadowing sessions,
+				8 contextual interviews, and workflow mapping across departments.
+			</p>
+			<ul class="chips" data-reveal>
+				<li>Navigation confusion</li>
+				<li>Unclear role-based access</li>
+				<li>Task completion barriers</li>
+			</ul>
+			<blockquote class="pullquote" data-reveal>
+				"I spend more time figuring out how to do things than actually doing them."
+				<cite>Admin user, contextual interview</cite>
+			</blockquote>
+			<div class="cards3" style="margin-top: 2.5rem">
+				<div class="tile tile--coral" data-reveal>
+					<h3 data-count>40%</h3>
+					<p>of admin time spent switching between tools.</p>
+				</div>
+				<div class="tile tile--sun" data-reveal>
+					<h3>2+ weeks</h3>
+					<p>of training, because common tasks had no clear pathway.</p>
+				</div>
+				<div class="tile tile--sky" data-reveal>
+					<h3>Doctor? Provider? Clinician?</h3>
+					<p>Terms like tenant, instance, and client were used inconsistently across the product.</p>
+				</div>
+				<div class="tile tile--mint" data-reveal>
+					<h3>Different roles, different needs</h3>
+					<p>Each role needed its own information hierarchy.</p>
+				</div>
+			</div>
+
+			<h3 style="margin-top: 4rem; font-size: clamp(1.8rem, 3.5vw, 2.6rem)">Explore the access tiers</h3>
+			<p class="lead" style="margin-top: 0.75rem">
+				The tiers were the heart of the design problem. Pick one to see what each admin can do.
+			</p>
+			<div class="tabs" id="tier-tabs">
+				<div class="tablist" role="tablist">
+					{
+						Object.keys(tiers).map((name, i) => (
+							<button class="tab" role="tab" type="button" aria-selected={i === 0} data-tier={name}>
+								{name}
+							</button>
+						))
+					}
+				</div>
+				<p id="tier-who" style="margin-top: 1rem; font-weight: 600"></p>
+				<div class="matrix" id="matrix" data-tiers={JSON.stringify(tiers)}></div>
+			</div>
+
+			<h3 style="margin-top: 4rem; font-size: clamp(1.8rem, 3.5vw, 2.6rem)">How we'd know it worked</h3>
+			<ul class="chips">
+				<li>Shorter task completion time</li>
+				<li>Fewer support tickets</li>
+				<li>Better satisfaction ratings</li>
+			</ul>
+		</div>
+	</section>
+
+	<!-- OPTIONS -->
+	<section class="chapter chapter--dark" id="options">
+		<div class="shell">
+			<p class="eyebrow eyebrow--lilac">04 · Options</p>
+			<h2>Three ways to manage a multi-tenant admin.</h2>
+			<p class="lead">
+				We refined the sitemap, aligned on terminology, and explored three approaches. Each one was
+				tested with users and pressure-tested with engineering.
+			</p>
+			<div class="options">
+				<article class="option" data-reveal>
+					<span class="option__badge">Option 1</span>
+					<h3>Separate interfaces</h3>
+					<p>Different URLs and entry points per admin type, with completely separate navigation.</p>
+					<h4>What worked</h4>
+					<ul>
+						<li class="pro">Clear separation of concerns</li>
+						<li class="pro">Highly specialized interfaces</li>
+					</ul>
+					<h4>Why it lost</h4>
+					<ul>
+						<li class="con">Multi-role users would need multiple logins</li>
+						<li class="con">Engineering would maintain multiple codebases</li>
+						<li class="con">Poor scalability</li>
+					</ul>
+				</article>
+				<article class="option" data-reveal>
+					<span class="option__badge">Option 2</span>
+					<h3>Permission toggles</h3>
+					<p>One interface with feature toggles, permission switches, and manual tenant switching.</p>
+					<h4>What worked</h4>
+					<ul>
+						<li class="pro">Simpler maintenance</li>
+						<li class="pro">Consistent core experience</li>
+						<li class="pro">Engineering liked one codebase</li>
+					</ul>
+					<h4>Why it lost</h4>
+					<ul>
+						<li class="con">Users found switching contexts confusing</li>
+						<li class="con">High cognitive load managing permissions</li>
+						<li class="con">Inefficient for super admins</li>
+					</ul>
+				</article>
+				<article class="option option--win" data-reveal>
+					<span class="option__badge option__badge--win">Selected</span>
+					<h3>Contextual interface</h3>
+					<p>
+						Dynamic global navigation for super admins, components that adapt to the user type,
+						hierarchical tenant management, and progressive disclosure by role.
+					</p>
+					<h4>Why it won</h4>
+					<ul>
+						<li class="pro"><b data-count>95%</b> task completion for common workflows in testing</li>
+						<li class="pro">Context-switching time cut by <b data-count>40%</b></li>
+						<li class="pro">Positive feedback on role transitions</li>
+						<li class="pro">Single codebase with dynamic components</li>
+						<li class="pro">Scales to new roles and features</li>
+					</ul>
+				</article>
+			</div>
+		</div>
+	</section>
+
+	<!-- BUILD -->
+	<section class="chapter" id="build">
+		<div class="shell">
+			<p class="eyebrow eyebrow--sky">05 · How it works</p>
+			<h2>From rough wireframes to a scalable framework.</h2>
+			<p class="lead">
+				Early wireframes were fast brainstorming sketches, with no pre-existing components. They
+				included a global nav that searches patients, providers, devices, and more across every
+				tenant.
+			</p>
+			<figure class="fig" data-reveal>
+				<img src="/amwell/wireframes.jpg" alt="Two early wireframes of the super admin dashboard with recent activity, tenant counts, and a tenant table." loading="lazy" />
+				<figcaption>Early wireframes of the super admin home, drawn before any design system components.</figcaption>
+			</figure>
+			<div class="insight" data-reveal>
+				<span class="insight__icon" aria-hidden="true">💡</span>
+				<div>
+					<b>The dashboard didn't survive.</b>
+					I built a customizable "admin dashboard" with charts. As we iterated, we learned admins
+					don't ordinarily use that data, so we cut it and put the effort into navigation.
+				</div>
+			</div>
+
+			<h3 style="margin-top: 4rem; font-size: clamp(1.8rem, 3.5vw, 2.6rem)">Reusing the design system</h3>
+			<p class="lead" style="margin-top: 0.75rem">
+				We rebuilt on Amwell's existing patient and provider components for consistency, and
+				designed desktop first because <b>99.8% of admins use desktop</b>.
+			</p>
+			<div class="figs2">
+				<figure class="fig" data-reveal>
+					<img src="/amwell/framework-nav.jpg" alt="Dark mode admin framework with a tenant selector and a side menu." loading="lazy" />
+					<figcaption>The default admin framework with tenant context and a side menu.</figcaption>
+				</figure>
+				<div>
+					<div class="bigstat" data-reveal style="background: var(--lilac)">
+						<strong data-count>65%</strong>
+						<span>of admins found the original static sidebar overwhelming.</span>
+					</div>
+					<figure class="fig" data-reveal style="margin-top: 1.5rem">
+						<img src="/amwell/collapserator.jpg" alt="Three states of the collapsible accordion side menu." loading="lazy" />
+						<figcaption>The "collapse-rator": a side menu that expands and collapses with behavior.</figcaption>
+					</figure>
+				</div>
+			</div>
+			<div class="stepper" data-reveal>
+				<div class="step"><b>Progressive disclosure</b>Collapsing sections lowered cognitive load.</div>
+				<div class="step"><b>Screen real estate</b>More workspace for data-heavy tasks like provider onboarding.</div>
+				<div class="step"><b>Scales by design</b>Accordion sub-pages support multi-step processes.</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- FEEDBACK -->
+	<section class="chapter chapter--tint2" id="feedback">
+		<div class="shell">
+			<p class="eyebrow eyebrow--mint">06 · Feedback loop</p>
+			<h2>A three-week sprint, built on tight loops.</h2>
+			<p class="lead">
+				Feedback came synchronously, through daily check-ins with engineering, rapid prototype
+				tests, and quick feasibility reviews. It came asynchronously through stakeholder emails and
+				unmoderated user testing.
+			</p>
+			<ol class="stepper" style="list-style: none; padding: 0; grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr))">
+				{
+					flow.map(([t, d], i) => (
+						<li class="step" data-reveal>
+							<b>
+								{i + 1}. {t}
+							</b>
+							{d}
+						</li>
+					))
+				}
+			</ol>
+			<div class="quotes">
+				<blockquote class="quote" data-reveal>
+					"I find it intuitive to access my global nav settings and I like the clear distinction
+					between those settings and settings for tenant level."
+					<small>Usability test · Task 3</small>
+				</blockquote>
+				<blockquote class="quote" data-reveal>
+					"Having a customizable dashboard is essential because my coworkers and I all want to see
+					and use different things at different times. I love this tool!"
+					<small>Usability test · Task 4</small>
+				</blockquote>
+			</div>
+		</div>
+	</section>
+
+	<!-- FINAL -->
+	<section class="chapter" id="final">
+		<div class="shell">
+			<p class="eyebrow eyebrow--coral">07 · Final designs</p>
+			<h2>One system, four experiences.</h2>
+			<p class="lead">
+				The final design adapts to who's logged in. Follow each admin through the product.
+			</p>
+			<div class="tabs" data-tabs>
+				<div class="tablist" role="tablist">
+					{
+						personas.map((p, i) => (
+							<button class="tab" role="tab" type="button" aria-selected={i === 0}>
+								{p.who}
+							</button>
+						))
+					}
+				</div>
+				{
+					personas.map((p) => (
+						<div class="tabpanel" role="tabpanel">
+							<span class="side side--int">{p.role}</span>
+							<h3>{p.who}</h3>
+							<p style="margin-top: 0.5rem; font-size: 1.1rem">{p.story}</p>
+							<ul>
+								{p.features.map(([t, d]) => (
+									<li>
+										<b>{t}.</b> {d}
+									</li>
+								))}
+							</ul>
+						</div>
+					))
+				}
+			</div>
+		</div>
+	</section>
+
+	<!-- IMPACT -->
+	<section class="chapter chapter--tint" id="impact">
+		<div class="shell">
+			<p class="eyebrow eyebrow--mint">08 · Impact</p>
+			<h2>What changed.</h2>
+			<ul class="metrics metrics--5">
+				<li>
+					<strong data-count>30%</strong>
+					<span>Reduction in admin onboarding time</span>
+				</li>
+				<li>
+					<strong data-count>45% → 82%</strong>
+					<span>Task completion rate</span>
+				</li>
+				<li>
+					<strong data-count>34%</strong>
+					<span>Fewer configuration errors through role-based access controls</span>
+				</li>
+				<li>
+					<strong data-count>8</strong>
+					<span>Internal teams on unified terminology</span>
+				</li>
+				<li>
+					<strong data-count>25%</strong>
+					<span>Faster client implementation timelines</span>
+				</li>
+			</ul>
+
+			<h3 style="margin-top: 4rem; font-size: clamp(1.8rem, 3.5vw, 2.6rem)">What this shows about how I lead</h3>
+			<div class="cards3" style="margin-top: 1.5rem">
+				<div class="tile tile--coral" data-reveal>
+					<h3>I reframe the brief</h3>
+					<p>"Make it faster" became a structural redesign grounded in tickets and interviews.</p>
+				</div>
+				<div class="tile tile--mint" data-reveal>
+					<h3>I bring engineering in early</h3>
+					<p>Daily check-ins shaped an approach engineering could scale: one codebase, dynamic components.</p>
+				</div>
+				<div class="tile tile--sky" data-reveal>
+					<h3>I align people, not just screens</h3>
+					<p>One vocabulary across 8 teams, plus accessibility and research office hours baked into the process.</p>
+				</div>
+			</div>
+			<div class="actions">
+				<a class="button" href="/work">More work</a>
+				<a class="button button--ghost" href="/#contact">Say hi</a>
+			</div>
+		</div>
+	</section>
+</Base>
+
+<script>
+	// Access tier explorer
+	const matrix = document.getElementById('matrix');
+	const who = document.getElementById('tier-who');
+	const root = document.getElementById('tier-tabs');
+	if (matrix && who && root) {
+		const tiers = JSON.parse(matrix.dataset.tiers ?? '{}') as Record<
+			string,
+			{ who: string; scope: string; rows: [string, string, string][] }
+		>;
+		const tabs = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-tier]'));
+		const show = (name: string) => {
+			const t = tiers[name];
+			if (!t) return;
+			tabs.forEach((b) => b.setAttribute('aria-selected', String(b.dataset.tier === name)));
+			who.textContent = `${t.scope} · ${t.who}`;
+			matrix.replaceChildren(
+				...t.rows.map(([label, val, kind]) => {
+					const row = document.createElement('div');
+					row.className = 'matrix__row';
+					const l = document.createElement('span');
+					l.textContent = label;
+					const v = document.createElement('span');
+					v.className = 'matrix__val';
+					v.dataset.v = kind;
+					v.textContent = val;
+					row.append(l, v);
+					return row;
+				}),
+			);
+		};
+		tabs.forEach((b) => b.addEventListener('click', () => show(b.dataset.tier ?? '')));
+		show(tabs[0]?.dataset.tier ?? '');
+	}
+</script>

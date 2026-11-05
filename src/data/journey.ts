@@ -143,7 +143,7 @@ export const amwell = {
 			media: undefined as Media | undefined,
 		},
 	],
-	link: { href: '/work/amwell', label: 'Read the Amwell admin case study' },
+	link: { href: '/work/amwell-admin-portal', label: 'Read the Amwell admin case study' },
 };
 
 export const freelance = {

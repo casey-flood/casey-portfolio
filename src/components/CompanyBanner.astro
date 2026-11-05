@@ -1,0 +1,90 @@
+---
+import type { Company } from '../data/companies';
+import CompanyTile from './CompanyTile.astro';
+
+interface Props {
+	company: Company;
+	// index = banner on /work (teaser cards, not clickable). hub = the company's own page (clickable cards).
+	mode?: 'index' | 'hub';
+}
+const { company: c, mode = 'index' } = Astro.props;
+const hub = mode === 'hub';
+const n = c.tiles.length;
+// Few projects sit still in a row sized to the count. Four or more scroll as a slow ticker.
+const ticker = !hub && n > 3;
+const v = c.visual;
+const mediaHref = hub ? undefined : c.cta?.href;
+---
+
+<section class:list={['cb', `cb--${c.theme}`, { 'cb--flip': c.flip, 'cb--solo': !v.src && !hub }]} aria-labelledby={`cb-${c.id}`}>
+	{
+		(v.src || hub) && (
+			<div class="cb__media">
+				{mediaHref ? (
+					<a href={mediaHref} class="cb__media-link" tabindex="-1" aria-hidden="true">
+						{v.src && (v.kind === 'video' ? (
+							<video src={v.src} poster={v.poster} muted loop playsinline autoplay preload="metadata" aria-label={v.alt} />
+						) : (
+							<img src={v.src} alt="" loading="lazy" decoding="async" style={v.pos ? `object-position:${v.pos}` : undefined} />
+						))}
+					</a>
+				) : v.src ? (
+					v.kind === 'video' ? (
+						<video src={v.src} poster={v.poster} muted loop playsinline autoplay preload="metadata" aria-label={v.alt} />
+					) : (
+						<img src={v.src} alt={v.alt} loading="lazy" decoding="async" style={v.pos ? `object-position:${v.pos}` : undefined} />
+					)
+				) : (
+					<span class="cb__ph" role="img" aria-label={`Placeholder: ${v.hint}`}>
+						<b>{v.label}</b>
+						<small>{v.hint}</small>
+					</span>
+				)}
+			</div>
+		)
+	}
+
+	<div class="cb__body">
+		<header class="cb__head">
+			{c.logo ? <img class="cb__logo" src={c.logo} alt="" /> : null}
+			<h2 id={`cb-${c.id}`} class="cb__name">{c.name}</h2>
+			<p class="cb__meta">{c.role} · {c.when}</p>
+		</header>
+		<p class="cb__blurb">{c.blurb}</p>
+		{
+			!hub && c.cta && (
+				<a class="cb__cta" href={c.cta.href}>
+					{c.cta.label}
+					<span aria-hidden="true">→</span>
+				</a>
+			)
+		}
+	</div>
+
+	{
+		hub ? (
+			<ul class="cb__row cb__tiles cb__tiles--lg">
+				{c.tiles.map((t) => (
+					<li>
+						<CompanyTile t={t} />
+					</li>
+				))}
+			</ul>
+		) : (
+			<div class:list={['cb__row', { 'is-ticker': ticker }]} style={`--n:${n}`}>
+				<p class="sr-only">Projects: {c.tiles.map((t) => t.title).join(', ')}.</p>
+				<div class="cb__lane" aria-hidden="true">
+					{(ticker ? [0, 1] : [0]).map((set) => (
+						<ul class:list={['cb__set', { 'is-dup': set === 1 }]}>
+							{c.tiles.map((t) => (
+								<li>
+									<CompanyTile t={t} linked={false} />
+								</li>
+							))}
+						</ul>
+					))}
+				</div>
+			</div>
+		)
+	}
+</section>

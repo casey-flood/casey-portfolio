@@ -32,7 +32,8 @@ const projects: Card[] = [
 		title: 'Dandy Design Editor',
 		body: "The 3D software where dental designers prepare incoming cases and design restorations. I'm the sole product designer on it.",
 		stages: [4],
-		foot: 'Case study coming soon',
+		href: '/work/dandy-design-editor',
+		foot: 'Case study in progress →',
 	},
 ];
 
@@ -105,12 +106,21 @@ const systems: Card[] = [
 				{
 					projects.map((c) => (
 						<li>
-							<div class="hub-card hub-card--soon" data-stages={c.stages.join(',')} tabindex="0">
-								<span class="hub-card__k">{c.k}</span>
-								<h3>{c.title}</h3>
-								<p>{c.body}</p>
-								<span class="hub-card__foot">{c.foot}</span>
-							</div>
+							{c.href ? (
+								<a class="hub-card" href={c.href} data-stages={c.stages.join(',')}>
+									<span class="hub-card__k">{c.k}</span>
+									<h3>{c.title}</h3>
+									<p>{c.body}</p>
+									<span class="hub-card__foot">{c.foot}</span>
+								</a>
+							) : (
+								<div class="hub-card hub-card--soon" data-stages={c.stages.join(',')} tabindex="0">
+									<span class="hub-card__k">{c.k}</span>
+									<h3>{c.title}</h3>
+									<p>{c.body}</p>
+									<span class="hub-card__foot">{c.foot}</span>
+								</div>
+							)}
 						</li>
 					))
 				}

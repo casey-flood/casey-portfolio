@@ -1,0 +1,33 @@
+---
+import type { Tile } from '../data/companies';
+interface Props {
+	t: Tile;
+	linked?: boolean;
+}
+const { t, linked = true } = Astro.props;
+const Tag = linked && t.href ? 'a' : 'div';
+---
+
+<Tag class:list={['cb__tile', { 'is-static': !(linked && t.href) }]} href={linked && t.href ? t.href : undefined}>
+	<span class="cb__tile-img">
+		{
+			t.visual.src ? (
+				<img src={t.visual.src} alt="" loading="lazy" decoding="async" style={t.visual.pos ? `object-position:${t.visual.pos}` : undefined} />
+			) : (
+				<span class="cb__ph cb__ph--sm" aria-hidden="true">
+					<b>{t.visual.label}</b>
+				</span>
+			)
+		}
+	</span>
+	<span class="cb__tile-t">{t.title}</span>
+	{
+		t.metric ? (
+			<span class="cb__tile-m">
+				<b>{t.metric.value}</b> {t.metric.label}
+			</span>
+		) : (
+			<span class="cb__tile-m">{t.note}</span>
+		)
+	}
+</Tag>

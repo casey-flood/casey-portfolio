@@ -1,0 +1,87 @@
+---
+// A reusable, click-to-launch interactive prototype. The prototype lives in /public and is
+// scaled to fit the column so a fixed-size canvas (e.g. 1600x1000) works at any width.
+interface Props {
+	src: string; // e.g. /prototypes/dde/index.html
+	title: string;
+	width?: number;
+	height?: number;
+	status?: string; // e.g. "In progress"
+	caption?: string;
+	poster?: string;
+}
+const { src, title, width = 1600, height = 1000, status, caption, poster } = Astro.props;
+---
+
+<figure class="pe" data-pe data-src={src} data-w={width} data-h={height} style={`--pe-ratio:${width} / ${height}`}>
+	<div class="pe__bar">
+		<span class="pe__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+		<span class="pe__title">{title}</span>
+		{status && <span class="pe__status">{status}</span>}
+		<span class="pe__actions">
+			<button type="button" class="pe__btn" data-pe-full hidden>Full screen</button>
+			<a class="pe__btn" href={src} target="_blank" rel="noopener">Open in new tab ↗</a>
+		</span>
+	</div>
+
+	<div class="pe__stage" data-pe-stage>
+		<button type="button" class="pe__launch" data-pe-launch aria-label={`Launch the interactive prototype: ${title}`}>
+			{poster ? <img src={poster} alt="" loading="lazy" /> : null}
+			<span class="pe__launch-inner">
+				<span class="pe__play" aria-hidden="true">▶</span>
+				<b>Launch the prototype</b>
+				<small>Interactive. Best on a laptop or desktop.</small>
+			</span>
+		</button>
+	</div>
+
+	<p class="pe__note">Best experienced on a larger screen. On a phone, open it in a new tab.</p>
+	{caption && <figcaption class="pe__cap">{caption}</figcaption>}
+</figure>
+
+<script>
+	document.querySelectorAll<HTMLElement>('[data-pe]').forEach((root) => {
+		const stage = root.querySelector<HTMLElement>('[data-pe-stage]')!;
+		const launch = root.querySelector<HTMLButtonElement>('[data-pe-launch]')!;
+		const fullBtn = root.querySelector<HTMLButtonElement>('[data-pe-full]')!;
+		const W = Number(root.dataset.w);
+		const H = Number(root.dataset.h);
+		let frame: HTMLIFrameElement | null = null;
+
+		const fit = () => {
+			if (!frame) return;
+			const w = stage.clientWidth;
+			const h = stage.clientHeight;
+			const s = Math.min(w / W, h / H);
+			frame.style.transform = `scale(${s})`;
+			frame.style.left = `${(w - W * s) / 2}px`;
+			frame.style.top = `${(h - H * s) / 2}px`;
+		};
+
+		launch.addEventListener('click', () => {
+			frame = document.createElement('iframe');
+			frame.src = root.dataset.src!;
+			frame.title = root.querySelector('.pe__title')!.textContent ?? 'Interactive prototype';
+			frame.width = String(W);
+			frame.height = String(H);
+			frame.className = 'pe__frame';
+			frame.setAttribute('allow', 'fullscreen');
+			launch.replaceWith(frame);
+			root.classList.add('is-live');
+			fit();
+			frame.focus();
+		});
+
+		new ResizeObserver(fit).observe(stage);
+		document.addEventListener('fullscreenchange', fit);
+
+		if (document.fullscreenEnabled) {
+			fullBtn.hidden = false;
+			fullBtn.addEventListener('click', () => {
+				if (!frame) launch.click();
+				if (document.fullscreenElement) document.exitFullscreen();
+				else stage.requestFullscreen?.();
+			});
+		}
+	});
+</script>

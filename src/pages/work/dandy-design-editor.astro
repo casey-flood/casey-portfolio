@@ -1,0 +1,88 @@
+---
+import Base from '../../layouts/Base.astro';
+import ScanToSmile from '../../components/ScanToSmile.astro';
+import PrototypeEmbed from '../../components/PrototypeEmbed.astro';
+
+// Placeholder copy is marked clearly. Replace it as the case study gets written.
+---
+
+<Base
+	title="Dandy Design Editor"
+	description="The 3D design software where Dandy's dental designers prepare cases and design restorations. A work in progress."
+>
+	<article class="ds">
+		<div class="shell">
+			<a class="ds__back" href="/work/dandy">← Dandy overview</a>
+
+			<header class="ds__head">
+				<p class="eyebrow">Dandy · Design Editor · In progress</p>
+				<h1>The workspace where dental designers design restorations.</h1>
+				<p class="ds__lede">
+					The Dandy Design Editor (DDE) is where a dental designer receives a case, prepares the scan, and designs the
+					restoration. I'm the sole product designer on it.
+				</p>
+				<dl class="hub-meta">
+					<div><dt>Role</dt><dd>Sole product designer</dd></div>
+					<div><dt>When</dt><dd>2025 – now</dd></div>
+					<div><dt>Status</dt><dd>Case study in progress</dd></div>
+				</dl>
+			</header>
+
+			<ScanToSmile compact project="dde" />
+
+			<section class="dz-ch" id="problem">
+				<div class="dz-ch__head">
+					<span class="dz-ch__no">01</span>
+					<div>
+						<p class="dz-ch__k">The problem</p>
+						<h2>Placeholder: what wasn't working.</h2>
+					</div>
+				</div>
+				<p class="pe__todo">Placeholder. Write what designers struggled with before, who was affected, and how you found out.</p>
+			</section>
+
+			<section class="dz-ch" id="prototype">
+				<div class="dz-ch__head">
+					<span class="dz-ch__no">02</span>
+					<div>
+						<p class="dz-ch__k">The prototype</p>
+						<h2>Try the designer flow.</h2>
+					</div>
+				</div>
+				<PrototypeEmbed
+					src="/prototypes/dde/index.html"
+					title="Designer flow, Design Editor"
+					status="In progress"
+					caption="An early, unfinished prototype of the designer flow, from the case queue to submitting a design. It uses sample scans and fictional case data."
+				/>
+			</section>
+
+			<section class="dz-ch" id="decisions">
+				<div class="dz-ch__head">
+					<span class="dz-ch__no">03</span>
+					<div>
+						<p class="dz-ch__k">Design decisions</p>
+						<h2>Placeholder: the key choices.</h2>
+					</div>
+				</div>
+				<p class="pe__todo">Placeholder. Three or four decisions, each with the tradeoff and what you chose.</p>
+			</section>
+
+			<section class="dz-ch" id="impact">
+				<div class="dz-ch__head">
+					<span class="dz-ch__no">04</span>
+					<div>
+						<p class="dz-ch__k">Impact</p>
+						<h2>Placeholder: what changed.</h2>
+					</div>
+				</div>
+				<p class="pe__todo">Placeholder. Add verified results only.</p>
+			</section>
+
+			<footer class="ds__foot">
+				<a class="button" href="/work/dandy">← Dandy overview</a>
+				<a class="button button--ghost" href="/work">All work</a>
+			</footer>
+		</div>
+	</article>
+</Base>
