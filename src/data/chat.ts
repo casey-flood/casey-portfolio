@@ -18,7 +18,7 @@ export const offline: { match: RegExp; reply: string }[] = [
 	{ match: /my trips|mytrips|pratt|travel/i, reply: "My Trips was my Pratt capstone: an itinerary tool for spontaneous travelers. Testing showed 94% less time to share a trip. [[Case study|/work/mytrips]]" },
 	{ match: /paper airplane|first job|dating/i, reply: "Paper Airplane was my first design job: brand, guerrilla marketing, research, UI, and APIs at an early-stage dating app. [[Case study|/work/paper-airplane]]" },
 	{ match: /story|background|origin|how did you|grew|where.*from/i, reply: "From drawing as a kid to JMU, Paper Airplane, Pratt, Amwell, and now Dandy. It reads best newest-first. [[Take the scroll|/journey]]" },
-	{ match: /ai|cursor|claude|code|engineer/i, reply: "I design in code: Storybook, Cursor, and Claude, so what we test is what ships. [[How I work|/about]]" },
+	{ match: /ai|cursor|claude|code|engineer/i, reply: "I design in code: Storybook, Cursor, and Claude, so what we test is what ships. [[How I work|/#how]]" },
 	{ match: /contact|hire|email|hi\b|hello|reach/i, reply: "Say hi at caseylflood@gmail.com. Fast replies, mild puns." },
 ];
 export const fallback = "Good question, and I'm still in offline mode so I only know the highlights. Try asking about Dandy, Amwell, the design system, or my story, or email caseylflood@gmail.com.";

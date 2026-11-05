@@ -9970,3 +9970,8 @@ html {
 		bottom: 4.6rem;
 	}
 }
+
+.button--lg {
+	padding: 0.95rem 1.7rem;
+	font-size: 1.05rem;
+}
