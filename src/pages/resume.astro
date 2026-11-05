@@ -1,74 +1,194 @@
 ---
 import Base from '../layouts/Base.astro';
 
-const values = [
+// Placeholder content taken from LinkedIn until the 2026 resume is rewritten.
+const highlights = [
+	{ v: '~86%', l: 'of user research led at Amwell, on work behind a J.D. Power #1 patient satisfaction rating' },
+	{ v: '+18%', l: 'engagement from an improved onboarding flow' },
+	{ v: '5 yrs', l: 'designing white-label virtual urgent care used by millions' },
+	{ v: '30+', l: 'Jira tickets managed across parallel workstreams, while mentoring 2 designers' },
+];
+
+interface Role {
+	title: string;
+	when: string;
+	text?: string;
+	bullets?: string[];
+}
+interface Job {
+	company: string;
+	span?: string;
+	roles: Role[];
+}
+
+const jobs: Job[] = [
 	{
-		color: 'coral',
-		title: 'Design in the real material',
-		body: 'Storybook prototypes built from the same React components we ship, so a prototype is a first draft of production, not a picture of it.',
+		company: 'Dandy',
+		roles: [
+			{
+				title: 'Senior Product Designer',
+				when: 'Mar 2025 – Present',
+				bullets: [
+					'Design operator-facing software for dental manufacturing: first the dentist-facing ordering workflows, then sole product designer on the Design Editor (DDE), the primary workspace where dental designers prep scans, design restorations, and review cases.',
+					'Work in a deep clinical and CAD domain: 3D tools, stage-based workflows, and quality-versus-speed tradeoffs.',
+					'Design in code: Storybook prototypes built from real React components, validated with internal users, iterated with Cursor and AI, and shipped as production UI, with the design system living in Storybook.',
+				],
+			},
+		],
 	},
 	{
-		color: 'sun',
-		title: 'Alignment is a deliverable',
-		body: 'A great design nobody agrees on never ships. I align PM, clinical, engineering, and ops as carefully as I design the screen.',
+		company: 'caseyflood.design',
+		span: 'Freelance and consulting',
+		roles: [
+			{
+				title: 'Product Design Leader',
+				when: '2018 – Present',
+				text: 'Independent product design and research alongside full-time roles.',
+			},
+		],
 	},
 	{
-		color: 'mint',
-		title: 'Curiosity before opinions',
-		body: 'I shadow people doing the work before I draw anything. The best ideas hide in the workarounds.',
+		company: 'Amwell',
+		span: '5 yrs 2 mos',
+		roles: [
+			{
+				title: 'Senior Product Designer',
+				when: 'Jan 2023 – Feb 2024',
+				text: 'Promoted to own design direction for virtual urgent care across patients, providers, and admin on web and white-label mobile, plus internal admin tooling for operators configuring the platform.',
+				bullets: [
+					'Led design for virtual urgent care end to end: patient, provider, and admin experiences on web and mobile white-label apps.',
+					'Mentored 2 junior designers; managed 30+ Jira tickets across parallel workstreams while keeping delivery predictable for engineering.',
+					'Built 5 analytics dashboards for admins and ops to track performance and utilization.',
+					'Streamlined patient intake, increasing bookings and improving satisfaction on key intake paths.',
+					'Redesigned the admin platform with a scalable, multi-tier framework so enterprise clients could configure roles and workflows without one-off builds.',
+				],
+			},
+			{
+				title: 'Senior User Experience Designer',
+				when: 'Apr 2021 – Jan 2023',
+				text: 'Promoted to lead UX strategy for virtual urgent care patient experiences: accessibility, workflow clarity, and vendor-integrated journeys from intake through visit.',
+				bullets: [
+					'Optimized patient onboarding, increasing conversion and significantly reducing inbound user inquiries.',
+					'Designed "AI While You Wait" triage, an ML-assisted flow to reduce perceived wait time and keep patients engaged pre-visit.',
+					'Improved mental health service selection and navigation for a complex catalog of care options.',
+					'Spearheaded design sprints and critiques, aligning PM, clinical, engineering, and ops on shipped priorities.',
+					'Partnered with Product Management on roadmap and feature prioritization tied to business goals and patient needs.',
+					'Established information architecture standards and scalable UX frameworks reused across DTC and DTP client configurations.',
+					'Facilitated cross-functional research synthesis (personas, journeys, competitive analysis) to drive empathy-led design decisions.',
+				],
+			},
+			{
+				title: 'User Experience Designer',
+				when: 'Jan 2019 – Apr 2021',
+				text: 'Owned end-to-end UX and research for patient-facing urgent care on web and mobile (onboarding, enrollment, payment, and the waiting room) within multi-tenant DTC and DTP deployments.',
+				bullets: [
+					'Led ~86% of user research (interviews, usability tests, surveys); synthesized insights and presented to the C-suite. The team contributed to the J.D. Power #1 patient satisfaction ranking.',
+					'Improved first-contact resolution, reducing support tickets and increasing user engagement +18%.',
+					'Designed core flows for the Amwell mobile app and web platform across DTC and DTP installs; built personas, journey maps, and competitive analyses to align product, clinical, and engineering.',
+					'Sole designer on the cross-functional Utilization Council, driving initiatives to improve platform usage and patient throughput.',
+					'Ran bi-weekly design QA with engineering, reducing UI defects pre-release and supporting higher satisfaction scores.',
+				],
+			},
+		],
 	},
 	{
-		color: 'sky',
-		title: 'Measure what matters',
-		body: "Every project starts with how we'll know it worked, and ends by checking.",
+		company: 'Paper Airplane',
+		roles: [
+			{
+				title: 'User Experience Designer',
+				when: 'May 2017 – May 2018',
+				text: 'Early-stage dating app startup. Part of a seven-person team innovating on user interfaces and marketing strategies to enhance engagement and brand visibility.',
+				bullets: [
+					'Created research briefs outlining goals, methodology, and hypotheses; conducted surveys, interviews, and competitive analysis to identify gaps.',
+					'Built visual artifacts including personas, journey maps, flows, and site maps.',
+					'Designed low- and high-fidelity wireframes, driving UX research and product improvements.',
+				],
+			},
+		],
+	},
+	{
+		company: 'Immerge',
+		roles: [
+			{
+				title: 'Digital Marketing Intern',
+				when: 'Feb 2017 – Apr 2017',
+				text: 'Observed search engine optimization techniques and brainstormed new ideas for marketing campaigns.',
+			},
+		],
 	},
 ];
 
-const path = [
-	{
-		when: 'Mar 2025 – Present',
-		t: 'Senior Product Designer, Dandy',
-		d: 'First the dentist-facing ordering and chairside flows, then sole product designer on the Design Editor, where lab designers prep scans and design restorations. I prototype in Storybook with real React components and built the Design Editor design system from scratch.',
-	},
-	{
-		when: 'Jan 2019 – Feb 2024',
-		t: 'UX Designer to Senior Product Designer, Amwell',
-		d: 'Five years on white-label virtual urgent care across patients, providers, and admin. I led patient UX strategy, redesigned the admin platform with a multi-tier framework, and mentored two junior designers.',
-	},
-	{
-		when: 'May 2017 – May 2018',
-		t: 'UX Designer, Paper Airplane',
-		d: 'Early-stage dating app startup. Part of a seven-person team shaping the interface and marketing strategy.',
-	},
-	{
-		when: '2018 – Present',
-		t: 'Product design, freelance and consulting',
-		d: 'Independent product design and research alongside full-time roles.',
-	},
+const education = [
+	{ school: 'University of Massachusetts Lowell', what: 'Information Technology, Human Computer Interaction Design and Development', when: '2018 – 2020' },
+	{ school: 'Massachusetts College of Art and Design', what: 'Graphic Design', when: '2018 – 2019' },
+	{ school: 'Pratt Institute', what: 'UX/UI Mobile Design (certificate)', when: '2018' },
+	{ school: 'Springboard', what: 'UX Design (certificate)', when: '2017' },
+	{ school: 'James Madison University', what: 'Interactive Media and Design, Computer Information Systems', when: '2015 – 2017' },
+];
+
+const values = [
+	{ color: 'coral', title: 'Design in the real material', body: 'Storybook prototypes built from the same React components we ship, so a prototype is a first draft of production, not a picture of it.' },
+	{ color: 'sun', title: 'Alignment is a deliverable', body: 'A great design nobody agrees on never ships. I align PM, clinical, engineering, and ops as carefully as I design the screen.' },
+	{ color: 'mint', title: 'Curiosity before opinions', body: 'I shadow people doing the work before I draw anything. The best ideas hide in the workarounds.' },
+	{ color: 'sky', title: 'Measure what matters', body: "Every project starts with how we'll know it worked, and ends by checking." },
 ];
 ---
 
 <Base
 	title="Resume"
-	description="Where Casey Flood has worked: Dandy, Amwell, Paper Airplane, and independent product design."
+	description="Casey Flood's experience: Dandy, Amwell, Paper Airplane, and independent product design."
 >
 	<section class="page-intro">
 		<div class="shell">
 			<p class="eyebrow eyebrow--mint">Resume</p>
 			<h1>Where I've worked.</h1>
+			<p class="lede">
+				Senior product designer with a design-engineering practice, from healthcare software to dental
+				manufacturing.
+			</p>
 		</div>
 	</section>
 
-	<section class="section" style="padding-top: 2rem" aria-labelledby="path-heading">
+	<section class="section" style="padding-top: 1rem" aria-label="Highlights">
 		<div class="shell">
-			<h2 id="path-heading" class="visually-hidden">Experience</h2>
-			<ol class="timeline">
+			<ul class="proof">
 				{
-					path.map((p) => (
+					highlights.map((p) => (
 						<li data-reveal>
-							<p class="card__kicker">{p.when}</p>
-							<h3>{p.t}</h3>
-							<p>{p.d}</p>
+							<strong>{p.v}</strong>
+							<span>{p.l}</span>
+						</li>
+					))
+				}
+			</ul>
+		</div>
+	</section>
+
+	<section class="section" aria-labelledby="exp-heading" style="padding-top: 1.5rem">
+		<div class="shell">
+			<h2 id="exp-heading" class="h2">Experience</h2>
+			<ol class="rs">
+				{
+					jobs.map((j) => (
+						<li class="rs__job" data-reveal>
+							<header class="rs__co">
+								<h3>{j.company}</h3>
+								{j.span && <span>{j.span}</span>}
+							</header>
+							{j.roles.map((r) => (
+								<article class="rs__role">
+									<p class="card__kicker">{r.when}</p>
+									<h4>{r.title}</h4>
+									{r.text && <p>{r.text}</p>}
+									{r.bullets && (
+										<ul>
+											{r.bullets.map((b) => (
+												<li>{b}</li>
+											))}
+										</ul>
+									)}
+								</article>
+							))}
 						</li>
 					))
 				}
@@ -76,7 +196,24 @@ const path = [
 		</div>
 	</section>
 
-	<section class="section band" aria-labelledby="how-heading">
+	<section class="section band" aria-labelledby="edu-heading">
+		<div class="shell">
+			<h2 id="edu-heading" class="h2">Education</h2>
+			<ul class="rs__edu">
+				{
+					education.map((e) => (
+						<li data-reveal>
+							<span class="card__kicker">{e.when}</span>
+							<h3>{e.school}</h3>
+							<p>{e.what}</p>
+						</li>
+					))
+				}
+			</ul>
+		</div>
+	</section>
+
+	<section class="section" aria-labelledby="how-heading">
 		<div class="shell">
 			<p class="eyebrow eyebrow--sky">Values</p>
 			<h2 id="how-heading" class="h2">How I work.</h2>

@@ -10878,3 +10878,75 @@ a.hub-card:focus-visible,
 .hub-sub:first-of-type {
 	margin-top: 1.5rem;
 }
+
+/* resume */
+.rs {
+	display: grid;
+	gap: 2.25rem;
+	margin: 2rem 0 0;
+	padding: 0;
+	list-style: none;
+}
+
+.rs__co {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: 0.3rem 0.9rem;
+	padding-bottom: 0.6rem;
+	border-bottom: 2px solid var(--ink);
+}
+
+.rs__co h3 {
+	margin: 0;
+	font-size: 1.6rem;
+}
+
+.rs__co span {
+	color: var(--muted);
+	font-size: 0.9rem;
+}
+
+.rs__role {
+	padding: 1.1rem 0 0;
+	max-width: 52rem;
+}
+
+.rs__role h4 {
+	margin: 0.15rem 0 0.4rem;
+	font-family: var(--display);
+	font-size: 1.15rem;
+}
+
+.rs__role p {
+	margin: 0 0 0.6rem;
+}
+
+.rs__role ul {
+	display: grid;
+	gap: 0.45rem;
+	margin: 0.4rem 0 0;
+	padding-left: 1.2rem;
+	color: var(--muted);
+	line-height: 1.55;
+}
+
+.rs__edu {
+	display: grid;
+	gap: 1rem;
+	grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+	margin: 1.5rem 0 0;
+	padding: 0;
+	list-style: none;
+}
+
+.rs__edu h3 {
+	margin: 0.2rem 0;
+	font-size: 1.1rem;
+}
+
+.rs__edu p {
+	margin: 0;
+	color: var(--muted);
+	font-size: 0.92rem;
+}
