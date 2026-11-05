@@ -3,37 +3,87 @@ import Base from '../../layouts/Base.astro';
 import ProjectCard from '../../components/ProjectCard.astro';
 import { getProjects } from '../../lib/projects';
 
-const projects = await getProjects();
+const all = await getProjects();
+const byId = (id: string) => all.find((p) => p.id === id)!;
+
+const dandy = [
+	{ k: 'Dandy · Design Editor', title: 'A design system for the Design Editor', body: 'Built from scratch in Storybook with Cursor, on production code.', href: '/work/dandy-design-system', foot: 'Read the case study →' },
+	{ k: 'Dandy · Practice', title: 'Clickable prototypes', body: 'Full interactive flows built from real components in Storybook.', href: '/work/dandy-prototype', foot: 'Read more →' },
+	{ k: 'Dandy · Practice', title: 'Product Design Hub', body: 'Onboarding, design jams, and a hub that spread design-in-code across the team.', href: '/work/dandy-product-design-hub', foot: 'Read more →' },
+];
+const earlier = ['mytrips', 'paper-airplane'].map(byId);
+const amwell = byId('amwell');
 ---
 
 <Base
 	title="Work"
-	description="Selected product design case studies by Casey Flood: Amwell Admin Portal and My Trips."
+	description="Product design work by Casey Flood, grouped by company: Dandy, Amwell, and earlier projects."
 >
 	<section class="page-intro">
 		<div class="shell">
 			<p class="eyebrow eyebrow--sky">Work</p>
 			<h1>Case studies</h1>
-			<p class="lede">
-				Complex products, honest process, measured results. New Dandy stories are on the way.
-			</p>
+			<p class="lede">Complex products, honest process, measured results. Grouped by where I did the work.</p>
 		</div>
 	</section>
 
-	<section class="section" aria-label="Project grid" style="padding-top: 2rem">
+	<section class="section" aria-labelledby="dandy-h" style="padding-top: 2rem">
 		<div class="shell">
+			<div class="section__head">
+				<h2 id="dandy-h">Dandy</h2>
+				<a class="section__link" href="/work/dandy">Overview and the full journey →</a>
+			</div>
+			<ul class="hub-grid">
+				{
+					dandy.map((c) => (
+						<li>
+							<a class="hub-card" href={c.href}>
+								<span class="hub-card__k">{c.k}</span>
+								<h3>{c.title}</h3>
+								<p>{c.body}</p>
+								<span class="hub-card__foot">{c.foot}</span>
+							</a>
+						</li>
+					))
+				}
+			</ul>
+		</div>
+	</section>
+
+	<section class="section band" aria-labelledby="amwell-h">
+		<div class="shell">
+			<div class="section__head">
+				<h2 id="amwell-h">Amwell</h2>
+			</div>
+			<div class="grid">
+				<ProjectCard
+					title={amwell.data.title}
+					summary={amwell.data.summary}
+					kicker={amwell.data.industry}
+					tags={amwell.data.tags}
+					href={`/work/${amwell.id}`}
+					metric={amwell.data.metrics[0]}
+					accent={amwell.data.accent}
+				/>
+			</div>
+		</div>
+	</section>
+
+	<section class="section" aria-labelledby="earlier-h">
+		<div class="shell">
+			<div class="section__head">
+				<h2 id="earlier-h">Earlier work</h2>
+			</div>
 			<div class="grid">
 				{
-					projects.map((p) => (
+					earlier.map((p) => (
 						<ProjectCard
 							title={p.data.title}
 							summary={p.data.summary}
 							kicker={p.data.industry}
-							tags={p.data.status === 'published' ? p.data.tags : []}
-							comingSoon={p.data.status === 'coming-soon'}
-							lead={p.data.status === 'published'}
-							href={p.data.status === 'published' ? `/work/${p.id}` : undefined}
-							metric={p.data.status === 'published' ? p.data.metrics[0] : undefined}
+							tags={p.data.tags}
+							href={`/work/${p.id}`}
+							metric={p.data.metrics[0]}
 							accent={p.data.accent}
 						/>
 					))

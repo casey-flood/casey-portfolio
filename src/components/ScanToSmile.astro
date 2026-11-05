@@ -1,0 +1,234 @@
+---
+import { stages, projects, actors, intro, optionalLoop, type ProjectId } from '../data/scan-to-smile';
+import { stageImages } from '../data/scan-to-smile-images';
+
+interface Props {
+	project?: ProjectId | null;
+	compact?: boolean; // small "where this fits" strip for case studies
+	controls?: boolean; // project switcher (used on the hub)
+	hubHref?: string;
+}
+const { project = null, compact = false, controls = false, hubHref = '/work/dandy' } = Astro.props;
+const uid = `s2s-${Math.random().toString(36).slice(2, 8)}`;
+const proj = project ? projects[project] : null;
+const hl = proj?.stages ?? [];
+const near = proj?.near ?? [];
+const rowLabels = ['Actor', 'Software', 'What travels onward', 'Handoff', 'Where my work intervened'];
+---
+
+{
+	compact ? (
+		<aside class="s2s s2s--compact" aria-label="Where this project fits in the journey">
+			<p class="s2s__eyebrow">Where this fits</p>
+			<ol class="s2s__mini">
+				{stages.map((s) => (
+					<li class:list={{ 'is-hl': hl.includes(s.n), 'is-near': near.includes(s.n) }}>
+						<span class="s2s__mini-n">{s.n}</span>
+						<span>{s.title}</span>
+					</li>
+				))}
+			</ol>
+			<p class="s2s__mini-note">
+				{proj?.blurb} <a href={hubHref}>See the full journey →</a>
+			</p>
+		</aside>
+	) : (
+		<div class="s2s" data-s2s data-listen={controls ? '' : undefined} data-hl={hl.join(',')} data-near={near.join(',')}>
+			{
+				controls && (
+					<div class="s2s__ctl" role="group" aria-label="Highlight a project">
+						<button type="button" data-p="all" aria-pressed="true">Overview</button>
+						{Object.values(projects).map((p) => (
+							<button type="button" data-p={p.id} data-stages={p.stages.join(',')} data-near={(p.near ?? []).join(',')} data-blurb={p.blurb} aria-pressed="false">
+								{p.label}
+							</button>
+						))}
+					</div>
+				)
+			}
+
+			<ol class="s2s__flow">
+				{
+					stages.map((s, i) => {
+						const img = stageImages[s.n];
+						const a = actors[s.actor];
+						return (
+							<li class:list={['s2s__step', { 'is-hl': hl.includes(s.n), 'is-near': near.includes(s.n) }]} data-stage={s.n} style={`--o:${s.n * 2}`}>
+								<button type="button" class="s2s__card" aria-expanded="false" aria-controls={`${uid}-panel`} data-stage={s.n}>
+									<span class="s2s__img">
+										{img.src ? (
+											<img src={img.src} alt={img.alt} width="400" height="300" loading="lazy" decoding="async" />
+										) : (
+											<span class="s2s__ph" role="img" aria-label={`Placeholder: ${img.hint}`}>
+												<b>{img.label}</b>
+												<small>{img.hint}</small>
+											</span>
+										)}
+										<span class="s2s__no">{s.n}</span>
+									</span>
+									<span class="s2s__t">{s.title}</span>
+									<span class="s2s__chip">
+										<i style={`background:${a.color}`} />
+										{s.actorLabel ?? a.label}
+									</span>
+								</button>
+								{i < stages.length - 1 && (
+									<span class={`s2s__link s2s__link--${s.mode}`} aria-hidden="true">
+										<em>{s.travels}</em>
+									</span>
+								)}
+							</li>
+						);
+					})
+				}
+				<li class="s2s__loop" aria-label={optionalLoop}>
+					<span>{optionalLoop}</span>
+				</li>
+			</ol>
+
+			<p class="s2s__legend">
+				<span><i class="lg lg--digital"></i>Travels digitally</span>
+				<span><i class="lg lg--physical"></i>Physical restoration</span>
+				<span class="s2s__intro">{intro}</span>
+			</p>
+
+			<div class="s2s__panel" id={`${uid}-panel`} role="region" aria-live="polite" aria-label="Step details" hidden></div>
+			<p class="s2s__hint" data-hint>{proj ? proj.blurb : 'Select a step to see who does what.'}</p>
+
+			<button type="button" class="s2s__bp-btn" aria-expanded="false" aria-controls={`${uid}-bp`}>See the blueprint</button>
+			<div class="s2s__bp" id={`${uid}-bp`} hidden>
+				<div class="s2s__bp-scroll">
+					<table>
+						<caption class="sr-only">Service blueprint: who, what software, and what travels at each step</caption>
+						<thead>
+							<tr>
+								<th scope="col"><span class="sr-only">Row</span></th>
+								{stages.map((s) => <th scope="col">{s.n}. {s.title}</th>)}
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<th scope="row">{rowLabels[0]}</th>
+								{stages.map((s) => <td>{s.actorLabel ?? actors[s.actor].label}</td>)}
+							</tr>
+							<tr>
+								<th scope="row">{rowLabels[1]}</th>
+								{stages.map((s) => <td class:list={{ none: !s.software }}>{s.software ?? 'None'}</td>)}
+							</tr>
+							<tr>
+								<th scope="row">{rowLabels[2]}</th>
+								{stages.map((s) => <td>{s.travels}</td>)}
+							</tr>
+							<tr>
+								<th scope="row">{rowLabels[3]}</th>
+								{stages.map((s) => <td>{s.handoff}</td>)}
+							</tr>
+							<tr>
+								<th scope="row">{rowLabels[4]}</th>
+								{stages.map((s) => <td class:list={{ val: !s.intervened }}>{s.intervened ?? 'To validate'}</td>)}
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+			<script type="application/json" data-s2s-json set:html={JSON.stringify({ stages, actors, projects })} />
+		</div>
+	)
+}
+
+<script>
+	const roots = document.querySelectorAll<HTMLElement>('[data-s2s]');
+	roots.forEach((root) => {
+		const data = JSON.parse(root.querySelector('[data-s2s-json]')!.textContent!);
+		const steps = Array.from(root.querySelectorAll<HTMLElement>('.s2s__step'));
+		const panel = root.querySelector<HTMLElement>('.s2s__panel')!;
+		const hint = root.querySelector<HTMLElement>('[data-hint]')!;
+		const defaultHint = 'Select a step to see who does what.';
+		let open = 0;
+
+		const nums = (s?: string | null) => (s ? s.split(',').filter(Boolean).map(Number) : []);
+		const setHl = (hl: number[], near: number[]) => {
+			root.dataset.hl = hl.join(',');
+			steps.forEach((el) => {
+				const n = Number(el.dataset.stage);
+				el.classList.toggle('is-hl', hl.includes(n));
+				el.classList.toggle('is-near', near.includes(n));
+			});
+		};
+		setHl(nums(root.dataset.hl), nums(root.dataset.near));
+
+		const close = () => {
+			open = 0;
+			panel.hidden = true;
+			steps.forEach((el) => el.querySelector('.s2s__card')!.setAttribute('aria-expanded', 'false'));
+		};
+		const show = (n: number) => {
+			if (open === n) return close();
+			open = n;
+			const s = data.stages.find((x: any) => x.n === n);
+			const a = data.actors[s.actor];
+			panel.textContent = '';
+			const h = document.createElement('h3');
+			h.textContent = `${s.n}. ${s.title}`;
+			const p = document.createElement('p');
+			p.textContent = s.what;
+			const dl = document.createElement('dl');
+			const add = (k: string, v: string) => {
+				const dt = document.createElement('dt');
+				dt.textContent = k;
+				const dd = document.createElement('dd');
+				dd.textContent = v;
+				dl.append(dt, dd);
+			};
+			add('Who', s.actorLabel ?? a.label);
+			add('Software', s.software ?? 'None');
+			add('Travels onward', s.travels);
+			add('Handoff', s.handoff);
+			panel.append(h, p, dl);
+			if (s.validate) {
+				const v = document.createElement('p');
+				v.className = 's2s__validate';
+				v.textContent = `To validate: ${s.validate}`;
+				panel.append(v);
+			}
+			panel.hidden = false;
+			steps.forEach((el) =>
+				el.querySelector('.s2s__card')!.setAttribute('aria-expanded', String(Number(el.dataset.stage) === n)),
+			);
+		};
+		root.querySelectorAll<HTMLButtonElement>('.s2s__card').forEach((b) =>
+			b.addEventListener('click', () => show(Number(b.dataset.stage))),
+		);
+
+		// blueprint toggle
+		const bpBtn = root.querySelector<HTMLButtonElement>('.s2s__bp-btn')!;
+		const bp = root.querySelector<HTMLElement>('.s2s__bp')!;
+		bpBtn.addEventListener('click', () => {
+			const o = bp.hidden;
+			bp.hidden = !o;
+			bpBtn.setAttribute('aria-expanded', String(o));
+			bpBtn.textContent = o ? 'Hide the blueprint' : 'See the blueprint';
+		});
+
+		// project switcher + external highlight events (hub cards)
+		const ctl = root.querySelectorAll<HTMLButtonElement>('.s2s__ctl button');
+		const activate = (btn: HTMLButtonElement) => {
+			ctl.forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
+			setHl(nums(btn.dataset.stages), nums(btn.dataset.near));
+			hint.textContent = btn.dataset.blurb ?? defaultHint;
+		};
+		ctl.forEach((b) => b.addEventListener('click', () => activate(b)));
+		if (root.hasAttribute('data-listen')) {
+			window.addEventListener('s2s:highlight', (e) => {
+				const d = (e as CustomEvent).detail as { stages: number[] };
+				ctl.forEach((b) => b.setAttribute('aria-pressed', 'false'));
+				setHl(d.stages, []);
+			});
+			window.addEventListener('s2s:reset', () => {
+				const first = ctl[0];
+				if (first) activate(first);
+			});
+		}
+	});
+</script>

@@ -1,0 +1,151 @@
+---
+import Base from '../../layouts/Base.astro';
+import ScanToSmile from '../../components/ScanToSmile.astro';
+
+interface Card {
+	k: string;
+	title: string;
+	body: string;
+	stages: number[];
+	href?: string;
+	foot: string;
+}
+
+// Projects, ordered by where they sit in the journey. Pages that don't exist yet are marked coming soon.
+const projects: Card[] = [
+	{
+		k: 'Steps 3 and 6',
+		title: 'Goldilocks',
+		body: 'An opt-in program where dentists get three versions of the same crown with different contact fits, so they can choose the best one without returning and reordering.',
+		stages: [3, 6],
+		foot: 'Case study coming soon',
+	},
+	{
+		k: 'Steps 3 to 4',
+		title: 'Instant Design Preview',
+		body: 'Dentists preview the generated crown in Chairside, tweak it, and add notes before it goes to a designer or the lab.',
+		stages: [3, 4],
+		foot: 'Case study coming soon',
+	},
+	{
+		k: 'Step 4',
+		title: 'Dandy Design Editor',
+		body: "The 3D software where dental designers prepare incoming cases and design restorations. I'm the sole product designer on it.",
+		stages: [4],
+		foot: 'Case study coming soon',
+	},
+];
+
+const systems: Card[] = [
+	{
+		k: 'Step 4',
+		title: 'A design system for the Design Editor',
+		body: 'Built from scratch in Storybook with Cursor, on production code. Iteration dropped from 30–45 minutes in Figma to 5–10.',
+		stages: [4],
+		href: '/work/dandy-design-system',
+		foot: 'Read the case study →',
+	},
+	{
+		k: 'Practice',
+		title: 'Clickable prototypes',
+		body: 'Full interactive flows built from real components in Storybook.',
+		stages: [],
+		href: '/work/dandy-prototype',
+		foot: 'Read more →',
+	},
+	{
+		k: 'Practice',
+		title: 'Product Design Hub',
+		body: 'Onboarding, design jams, and a hub that spread design-in-code across the team.',
+		stages: [],
+		href: '/work/dandy-product-design-hub',
+		foot: 'Read more →',
+	},
+];
+---
+
+<Base
+	title="Dandy"
+	description="Casey Flood's work at Dandy, a digital dental lab: Chairside ordering, the Design Editor, and the systems around them."
+>
+	<section class="page-intro">
+		<div class="shell">
+			<p class="eyebrow eyebrow--sky">Work · Dandy</p>
+			<h1>Designing both sides of a digital dental lab.</h1>
+			<p class="lede">
+				Dandy connects dentists, dental designers, and manufacturing through software. I've designed the
+				dentist-facing ordering flows and the designer-facing Design Editor.
+			</p>
+			<dl class="hub-meta">
+				<div><dt>Role</dt><dd>Senior Product Designer</dd></div>
+				<div><dt>When</dt><dd>Mar 2025 – now</dd></div>
+				<div><dt>Focus</dt><dd>Chairside ordering · Design Editor · Design systems</dd></div>
+			</dl>
+		</div>
+	</section>
+
+	<section class="section" aria-labelledby="journey-heading" style="padding-top: 2rem">
+		<div class="shell">
+			<p class="eyebrow">The bigger picture</p>
+			<h2 id="journey-heading" class="h2">From Scan to Smile</h2>
+			<p class="lede" style="max-width: 44rem; margin-bottom: 2rem">
+				Before diving into the projects, here's how a dental restoration moves from the dentist's chair,
+				through digital design and manufacturing, and back to the patient.
+			</p>
+			<ScanToSmile controls />
+		</div>
+	</section>
+
+	<section class="section band" aria-labelledby="work-heading">
+		<div class="shell">
+			<p class="eyebrow eyebrow--mint">My work across it</p>
+			<h2 id="work-heading" class="h2">Where I fit in.</h2>
+			<p class="hub-sub">Projects along the journey</p>
+			<ul class="hub-grid">
+				{
+					projects.map((c) => (
+						<li>
+							<div class="hub-card hub-card--soon" data-stages={c.stages.join(',')} tabindex="0">
+								<span class="hub-card__k">{c.k}</span>
+								<h3>{c.title}</h3>
+								<p>{c.body}</p>
+								<span class="hub-card__foot">{c.foot}</span>
+							</div>
+						</li>
+					))
+				}
+			</ul>
+			<p class="hub-sub">Systems and practice</p>
+			<ul class="hub-grid">
+				{
+					systems.map((c) => (
+						<li>
+							<a class="hub-card" href={c.href} data-stages={c.stages.join(',')}>
+								<span class="hub-card__k">{c.k}</span>
+								<h3>{c.title}</h3>
+								<p>{c.body}</p>
+								<span class="hub-card__foot">{c.foot}</span>
+							</a>
+						</li>
+					))
+				}
+			</ul>
+		</div>
+	</section>
+</Base>
+
+<script>
+	// Hovering or focusing a project lights its step in the journey above.
+	const cards = document.querySelectorAll<HTMLElement>('.hub-card[data-stages]');
+	const send = (el: HTMLElement) => {
+		const stages = (el.dataset.stages ?? '').split(',').filter(Boolean).map(Number);
+		if (!stages.length) return;
+		window.dispatchEvent(new CustomEvent('s2s:highlight', { detail: { stages } }));
+	};
+	cards.forEach((c) => {
+		c.addEventListener('mouseenter', () => send(c));
+		c.addEventListener('focus', () => send(c));
+		c.addEventListener('mouseleave', () => window.dispatchEvent(new Event('s2s:reset')));
+		c.addEventListener('blur', () => window.dispatchEvent(new Event('s2s:reset')));
+	});
+</script>

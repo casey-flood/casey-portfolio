@@ -1,4 +1,5 @@
 ---
+import ScanToSmile from '../../components/ScanToSmile.astro';
 import Base from '../../layouts/Base.astro';
 
 // Steps play a looped slice of the walkthrough (start/end are seconds in /journey/storybook-ds.mp4),
@@ -98,6 +99,8 @@ const chapters = [
 			</figure>
 
 			<!-- 01 THE GAP -->
+			<ScanToSmile compact project="dde" />
+
 			<section class="dz-ch" id="gap">
 				<div class="dz-ch__head">
 					<span class="dz-ch__no">01</span>
