@@ -1,0 +1,124 @@
+---
+// Small animated illustrations for the Design Editor story. Final state is the default;
+// the page script plays them in when their beat becomes active.
+interface Props { kind: string }
+const { kind } = Astro.props;
+const tools = ['Transform', 'Deform', 'Angles', 'CEJ', 'Margin', 'Sculpt', 'Fill', 'Cut plane', 'Oppose', 'Mirror', 'Min thickness'];
+const spots = [[4,10,-6],[34,4,5],[62,12,-3],[10,34,4],[42,30,-5],[72,36,6],[6,60,-4],[36,56,3],[66,62,-6],[22,80,5],[56,84,-3]];
+const front = [['Apr',134],['May',25],['Jun',20],['Jul',19],['Aug',20]];
+---
+
+{kind === 'handoff' && (
+	<ol class="dz dz-handoff" aria-label="One crown, three stops">
+		<li style="--i:0">Prep in Browser</li>
+		<li style="--i:1">Upload</li>
+		<li style="--i:2">3Shape or the editor</li>
+	</ol>
+)}
+
+{kind === 'scatter' && (
+	<div class="dz dz-scatter" aria-hidden="true">
+		{tools.map((t, i) => <span style={`left:${spots[i][0]}%;top:${spots[i][1]}%;--r:${spots[i][2]}deg;--i:${i}`}>{t}</span>)}
+	</div>
+)}
+
+{kind === 'survey' && (
+	<div class="dz dz-bars" role="img" aria-label="Likelihood to recommend, out of 10: the editor 6.9, 3Shape 9.1">
+		<div class="dz-bar"><span>The editor</span><i style="--w:69%"></i><b>6.9</b></div>
+		<div class="dz-bar dz-bar--alt"><span>3Shape</span><i style="--w:91%"></i><b>9.1</b></div>
+		<p>Nine designers, summer 2025</p>
+	</div>
+)}
+
+{kind === 'usage' && (
+	<div class="dz dz-usage" role="img" aria-label="About 46 percent of the cases it was meant to cover, against a goal of 100 percent">
+		<div class="dz-track"><i style="--w:46%"></i><em>Goal 100%</em></div>
+		<p><b>About 46%</b> of intended cases, June 2025</p>
+	</div>
+)}
+
+{kind === 'stages' && (
+	<ol class="dz dz-stages" aria-label="The path through a case">
+		{['Set view','Choose crown','Sculpt','Check','Send'].map((s, i) => <li style={`--i:${i}`}>{s}</li>)}
+	</ol>
+)}
+
+{kind === 'sliders' && (
+	<div class="dz dz-sliders" aria-hidden="true">
+		<div><span>Before</span><i class="s s--short"><u></u></i></div>
+		<div><span>After</span><i class="s s--long"><u></u></i></div>
+	</div>
+)}
+
+{kind === 'prep' && (
+	<div class="dz dz-prep" aria-label="Choosing the base tooth in prep">
+		<p>Base the crown on</p>
+		<ul>
+			<li>A copy of the pre-op</li>
+			<li class="pick">A mirror of the other side</li>
+			<li>A neighbor</li>
+		</ul>
+		<span class="dz-note">The designer can override</span>
+	</div>
+)}
+
+{kind === 'frontview' && (
+	<div class="dz dz-cols" role="img" aria-label="Front view, mean active seconds per visit: April 134, May 25, June 20, July 19, August 20">
+		{front.map(([m, v], i) => (
+			<div style={`--h:${(Number(v) / 134) * 100}%;--i:${i}`}><b>{v}</b><i></i><span>{m}</span></div>
+		))}
+		<p>seconds per visit</p>
+	</div>
+)}
+
+{kind === 'crown' && (
+	<div class="dz dz-crown" aria-hidden="true">
+		<svg viewBox="0 0 200 160"><path pathLength="1" d="M30 110 C28 60 50 28 80 30 C95 31 100 40 100 40 C100 40 105 31 120 30 C150 28 172 60 170 110 C168 135 150 140 140 120 C132 105 118 105 100 105 C82 105 68 105 60 120 C50 140 32 135 30 110Z"/></svg>
+		<span class="dz-chip dz-chip--a">Proposed by the model</span>
+		<span class="dz-chip dz-chip--b">The designer can replace it</span>
+	</div>
+)}
+
+{kind === 'autoprep' && (
+	<ul class="dz dz-checks" aria-label="Prep that runs ahead">
+		<li style="--i:0">Scan cleaned up</li>
+		<li style="--i:1">Margin suggested</li>
+		<li style="--i:2" class="last">Designer reviews and can redo</li>
+	</ul>
+)}
+
+{kind === 'methods' && (
+	<ul class="dz dz-methods" aria-label="How I did the research">
+		{['Field study in Cairo','Shadowing on real cases','Card sorts','Short task tests'].map((m, i) => <li style={`--i:${i}`}>{m}</li>)}
+	</ul>
+)}
+
+{kind === 'loop' && (
+	<ol class="dz dz-loop" aria-label="The weekly cycle">
+		<li style="--i:0">Bring a flow</li>
+		<li style="--i:1">Watch where they click</li>
+		<li style="--i:2">Cut the tickets</li>
+	</ol>
+)}
+
+{kind === 'lost' && (
+	<div class="dz dz-sort" aria-hidden="true">
+		<div class="dz-sort__cols">
+			{[
+				['Set view', [['Front view', -190, 90, -9], ['Orientation', 120, 150, 7]]],
+				['Choose crown', [['Tooth library', 260, -40, 6], ['Tooth number', -90, 170, -5]]],
+				['Sculpt', [['Brush', -330, 20, 8], ['Contacts', 210, 120, -8]]],
+				['Check', [['Occlusion', -250, 160, 5], ['Margin line', 90, -60, -7]]],
+				['Send', [['Notes', -400, 80, -6]]],
+			].map(([name, cards], ci) => (
+				<div class="dz-sort__col" style={`--c:${ci}`}>
+					<b>{name}</b>
+					{(cards as any[]).map(([label, dx, dy, r], k) => (
+						<span class="dz-sort__card" style={`--dx:${dx}px;--dy:${dy}px;--r:${r}deg;--k:${ci * 2 + k}`}>{label}</span>
+					))}
+				</div>
+			))}
+		</div>
+		<p class="dz-sort__note">Illustration: sorting the tools into stages.</p>
+	</div>
+)}

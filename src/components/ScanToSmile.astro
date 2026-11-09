@@ -7,8 +7,9 @@ interface Props {
 	compact?: boolean; // small "where this fits" strip
 	listen?: boolean; // react to project cards elsewhere on the page (hover or tap)
 	hubHref?: string;
+	quiet?: boolean; // display only: no details panel, steps just light up from project cards
 }
-const { project = null, compact = false, listen = false, hubHref = '/work/dandy' } = Astro.props;
+const { project = null, compact = false, listen = false, hubHref = '/work/dandy', quiet = false } = Astro.props;
 const uid = `s2s-${Math.random().toString(36).slice(2, 8)}`;
 const proj = project ? projects[project] : null;
 const hl = proj?.stages ?? [];
@@ -51,7 +52,7 @@ const chipLabel: Record<GroupId, string> = {
 			</p>
 		</aside>
 	) : (
-		<div class="s2s" data-s2s data-start={startStep} data-listen={listen ? '' : undefined} data-hl={hl.join(',')} data-near={near.join(',')}>
+		<div class:list={['s2s', { 's2s--quiet': quiet }]} data-s2s data-quiet={quiet ? '' : undefined} data-start={startStep} data-listen={listen ? '' : undefined} data-hl={hl.join(',')} data-near={near.join(',')}>
 			<div class="s2s__track" data-track>
 				{order.map((g, gi) => {
 					const gs = stages.filter((s) => s.group === g);
@@ -97,7 +98,7 @@ const chipLabel: Record<GroupId, string> = {
 				})}
 			</div>
 
-			<div class="s2s__panel" id={`${uid}-panel`} role="region" aria-live="polite" aria-label="About this step"></div>
+			<div class="s2s__panel" hidden={quiet} id={`${uid}-panel`} role="region" aria-live="polite" aria-label="About this step"></div>
 			{proj && <p class="s2s__hint" data-hint>{proj.blurb}</p>}
 
 			<script type="application/json" data-s2s-json set:html={JSON.stringify({ stages, projects })} />
@@ -201,10 +202,15 @@ const chipLabel: Record<GroupId, string> = {
 			steps.forEach((el) => el.classList.toggle('is-open', Number(el.dataset.stage) === n));
 			if (scroll && isMobile()) panel.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
 		};
-		root.querySelectorAll<HTMLButtonElement>('.s2s__card').forEach((b) =>
-			b.addEventListener('click', () => show(Number(b.dataset.stage))),
-		);
-		show(Number(root.dataset.start) || 1, false); // first (or the project's) step open by default
+		if (!root.hasAttribute('data-quiet')) {
+			root.querySelectorAll<HTMLButtonElement>('.s2s__card').forEach((b) =>
+				b.addEventListener('click', () => show(Number(b.dataset.stage))),
+			);
+			show(Number(root.dataset.start) || 1, false); // first (or the project's) step open by default
+		} else {
+			close();
+			root.querySelectorAll<HTMLButtonElement>('.s2s__card').forEach((b) => b.setAttribute('tabindex', '-1'));
+		}
 
 		// project cards elsewhere on the page light up the steps they affect
 		if (root.hasAttribute('data-listen')) {

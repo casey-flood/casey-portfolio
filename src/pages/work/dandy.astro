@@ -1,67 +1,53 @@
 ---
 import Base from '../../layouts/Base.astro';
-import ScanToSmile from '../../components/ScanToSmile.astro';
+import { stages } from '../../data/scan-to-smile';
+import { stageImages } from '../../data/scan-to-smile-images';
 
-interface Card {
-	k: string;
-	title: string;
-	body: string;
-	stages: number[];
-	href?: string;
-	foot: string;
-}
+const heroTitle = 'Designing both sides of a digital dental lab.';
+const statement =
+	"Dandy connects dentists, dental designers, and manufacturing through software. I've designed the dentist-facing ordering flows and the designer-facing Design Editor.";
+const words = statement.split(' ');
 
-// Projects, ordered by where they sit in the journey. Pages that don't exist yet are marked coming soon.
-const projects: Card[] = [
+const persona: Record<string, string> = {
+	patient: 'Patient',
+	dentist: 'Dentist',
+	designer: 'Dental designer',
+	ops: 'Manufacturing',
+	both: 'Dentist and patient',
+};
+
+// One block per project. `on` lights the journey steps the project touches.
+const projects = [
 	{
-		k: 'Steps 3 and 6',
-		title: 'Goldilocks',
-		body: 'An opt-in program where dentists get three versions of the same crown with different contact fits, so they can choose the best one without returning and reordering.',
-		stages: [3, 6],
-		foot: 'Case study coming soon',
-	},
-	{
-		k: 'Steps 3 to 4',
-		title: 'Instant Design Preview',
-		body: 'Dentists preview the generated crown in Chairside, tweak it, and add notes before it goes to a designer or the lab.',
-		stages: [3, 4],
-		foot: 'Case study coming soon',
-	},
-	{
-		k: 'Step 4',
+		kicker: 'For dental designers',
 		title: 'Dandy Design Editor',
-		body: "The 3D software where dental designers prepare incoming cases and design restorations. I'm the sole product designer on it.",
-		stages: [4],
-		href: '/work/dandy-design-editor',
-		foot: 'Case study in progress →',
+		text: "The 3D workspace where designers prepare cases and design restorations. I'm the sole product designer on it.",
+		on: [4],
+		img: { src: '/scan-to-smile/04-design.webp', alt: 'A dental designer working on a 3D restoration' },
+		link: { label: 'Read the case study', href: '/work/dandy-design-editor' },
+	},
+	{
+		kicker: 'For dentists',
+		title: 'Instant Design Preview',
+		text: 'Dentists preview the generated crown in Chairside, tweak it, and add notes before it goes to a designer or the lab.',
+		on: [3, 4],
+		img: { src: '/scan-to-smile/extra-ml-crown.webp', alt: 'A machine-learning generated crown' },
+		link: { label: 'Case study coming soon' },
+	},
+	{
+		kicker: 'For dentists and patients',
+		title: 'Goldilocks',
+		text: 'An opt-in program with three versions of the same crown at different contact fits, so dentists can choose the best one without reordering.',
+		on: [3, 6],
+		img: { src: '/scan-to-smile/06-place.webp', alt: 'A crown being placed in a patient’s mouth' },
+		link: { label: 'Case study coming soon' },
 	},
 ];
 
-const systems: Card[] = [
-	{
-		k: 'Step 4',
-		title: 'A design system for the Design Editor',
-		body: 'Built from scratch in Storybook with Cursor, on production code. Iteration dropped from 30–45 minutes in Figma to 5–10.',
-		stages: [4],
-		href: '/work/dandy-design-system',
-		foot: 'Read the case study →',
-	},
-	{
-		k: 'Practice',
-		title: 'Clickable prototypes',
-		body: 'Full interactive flows built from real components in Storybook.',
-		stages: [],
-		href: '/work/dandy-prototype',
-		foot: 'Read more →',
-	},
-	{
-		k: 'Practice',
-		title: 'Product Design Hub',
-		body: 'Onboarding, design jams, and a hub that spread design-in-code across the team.',
-		stages: [],
-		href: '/work/dandy-product-design-hub',
-		foot: 'Read more →',
-	},
+const systems = [
+	{ t: 'Design Editor design system', m: 'Built in Storybook, on production code', href: '/work/dandy-design-system' },
+	{ t: 'Clickable prototypes', m: 'Real components, full flows', href: '/work/dandy-prototype' },
+	{ t: 'Product Design Hub', m: 'Design-in-code, taught across the team', href: '/work/dandy-product-design-hub' },
 ];
 ---
 
@@ -69,83 +55,166 @@ const systems: Card[] = [
 	title="Dandy"
 	description="Casey Flood's work at Dandy, a digital dental lab: Chairside ordering, the Design Editor, and the systems around them."
 >
-	<section class="page-intro hub-plain">
-		<div class="shell">
-			<img class="hub-plain__logo" src="/brand/dandy-wordmark.svg" alt="Dandy" width="96" height="34" />
-			<p class="eyebrow eyebrow--sky">Work · Dandy</p>
-			<h1>Designing both sides of a digital dental lab.</h1>
-			<p class="lede">
-				Dandy connects dentists, dental designers, and manufacturing through software. I've designed the
-				dentist-facing ordering flows and the designer-facing Design Editor.
-			</p>
-		</div>
-	</section>
+	<div class="hv" data-hv>
+		<!-- 1. Cover -->
+		<section class="hv__cover" aria-labelledby="dandy-h">
+			<img class="hv__logo" src="/brand/dandy-wordmark.svg" alt="Dandy" width="96" height="34" />
+			<div class="hv__cover-text">
+				<p class="hv__eyebrow">Work · Senior Product Designer · 2025 – now</p>
+				<h1 id="dandy-h" aria-label={heroTitle}>
+					{heroTitle.split(' ').map((w, i) => (<><span class="hv-w" aria-hidden="true" style={`--i:${i}`}>{w}</span>{' '}</>))}
+				</h1>
+			</div>
+			<div class="hv__cover-art" aria-hidden="true" data-parallax>
+				<img src="/work/dandy-scan.webp" alt="" />
+				<span class="hv__beam"></span>
+			</div>
+		</section>
 
-	<section class="section hub-dock" aria-labelledby="journey-heading" style="padding-top: 2rem">
-		<div class="shell">
-			<p class="eyebrow">Company overview</p>
-			<h2 id="journey-heading" class="h2">From Scan to Smile</h2>
-			<p class="lede s2s-lede">
-				How a dental restoration gets from the dentist's chair to the lab and back to the patient. Select a step for details.
-			</p>
-			<ScanToSmile listen />
-			<div class="hub-projects" aria-labelledby="work-heading">
-			<p class="eyebrow eyebrow--mint">My projects</p>
-			<h2 id="work-heading" class="h2">Where I fit in.</h2>
-			<p class="hub-sub">Projects along the journey</p>
-			<ul class="hub-grid">
-				{
-					projects.map((c) => (
-						<li>
-							{c.href ? (
-								<a class="hub-card" href={c.href} data-stages={c.stages.join(',')}>
-									<h3>{c.title}</h3>
-									<p>{c.body}</p>
-									<span class="hub-card__foot">{c.foot}</span>
-								</a>
-							) : (
-								<div class="hub-card hub-card--soon" data-stages={c.stages.join(',')} tabindex="0">
-									<h3>{c.title}</h3>
-									<p>{c.body}</p>
-									<span class="hub-card__foot">{c.foot}</span>
+		<!-- 2. One statement that lights up word by word as you scroll -->
+		<section class="hv__reveal" data-reveal aria-label="About my work at Dandy">
+			<div class="hv__pin">
+				<p class="hv__statement">
+					{words.map((w) => <span class="hv-rw">{w} </span>)}
+				</p>
+			</div>
+		</section>
+
+		<!-- 3. The journey as a pinned scene: one step at a time -->
+		<section class="hv__story" data-story aria-labelledby="story-h">
+			<div class="hv__pin">
+				<h2 id="story-h" class="hv__eyebrow hv__eyebrow--lg">From scan to smile</h2>
+				<div class="hv__scene">
+					<div class="hv__steps">
+						{
+							stages.map((s) => (
+								<div class="hv__step" data-i={s.n - 1}>
+									<p class="hv__persona">{persona[s.group]}</p>
+									<h3>{s.title}</h3>
+									<p>{s.teaser}</p>
 								</div>
+							))
+						}
+					</div>
+					<div class="hv__frames" aria-hidden="true">
+						{
+							stages.map((s) => (
+								<img class="hv__frame" data-i={s.n - 1} src={stageImages[s.n].src} alt="" loading="lazy" decoding="async" />
+							))
+						}
+					</div>
+				</div>
+				<ol class="hv__rail" aria-label="Journey progress">
+					{stages.map((s) => <li data-i={s.n - 1}>{s.title}</li>)}
+				</ol>
+			</div>
+		</section>
+
+		<!-- 4. My projects, one at a time -->
+		<section class="hv__work" aria-labelledby="work-h">
+			<h2 id="work-h" class="hv__big">Where I fit in.</h2>
+			<p class="hv__lede">Product work along the journey, one project at a time.</p>
+			{
+				projects.map((p) => (
+					<article class="hv__proj" data-fade>
+						<div class="hv__proj-text">
+							<p class="hv__persona">{p.kicker}</p>
+							<h3>{p.title}</h3>
+							<p>{p.text}</p>
+							{p.link.href ? (
+								<a class="hv__cta" href={p.link.href}>{p.link.label} →</a>
+							) : (
+								<span class="hv__soon">{p.link.label}</span>
 							)}
-						</li>
-					))
-				}
-			</ul>
-			<p class="hub-sub">Systems and practice</p>
-			<ul class="hub-grid">
+							<ol class="hv__fit" aria-label="Where this fits in the journey">
+								{stages.map((s) => <li class:list={{ on: p.on.includes(s.n) }}>{s.title}</li>)}
+							</ol>
+						</div>
+						<figure class="hv__proj-art">
+							<img src={p.img.src} alt={p.img.alt} loading="lazy" decoding="async" />
+						</figure>
+					</article>
+				))
+			}
+		</section>
+
+		<!-- 5. Systems, with one number -->
+		<section class="hv__sys" aria-labelledby="sys-h" data-fade>
+			<h2 id="sys-h" class="hv__big">Behind the work.</h2>
+			<div class="hv__num">
+				<span>5–10 min</span>
+				<p>design iteration in code with the design system, down from 30–45 minutes.</p>
+			</div>
+			<ul class="hv__rows">
 				{
-					systems.map((c) => (
+					systems.map((r) => (
 						<li>
-							<a class="hub-card" href={c.href} data-stages={c.stages.join(',')}>
-								<h3>{c.title}</h3>
-								<p>{c.body}</p>
-								<span class="hub-card__foot">{c.foot}</span>
+							<a href={r.href}>
+								<span>{r.t}</span>
+								<small>{r.m}</small>
 							</a>
 						</li>
 					))
 				}
 			</ul>
-			</div>
-		</div>
-	</section>
+		</section>
+
+		<!-- 6. Close -->
+		<section class="hv__end" data-fade>
+			<h2 class="hv__big">See it in depth.</h2>
+			<a class="hv__btn" href="/work/dandy-design-editor">Dandy Design Editor case study →</a>
+		</section>
+	</div>
 </Base>
 
 <script>
-	// Hovering or focusing a project lights its step in the journey above.
-	const cards = document.querySelectorAll<HTMLElement>('.hub-card[data-stages]');
-	const send = (el: HTMLElement) => {
-		const stages = (el.dataset.stages ?? '').split(',').filter(Boolean).map(Number);
-		if (!stages.length) return;
-		window.dispatchEvent(new CustomEvent('s2s:highlight', { detail: { stages } }));
-	};
-	cards.forEach((c) => {
-		c.addEventListener('mouseenter', () => send(c));
-		c.addEventListener('focus', () => send(c));
-		c.addEventListener('click', () => send(c));
-		c.addEventListener('mouseleave', () => window.dispatchEvent(new Event('s2s:reset')));
-		c.addEventListener('blur', () => window.dispatchEvent(new Event('s2s:reset')));
-	});
+	const root = document.querySelector<HTMLElement>('[data-hv]');
+	const calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+	if (root && !calm) {
+		root.classList.add('is-live');
+		const clamp = (n: number) => Math.max(0, Math.min(1, n));
+		// progress through a tall section: 0 when its top reaches the viewport top, 1 when its bottom reaches the viewport bottom
+		const progress = (el: HTMLElement) => {
+			const r = el.getBoundingClientRect();
+			return clamp(-r.top / Math.max(1, r.height - window.innerHeight));
+		};
+
+		const reveal = root.querySelector<HTMLElement>('[data-reveal]');
+		const rws = reveal ? Array.from(reveal.querySelectorAll<HTMLElement>('.hv-rw')) : [];
+		const story = root.querySelector<HTMLElement>('[data-story]');
+		const idx = (sel: string) => (story ? Array.from(story.querySelectorAll<HTMLElement>(sel)) : []);
+		const steps = idx('.hv__step');
+		const frames = idx('.hv__frame');
+		const rail = idx('.hv__rail li');
+		const par = root.querySelector<HTMLElement>('[data-parallax]');
+		let last = -1;
+
+		const tick = () => {
+			if (reveal) {
+				const p = progress(reveal);
+				const lit = Math.round(p * 1.25 * rws.length);
+				rws.forEach((w, i) => w.classList.toggle('lit', i < lit));
+			}
+			if (story) {
+				const n = steps.length;
+				const i = Math.min(n - 1, Math.floor(progress(story) * n));
+				if (i !== last) {
+					last = i;
+					[steps, frames, rail].forEach((list) => list.forEach((el, k) => el.classList.toggle('on', k === i)));
+				}
+			}
+			if (par) par.style.setProperty('--py', `${Math.min(scrollY, 900) * -0.08}px`);
+		};
+		let raf = 0;
+		addEventListener('scroll', () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(tick); }, { passive: true });
+		addEventListener('resize', tick);
+		tick();
+
+		// everything else fades up once as it enters
+		const io = new IntersectionObserver(
+			(es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }),
+			{ rootMargin: '0px 0px -10% 0px', threshold: 0.1 },
+		);
+		root.querySelectorAll('[data-fade]').forEach((el) => io.observe(el));
+	}
 </script>

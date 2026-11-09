@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>if(/[?&]embed=1/.test(location.search))document.documentElement.classList.add("embed")</script>
+<style>html.embed,html.embed body{background:transparent!important}html.embed x-dc>div:first-of-type,html.embed body>div:first-of-type{background:transparent!important}</style>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/dandy-design-system-7017335a-bec1-4029-ac41-0b0fe8068707/colors_and_type.css">
+<script type="module" src="scan-viewer.js"></script>
+<style>html,body{margin:0;padding:0;background:#0b0f0e;font-family:'Inter',sans-serif}button{font-family:'Inter',sans-serif}*{box-sizing:border-box}@keyframes mshim{0%{background-position:-200px 0}100%{background-position:200px 0}}@keyframes mtw{0%,100%{opacity:.2;transform:scale(.6)}50%{opacity:1;transform:scale(1.15)}}@keyframes mup{from{transform:translateY(12px);opacity:0}to{transform:none;opacity:1}}</style>
+</helmet>
+<div style="width:100%;height:100vh;min-height:480px;display:flex;align-items:center;justify-content:center;overflow:hidden;background:{{ stageBg }}">
+<div style="{{ deviceStyle }}">
+  <sc-if value="{{ isPhone }}" hint-placeholder-val="{{ true }}"><div style="position:absolute;top:10px;left:50%;transform:translateX(-50%);width:112px;height:32px;border-radius:20px;background:#000;z-index:60"></div></sc-if>
+  <sc-if value="{{ inHome }}" hint-placeholder-val="{{ true }}">
+  <div style="flex:1;min-height:0;overflow-y:auto;padding:{{ topPad }} 16px 24px;background:var(--m-bg)">
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding-top:6px"><div style="font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--m-gt);white-space:nowrap">{{ todayLabel }}</div><button onClick="{{ toggleTheme }}" aria-label="Toggle theme" style="width:44px;height:44px;border-radius:999px;border:1px solid var(--m-line);background:transparent;color:var(--m-t);cursor:pointer;display:grid;place-items:center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="{{ themeIcon }}"></path></svg></button></div>
+    <div style="font-family:var(--font-display);font-size:30px;line-height:1.08;margin:4px 0 14px">Let’s get designing, Maya.</div>
+    <div style="display:flex;gap:8px;min-width:0"><sc-for list="{{ stats }}" as="sx" hint-placeholder-count="3"><div style="flex:1 1 0;min-width:0;padding:12px;border-radius:14px;background:var(--m-p);border:1px solid var(--m-line)"><div style="font-size:22px;font-weight:600;font-variant-numeric:tabular-nums">{{ sx.v }}</div><div style="font-size:12px;color:var(--m-t2);margin-top:2px">{{ sx.l }}</div></div></sc-for></div>
+    <div style="margin-top:14px;padding:18px;border-radius:20px;background:#003A30;color:#FFFFFF">
+      <div style="font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#4FD98A">Next in your queue</div>
+      <div style="font-family:var(--font-display);font-size:26px;line-height:1.1;margin:8px 0 4px">Crown, zirconia monolithic</div>
+      <div style="font-size:14px;color:rgba(255,255,255,.82)">Tooth #13 · Refab, 2nd attempt</div>
+      <div style="margin-top:14px"><div style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.7)">Design due</div><div style="font-size:18px;font-weight:600;color:#C7E738;white-space:nowrap;margin-top:2px">Today, 4:00 PM</div></div>
+      <button onClick="{{ openBrief }}" style="margin-top:16px;width:100%;height:50px;border-radius:999px;border:none;background:#158915;color:#FFFFFF;font-size:15px;font-weight:600;cursor:pointer">Open case brief</button>
+    </div>
+    <div style="display:flex;gap:8px;overflow-x:auto;margin:16px -16px 0;padding:0 16px 4px"><sc-for list="{{ chips }}" as="ch" hint-placeholder-count="5"><button onClick="{{ ch.go }}" style="flex:0 0 auto;height:44px;padding:0 16px;border-radius:999px;border:1px solid {{ ch.border }};background:{{ ch.bg }};color:{{ ch.fg }};font-size:14px;font-weight:500;cursor:pointer;white-space:nowrap">{{ ch.label }}</button></sc-for></div>
+    <div style="margin-top:8px;border-radius:16px;background:var(--m-p);border:1px solid var(--m-line);overflow:hidden">
+      <sc-for list="{{ rows }}" as="rw" hint-placeholder-count="5"><button onClick="{{ rw.go }}" style="width:100%;text-align:left;display:flex;align-items:center;gap:12px;padding:12px 14px;min-height:64px;border:none;border-bottom:1px solid var(--m-line);background:transparent;color:var(--m-t);cursor:pointer">
+        <span role="img" aria-label="{{ rw.alt }}" style="flex:0 0 auto;width:40px;height:40px;border-radius:10px;background-color:#003A30;background-image:{{ rw.icon }};background-size:70%;background-repeat:no-repeat;background-position:center"></span>
+        <span style="min-width:0;flex:1"><span style="display:block;font-size:14px;font-weight:600">{{ rw.tooth }} · {{ rw.item }}</span><span style="display:block;font-size:12.5px;color:var(--m-t2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ rw.reason }}</span></span>
+        <span style="flex:0 0 auto;text-align:right"><span style="display:block;font-size:12.5px;color:{{ rw.dueFg }}">{{ rw.due }}</span><sc-if value="{{ rw.risk }}" hint-placeholder-val="{{ false }}"><span style="display:block;font-size:11.5px;font-weight:600;color:var(--m-red)">At risk</span></sc-if></span>
+      </button></sc-for>
+    </div>
+  </div>
+  </sc-if>
+  <sc-if value="{{ inBrief }}" hint-placeholder-val="{{ false }}">
+  <div style="flex:0 0 auto;padding:{{ topPad }} 12px 10px;display:flex;align-items:center;gap:8px;background:var(--m-p);border-bottom:1px solid var(--m-line)"><button onClick="{{ toHome }}" aria-label="Back" style="width:44px;height:44px;border-radius:999px;border:none;background:transparent;color:var(--m-t);cursor:pointer;display:grid;place-items:center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 6l-6 6 6 6"></path></svg></button><div style="min-width:0;flex:1"><div style="font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--m-t2)">Before you design</div><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><span style="font-family:var(--font-display);font-size:19px">Crown · #13</span><span style="font-size:11.5px;font-weight:600;padding:3px 9px;border-radius:999px;background:rgba(249,52,52,.12);border:1px solid rgba(249,52,52,.4);color:var(--m-red)">Refab · 2nd attempt</span></div></div></div>
+  <div style="flex:1;min-height:0;overflow-y:auto;padding:12px 12px 16px">
+    <div style="font-size:12.5px;color:var(--m-t2);padding:0 4px 10px">Patient 7713 · Dr. Ada Crownwell · Zirconia monolithic · Chairside · Due 4:00 PM</div>
+    <div style="position:relative;height:300px;border-radius:16px;overflow:hidden;background:var(--m-bg)">
+      <x-import component-from-global-scope="scan-viewer" prep="scans/crown13-prep-t.ply" preop="scans/crown13-preop.ply" opposing="scans/crown13-lower.ply" bite="scans/crown13-bite.ply" crown="scans/crown13-final.ply" focus="13" flipy="1" yaw="77" background="{{ viewerBg }}" view="closefront" layers="{{ briefLayers }}" hint-size="100%,300px" style="position:absolute;inset:0;width:100%;height:100%;touch-action:none"></x-import>
+      <div style="position:absolute;left:10px;right:10px;top:10px;padding:10px 12px;border-radius:12px;background:var(--m-glass);border:1px solid rgba(245,179,1,.6);font-size:13.5px;line-height:1.4;backdrop-filter:blur(8px)">Came back: mesial margin about 0.4 mm below the tissue. Keep the occlusion light. The patient grinds.</div>
+      <div style="position:absolute;left:10px;bottom:10px;display:flex;gap:4px;padding:4px;border-radius:999px;background:var(--m-glass);border:1px solid var(--m-line)"><button onClick="{{ briefPrev }}" style="height:36px;padding:0 12px;border-radius:999px;border:none;font-size:12.5px;font-weight:600;cursor:pointer;white-space:nowrap;background:{{ bpBg }};color:{{ bpFg }}">Refab</button><button onClick="{{ briefPrep }}" style="height:36px;padding:0 12px;border-radius:999px;border:none;font-size:12.5px;font-weight:600;cursor:pointer;white-space:nowrap;background:{{ bqBg }};color:{{ bqFg }}">This prep</button></div>
+      <div style="position:absolute;right:10px;bottom:10px;padding:6px 10px;border-radius:10px;background:var(--m-glass);text-align:right"><div style="font-size:15px;font-weight:600">1.1 mm</div><div style="font-size:11.5px;color:var(--m-t2)">occlusal reduction</div></div>
+    </div>
+    <div style="margin-top:12px;padding:14px;border-radius:16px;background:var(--m-p);border:1px solid var(--m-line)"><div style="font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--m-gt);margin-bottom:10px">Dr. Ada Crownwell wants</div><div style="display:flex;gap:6px;flex-wrap:wrap"><sc-for list="{{ wants }}" as="wn" hint-placeholder-count="4"><span style="font-size:13px;padding:7px 11px;border-radius:8px;background:var(--m-p2);border:1px solid var(--m-line)">{{ wn }}</span></sc-for></div></div>
+    <div style="margin-top:12px;padding:14px;border-radius:16px;background:var(--m-p);border:1px solid var(--m-line)"><div style="font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--m-t2);margin-bottom:6px">Same patient</div><div style="display:flex;gap:10px;font-size:14px;align-items:center"><span style="flex:0 0 78px;color:var(--m-t2)">Open refab</span><button onClick="{{ briefPrev }}" style="flex:1;min-height:44px;padding:0;border:none;background:transparent;text-align:left;font-size:14px;color:var(--m-gt);text-decoration:underline;cursor:pointer">Design v1 · margin below tissue</button></div></div>
+    <div style="font-size:12.5px;color:var(--m-t2);padding:12px 4px 0">Shade Polychromatic. Use it as context for the incisal edge.</div>
+  </div>
+  <div style="flex:0 0 auto;padding:10px 12px {{ botPad }};background:var(--m-p);border-top:1px solid var(--m-line)"><button onClick="{{ launch }}" style="width:100%;height:52px;border-radius:999px;border:none;background:var(--m-cta);color:#FFFFFF;font-size:15.5px;font-weight:600;cursor:pointer">Launch design editor</button></div>
+  </sc-if>
+  <sc-if value="{{ inEditor }}" hint-placeholder-val="{{ false }}">
+  <div style="flex:0 0 auto;padding:{{ topPad }} 16px 10px;display:flex;align-items:center;gap:10px;background:var(--m-p);border-bottom:1px solid var(--m-line);z-index:5"><button onClick="{{ toBrief }}" aria-label="Back to brief" style="flex:0 0 auto;width:44px;height:44px;margin-left:-8px;border-radius:999px;border:none;background:transparent;color:var(--m-t);cursor:pointer;display:grid;place-items:center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 6l-6 6 6 6"></path></svg></button>
+    <div style="min-width:0;flex:1">
+      <div style="display:flex;align-items:center;gap:8px;min-width:0"><span style="font-family:var(--font-display);font-size:19px;white-space:nowrap">#13 Crown</span><span style="flex:0 0 auto;white-space:nowrap;font-size:11.5px;font-weight:600;padding:3px 9px;border-radius:999px;background:rgba(249,52,52,.12);border:1px solid rgba(249,52,52,.4);color:var(--m-red)">Refab · 2nd</span></div>
+      <div style="font-size:12px;color:var(--m-t2);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Patient 7713 · Zirconia monolithic · Due 4:00 PM</div>
+    </div>
+    <div style="flex:0 0 auto;text-align:right;white-space:nowrap"><div style="font-size:11px;color:var(--m-t2)">{{ stageName }}</div><div style="font-size:13px;font-weight:600;color:var(--m-gt)">{{ progressLabel }}</div></div>
+  </div>
+
+  <div style="flex:1;min-height:0;position:relative;background:var(--m-bg)">
+    <x-import component-from-global-scope="scan-viewer" prep="scans/crown13-prep-t.ply" preop="scans/crown13-preop.ply" opposing="scans/crown13-lower.ply" bite="scans/crown13-bite.ply" crown="scans/crown13-final.ply" focus="13" flipy="1" yaw="77" trimmed="scans/crown13-trimmed.ply" background="{{ viewerBg }}" view="{{ view }}" layers="{{ layers }}" heat="{{ heat }}" viz="{{ viz }}" copyfrom="{{ copyFrom }}" generating="{{ generating }}" genprog="{{ genProg }}" playkey="{{ playKey }}" playmode="{{ playMode }}" hint-size="100%,100%" style="position:absolute;inset:0;width:100%;height:100%;touch-action:none"></x-import>
+    <div style="position:absolute;left:12px;top:12px;padding:7px 11px;border-radius:999px;background:var(--m-glass);border:1px solid var(--m-line);font-size:12px;color:var(--m-t2);pointer-events:none">One finger orbit · two fingers pinch and move</div>
+    <div style="position:absolute;right:10px;top:10px;display:flex;flex-direction:column;gap:6px;padding:6px;border-radius:16px;background:var(--m-glass);border:1px solid var(--m-line);backdrop-filter:blur(10px);z-index:6">
+      <sc-for list="{{ tools }}" as="tl" hint-placeholder-count="6">
+        <button onClick="{{ tl.go }}" aria-label="{{ tl.label }}" style="width:44px;height:44px;border-radius:12px;border:none;cursor:pointer;background:{{ tl.bg }};color:{{ tl.fg }};display:grid;place-items:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="{{ tl.d }}"></path></svg></button>
+      </sc-for>
+    </div>
+    <sc-if value="{{ tip }}" hint-placeholder-val="{{ false }}"><div style="position:absolute;right:70px;top:14px;padding:9px 13px;border-radius:12px;background:var(--m-p);border:1px solid var(--m-line);font-size:13px;font-weight:500;animation:mup .2s both;max-width:200px">{{ tip }}</div></sc-if>
+
+    <div style="{{ sheetStyle }}">
+      <button onPointerDown="{{ dragDown }}" onPointerMove="{{ dragMove }}" onPointerUp="{{ dragUp }}" onPointerCancel="{{ dragUp }}" aria-label="Drag to resize" style="flex:0 0 auto;width:100%;height:40px;border:none;background:transparent;cursor:grab;display:grid;place-items:center;touch-action:none"><span style="width:40px;height:4px;border-radius:2px;background:var(--m-line)"></span></button>
+      <sc-if value="{{ showBody }}" hint-placeholder-val="{{ true }}"><div style="flex:1;min-height:0;overflow-y:auto;padding:0 16px 12px">
+
+        <sc-if value="{{ tabPrep }}" hint-placeholder-val="{{ true }}">
+          <div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--m-gt);margin-bottom:8px">Automated prep · review each step</div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <sc-for list="{{ steps }}" as="st" hint-placeholder-count="5">
+              <button onClick="{{ st.go }}" style="width:100%;text-align:left;display:flex;gap:12px;align-items:center;padding:12px;min-height:56px;border-radius:12px;border:1px solid {{ st.border }};background:{{ st.bg }};color:var(--m-t);cursor:pointer">
+                <span style="flex:0 0 auto;width:26px;height:26px;border-radius:999px;display:grid;place-items:center;background:{{ st.dot }};color:{{ st.dotFg }};font-size:13px;font-weight:700">{{ st.mark }}</span>
+                <span style="min-width:0;flex:1"><span style="display:block;font-size:14.5px;font-weight:500">{{ st.label }}</span><span style="display:block;font-size:12.5px;color:{{ st.subFg }};line-height:1.4;margin-top:1px">{{ st.sub }}</span></span>
+              </button>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ tabFront }}" hint-placeholder-val="{{ false }}">
+          <div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--m-gt);margin-bottom:8px">Set the front view</div>
+          <div style="display:flex;gap:6px;flex-wrap:wrap">
+            <sc-for list="{{ views }}" as="vw" hint-placeholder-count="4"><button onClick="{{ vw.go }}" style="height:44px;padding:0 16px;border-radius:999px;border:1px solid {{ vw.border }};background:{{ vw.bg }};color:{{ vw.fg }};font-size:14px;font-weight:500;cursor:pointer">{{ vw.label }}</button></sc-for>
+          </div>
+          <div style="font-size:13px;color:var(--m-t2);line-height:1.5;margin-top:12px">Orbit until the scan faces you, then save it. Changing the angle again clears the saved state.</div>
+        </sc-if>
+
+        <sc-if value="{{ tabCrown }}" hint-placeholder-val="{{ false }}">
+          <div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--m-gt);margin-bottom:8px">Crown source</div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <sc-for list="{{ sources }}" as="so" hint-placeholder-count="3">
+              <button onClick="{{ so.go }}" style="width:100%;text-align:left;padding:12px;min-height:56px;border-radius:12px;border:1px solid {{ so.border }};background:{{ so.bg }};color:var(--m-t);cursor:pointer">
+                <span style="display:flex;align-items:center;gap:8px"><span style="font-size:14.5px;font-weight:500">{{ so.label }}</span><span style="font-size:11.5px;padding:2px 8px;border-radius:999px;background:{{ so.tagBg }};color:{{ so.tagFg }}">{{ so.tag }}</span></span>
+                <span style="display:block;font-size:12.5px;color:var(--m-t2);line-height:1.4;margin-top:3px">{{ so.sub }}</span>
+              </button>
+            </sc-for>
+          </div>
+          <sc-if value="{{ isMl }}" hint-placeholder-val="{{ true }}">
+            <div style="margin-top:14px;font-size:13px;color:var(--m-t2)">Copy source <b style="color:var(--m-t)">{{ copyLabel }}</b>. Disagree? Pick another tooth.</div>
+            <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">
+              <sc-for list="{{ teeth }}" as="th" hint-placeholder-count="4"><button onClick="{{ th.go }}" style="min-width:56px;height:44px;padding:0 12px;border-radius:12px;border:1px solid {{ th.border }};background:{{ th.bg }};color:{{ th.fg }};font-size:14px;font-weight:500;cursor:pointer">{{ th.label }}</button></sc-for>
+            </div>
+            <sc-if value="{{ gen }}" hint-placeholder-val="{{ false }}">
+              <div style="margin-top:12px;padding:12px;border-radius:12px;border:1px solid var(--m-line);background:var(--m-p2)">
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:10px"><span style="font-size:13.5px;font-weight:500"><span style="display:inline-block;animation:mtw 1.2s infinite;color:var(--m-gt)">\u2726</span> {{ genStage }}</span><button onClick="{{ stopGen }}" style="height:44px;padding:0 16px;border-radius:999px;border:1px solid var(--m-line);background:transparent;color:var(--m-t);font-size:13px;cursor:pointer">Stop</button></div>
+                <div style="height:6px;border-radius:3px;background:var(--m-line);margin-top:8px;overflow:hidden"><div style="height:6px;width:{{ genPct }};background:var(--m-g)"></div></div>
+              </div>
+            </sc-if>
+            <sc-if value="{{ canRegen }}" hint-placeholder-val="{{ false }}"><button onClick="{{ regen }}" style="margin-top:12px;width:100%;height:48px;border-radius:999px;border:1px solid var(--m-g);background:transparent;color:var(--m-gt);font-size:14.5px;font-weight:600;cursor:pointer">Regenerate from {{ copyLabel }}</button></sc-if>
+          </sc-if>
+        </sc-if>
+
+        <sc-if value="{{ tabReview }}" hint-placeholder-val="{{ false }}">
+          <div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--m-gt);margin-bottom:8px">{{ flagSummary }}</div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <sc-for list="{{ flags }}" as="fl" hint-placeholder-count="3">
+              <div style="padding:12px;border-radius:12px;border:1px solid {{ fl.border }};background:var(--m-p2)">
+                <div style="display:flex;flex-direction:column;align-items:flex-start;gap:6px"><span style="font-size:11.5px;font-weight:600;padding:2px 8px;border-radius:999px;background:{{ fl.kindBg }};color:{{ fl.kindFg }}">{{ fl.kind }}</span><span style="font-size:14.5px;font-weight:500;line-height:1.3">{{ fl.title }}</span></div>
+                <div style="font-size:13px;color:var(--m-t2);line-height:1.45;margin-top:4px">{{ fl.body }}</div>
+                <div style="display:flex;gap:8px;margin-top:10px"><button onClick="{{ fl.show }}" style="flex:1;height:44px;border-radius:999px;border:1px solid var(--m-line);background:transparent;color:var(--m-t);font-size:13.5px;cursor:pointer">Show on scan</button><button onClick="{{ fl.resolve }}" style="flex:1;height:44px;border-radius:999px;border:1px solid {{ fl.rBorder }};background:{{ fl.rBg }};color:{{ fl.rFg }};font-size:13.5px;font-weight:500;cursor:pointer">{{ fl.rLabel }}</button></div>
+              </div>
+            </sc-for>
+          </div>
+          <sc-if value="{{ submitted }}" hint-placeholder-val="{{ false }}"><div style="margin-top:12px;padding:14px;border-radius:12px;background:rgba(26,192,101,.14);border:1px solid var(--m-g);font-size:14px;line-height:1.45">Sent to QC with 3h 12m left on the clock.</div></sc-if>
+          <sc-if value="{{ notSubmitted }}" hint-placeholder-val="{{ true }}"><button onClick="{{ submit }}" style="margin-top:12px;width:100%;height:50px;border-radius:999px;border:none;background:var(--m-cta);color:#FFFFFF;font-size:15px;font-weight:600;cursor:pointer;opacity:{{ submitOp }}">Submit design</button><div style="font-size:12.5px;color:var(--m-t2);margin-top:8px;text-align:center">{{ submitNote }}</div></sc-if>
+        </sc-if>
+
+        <sc-if value="{{ tabMore }}" hint-placeholder-val="{{ false }}">
+          <div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--m-gt);margin-bottom:8px">Doctor note</div>
+          <div style="padding:12px;border-radius:12px;background:var(--m-p2);font-size:13.5px;line-height:1.5">\u201CPlease keep the contacts snug and the occlusion light on the lower left. The patient grinds at night, so no high cusps.\u201D<div style="font-size:12px;color:var(--m-t2);margin-top:6px">Dr. Ada Crownwell \u00B7 Aug 25</div></div>
+          <div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--m-gt);margin:16px 0 8px">Message</div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <sc-for list="{{ msgs }}" as="m" hint-placeholder-count="2"><div style="align-self:{{ m.align }};max-width:85%;padding:9px 12px;border-radius:14px;background:{{ m.bg }};color:{{ m.fg }};font-size:13.5px;line-height:1.4">{{ m.text }}</div></sc-for>
+          </div>
+          <div style="display:flex;gap:8px;margin-top:10px"><input value="{{ draft }}" onInput="{{ onDraft }}" placeholder="Message the doctor" style="flex:1;min-width:0;height:46px;padding:0 14px;border-radius:999px;border:1px solid var(--m-line);background:var(--m-p2);color:var(--m-t);font-size:14px;outline:none"><button onClick="{{ send }}" style="flex:0 0 auto;height:46px;padding:0 20px;border-radius:999px;border:none;background:var(--m-cta);color:#FFFFFF;font-size:14px;font-weight:600;cursor:pointer">Send</button></div>
+          <div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--m-gt);margin:16px 0 8px">Settings</div>
+          <div style="display:flex;gap:8px"><button onClick="{{ toggleTheme }}" style="flex:1;height:48px;border-radius:12px;border:1px solid var(--m-line);background:var(--m-p2);color:var(--m-t);font-size:14px;cursor:pointer">{{ themeLabel }}</button><button onClick="{{ toggleFrame }}" style="flex:1;height:48px;border-radius:12px;border:1px solid var(--m-line);background:var(--m-p2);color:var(--m-t);font-size:14px;cursor:pointer">{{ frameLabel }}</button></div>
+        </sc-if>
+      </div>
+      </sc-if>
+      <sc-if value="{{ hasCta }}" hint-placeholder-val="{{ true }}"><div style="flex:0 0 auto;padding:8px 16px 12px;border-top:1px solid var(--m-line)"><button onClick="{{ cta }}" style="width:100%;height:50px;border-radius:999px;border:none;background:{{ ctaBg }};color:#FFFFFF;font-size:15px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px">{{ ctaLabel }}</button></div></sc-if>
+    </div>
+  </div>
+
+  <div style="flex:0 0 auto;display:flex;padding:6px 6px {{ botPad }};background:var(--m-p);border-top:1px solid var(--m-line);z-index:8">
+    <sc-for list="{{ tabs }}" as="tb" hint-placeholder-count="5">
+      <button onClick="{{ tb.go }}" style="flex:1;min-height:52px;border:none;background:transparent;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:{{ tb.fg }}">
+        <span style="position:relative;width:24px;height:24px;display:grid;place-items:center"><svg width="24" height="24" viewBox="{{ tb.vb }}" fill="none" stroke="currentColor" stroke-width="{{ tb.sw }}" stroke-linecap="round" stroke-linejoin="round"><path d="{{ tb.d }}"></path></svg><sc-if value="{{ tb.badge }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;right:-6px;top:-4px;min-width:16px;height:16px;padding:0 4px;border-radius:8px;background:#E5484D;color:#FFFFFF;font-size:10.5px;font-weight:700;display:grid;place-items:center">{{ tb.badge }}</span></sc-if></span>
+        <span style="font-size:12px;font-weight:{{ tb.wt }}">{{ tb.label }}</span>
+      </button>
+    </sc-for>
+  </div>
+  </sc-if>
+</div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;frame&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;phone&quot;,&quot;full&quot;],&quot;default&quot;:&quot;phone&quot;,&quot;tsType&quot;:&quot;'phone' | 'full'&quot;,&quot;section&quot;:&quot;Mobile&quot;},&quot;theme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;dark&quot;,&quot;light&quot;],&quot;default&quot;:&quot;dark&quot;,&quot;tsType&quot;:&quot;'dark' | 'light'&quot;,&quot;section&quot;:&quot;Mobile&quot;}}">
+const STEPS = [
+  ['trim', 'Tissue trim', 'Dandy trimmed the gingiva around #13.'],
+  ['margin', 'Margin', 'Traced automatically. Mesial sits about 0.4 mm below the tissue.'],
+  ['poi', 'Insertion direction', 'Set along the long axis of the prep.'],
+  ['bite', 'Bite alignment', 'Aligned to 0.03 mm mean deviation.'],
+  ['source', 'Routing', 'Manual route · internal design.'],
+];
+const TABS = [['prep', 'Prep', "M19.9996 26.8051C20.459 26.8051 20.8814 27.0561 21.1017 27.4597C21.5241 28.2342 21.9704 29.0525 22.2446 29.5553C22.4084 29.8553 22.7228 30.0417 23.0643 30.0417C23.4815 30.0417 23.8506 29.7711 23.9761 29.3733C24.369 28.13 25.2226 25.4282 25.7718 23.6879C26.1056 22.6303 26.2757 21.5276 26.2757 20.4186C26.2757 18.7975 24.9602 17.4896 23.3473 17.4896H23.3467C21.7764 17.4896 21.3289 18.1115 19.9996 18.1115C18.6704 18.1115 18.2229 17.4896 16.6526 17.4896H16.652C15.0391 17.4896 13.7236 18.7975 13.7236 20.4186C13.7236 21.5276 13.8937 22.6303 14.2275 23.6879C14.7767 25.4282 15.6303 28.13 16.0232 29.3733C16.1487 29.7711 16.5178 30.0417 16.9345 30.0417H16.935C17.2765 30.0417 17.5909 29.8553 17.7547 29.5553C18.0289 29.0525 18.4752 28.2342 18.8976 27.4597C19.1179 27.0561 19.5403 26.8051 19.9996 26.8051ZM12.4688 4.93751H16.2344C16.2344 2.85759 17.9201 1.17189 20 1.17189C22.0799 1.17189 23.7657 2.85759 23.7657 4.93751H27.5313V9.95837H12.4688V4.93751ZM12.4691 7.44796H7.44824V38.8282H32.5525V7.44796H27.5317", '0 0 40 40', 2.9], ['front', 'Front', "M12 2v20M2 14h20M4.5 11V8a1 1 0 0 1 1-1H7a1 1 0 0 1 1 1v3M16 11V8a1 1 0 0 1 1-1h1.5a1 1 0 0 1 1 1v3M8.5 17.5c1 .7 2.2 1 3.5 1s2.5-.3 3.500-1", '0 0 24 24', 1.75], ['crown', 'Crown', "M7 4c-2 0-3 1.500-3 4 0 3 1.500 4.500 2 7 .4 2.200.8 5 2.200 5 1.400 0 1.600-3.500 2.800-3.500s1.400 3.500 2.800 3.500c1.400 0 1.800-2.800 2.200-5 .5-2.500 2-4 2-7 0-2.500-1-4-3-4-1.500 0-2.500 1-4 1S8.500 4 7 4z", '0 0 24 24', 1.75], ['review', 'Review', "M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM8 12.500l2.800 2.800L16.500 9.500", '0 0 24 24', 1.75], ['more', 'More', 'M5 12h.01M12 12h.01M19 12h.01', '0 0 24 24', 3.2]];
+const MORE_D = 'M5 12h.01M12 12h.01M19 12h.01';
+const TOOLS = [
+  ['margin', 'Margin lines', 'M5 11.500c0-3.500 4-5.500 8-5s6.500 3 6 6.500-4 6-8 5.500-6-3-6-7z'],
+  ['axis', 'Insertion direction', 'M12 4v9M9 10l3 3 3-3M5 17h14'],
+  ['collisions', 'Collisions', 'M8.500 5.500C6.500 5.500 5.500 7 5.500 9c0 2.300 1.200 3.200 1.500 5.500.200 1.800.500 4 1.700 4s1-2.500 1.700-4h3.200c.700 1.500.500 4 1.700 4s1.500-2.200 1.700-4C17.300 12.200 18.500 11.300 18.500 9c0-2-1-3.500-3-3.500-1.500 0-2.300.8-3.500.8S10 5.500 8.500 5.500z'],
+  ['occlusal', 'Occlusal heatmap', 'M12 3v6M9.500 6.500L12 9l2.500-2.500M12 21v-6M9.500 17.500L12 15l2.500 2.500M5 12h14'],
+  ['thickness', 'Thickness heatmap', 'M5 7.500h14M5 12h14M5 16.500h9'],
+  ['section', 'Cross section', 'M3 12h18M8 5c-1 0-2 1-2 3v4M16 5c1 0 2 1 2 3v4M8 15v2c0 1.500 1.500 2 4 2s4-.5 4-2v-2'],
+];
+const FLAGS = [
+  ['margin', 'blocking', 'Margin below tissue', 'The mesial margin sits about 0.4 mm subgingival. This is why the first crown came back.', { vz: { margin: true }, heat: '', view: 'left' }],
+  ['thin', 'advisory', 'Thin wall, distal', 'One wall is under the 0.6 mm minimum for zirconia.', { heat: 'thickness', view: 'right' }],
+  ['occl', 'advisory', 'Light occlusion', 'The doctor wants light contact because the patient grinds. Clearance is 0.5 mm.', { heat: 'occlusal', vz: { collisions: true }, view: 'occlusal' }],
+];
+class Component extends DCLogic {
+  state = { dragY: null, screen: 'home', filter: 'assigned', bview: 'prev', tab: 'prep', open: false, min: false, step: 'trim', done: [], pk: 0, view: 'quarter', vz: { margin: true }, heat: '', frontSaved: false, crown: 'ml', copy: '12', applied: '12', gen: false, prog: 0, res: {}, submitted: false, msgs: [{ who: 'doc', text: 'Thanks for taking this one. Lower left is tight.' }], draft: '', tip: '', scale: 1, frame: null, theme: null };
+  componentDidMount() { this._rs = () => { const H = window.innerHeight || document.documentElement.clientHeight || 0, W = window.innerWidth || document.documentElement.clientWidth || 0; if (H < 200 || W < 200) return; this.setState({ scale: Math.max(0.4, Math.min(1, (H - 24) / 844, (W - 24) / 390)) }); }; this._rs(); [150, 500, 1200].forEach(t => setTimeout(this._rs, t)); window.addEventListener('resize', this._rs); }
+  componentWillUnmount() { window.removeEventListener('resize', this._rs); clearInterval(this._gt); clearTimeout(this._tt); }
+  _tip(t) { clearTimeout(this._tt); this.setState({ tip: t }); this._tt = setTimeout(() => this.setState({ tip: '' }), 1800); }
+  _tab(id) { const v = id === 'front' ? 'front' : id === 'prep' || id === 'crown' || id === 'review' ? 'quarter' : this.state.view; this.setState({ tab: id, view: v, open: false, min: false, frontSaved: false }); }
+  _step(id) { this.setState(p => ({ step: id, pk: p.pk + 1, open: true, min: false })); }
+  _tool(id) {
+    this.setState(p => {
+      if (id === 'occlusal' || id === 'thickness') return { heat: p.heat === id ? '' : id };
+      const vz = Object.assign({}, p.vz); vz[id] = !vz[id]; return { vz };
+    });
+    const t = TOOLS.find(x => x[0] === id); this._tip(t[1]);
+  }
+  _regen() { clearInterval(this._gt); this.setState({ gen: true, prog: 0 }); const t0 = Date.now(); this._gt = setInterval(() => { const k = Math.min(1, (Date.now() - t0) / 4200); if (k >= 1) { clearInterval(this._gt); this.setState(p => ({ gen: false, prog: 0, applied: p.copy })); this._tip('New crown from #' + this.state.copy); } else this.setState({ prog: k }); }, 80); }
+  _stop() { clearInterval(this._gt); this.setState(p => ({ gen: false, prog: 0, copy: p.applied })); this._tip('Stopped. Back to #' + this.state.applied); }
+  renderVals() {
+    const s = this.state, frame = s.frame ?? this.props.frame ?? 'phone', theme = s.theme ?? this.props.theme ?? 'dark', dark = theme === 'dark', phone = frame === 'phone';
+    const vars = dark ? '--m-bg:#04120F;--m-p:#0B1815;--m-p2:#12231F;--m-t:#E4EFEB;--m-t2:#A9BFB8;--m-line:rgba(228,239,235,.16);--m-g:#1AC065;--m-gt:#4FD98A;--m-cta:#158915;--m-red:#FF9A9A;--m-glass:rgba(11,24,21,.82)'
+      : '--m-bg:#E9EEEA;--m-p:#FFFFFF;--m-p2:#F1F5F2;--m-t:#003A30;--m-t2:#47605A;--m-line:rgba(0,58,48,.18);--m-g:#158915;--m-gt:#0D7A3A;--m-cta:#158915;--m-red:#B42318;--m-glass:rgba(255,255,255,.86)';
+    const base = 'display:flex;flex-direction:column;position:relative;overflow:hidden;background:var(--m-bg);color:var(--m-t);font-size:14px;line-height:1.4;';
+    const deviceStyle = vars + ';' + base + (phone ? 'width:390px;height:844px;flex:0 0 auto;border-radius:48px;border:10px solid #0a0a0a;box-shadow:0 30px 80px rgba(0,0,0,.5);transform:scale(' + s.scale + ');transform-origin:center' : 'width:100%;height:100%');
+    const stageBg = phone ? (dark ? '#1a1f1d' : '#cfd6d2') : 'var(--m-bg)';
+    const cs = { prep: 'Prep', front: 'Front', crown: 'Crown', review: 'Review', more: 'Notes' };
+    const doneN = s.done.length, flagsOpen = FLAGS.filter(f => !s.res[f[0]]).length, blocking = !s.res.margin;
+    const layers = [];
+    if (s.vz.margin || (s.tab === 'prep' && s.step === 'margin')) layers.push('margin');
+    if (s.vz.axis || (s.tab === 'prep' && s.step === 'poi')) layers.push('axis');
+    if (s.tab === 'prep' && s.step === 'trim') layers.push('trimmed');
+    if (s.tab === 'prep' && s.step === 'bite') layers.push('bite', 'opposing');
+    const viz = ['collisions', 'section'].filter(k => s.vz[k]).join(' ');
+    const pending = this._pending;
+    const stepsV = STEPS.map(([id, label, sub]) => {
+      const d = s.done.includes(id), sel = s.step === id, attn = id === 'margin' && !d;
+      return { label, sub, mark: d ? '\u2713' : attn ? '!' : '', dot: d ? 'var(--m-g)' : attn ? '#F5B301' : 'transparent', dotFg: d ? '#04120F' : '#2b2100', subFg: attn ? (dark ? '#F5C451' : '#8A5F00') : 'var(--m-t2)', border: sel ? 'var(--m-g)' : 'var(--m-line)', bg: sel ? 'rgba(26,192,101,.12)' : 'var(--m-p2)', go: () => this._step(id) };
+    });
+    const prepDone = doneN === STEPS.length;
+    const curI = STEPS.findIndex(x => x[0] === s.step);
+    const SRC = [['ml', 'Dandy ML crown', 'Recommended', 'Highest accuracy. Generated from the prep, the bite and the neighbours.'], ['library', 'Tooth library', 'Template', 'Start from a stock anatomy and shape it down.'], ['mimic', 'Mimic tooth', 'Bio anatomy', 'Mimic a real tooth: contralateral, adjacent or a past design.']];
+    const sources = SRC.map(([id, label, tag, sub]) => { const on = s.crown === id; return { label, tag, sub, border: on ? 'var(--m-g)' : 'var(--m-line)', bg: on ? 'rgba(26,192,101,.12)' : 'var(--m-p2)', tagBg: id === 'ml' ? 'rgba(26,192,101,.2)' : 'var(--m-line)', tagFg: id === 'ml' ? 'var(--m-gt)' : 'var(--m-t2)', go: () => this.setState({ crown: id }) }; });
+    const teeth = [['12', 'Contralateral'], ['14', 'Adjacent'], ['11', 'Neighbour'], ['9', 'Other']].map(([n, rel]) => { const on = s.copy === n; return { label: '#' + n, border: on ? 'var(--m-g)' : 'var(--m-line)', bg: on ? 'rgba(26,192,101,.16)' : 'transparent', fg: on ? 'var(--m-gt)' : 'var(--m-t)', go: () => { if (!s.gen) this.setState({ copy: n }); } }; });
+    const stageTxt = s.prog < 0.25 ? 'Processing scans' : s.prog < 0.5 ? 'Trimming margin' : s.prog < 0.8 ? 'Designing the crown' : 'Checking contacts';
+    const VIEWS = [['front', 'Front'], ['left', 'Left'], ['right', 'Right'], ['occlusal', 'Upper']].map(([id, label]) => { const on = s.view === id; return { label, border: on ? 'var(--m-g)' : 'var(--m-line)', bg: on ? 'rgba(26,192,101,.16)' : 'transparent', fg: on ? 'var(--m-gt)' : 'var(--m-t)', go: () => this.setState({ view: id, frontSaved: false }) }; });
+    const flagsV = FLAGS.map(([id, kind, title, body, cfg]) => { const r = !!s.res[id]; return { kind: kind === 'blocking' ? 'Blocking' : 'Advisory', kindBg: kind === 'blocking' ? 'rgba(249,52,52,.14)' : 'var(--m-line)', kindFg: kind === 'blocking' ? 'var(--m-red)' : 'var(--m-t2)', title, body, border: r ? 'var(--m-g)' : 'var(--m-line)', rLabel: r ? 'Resolved \u2713' : 'Resolve', rBorder: r ? 'var(--m-g)' : 'var(--m-line)', rBg: r ? 'rgba(26,192,101,.16)' : 'transparent', rFg: r ? 'var(--m-gt)' : 'var(--m-t)',
+      show: () => this.setState({ view: cfg.view || s.view, heat: cfg.heat !== undefined ? cfg.heat : s.heat, vz: Object.assign({}, s.vz, cfg.vz || {}), open: false, min: true }),
+      resolve: () => this.setState(p => ({ res: Object.assign({}, p.res, { [id]: !p.res[id] }) })) }; });
+    let ctaLabel = '', ctaBg = 'var(--m-cta)', cta = () => {}, hasCta = true;
+    if (s.tab === 'prep') { const d = s.done.includes(s.step); ctaLabel = prepDone ? 'Continue to Front view' : d ? 'Approved \u2713 Next step' : 'Approve ' + STEPS[curI][1].toLowerCase(); cta = () => { if (prepDone) return this._tab('front'); const nxt = STEPS.find((x, i) => !s.done.includes(x[0]) && x[0] !== s.step) || STEPS[(curI + 1) % STEPS.length]; if (!d) this.setState(p => ({ done: [...p.done, p.step] }), () => { const left = STEPS.find(x => !this.state.done.includes(x[0])); if (left) this._step(left[0]); else this.setState({ open: false }); }); else this._step(nxt[0]); }; }
+    else if (s.tab === 'front') { ctaLabel = s.frontSaved ? 'Front view set \u2713' : 'Set this view as front view'; ctaBg = s.frontSaved ? '#0D7A3A' : 'var(--m-cta)'; cta = () => { this.setState({ frontSaved: true }); this._tip('Saved as the front view'); }; }
+    else if (s.tab === 'crown') { ctaLabel = 'Use this crown'; cta = () => this._tab('review'); }
+    else hasCta = false;
+    const tabsV = TABS.map(([id, label, d, vb, sw]) => { const on = s.tab === id; return { label, d, vb, sw, go: () => this._tab(id), fg: on ? 'var(--m-gt)' : 'var(--m-t2)', wt: on ? '600' : '500', badge: id === 'review' && flagsOpen ? String(flagsOpen) : '' }; });
+    const toolsV = TOOLS.map(([id, label, d]) => { const on = id === 'occlusal' || id === 'thickness' ? s.heat === id : !!s.vz[id]; return { label, d, bg: on ? 'rgba(26,192,101,.22)' : 'transparent', fg: on ? 'var(--m-gt)' : 'var(--m-t)', go: () => this._tool(id) }; });
+    const sheetH = s.min ? 'auto' : s.open ? '58%' : 'auto';
+    const msgs = s.msgs.map(m => ({ text: m.text, align: m.who === 'me' ? 'flex-end' : 'flex-start', bg: m.who === 'me' ? 'var(--m-cta)' : 'var(--m-p2)', fg: m.who === 'me' ? '#FFFFFF' : 'var(--m-t)' }));
+    const ROWS = [
+      ['#13', 'Crown, zirconia monolithic', 'Refab \u00B7 2nd attempt', 'Today, 4:00 PM', false, ['assigned', 'refab', 'chairside'], 'crown'],
+      ['#9', 'Crown, layered zirconia', 'Shade-critical \u00B7 refab', 'Today, 2:00 PM', true, ['assigned', 'anterior', 'refab', 'chairside'], 'crown'],
+      ['#8', 'Crown, e.max full contour', 'Shade B1 \u00B7 anterior', 'Today, 6:00 PM', false, ['assigned', 'anterior', 'chairside'], 'crown'],
+      ['#7\u201310', 'Veneers \u00D7 4', 'Layered zirconia \u00B7 esthetic', 'Tomorrow', false, ['assigned', 'anterior'], 'veneer'],
+      ['#4\u20136', 'Bridge, zirconia \u00B7 3 unit', 'Pontic #5 \u00B7 posterior', 'Tomorrow', false, ['assigned'], 'bridge'],
+      ['#19', 'Crown, zirconia monolithic', 'Refab \u00B7 open contact', 'Today, 7:00 PM', false, ['refab', 'unclaimed'], 'crown'],
+    ];
+    const ICONS = { crown: 'url(uploads/crown.png)', veneer: 'url(assets/product-icons/veneer.png)', bridge: 'url(assets/product-icons/bridge.png)' };
+    const rowsV = ROWS.filter(r => r[5].includes(s.filter)).map(r => ({ tooth: r[0], item: r[1], reason: r[2], due: r[3], risk: r[4], dueFg: r[4] ? 'var(--m-red)' : 'var(--m-t2)', icon: ICONS[r[6]], alt: r[6], go: () => { if (r[0] === '#13') this.setState({ screen: 'brief', bview: 'prev' }); else this._tip('Only #13 is wired up in this prototype.'); } }));
+    const chipsV = [['assigned', 'Assigned to me'], ['anterior', 'Anterior'], ['refab', 'Refabs'], ['chairside', 'Chairside'], ['unclaimed', 'Unclaimed']].map(([id, label]) => { const on = s.filter === id; return { label, border: on ? 'var(--m-t)' : 'var(--m-line)', bg: on ? 'var(--m-t)' : 'transparent', fg: on ? 'var(--m-bg)' : 'var(--m-t)', go: () => this.setState({ filter: id }) }; });
+    const bp = s.bview === 'prev';
+    return {
+      inHome: s.screen === 'home', inBrief: s.screen === 'brief', inEditor: s.screen === 'editor',
+      todayLabel: new Date().toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }),
+      themeIcon: dark ? 'M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8zM12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.4 1.4M17.6 17.6 19 19M5 19l1.4-1.4M17.6 6.4 19 5' : 'M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z',
+      stats: [{ v: '14', l: 'Cases today' }, { v: '5:12', l: 'Avg time' }, { v: '98%', l: 'On time' }],
+      chips: chipsV, rows: rowsV,
+      openBrief: () => this.setState({ screen: 'brief', bview: 'prev' }), toHome: () => this.setState({ screen: 'home' }), toBrief: () => this.setState({ screen: 'brief' }), launch: () => this.setState({ screen: 'editor', tab: 'prep', open: false, min: false }),
+      briefLayers: bp ? 'margin previous hideprep' : 'margin', briefPrev: () => this.setState({ bview: 'prev' }), briefPrep: () => this.setState({ bview: 'prep' }),
+      bpBg: bp ? 'var(--m-t)' : 'transparent', bpFg: bp ? 'var(--m-bg)' : 'var(--m-t)', bqBg: !bp ? 'var(--m-t)' : 'transparent', bqFg: !bp ? 'var(--m-bg)' : 'var(--m-t)',
+      wants: ['Occlusal 0.35 mm', 'Proximal \u22120.04 mm', 'Min thickness 0.6 mm', 'Light occlusal stain', 'Pink porcelain: yes', 'Polychromatic shade'],
+      stageBg, deviceStyle, isPhone: phone, topPad: phone ? '48px' : '12px', botPad: phone ? '22px' : '6px',
+      stageName: cs[s.tab], progressLabel: s.tab === 'prep' ? doneN + ' of ' + STEPS.length + ' approved' : s.tab === 'review' ? flagsOpen + ' open' : s.submitted ? 'Submitted' : 'In progress',
+      viewerBg: dark ? '#04120F' : '#E9EEEA', view: s.view, layers: layers.join(' '), heat: s.heat, viz, copyFrom: s.crown === 'ml' ? s.copy : '', generating: s.gen ? '1' : '', genProg: String(s.prog), playKey: s.tab === 'prep' ? String(s.pk) : '', playMode: s.step,
+      tools: toolsV, tip: s.tip,
+      sheetStyle: 'position:absolute;left:8px;right:8px;bottom:8px;max-height:calc(100% - 16px);height:' + sheetH + ';display:flex;flex-direction:column;border-radius:20px;background:var(--m-p);border:1px solid var(--m-line);box-shadow:0 -8px 30px rgba(0,0,0,.3);z-index:7;overflow:hidden;transform:' + (s.dragY !== null ? 'translateY(' + s.dragY + 'px)' : s.min ? 'translateY(calc(100% - 34px))' : 'none') + ';transition:' + (s.dragY !== null ? 'none' : 'transform .28s cubic-bezier(.2,.8,.2,1), height .2s') + '',
+      dragDown: (e) => { const el = e.currentTarget.parentElement, hh = el.offsetHeight; this._d = { y0: e.clientY, h: hh, base: s.min ? hh - 34 : 0 }; try { e.currentTarget.setPointerCapture(e.pointerId); } catch (x) {} },
+      dragMove: (e) => { const d = this._d; if (!d) return; this.setState({ dragY: Math.max(0, Math.min(d.h - 34, d.base + e.clientY - d.y0)) }); },
+      dragUp: (e) => { const d = this._d; if (!d) return; this._d = null; const dy = e.clientY - d.y0, Y = Math.max(0, Math.min(d.h - 34, d.base + dy)), wasMin = s.min, wasOpen = s.open;
+        let min = false, open = wasOpen;
+        if (Math.abs(dy) < 6) { if (wasMin) { min = false; } else open = !wasOpen; }
+        else if (Y > (d.h - 34) * 0.45 || (dy > 40 && !wasOpen && !wasMin)) { min = true; open = false; }
+        else if (dy < -40) { if (wasMin) { min = false; open = false; } else open = true; }
+        else if (dy > 40 && wasOpen) { open = false; }
+        else min = wasMin;
+        this.setState({ dragY: null, min, open }); },
+      tabPrep: s.tab === 'prep', tabFront: s.tab === 'front', tabCrown: s.tab === 'crown', tabReview: s.tab === 'review', tabMore: s.tab === 'more',
+      steps: stepsV, views: VIEWS, sources, isMl: s.crown === 'ml', copyLabel: '#' + s.copy + (s.copy === '12' ? ' contralateral' : ''), teeth, gen: s.gen, genStage: stageTxt, genPct: Math.round(s.prog * 100) + '%', stopGen: () => this._stop(), canRegen: !s.gen && s.copy !== s.applied, regen: () => this._regen(),
+      flags: flagsV, flagSummary: flagsOpen + ' to review', submitted: s.submitted, notSubmitted: !s.submitted, submitOp: blocking ? '.45' : '1', submitNote: blocking ? 'Resolve the blocking flag first.' : 'Advisory flags can stay open.', submit: () => { if (!blocking) { this.setState({ submitted: true }); this._tip('Sent to QC'); } },
+      msgs, draft: s.draft, onDraft: (e) => this.setState({ draft: e.target.value }), send: () => { const t = s.draft.trim(); if (t) this.setState(p => ({ msgs: [...p.msgs, { who: 'me', text: t }], draft: '' })); },
+      themeLabel: dark ? 'Switch to light mode' : 'Switch to dark mode', toggleTheme: () => this.setState({ theme: dark ? 'light' : 'dark' }),
+      frameLabel: phone ? 'Full screen' : 'Phone frame', toggleFrame: () => this.setState({ frame: phone ? 'full' : 'phone' }),
+      hasCta, showBody: true, ctaLabel, ctaBg, cta, tabs: tabsV,
+    };
+  }
+}
+</script>
+</body>
+</html>
