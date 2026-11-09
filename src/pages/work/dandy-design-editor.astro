@@ -4,7 +4,10 @@ import Base from '../../layouts/Base.astro';
 import ScanToSmile from '../../components/ScanToSmile.astro';
 import PrototypeEmbed from '../../components/PrototypeEmbed.astro';
 import DdeViz from '../../components/DdeViz.astro';
+import PvText from '../../components/PvText.astro';
 import { ddeMedia } from '../../data/dde-media';
+import { stages, groups } from '../../data/scan-to-smile';
+import { stageImages } from '../../data/scan-to-smile-images';
 
 // Save one still of the editor (scan in the mouth, crown seated) as public/work/dde-editor.png (or .webp, .jpg)
 // and it appears in the hero. Until then the hero shows no image.
@@ -19,11 +22,81 @@ const meta = [
 	['Status', 'In production, still shipping'],
 ];
 
+// Extra context for some journey steps, shown under the one-line description. Facts are from the lifecycle data.
+type Part = import('../../components/PvText.astro').Part;
+const preview = (slug: string) => ['webp', 'png', 'jpg'].map((e) => `/work/previews/${slug}.${e}`).find((f) => fs.existsSync(`./public${f}`)) ?? null;
+const extra: Record<number, { teaser?: string; more: Part[] }> = {
+	2: {
+		more: [
+			'The scan can come from Dandy’s own ',
+			{ t: 'Dandy Vision scanner', href: 'https://www.meetdandy.com/technology/intraoral-scanner/', title: 'Dandy Vision scanner', desc: 'Dandy’s intraoral scanner, hardware Dandy manufactures.', slug: 'dandy-vision' },
+			', or from third-party scanners like ',
+			{ t: '3Shape Trios', href: 'https://www.3shape.com', title: '3Shape Trios', desc: 'An intraoral scanner from 3Shape.', slug: 'trios' },
+			' and ',
+			{ t: 'iTero', href: 'https://www.itero.com', title: 'iTero', desc: 'An intraoral scanner from Align Technology.', slug: 'itero' },
+			'.',
+		],
+	},
+	5: {
+		more: [
+			'Zirconia is milled from a ceramic block, sintered in a furnace, then stained, glazed, and polished. Dandy automates much of it with robotics and, ',
+			{ t: 'by its own account', href: 'https://www.meetdandy.com/labs/crown-and-bridge/', title: 'Dandy crown and bridge lab', desc: 'How Dandy makes crowns and bridges, in Dandy’s words.', slug: 'dandy-crown-bridge' },
+			', checks each crown against the original scan with computer vision before it ships.',
+		],
+	},
+	6: {
+		more: [
+			'This used to run through small local labs: physical molds shipped back and forth, with little visibility into the process. Dandy digitized and automated it at scale, for faster turnaround and more volume. Dandy reports ',
+			{ t: 'up to 50% fewer remakes and first-fit accuracy above 98%', href: 'https://www.meetdandy.com/labs/crown-and-bridge/', title: 'Dandy crown and bridge lab', desc: 'Dandy’s published remake and first-fit figures.', slug: 'dandy-crown-bridge' },
+			'.',
+		],
+	},
+	4: {
+		teaser: 'A dental designer (lab tech) receives the order from the dentist through the Dandy Ops portal and designs the restoration in 3D.',
+		more: [],
+	},
+	3: {
+		teaser: 'The dentist uses Chairside, Dandy’s ordering software, to view the scans, choose the product, the material, and preferences like fit, aesthetics, and shipping time.',
+		more: [],
+	},
+};
+
+// Small line icons for who the step belongs to.
+const icons: Record<string, string> = {
+	patient: '<circle cx="12" cy="8" r="3.4"/><path d="M5 20c.6-3.8 3.4-6 7-6s6.4 2.2 7 6"/>',
+	dentist: '<circle cx="12" cy="8" r="3.4"/><path d="M5 20c.6-3.8 3.4-6 7-6s6.4 2.2 7 6"/><path d="M16.5 3.5v4M14.5 5.5h4"/>',
+	designer: '<rect x="3" y="4" width="18" height="12" rx="2"/><path d="M9 20h6M12 16v4"/><path d="M8.5 11.5c.6-2.2 2-3 3.5-3s2.900.8 3.500 3"/>',
+	ops: '<circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.600 5.600l2.100 2.100M16.300 16.300l2.100 2.100M18.400 5.600l-2.100 2.100M7.700 16.300l-2.100 2.100"/>',
+	prep: '<path d="M14.500 5.500a4 4 0 0 0-5 5L4 16l4 4 5.500-5.500a4 4 0 0 0 5-5l-2.500 2.500-2.500-.5-.5-2.500z"/>',
+	audit: '<circle cx="12" cy="12" r="8.500"/><path d="M8 12.500l2.800 2.800L16.500 9.500"/>',
+	portal: '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 9h18"/>',
+	both: '<circle cx="8.500" cy="9" r="2.800"/><circle cx="16" cy="9.500" r="2.400"/><path d="M3 19c.5-3 2.500-4.800 5.500-4.800S13.500 16 14 19M14.500 15c2.600-.2 4.700 1.200 5.500 4"/>',
+};
+
+// Zooming in on the designer step: what happened to a case before the redesign (until summer 2025).
+const subs: { tag: string; icon: string; who: string; title: string; text: Part[]; media?: { type: 'video' | 'image'; src: string; poster?: string; wide?: boolean } }[] = [
+	{ tag: '4a', icon: 'portal', who: 'Dandy Ops portal', title: 'The case arrives', text: ['The order comes through the Dandy Ops portal.'], media: { type: 'video', src: '/work/dde/4a-ops-portal.mp4', poster: '/work/dde/4a-ops-portal.jpg' } },
+	{ tag: '4b', icon: 'prep', who: 'Prepper', title: 'Prepped first', text: ['A “prepper” prepares the scans for the designer, in software called “Prep in Browser”.'], media: { type: 'video', src: '/work/dde/4b-prep.mp4', poster: '/work/dde/4b-prep.jpg' } },
+	{
+		tag: '4c', icon: 'designer', who: 'Dental designer', title: 'Download, upload, design',
+		text: [
+			'The order goes to a specific designer through a queue. They download the files, upload them to ',
+			{ t: '3Shape', href: 'https://www.3shape.com', title: '3Shape', desc: 'Dental CAD design software from 3Shape.', slug: '3shape' },
+			' or ',
+			{ t: 'exocad', href: 'https://exocad.com', title: 'exocad', desc: 'Dental CAD software from exocad.', slug: 'exocad' },
+			', and start designing.',
+		],
+		media: { type: 'image', src: '/work/dde/4c-3shape.webp' },
+	},
+	{ tag: '4d', icon: 'designer', who: 'Dental designer', title: 'Back to the portal', text: ['When the design is done, the designer uploads it back to the Dandy Ops portal and the order goes to QA.'], media: { type: 'image', src: '/work/dde/4d-review.webp' } },
+	{ tag: '4e', icon: 'audit', who: 'Auditor', title: 'Audited, by hand', text: ['An auditor reviews the design in the auditor portal, separate software from Prep in Browser and the Design Editor. Their notes, observations, and scores go into spreadsheets they keep by hand, so it meant constant switching between tools and a lot of manual tracking.'], media: { type: 'image', src: '/work/dde/4e-audit-sheet.webp', wide: true } },
+];
+
 // Each scene scrolls one small beat at a time. `viz` picks the built-in illustration; media from dde-media.ts replaces it.
 const scenes = [
 	{
 		id: 'before',
-		label: '02 · Before, through summer 2025',
+		label: '02 · The baseline, summer 2025',
 		beats: [
 			{ id: 'handoff', title: 'Three programs for one tooth.', text: 'Prep in Browser, then an upload, then 3Shape or our editor. Designers switched tools mid-tooth.' },
 			{ id: 'scatter', title: 'The tools were real. The path wasn’t.', text: 'Related tools were scattered, so designers spent the time finding the next click.' },
@@ -63,6 +136,28 @@ const scenes = [
 		],
 	},
 ];
+// The journey scrolls in phases; the intro phase is short so the first card shows up quickly.
+const jrCount = 1 + stages.length + 1 + subs.length;
+const jrWeights = Array.from({ length: jrCount }, (_, i) => (i === 0 ? 0.45 : 1));
+const jrTotal = jrWeights.reduce((a, b) => a + b, 0);
+
+// Page navigator: sections and their sub-sections.
+const sceneLabel: Record<string, string> = { before: 'The baseline', research: 'Field research', work: 'The work', alongside: 'Alongside the redesign' };
+const toc: { id: string; label: string; subs?: { label: string; from: number; to: number }[] }[] = [
+	{ id: 'cx-top', label: 'Overview' },
+	{
+		id: 'journey',
+		label: 'The journey',
+		subs: [
+			{ label: 'From scan to smile', from: 0, to: stages.length },
+			{ label: 'Zooming in on the designer', from: stages.length + 1, to: jrCount - 1 },
+		],
+	},
+	...scenes.map((sc) => ({ id: `sc-${sc.id}`, label: sceneLabel[sc.id] })),
+	{ id: 'proto', label: 'Try the prototype' },
+	{ id: 'phone', label: 'Phone concept' },
+	{ id: 'end', label: 'Closing' },
+];
 const vizFor: Record<string, string> = {
 	handoff: 'handoff', scatter: 'scatter', survey: 'survey', usage: 'usage', stages: 'stages', sliders: 'sliders',
 	finding: 'lost', prep: 'prep', frontview: 'frontview', crown: 'crown', autoprep: 'autoprep',
@@ -74,7 +169,26 @@ const vizFor: Record<string, string> = {
 	description="How I designed one place for dental designers to design the crown: Dandy's Design Editor, from prep to send."
 >
 	<div class="hv cx" data-cx>
-		<header class="cx__hero" aria-labelledby="cx-h">
+		<nav class="toc" data-toc aria-label="Page contents">
+			<ul class="toc__rail" aria-hidden="true">{toc.map((s) => <li data-rail={s.id}></li>)}</ul>
+			<div class="toc__panel">
+				<p class="toc__title">On this page</p>
+				<ol class="toc__list">
+					{toc.map((s) => (
+						<li class="toc__item" data-sec={s.id}>
+							<a href={`#${s.id}`} data-go={s.id}>{s.label}</a>
+							{s.subs && (
+								<ol class="toc__sub">
+									{s.subs.map((u) => <li><a href={`#${s.id}`} data-go={s.id} data-i={u.from} data-to={u.to}>{u.label}</a></li>)}
+								</ol>
+							)}
+						</li>
+					))}
+				</ol>
+			</div>
+		</nav>
+
+		<header class="cx__hero" id="cx-top" aria-labelledby="cx-h">
 			<div class="cx__top">
 				<img class="hv__logo" src="/brand/dandy-wordmark.svg" alt="Dandy" width="96" height="34" />
 				<a class="cx__back" href="/work/dandy">← Dandy overview</a>
@@ -97,23 +211,110 @@ const vizFor: Record<string, string> = {
 			</dl>
 		</header>
 
-		<section class="cx__ch" data-fade aria-labelledby="c1">
-			<div class="cx__head">
-				<p class="hv__eyebrow">01 · The journey</p>
-				<h2 id="c1">The designer is one step.</h2>
+		<!-- 01: the lifecycle, one step at a time. Cards dim around the active one. -->
+		<section class="lc jr" id="journey" data-journey data-w={JSON.stringify(jrWeights)} style={`--n:${jrCount};--w:${jrTotal}`} aria-label="From scan to smile, and the designer’s step in detail">
+			<div class="lc__pin jr__pin">
+				<p class="hv__eyebrow lc__eyebrow">01 · The journey</p>
+				<div class="jr__top">
+					<div class="lc__texts">
+						<div class="lc__t" data-p="0">
+							<h2>From Scan to Smile</h2>
+							<p>How a dental restoration gets from the dentist’s chair to the lab and back to the patient.</p>
+							<span class="jr__cue" aria-hidden="true">Scroll <i>↓</i></span>
+						</div>
+						{stages.map((s, i) => (
+							<div class="lc__t" data-p={i + 1}>
+								<p class="lc__who">
+									<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={icons[s.group]} />
+									{groups[s.group].label}
+								</p>
+								<h2>{s.title}</h2>
+								<p>{extra[s.n]?.teaser ?? s.teaser}</p>
+								{extra[s.n]?.more.length > 0 && (
+									<p class="lc__more">
+										{extra[s.n].more.map((part) =>
+											typeof part === 'string' ? part : (
+												<span class="pv">
+													<a href={part.href} target="_blank" rel="noopener">{part.t}</a>
+													<span class="pv__card" role="tooltip">
+														{preview(part.slug) && <img src={preview(part.slug)!} alt="" loading="lazy" />}
+														<b>{part.title}</b>
+														<small>{part.desc}</small>
+														<em>{new URL(part.href).hostname.replace('www.', '')} ↗</em>
+													</span>
+												</span>
+											),
+										)}
+									</p>
+								)}
+							</div>
+						))}
+						<div class="lc__t" data-p={stages.length + 1}>
+							<p class="lc__who">
+								<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={icons.designer} />
+								Lab tech (designer) experience
+							</p>
+							<h2>Zooming in on step 4.</h2>
+							<p>What it took to get one order designed, historically. <em>Until summer 2025.</em></p>
+						</div>
+						{subs.map((s, i) => (
+							<div class="lc__t" data-p={stages.length + 2 + i}>
+								<p class="lc__who">
+									<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={icons[s.icon]} />
+									{s.who}
+								</p>
+								<h2>{s.title}</h2>
+								<p><PvText parts={s.text} /></p>
+							</div>
+						))}
+					</div>
+					<div class="lc__card jr__focus">
+							<span class="lc__no">4</span>
+							{stageImages[4].src && <img src={stageImages[4].src} alt="" />}
+						</div>
+					<svg class="jr__arrow" viewBox="0 0 80 70" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M70 4C36 0 10 20 8 56" /><path d="M0 46l8 12 10-10" /></svg>
+				</div>
+				<div class="jr__row">
+					<ol class="lc__cards" aria-hidden="true">
+							{stages.map((s, i) => (
+								<li class="lc__card" data-p={i + 1} style={`--i:${i}`}>
+									<span class="lc__no">{s.n}</span>
+									{stageImages[s.n].src && <img src={stageImages[s.n].src} alt="" loading="lazy" decoding="async" />}
+								</li>
+							))}
+						</ol>
+					<ol class="jr__sub">
+						{subs.map((s, i) => (
+							<li class="jr__subcard" data-p={stages.length + 2 + i} tabindex="0" role="button" aria-label={`Expand ${s.tag}: ${s.title}`}>
+								<span class="jr__tag">{s.tag}</span>
+								{s.media?.type === 'video' && <video src={s.media.src} poster={s.media.poster} muted loop autoplay playsinline preload="metadata" data-media></video>}
+								{s.media?.type === 'image' && <img class:list={{ 'is-wide': s.media.wide }} src={s.media.src} alt="" loading="lazy" decoding="async" data-media />}
+								<b>{s.title}</b>
+								<small>{s.who}</small>
+								<span class="jr__expand" aria-hidden="true">⤢</span>
+							</li>
+						))}
+					</ol>
+				</div>
 			</div>
-			<div class="cx__copy">
-				<p>A dentist scans and orders. A designer builds the crown in 3D. The lab makes it. This is fixed work only: crowns and bridges.</p>
-			</div>
-			<figure class="cx__wide">
-				<ScanToSmile project="dde" quiet />
-				<figcaption>Same journey as the overview. This case study is the highlighted step.</figcaption>
-			</figure>
 		</section>
+
+		<dialog class="jr__modal" data-modal aria-label="Designer step detail">
+			<button type="button" class="jr__x" data-close aria-label="Close">✕</button>
+			<div class="jr__mbody">
+				<div class="jr__mmedia" data-mmedia></div>
+				<div class="jr__mtext" data-mtext></div>
+			</div>
+			<div class="jr__mnav">
+				<button type="button" data-prev>← Previous</button>
+				<span data-mcount></span>
+				<button type="button" data-next>Next →</button>
+			</div>
+		</dialog>
 
 		{
 			scenes.map((sc) => (
-				<section class="sc" data-scene style={`--n:${sc.beats.length}`} aria-label={sc.label}>
+				<section class="sc" id={`sc-${sc.id}`} data-scene style={`--n:${sc.beats.length}`} aria-label={sc.label}>
 					<div class="sc__pin">
 						<p class="hv__eyebrow sc__label">{sc.label}</p>
 						<div class="sc__rows">
@@ -169,7 +370,7 @@ const vizFor: Record<string, string> = {
 			))
 		}
 
-		<section class="cx__ch" data-fade aria-labelledby="c7">
+		<section class="cx__ch" id="proto" data-fade aria-labelledby="c7">
 			<div class="cx__head">
 				<p class="hv__eyebrow">Concept · not in production</p>
 				<h2 id="c7">Try the blue sky version.</h2>
@@ -182,7 +383,7 @@ const vizFor: Record<string, string> = {
 			</div>
 		</section>
 
-		<section class="cx__ch cx__ch--phone" data-fade aria-labelledby="c8">
+		<section class="cx__ch cx__ch--phone" id="phone" data-fade aria-labelledby="c8">
 			<div>
 				<div class="cx__head">
 					<p class="hv__eyebrow">Further out · Concept</p>
@@ -198,7 +399,7 @@ const vizFor: Record<string, string> = {
 			</div>
 		</section>
 
-		<section class="cx__end" data-fade aria-labelledby="c9">
+		<section class="cx__end" id="end" data-fade aria-labelledby="c9">
 			<h2 id="c9" class="hv__big">The designer still decides.</h2>
 			<div class="cx__copy cx__copy--end">
 				<p>One program for the crown, from prep through send, with a generated starting point the designer can reject. I built the design system, the path through the case, and the screens where the model hands the work to a person.</p>
@@ -262,5 +463,135 @@ const vizFor: Record<string, string> = {
 		tick();
 	} else {
 		document.querySelectorAll('.sc video').forEach((v) => { (v as HTMLVideoElement).autoplay = true; });
+	}
+
+	// Which phase of a tall pinned section is on screen (the journey has weighted phases, scenes are even).
+	const jrPhase = (sec: HTMLElement) => {
+		const w: number[] = JSON.parse(sec.dataset.w || '[1]');
+		const total = w.reduce((a, b) => a + b, 0);
+		const r = sec.getBoundingClientRect();
+		const p = Math.max(0, Math.min(0.9999, -r.top / Math.max(1, r.height - window.innerHeight))) * total;
+		let acc = 0;
+		for (let i = 0; i < w.length; i++) { acc += w[i]; if (p < acc) return i; }
+		return w.length - 1;
+	};
+	// The journey: one pinned section. Progress picks a phase; cards come in, dim, and the designer step zooms in.
+	const clamp01 = (n: number) => Math.max(0, Math.min(1, n));
+	document.querySelectorAll<HTMLElement>('[data-journey]').forEach((sec) => {
+		if (!sec.closest('.cx--live')) return;
+		const items = Array.from(sec.querySelectorAll<HTMLElement>('[data-p]'));
+		const total = Number(getComputedStyle(sec).getPropertyValue('--n')) || 1;
+		const zoomAt = items.filter((e) => e.classList.contains('lc__card')).length + 1; // first phase after the six cards
+		let last = -1;
+		const tick = () => {
+			const r = sec.getBoundingClientRect();
+			const p = jrPhase(sec);
+			if (p === last) return;
+			last = p;
+			items.forEach((e) => {
+				const k = Number(e.dataset.p);
+				e.classList.toggle('on', k === p);
+				e.classList.toggle('seen', k <= p);
+			});
+			sec.classList.toggle('z7', p === zoomAt);
+			sec.classList.toggle('z8', p > zoomAt);
+		};
+		addEventListener('scroll', () => requestAnimationFrame(tick), { passive: true });
+		addEventListener('resize', tick);
+		tick();
+	});
+
+	// Expand a designer sub-step: bigger media plus the same explanation.
+	const modal = document.querySelector<HTMLDialogElement>('[data-modal]');
+	if (modal) {
+		const cards = Array.from(document.querySelectorAll<HTMLElement>('.jr__subcard'));
+		const mm = modal.querySelector<HTMLElement>('[data-mmedia]')!;
+		const mt = modal.querySelector<HTMLElement>('[data-mtext]')!;
+		const count = modal.querySelector<HTMLElement>('[data-mcount]')!;
+		let cur = 0;
+		const open = (i: number) => {
+			cur = (i + cards.length) % cards.length;
+			const card = cards[cur];
+			const src = card.querySelector<HTMLElement>('[data-media]');
+			mm.textContent = '';
+			if (src instanceof HTMLVideoElement) {
+				const v = document.createElement('video');
+				v.src = src.currentSrc || src.src; v.poster = src.poster; v.muted = true; v.loop = true; v.autoplay = true; v.controls = true; v.playsInline = true;
+				mm.append(v);
+				v.play().catch(() => {});
+			} else if (src instanceof HTMLImageElement) {
+				const im = document.createElement('img'); im.src = src.src; im.alt = ''; mm.append(im);
+			}
+			mm.hidden = !src;
+			const text = document.querySelector<HTMLElement>(`.lc__t[data-p="${card.dataset.p}"]`);
+			mt.textContent = '';
+			const tag = document.createElement('span'); tag.className = 'jr__tag jr__tag--m'; tag.textContent = card.querySelector('.jr__tag')?.textContent ?? '';
+			mt.append(tag);
+			if (text) for (const n of Array.from(text.children)) mt.append(n.cloneNode(true));
+			count.textContent = `${cur + 1} of ${cards.length}`;
+			if (!modal.open) modal.showModal();
+		};
+		cards.forEach((c, i) => {
+			c.addEventListener('click', () => open(i));
+			c.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(i); } });
+		});
+		modal.querySelector('[data-close]')!.addEventListener('click', () => modal.close());
+		modal.querySelector('[data-prev]')!.addEventListener('click', () => open(cur - 1));
+		modal.querySelector('[data-next]')!.addEventListener('click', () => open(cur + 1));
+		modal.addEventListener('click', (e) => { if (e.target === modal) modal.close(); });
+		modal.addEventListener('close', () => { mm.textContent = ''; });
+	}
+
+	// Page navigator: highlights where you are, jumps to sections and sub-sections.
+	const toc = document.querySelector<HTMLElement>('[data-toc]');
+	if (toc) {
+		const live = !!document.querySelector('.cx--live');
+		const items = Array.from(toc.querySelectorAll<HTMLElement>('.toc__item'));
+		const rail = Array.from(toc.querySelectorAll<HTMLElement>('[data-rail]'));
+		const secOf = (id: string) => document.getElementById(id)!;
+		const phases = (sec: HTMLElement) => (sec.hasAttribute('data-journey') ? (JSON.parse(sec.dataset.w || '[1]') as number[]) : Array.from(sec.querySelectorAll('.sc__row')).map(() => 1));
+		const phaseNow = (sec: HTMLElement) => {
+			if (sec.hasAttribute('data-journey')) return jrPhase(sec);
+			const n = sec.querySelectorAll('.sc__row').length || 1;
+			const r = sec.getBoundingClientRect();
+			return Math.min(n - 1, Math.floor(Math.max(0, Math.min(0.9999, -r.top / Math.max(1, r.height - innerHeight))) * n));
+		};
+		const goTo = (id: string, i?: number) => {
+			const sec = secOf(id);
+			if (!sec) return;
+			const top = sec.getBoundingClientRect().top + scrollY;
+			if (i == null || !sec.matches('[data-journey], [data-scene]')) { scrollTo({ top: id === 'cx-top' ? 0 : top - 70, behavior: 'smooth' }); return; }
+			if (live) {
+				const w = phases(sec);
+				const total = w.reduce((a, b) => a + b, 0);
+				const start = w.slice(0, i).reduce((a, b) => a + b, 0) + w[i] * 0.5;
+				scrollTo({ top: top + (start / total) * (sec.offsetHeight - innerHeight), behavior: 'smooth' });
+			} else {
+				const target = sec.hasAttribute('data-journey') ? sec.querySelector(`.lc__t[data-p="${i}"]`) : sec.querySelectorAll('.sc__row')[i];
+				(target as HTMLElement | null)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+			}
+		};
+		toc.querySelectorAll<HTMLAnchorElement>('a[data-go]').forEach((a) =>
+			a.addEventListener('click', (e) => {
+				e.preventDefault();
+				goTo(a.dataset.go!, a.dataset.i != null ? Number(a.dataset.i) : undefined);
+			}),
+		);
+		let tocRaf = 0;
+		const tocTick = () => {
+			let cur = 0;
+			items.forEach((it, k) => { if (secOf(it.dataset.sec!).getBoundingClientRect().top <= innerHeight * 0.35) cur = k; });
+			items.forEach((it, k) => it.classList.toggle('on', k === cur));
+			rail.forEach((r, k) => r.classList.toggle('on', k === cur));
+			const sec = secOf(items[cur].dataset.sec!);
+			const subs = Array.from(items[cur].querySelectorAll('.toc__sub a'));
+			if (subs.length && sec.matches('[data-journey], [data-scene]')) {
+				const pi = phaseNow(sec);
+				subs.forEach((a) => a.classList.toggle('on', pi >= Number((a as HTMLElement).dataset.i) && pi <= Number((a as HTMLElement).dataset.to)));
+			}
+		};
+		addEventListener('scroll', () => { cancelAnimationFrame(tocRaf); tocRaf = requestAnimationFrame(tocTick); }, { passive: true });
+		addEventListener('resize', tocTick);
+		tocTick();
 	}
 </script>

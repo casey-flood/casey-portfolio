@@ -1,0 +1,21 @@
+---
+import fs from 'node:fs';
+// Text with inline links that open a small preview card on hover or focus.
+export type Part = string | { t: string; href: string; title: string; desc: string; slug: string };
+interface Props { parts: Part[] }
+const { parts } = Astro.props;
+const preview = (slug: string) => ['webp', 'png', 'jpg'].map((e) => `/work/previews/${slug}.${e}`).find((f) => fs.existsSync(`./public${f}`)) ?? null;
+---
+{parts.map((part) =>
+	typeof part === 'string' ? part : (
+		<span class="pv">
+			<a href={part.href} target="_blank" rel="noopener">{part.t}</a>
+			<span class="pv__card" role="tooltip">
+				{preview(part.slug) && <img src={preview(part.slug)!} alt="" loading="lazy" />}
+				<b>{part.title}</b>
+				<small>{part.desc}</small>
+				<em>{new URL(part.href).hostname.replace('www.', '')} ↗</em>
+			</span>
+		</span>
+	),
+)}
