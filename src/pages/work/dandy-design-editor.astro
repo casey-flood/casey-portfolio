@@ -54,12 +54,12 @@ const subs: { tag: string; icon: string; who: string; title: string; text: Part[
 const scenes = [
 	{
 		id: 'before',
-		label: '02 · The baseline, summer 2025',
+		label: '02 · What that chain cost. Summer 2025, before the redesign',
 		beats: [
-			{ id: 'handoff', title: 'Three programs for one tooth.', text: 'Prep in Browser, then an upload, then 3Shape or our editor. Designers switched tools mid-tooth.' },
-			{ id: 'scatter', title: 'The tools were real. The path wasn’t.', text: 'Related tools were scattered, so designers spent the time finding the next click.' },
-			{ id: 'survey', title: '6.9 vs 9.1.', text: 'Nine designers rated the editor 6.9 and 3Shape 9.1 out of 10. A small survey, and a before: measured before I joined.' },
-			{ id: 'usage', title: 'About 46%.', text: 'In June 2025, designers used the editor for about 46% of the cases it was meant to cover. The goal was 100%.' },
+			{ id: 'handoff', title: '3+ programs, and a different person at each one.', text: 'Prep in the browser. Design in 3Shape, exocad, or the Dandy Design Editor. Audit in another portal, with scores in a spreadsheet. The case was handed off every time, and the file moved more than the tooth did: download, upload, hunt for the right tool, upload back. That transfer is the waste.', metric: { text: '14.5 min', unit: 'average total crown design time, Q1 2025, before the Design Editor redesign' } },
+			{ id: 'scatter', title: 'Inside the Dandy Design Editor, the tools were buried.', text: 'Nested menus meant designers hunted for the next click instead of designing.', quote: ['“I wish it could be, like, going stages or maybe have it on the top… group related tools together.”', 'Dental designer, DDE designer interviews'] },
+			{ id: 'survey', title: '6.9 vs 9.1.', text: 'Before the Design Editor redesign, designers scored the Dandy Design Editor 6.9 and 3Shape 9.1 out of 10.' },
+			{ id: 'usage', title: 'Only 46%.', text: 'Fewer than half of designers were designing in the Dandy Design Editor. The goal was 100%.' },
 		],
 	},
 	{
@@ -71,28 +71,42 @@ const scenes = [
 			{ id: 'shadow', title: 'Shadowing, at every level.', text: 'Watching designers finish real cases, from newer designers to the most experienced.', metric: { to: 20, prefix: '', suffix: '+', unit: 'virtual shadow sessions' } },
 			{ id: 'reviews', title: 'Every week, in the open.', text: 'I led design reviews of the UX improvements with the designers who would use them.', metric: { to: 2, prefix: '', suffix: '+ hrs', unit: 'every week' } },
 			{ id: 'competitors', title: 'Competitors and data.', text: 'A close study of 3Shape and exocad, and the editor’s own metrics in dashboards and Sentry replays.', metric: { to: 10, prefix: '', suffix: '+ hrs', unit: 'of competitor research and data analysis' } },
-			{ id: 'finding', title: 'The structure was the problem.', text: 'The original UI heavily relied on nested menus, forcing designers to “hunt” for tools and slowing down their design process.', quote: ['“I wish it could be, like, going stages or maybe have it on the top… group related tools together.”', 'Dental designer, DDE designer interviews'] },
+			{ id: 'finding', title: 'The structure was the problem.', text: 'The original UI heavily relied on nested menus, forcing designers to “hunt” for tools and slowing down their design process. Everything I heard at the desks pointed back to the chain and those two numbers.' },
 		],
 	},
 	{
 		id: 'work',
-		label: '04 · The work',
+		label: '04 · The bets',
 		beats: [
-			{ id: 'system', title: 'A design system, in Storybook.', text: 'Built on the production components, so a design change could ship.' },
-			{ id: 'stages', title: 'Five stages, one path.', text: 'Set the view. Choose the crown. Sculpt. Check. Send. Each stage keeps its own tools.' },
-			{ id: 'sliders', title: 'Longer sliders.', text: 'The short ones were too sensitive to land a contact.', quote: ['“Making the left side wider was a great move. The old sliders were too short and super sensitive. The new ones are fantastic.”', 'Tom, dental designer'] },
-			{ id: 'prep', title: 'Prep moved in.', text: 'One program from prep to send. The base tooth can come from a copy, a mirror, or a neighbor, and later a model can suggest it.' },
-			{ id: 'frontview', title: 'Front view: 134 s to 20 s.', text: 'Mean active seconds per visit, April to August 2026. Visits also fell, from about 48,000 to about 31,000. Choosing the crown went from 39 s to 19 s.' },
-			{ id: 'm4', title: 'Milestone 4 shipped faster.', text: 'Milestone 4 of the redesign shipped about 29% faster, at about 25% higher quality.', metric: { to: 29, prefix: '~', suffix: '%', unit: 'faster, at ~25% higher quality' } },
-			{ id: 'bridges', title: 'Bridges, more efficient.', text: 'About 30% more efficient on the Bridges redesign, with 15%+ quality gains.', metric: { to: 30, prefix: '~', suffix: '%', unit: 'more efficient, with 15%+ quality gains' } },
+			{ id: 'focus', title: 'The research narrowed it to three bets.', text: 'The goal: design time down, quality up. Three areas could get us there: how the editor was organized, which crowns a model could start, and how much of prep could run on its own.' },
+			{ id: 'stages', title: 'Bet 1: redo the information architecture.', text: 'Card sorting and interviews showed designers think in distinct stages, each with its own goal. So the editor became five stages, one path: set the view, choose the crown, sculpt, check, send. Each stage keeps its own tools.' },
+			{ id: 'crown', title: 'Bet 2: let a model start the simple crowns.', text: 'Simple, single-unit posterior crowns were eligible for ML crown generation. A designer can start from the generated crown and still throw it out.' },
+			{ id: 'autoprep', title: 'Bet 3: fold prep in, then automate it.', text: 'Prep could be automated and moved into the same program. Repetitive cleanup runs before anyone opens the case, and the designer sees what changed and can redo it.' },
 		],
 	},
 	{
-		id: 'alongside',
-		label: '05 · Alongside the redesign',
+		id: 'process',
+		label: '05 · The process',
 		beats: [
-			{ id: 'crown', title: 'A generated crown.', text: 'For the simple case, one back tooth in zirconia, a model proposes the crown. I designed the moment it shows up, so a designer can start from it and still throw it out.' },
-			{ id: 'autoprep', title: 'Prep that runs ahead.', text: 'Repetitive cleanup can run before anyone opens the case. The designer sees what changed and can redo it.' },
+			{ id: 'system', title: 'First, a cohesive, branded design system.', text: 'One didn’t exist, so I built it on the production components, in Storybook, so a design change could ship.', link: { href: '/work/dandy-design-system', label: 'Read the design system case study →' } },
+			{ id: 'sliders', title: 'Then prototype in code, with designers every week.', text: 'With that system I prototyped in code, got weekly feedback from designers, and broke the UI into logical stages, one thing per stage.', quote: ['“Making the left side wider was a great move. The old sliders were too short and super sensitive. The new ones are fantastic.”', 'Tom, dental designer'] },
+			{ id: 'choosecrown', title: 'Make room for the ML crowns.', text: 'I built the generated crown into the UI as its own “choose crown” stage, so designers can start from it or set it aside.' },
+			{ id: 'prep', title: 'Bring prep into the editor, simpler and automated.', text: 'One program from prep to send. The base tooth can come from a copy, a mirror, or a neighbor, and later a model can suggest it. Then I simplified the steps and automated what could run on its own.' },
+			{ id: 'bluesky', title: 'Build the blue sky prototype, then slice it up.', text: 'I pulled every change into one blue sky prototype, got feedback, then parsed it into digestible chunks for releases and sprints.', link: { id: 'proto', label: 'Try the blue sky prototype ↓' } },
+			{ id: 'track', title: 'Track the metrics over time.', text: 'Each release, I watched how the numbers moved. That’s the next section.' },
+		],
+	},
+	{
+		id: 'impact',
+		label: '06 · What changed, Q1 2025 to Q2 2026',
+		beats: [
+			{ id: 'adoption', title: 'From under 1% to about 90%.', text: 'The editor crossed 3Shape around May to June 2025 and has pulled further ahead every quarter. 3Shape fell from about 44% to about 31% of crown orders. It’s still around, but now a minority tool for crowns.', metric: { to: 90, prefix: '~', suffix: '%', unit: 'of crown orders designed in the editor, Q2 2026' } },
+			{ id: 'dante', title: 'Generated crowns, scaled fast.', text: 'About 2% of crown orders were touched by the crown model in Q3 2025, about 38% by Q1 2026, and about 80% by Q2 2026. Automated prep followed, at about 4% in Q2 2026.', metric: { to: 80, prefix: '~', suffix: '%', unit: 'of crown orders touched by the crown model, Q2 2026' } },
+			{ id: 'frontview', title: 'Front view: 134 s to 20 s.', text: 'Mean active seconds per visit, April to August 2026. Visits also fell, from about 48,000 to about 31,000. Choosing the crown went from 39 s to 19 s.' },
+			{ id: 'time', title: 'Crowns take less time to design.', text: 'Average total design time fell from 14.5 to 11.8 minutes as the tools scaled. Core design time ticked up while designers learned the editor (6.7 to 7.2 min), then came down to 6.2.', metric: { text: '−19%', unit: 'total crown design time, 14.5 to 11.8 min' } },
+			{ id: 'm4', title: 'Milestone 4 shipped faster.', text: 'Milestone 4 of the redesign shipped about 29% faster, at about 25% higher quality.', metric: { to: 29, prefix: '~', suffix: '%', unit: 'faster, at ~25% higher quality' } },
+			{ id: 'bridges', title: 'Bridges, more efficient.', text: 'About 30% more efficient on the Bridges redesign, with 15%+ quality gains.', metric: { to: 30, prefix: '~', suffix: '%', unit: 'more efficient, with 15%+ quality gains' } },
+			{ id: 'watching', title: 'What I’m watching.', text: 'Refab within 45 days drifted from 5.07% to 5.61%. Design review rejections rose from 0.024% to 0.301%, still very low. Three changes shipped at once, and order volume roughly doubled, so I can’t credit any one of them yet.' },
 		],
 	},
 ];
@@ -102,7 +116,7 @@ const jrWeights = Array.from({ length: jrCount }, (_, i) => (i === 0 ? 0.45 : 1)
 const jrTotal = jrWeights.reduce((a, b) => a + b, 0);
 
 // Page navigator: sections and their sub-sections.
-const sceneLabel: Record<string, string> = { before: 'The baseline', research: 'Field research', work: 'The work', alongside: 'Alongside the redesign' };
+const sceneLabel: Record<string, string> = { before: 'What the chain cost', research: 'Field research', work: 'The bets', process: 'The process', impact: 'What changed' };
 const toc: { id: string; label: string; subs?: { label: string; from: number; to: number }[] }[] = [
 	{ id: 'cx-top', label: 'Overview' },
 	{
@@ -119,7 +133,7 @@ const toc: { id: string; label: string; subs?: { label: string; from: number; to
 	{ id: 'end', label: 'Closing' },
 ];
 const vizFor: Record<string, string> = {
-	handoff: 'handoff', scatter: 'scatter', survey: 'survey', usage: 'usage', stages: 'stages', sliders: 'sliders',
+	scatter: 'scatter', survey: 'survey', usage: 'usage', stages: 'stages', sliders: 'sliders',
 	finding: 'lost', prep: 'prep', frontview: 'frontview', crown: 'crown', autoprep: 'autoprep',
 };
 ---
@@ -320,6 +334,7 @@ const vizFor: Record<string, string> = {
 													<footer>{b.quote[1]}</footer>
 												</blockquote>
 											)}
+											{b.link && <a class="sc__link" href={b.link.href ?? `#${b.link.id}`} data-goid={b.link.id}>{b.link.label}</a>}
 										</div>
 										{(m || kind || b.metric) && (
 											<div class:list={['sc__viz', { 'sc__viz--metric': b.metric && !m, 'sc__viz--shots': m?.fit === 'contain' }]}>
@@ -398,6 +413,7 @@ const vizFor: Record<string, string> = {
 </Base>
 
 <script>
+	import { natTop, railLabels } from '../../scripts/takeover';
 	const root = document.querySelector<HTMLElement>('[data-cx]');
 	if (root && !window.matchMedia('(prefers-reduced-motion: reduce)').matches && 'IntersectionObserver' in window) {
 		const mob = window.matchMedia('(max-width: 899px)').matches;
@@ -553,6 +569,7 @@ const vizFor: Record<string, string> = {
 		const live = !!document.querySelector('.cx--live') && !document.querySelector('.cx--mob');
 		const items = Array.from(toc.querySelectorAll<HTMLElement>('.toc__item'));
 		const rail = Array.from(toc.querySelectorAll<HTMLElement>('[data-rail]'));
+		railLabels(items, rail);
 		const secOf = (id: string) => document.getElementById(id)!;
 		const phases = (sec: HTMLElement) => (sec.hasAttribute('data-journey') ? (JSON.parse(sec.dataset.w || '[1]') as number[]) : Array.from(sec.querySelectorAll('.sc__row')).map(() => 1));
 		const phaseNow = (sec: HTMLElement) => {
@@ -564,7 +581,7 @@ const vizFor: Record<string, string> = {
 		const goTo = (id: string, i?: number) => {
 			const sec = secOf(id);
 			if (!sec) return;
-			const top = sec.getBoundingClientRect().top + scrollY;
+			const top = natTop(sec) + scrollY;
 			if (i == null || !sec.matches('[data-journey], [data-scene]')) { scrollTo({ top: id === 'cx-top' ? 0 : top - 70, behavior: 'smooth' }); return; }
 			if (live) {
 				const w = phases(sec);
@@ -585,7 +602,7 @@ const vizFor: Record<string, string> = {
 		let tocRaf = 0;
 		const tocTick = () => {
 			let cur = 0;
-			items.forEach((it, k) => { if (secOf(it.dataset.sec!).getBoundingClientRect().top <= innerHeight * 0.35) cur = k; });
+			items.forEach((it, k) => { if (natTop(secOf(it.dataset.sec!)) <= innerHeight * 0.35) cur = k; });
 			items.forEach((it, k) => it.classList.toggle('on', k === cur));
 			rail.forEach((r, k) => r.classList.toggle('on', k === cur));
 			const sec = secOf(items[cur].dataset.sec!);
@@ -602,6 +619,9 @@ const vizFor: Record<string, string> = {
 
 	// 3D cover: loads once the stage is near the screen, falls back to the video if WebGL or the files fail.
 	const h3 = document.querySelector<HTMLElement>('[data-hero3d]');
+	// the video stays hidden until we know the 3D scan isn't coming
+	const showVideo = () => h3?.querySelector('.h3d__stage')?.classList.add('is-fb');
+	if (!h3 || matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) showVideo();
 	if (h3 && !matchMedia('(prefers-reduced-motion: reduce)').matches && 'IntersectionObserver' in window) {
 		const stage = h3.querySelector<HTMLElement>('.h3d__stage')!;
 		const pin = h3.querySelector<HTMLElement>('.h3d__pin')!;
@@ -622,7 +642,7 @@ const vizFor: Record<string, string> = {
 			hio.disconnect();
 			try {
 				const probe = document.createElement('canvas');
-				if (!(probe.getContext('webgl2') || probe.getContext('webgl'))) return;
+				if (!(probe.getContext('webgl2') || probe.getContext('webgl'))) { showVideo(); return; }
 				const heroUrl = '/work/dde/hero3d.js';
 				const mod = await (new Function('u', 'return import(u)') as (u: string) => Promise<any>)(heroUrl);
 				const hero = await mod.mountHero(stage, progress);
@@ -630,8 +650,20 @@ const vizFor: Record<string, string> = {
 				(window as any).__hero = hero;
 			} catch (err) {
 				console.warn('3D cover unavailable, keeping the video', err);
+				showVideo();
 			}
 		}, { rootMargin: '300px' });
 		hio.observe(h3);
+	}
+</script>
+
+<script>
+	import { stackSections, wireDots } from '../../scripts/takeover';
+	// each section takes over the screen and replaces the previous one
+	const root = document.querySelector<HTMLElement>('[data-cx]');
+	if (root) {
+		const els = Array.from(root.querySelectorAll<HTMLElement>(':scope > section, :scope > .lc')).filter((e) => !e.matches('dialog'));
+		stackSections(root, els);
+		wireDots(root);
 	}
 </script>

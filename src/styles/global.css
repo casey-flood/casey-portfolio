@@ -13055,7 +13055,7 @@ html { font-size: 93.75%; }
 @media (max-width: 899px) { .sc { padding-block: 3rem; } .sc__rows { gap: 3rem; } }
 
 /* live: the section is tall, the stage is pinned, and the beats swap as you scroll */
-.cx--live .sc { height: calc(var(--n) * 85svh + 20svh); padding-block: 0; }
+.cx--live .sc { height: calc(var(--n) * 48svh + 60svh); padding-block: 0; }
 .cx--live .sc__pin { position: sticky; top: var(--hv-top); height: calc(100svh - var(--hv-top)); display: flex; flex-direction: column; justify-content: center; }
 .cx--live .sc__rows { gap: 0; }
 .cx--live .sc__row { grid-area: 1 / 1; opacity: 0; transform: translateY(26px); pointer-events: none; transition: opacity 0.5s ease, transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1); }
@@ -13281,7 +13281,7 @@ html { font-size: 93.75%; }
 .lc__t p { margin: 0; color: #b9d3cb; font-size: 1.05rem; line-height: 1.5; }
 .lc__t .hv__persona { color: var(--lime); font-size: 0.85rem; }
 .lc .s2s, .hs__track { margin-top: 0.5rem; }
-.cx--live .lc, .cx--live .hs { height: calc(var(--n) * 70svh + 25svh); padding-block: 0; }
+.cx--live .lc, .cx--live .hs { height: calc(var(--n) * 46svh + 40svh); padding-block: 0; }
 .cx--live .lc__pin, .cx--live .hs__pin { position: sticky; top: var(--hv-top); height: calc(100svh - var(--hv-top)); padding-block: 1.5rem; align-content: center; }
 .cx--live .lc__t { opacity: 0; transform: translateY(14px); transition: opacity 0.5s ease, transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1); pointer-events: none; }
 .cx--live .lc__t.on { opacity: 1; transform: none; pointer-events: auto; }
@@ -13759,7 +13759,7 @@ html { font-size: 93.75%; }
 .hv:not(.is-live) .hv__q{grid-area:auto}
 /* live: pinned, one quote at a time */
 @media (min-width:900px){
-.hv.is-live .hv__praise{height:calc(var(--n)*70svh + 20svh);padding-block:0}
+.hv.is-live .hv__praise{height:calc(var(--n)*42svh + 40svh);padding-block:0}
 .hv.is-live .hv__praise-pin{position:sticky;top:var(--hv-top);height:calc(100svh - var(--hv-top))}
 .hv.is-live .hv__q{opacity:0;transform:translateX(70px);pointer-events:none;transition:opacity .6s ease,transform .8s cubic-bezier(.2,.7,.2,1)}
 .hv.is-live .hv__q.on{opacity:1;transform:none;pointer-events:auto}
@@ -13934,3 +13934,35 @@ html { font-size: 93.75%; }
 @media (min-width:900px){
 .cx--live .h3d__pin{height:min(64rem,calc(100svh - var(--hv-top) - 4rem))!important;padding-top:clamp(0rem,5vh,3rem)}
 }
+
+/* Dandy overview: dim "Behind the work" while it isn't in focus */
+.is-live #dv-sys{transition:opacity .5s ease,filter .5s ease}
+.is-live #dv-sys.is-dim{opacity:.3;filter:saturate(.6)}
+@media (prefers-reduced-motion:reduce){.is-live #dv-sys{transition:none}}
+
+/* DDE cover: never flash the walkthrough video while the 3D scan loads */
+.h3d__stage:not(.is-3d):not(.is-fb) video{opacity:0;visibility:hidden}
+.h3d__stage.is-fb video{opacity:1;visibility:visible}
+
+/* tools: its own full-screen scroll section (neighbours stay out of view), tiles visible by default */
+.ts{min-height:calc(100svh - var(--hv-top,4.2rem));display:grid;align-items:center;padding-block:clamp(2rem,6vh,4rem);box-sizing:border-box}
+.is-live .ts--live{height:auto!important}
+
+/* takeover stack: opaque, sticky sections; the next one slides over the last, no dividers */
+.dv-take{position:sticky;box-sizing:border-box;background:#002f27;border-top:0!important;display:flex;flex-direction:column;justify-content:center}
+.dv-take.ts{display:grid}
+.dv-take.sc,.dv-take.lc,.dv-take.hv__praise{display:block}
+
+/* navigator: name of the current section beside its dot, as a quiet hint that the dots are clickable */
+.toc__rail li{position:relative}
+.toc__rail li.on::after{content:attr(data-label);position:absolute;left:calc(100% + .7rem);top:50%;width:8.5rem;transform:translateY(-50%) scale(.6667);transform-origin:left center;font-family:var(--mono,ui-monospace,monospace);font-size:.9rem;line-height:1.25;letter-spacing:.03em;color:rgba(207,227,220,.62);white-space:normal;pointer-events:none}
+@media (max-width:1439px){.toc__rail li.on::after{display:none}}
+
+/* clickable progress bars */
+.dv-dotbtn{cursor:pointer;position:relative}
+.dv-dotbtn::after{content:'';position:absolute;inset:-12px -4px}
+.dv-dotbtn:not(.on):hover{background:rgba(255,255,255,.45)!important}
+.dv-dotbtn:focus-visible{outline:2px solid var(--lime);outline-offset:3px}
+
+.sc__link{display:inline-block;margin-top:1.1rem;color:var(--lime);font-size:.98rem;text-decoration:none;border-bottom:1px solid rgba(205,242,91,.4);padding-bottom:2px}
+.sc__link:hover{border-color:var(--lime)}

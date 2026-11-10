@@ -232,6 +232,7 @@ const systems = [
 </Base>
 
 <script>
+	import { stackSections, wireDots } from '../../scripts/takeover';
 	const root = document.querySelector<HTMLElement>('[data-hv]');
 	const calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 	if (root && !calm) {
@@ -359,16 +360,26 @@ const systems = [
 			{ rootMargin: '0px 0px -10% 0px', threshold: 0.1 },
 		);
 		root.querySelectorAll('[data-fade]').forEach((el) => io.observe(el));
+
+		// each section takes over the screen and replaces the previous one
+		if (!root.classList.contains('cx--mob')) {
+			const secs = ['#dv-fit', '#dv-sys', '#dv-tools', '#dv-praise', '#dv-highlights', '.hv__more']
+				.map((s) => root.querySelector<HTMLElement>(s)).filter(Boolean) as HTMLElement[];
+			stackSections(root, secs);
+			wireDots(root);
+		}
 	}
 </script>
 
 <script>
+	import { natTop, railLabels } from '../../scripts/takeover';
 	// Page navigator for the overview: dots at the left, a panel on hover with the journey steps.
 	const toc = document.querySelector<HTMLElement>('[data-toc]');
 	if (toc) {
 		const pinned = !!document.querySelector('.cx--live') && !document.querySelector('.cx--mob');
 		const items = Array.from(toc.querySelectorAll<HTMLElement>('.toc__item'));
 		const rail = Array.from(toc.querySelectorAll<HTMLElement>('[data-rail]'));
+		railLabels(items, rail);
 		const secOf = (id: string) => document.getElementById(id)!;
 		const phase = (sec: HTMLElement) => {
 			const w: number[] = JSON.parse(sec.dataset.w || '[1]');
@@ -382,7 +393,7 @@ const systems = [
 		const goTo = (id: string, i?: number) => {
 			const sec = secOf(id);
 			if (!sec) return;
-			const top = sec.getBoundingClientRect().top + scrollY;
+			const top = natTop(sec) + scrollY;
 			if (i == null || !sec.hasAttribute('data-journey')) { scrollTo({ top: id === 'dv-top' ? 0 : top - 70, behavior: 'smooth' }); return; }
 			if (pinned) {
 				const w: number[] = JSON.parse(sec.dataset.w || '[1]');
@@ -399,7 +410,7 @@ const systems = [
 		let raf = 0;
 		const tick = () => {
 			let cur = 0;
-			items.forEach((it, k) => { if (secOf(it.dataset.sec!).getBoundingClientRect().top <= innerHeight * 0.35) cur = k; });
+			items.forEach((it, k) => { if (natTop(secOf(it.dataset.sec!)) <= innerHeight * 0.35) cur = k; });
 			items.forEach((it, k) => it.classList.toggle('on', k === cur));
 			rail.forEach((r, k) => r.classList.toggle('on', k === cur));
 			const sec = secOf(items[cur].dataset.sec!);

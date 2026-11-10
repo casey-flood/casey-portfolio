@@ -32,6 +32,7 @@ export const ddeMedia: Record<string, Media> = {
 	},
 	competitors: { type: 'gallery', fit: 'contain', src: '/work/dde/3shape-notes.webp', srcs: ['/work/dde/3shape-notes.webp', '/work/dde/sentry-dashboard.webp'], alt: 'My UI audit notes on 3Shape, and a Sentry dashboard of Design Editor errors' },
 	finding: { type: 'video', src: '/work/dde/figjam.mp4', poster: '/work/dde/figjam.jpg', alt: 'My FigJam board of designer interviews, shadow sessions and workshop notes' },
+	scatter: { type: 'video', src: '/work/dde/old-editor.mp4', poster: '/work/dde/old-editor.jpg', alt: 'The original Design Editor: opening and closing nested tool sections in the left panel to find the next tool' },
 	// Examples to fill in:
 	// competitors: { type: 'image', src: '/work/dde/sentry.png', alt: 'Sentry dashboard' },
 	// prep: { type: 'video', src: '/work/dde/prep.mp4', poster: '/work/dde/prep.jpg', alt: 'Choosing the base tooth in prep' },
