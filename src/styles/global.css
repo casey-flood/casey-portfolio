@@ -13929,3 +13929,8 @@ html { font-size: 93.75%; }
 .dsx__hero .dsx__grid{flex:1;align-content:center;margin-top:clamp(1rem,4vh,3rem)}
 .dsx__hero h1{font-size:clamp(2.2rem,4vw,3.6rem)!important}
 }
+
+/* DDE cover: let the pinned stage fill the viewport so the copy sits mid-page on tall screens */
+@media (min-width:900px){
+.cx--live .h3d__pin{height:min(64rem,calc(100svh - var(--hv-top) - 4rem))!important;padding-top:clamp(0rem,5vh,3rem)}
+}
