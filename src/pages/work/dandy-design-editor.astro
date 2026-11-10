@@ -58,8 +58,8 @@ const scenes = [
 		beats: [
 			{ id: 'handoff', title: '3+ programs, and a different person at each one.', text: 'Prep in the browser. Design in 3Shape, exocad, or the Dandy Design Editor. Audit in another portal, with scores in a spreadsheet. The case was handed off every time, and the file moved more than the tooth did: download, upload, hunt for the right tool, upload back. That transfer is the waste.', metric: { text: '14.5 min', unit: 'average total crown design time, Q1 2025, before the Design Editor redesign' } },
 			{ id: 'scatter', title: 'Inside the Dandy Design Editor, the tools were buried.', text: 'Nested menus meant designers hunted for the next click instead of designing.', quote: ['“I wish it could be, like, going stages or maybe have it on the top… group related tools together.”', 'Dental designer, DDE designer interviews'] },
-			{ id: 'survey', title: '6.9 vs 9.1.', text: 'Before the Design Editor redesign, designers scored the Dandy Design Editor 6.9 and 3Shape 9.1 out of 10.' },
-			{ id: 'usage', title: 'Only 46%.', text: 'Fewer than half of designers were designing in the Dandy Design Editor. The goal was 100%.' },
+			{ id: 'survey', title: 'Satisfaction was low next to the competition.', text: 'Before the redesign, designers scored the Dandy Design Editor 6.9 out of 10, against 9.1 for 3Shape. The usual complaints: nested menus and too many clicks, hotkeys that didn’t match 3Shape, and tools they had to leave for, like the cut plane.' },
+			{ id: 'usage', title: 'More than half of designers still worked in other software.', text: 'Only 46% were designing in the Dandy Design Editor. The goal was 100%.' },
 		],
 	},
 	{
@@ -71,17 +71,17 @@ const scenes = [
 			{ id: 'shadow', title: 'Shadowing, at every level.', text: 'Watching designers finish real cases, from newer designers to the most experienced.', metric: { to: 20, prefix: '', suffix: '+', unit: 'virtual shadow sessions' } },
 			{ id: 'reviews', title: 'Every week, in the open.', text: 'I led design reviews of the UX improvements with the designers who would use them.', metric: { to: 2, prefix: '', suffix: '+ hrs', unit: 'every week' } },
 			{ id: 'competitors', title: 'Competitors and data.', text: 'A close study of 3Shape and exocad, and the editor’s own metrics in dashboards and Sentry replays.', metric: { to: 10, prefix: '', suffix: '+ hrs', unit: 'of competitor research and data analysis' } },
-			{ id: 'finding', title: 'The structure was the problem.', text: 'The original UI heavily relied on nested menus, forcing designers to “hunt” for tools and slowing down their design process. Everything I heard at the desks pointed back to the chain and those two numbers.' },
+			{ id: 'finding', title: 'Tools were organized by category, not by how designers think.', text: 'Designers hunted through nested menus, buried in information, with no automation and no warning when a design broke the Rx.' },
 		],
 	},
 	{
 		id: 'work',
-		label: '04 · The bets',
+		label: '04 · The hypotheses',
 		beats: [
-			{ id: 'focus', title: 'The research narrowed it to three bets.', text: 'The goal: design time down, quality up. Three areas could get us there: how the editor was organized, which crowns a model could start, and how much of prep could run on its own.' },
-			{ id: 'stages', title: 'Bet 1: redo the information architecture.', text: 'Card sorting and interviews showed designers think in distinct stages, each with its own goal. So the editor became five stages, one path: set the view, choose the crown, sculpt, check, send. Each stage keeps its own tools.' },
-			{ id: 'crown', title: 'Bet 2: let a model start the simple crowns.', text: 'Simple, single-unit posterior crowns were eligible for ML crown generation. A designer can start from the generated crown and still throw it out.' },
-			{ id: 'autoprep', title: 'Bet 3: fold prep in, then automate it.', text: 'Prep could be automated and moved into the same program. Repetitive cleanup runs before anyone opens the case, and the designer sees what changed and can redo it.' },
+			{ id: 'focus', title: 'Three hypotheses to bring design time down and quality up.', titleHtml: 'Three hypotheses to bring design time <span class="hl hl--dn">down</span> and quality <span class="hl hl--up">up</span>.', text: 'Each one is testable. Here they are, in order.' },
+			{ id: 'crown', title: 'If ML generates a bio-mimetic starting crown, design time goes down and quality goes up.', titleHtml: '<small class="hyp">Hypothesis 1</small>If ML generates a bio-mimetic starting crown, design time goes down and quality goes up.', text: 'Measured by: average total design time, refab rate, and design review rejections, on crowns the model touched against ones it didn’t.' },
+			{ id: 'autoprep', title: 'If prep lives in the editor and runs itself, handoffs and wait time go down.', titleHtml: '<small class="hyp">Hypothesis 2</small>If prep lives in the editor and runs itself, handoffs and wait time go down.', text: 'Measured by: time per case from scan to submit, and how many programs and people each case passes through.' },
+			{ id: 'stages', title: 'If navigation follows how designers think, cognitive load goes down.', titleHtml: '<small class="hyp">Hypothesis 3</small>If navigation follows how designers think, cognitive load goes down.', text: 'Measured by: satisfaction (6.9 against 3Shape’s 9.1 at baseline), time spent hunting for tools, and editor adoption (46% at baseline).' },
 		],
 	},
 	{
@@ -116,7 +116,7 @@ const jrWeights = Array.from({ length: jrCount }, (_, i) => (i === 0 ? 0.45 : 1)
 const jrTotal = jrWeights.reduce((a, b) => a + b, 0);
 
 // Page navigator: sections and their sub-sections.
-const sceneLabel: Record<string, string> = { before: 'What the chain cost', research: 'Field research', work: 'The bets', process: 'The process', impact: 'What changed' };
+const sceneLabel: Record<string, string> = { before: 'What the chain cost', research: 'Field research', work: 'The hypotheses', process: 'The process', impact: 'What changed' };
 const toc: { id: string; label: string; subs?: { label: string; from: number; to: number }[] }[] = [
 	{ id: 'cx-top', label: 'Overview' },
 	{
@@ -133,7 +133,7 @@ const toc: { id: string; label: string; subs?: { label: string; from: number; to
 	{ id: 'end', label: 'Closing' },
 ];
 const vizFor: Record<string, string> = {
-	scatter: 'scatter', survey: 'survey', usage: 'usage', stages: 'stages', sliders: 'sliders',
+	scatter: 'scatter', focus: 'focus', survey: 'survey', usage: 'usage', stages: 'stages', sliders: 'sliders',
 	finding: 'lost', prep: 'prep', frontview: 'frontview', crown: 'crown', autoprep: 'autoprep',
 };
 ---
@@ -326,7 +326,7 @@ const vizFor: Record<string, string> = {
 								return (
 									<article class:list={['sc__row', { 'sc__row--solo': !m && !kind && !b.metric }]} data-i={i}>
 										<div class="sc__text">
-											<h3>{b.title}</h3>
+											<h3><span set:html={b.titleHtml ?? b.title} /></h3>
 											<p>{b.text}</p>
 											{b.quote && (
 												<blockquote class="sc__quote">

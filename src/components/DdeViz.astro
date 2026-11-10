@@ -23,23 +23,63 @@ const front = [['Apr',134],['May',25],['Jun',20],['Jul',19],['Aug',20]];
 )}
 
 {kind === 'survey' && (
-	<div class="dz dz-bars" role="img" aria-label="Likelihood to recommend, out of 10: the Dandy Design Editor 6.9, 3Shape 9.1">
-		<div class="dz-bar"><span>Dandy Design Editor</span><i style="--w:69%"></i><b>6.9</b></div>
-		<div class="dz-bar dz-bar--alt"><span>3Shape</span><i style="--w:91%"></i><b>9.1</b></div>
+	<div class="dz dz-vs" role="img" aria-label="Satisfaction out of 10: Dandy Design Editor 6.9, 3Shape 9.1">
+		<figure class="vs vs--lo">
+			<img src="/work/dde/old-dde-shot.webp" alt="" loading="lazy" decoding="async" />
+			<figcaption><b>6.9</b><span>Dandy Design Editor</span></figcaption>
+		</figure>
+		<figure class="vs vs--hi">
+			<img src="/work/dde/3shape-shot.webp" alt="" loading="lazy" decoding="async" />
+			<figcaption><b>9.1</b><span>3Shape</span></figcaption>
+		</figure>
 	</div>
 )}
 
 {kind === 'usage' && (
-	<div class="dz dz-usage" role="img" aria-label="About 46 percent of the cases it was meant to cover, against a goal of 100 percent">
-		<div class="dz-track"><i style="--w:46%"></i><em>Goal 100%</em></div>
-		<p><b>About 46%</b> of intended cases, June 2025</p>
+	<div class="dz dz-usage dz-usage--gap" role="img" aria-label="46 percent of designers were designing in the Dandy Design Editor, against a goal of 100 percent: a 54 point gap">
+		<div class="dz-nums">
+			<div class="dz-bignum">46<small>%</small></div>
+			<div class="dz-vs100"><span>vs. goal of</span><b>100%</b></div>
+		</div>
+		<div class="dz-gaptrack">
+			<i class="g-fill" style="--w:46%"><em>46%</em></i>
+			<i class="g-gap" style="--w:54%"><em>54% gap</em></i>
+			<s class="g-goal"><span>Goal</span></s>
+		</div>
+		<p class="dz-bigcap">of designers were designing in the Dandy Design Editor</p>
+	</div>
+)}
+
+{kind === 'focus' && (
+	<div class="dz dz-focus3" role="img" aria-label="Three hypotheses, in order: ML-generated crowns; prep in the editor, then automated; and, in parallel, better navigation and information architecture.">
+		<ol>
+			<li style="--i:0">
+				<span class="f3__m"><video src="/work/dde/ml-crown.mp4" poster="/work/dde/ml-crown.jpg" muted loop playsinline autoplay preload="metadata"></video><em>1</em></span>
+				<b>ML-generated crowns</b>
+			</li>
+			<li style="--i:1">
+				<span class="f3__m"><video src="/work/dde/prep-in-dde.mp4" poster="/work/dde/prep-in-dde.jpg" muted loop playsinline autoplay preload="metadata"></video><em>2</em></span>
+				<b>Prep in the editor, then automated</b>
+			</li>
+			<li style="--i:2">
+				<span class="f3__m"><img src="/work/dde/stage-crown.webp" alt="" loading="lazy" decoding="async" /><em>3</em></span>
+				<b>Navigation and IA <small>in parallel</small></b>
+			</li>
+		</ol>
 	</div>
 )}
 
 {kind === 'stages' && (
-	<ol class="dz dz-stages" aria-label="The path through a case">
-		{['Set view','Choose crown','Sculpt','Check','Send'].map((s, i) => <li style={`--i:${i}`}>{s}</li>)}
-	</ol>
+	<div class="dz dz-st5" role="img" aria-label="The five stages of the redesigned editor: Prep, Front, Crown, Design, Submit">
+		<ol>
+			{[['prep', 'Prep'], ['front', 'Front'], ['crown', 'Crown'], ['design', 'Design'], ['submit', 'Submit']].map(([k, label], i) => (
+				<li style={`--i:${i}`}>
+					<span class="st5__img"><img src={`/work/dde/stage-${k}.webp`} alt="" loading="lazy" decoding="async" /></span>
+					<b><i>{i + 1}</i>{label}</b>
+				</li>
+			))}
+		</ol>
+	</div>
 )}
 
 {kind === 'sliders' && (
