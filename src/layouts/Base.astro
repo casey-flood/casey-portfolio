@@ -115,7 +115,8 @@ const pageTitle = title === 'Casey Flood' ? title : `${title} — Casey Flood`;
 		};
 		requestAnimationFrame(tick);
 	};
-	const counters = document.querySelectorAll<HTMLElement>('[data-count]');
+	// Case-study scenes count their own metrics; skip them here so the two animators don't fight.
+	const counters = Array.from(document.querySelectorAll<HTMLElement>('[data-count]')).filter((el) => !el.closest('.dz-metric'));
 	if (!reduce && hasIO) {
 		const co = new IntersectionObserver(
 			(entries) => {

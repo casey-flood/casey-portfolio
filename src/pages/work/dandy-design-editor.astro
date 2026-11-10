@@ -15,10 +15,10 @@ const stillName = ['dde-editor.webp', 'dde-editor.png', 'dde-editor.jpg'].find((
 const still = stillName ? `/work/${stillName}` : null;
 
 const heroCards: { dir: 'up' | 'down'; lead: string; word: string; note?: string }[] = [
-	{ dir: 'down', lead: 'Business costs', word: 'down', note: 'Designing in house instead of relying on third-party software.' },
-	{ dir: 'down', lead: 'Time to design a restoration', word: 'down', note: 'Time spent in the front view and crown selection steps more than halved.' },
-	{ dir: 'up', lead: 'Restoration design quality', word: 'up' },
-	{ dir: 'up', lead: 'Designer satisfaction', word: 'up' },
+	{ dir: 'up', lead: 'Crown orders finished in Dandy’s own editor', word: '70% → 88%' },
+	{ dir: 'down', lead: 'Order turnaround', word: '−20%', note: '7.4 to 5.9 days, while crown volume grew 57%.' },
+	{ dir: 'down', lead: 'Crown orders finished in competitor software (3Shape)', word: '29% → 12%' },
+	{ dir: 'up', lead: 'Orders with an ML-generated crown', word: '0% → 80%' },
 ];
 const heroTitle = 'Reimagining how dental designers design restorations.';
 const meta = [
@@ -56,10 +56,10 @@ const scenes = [
 		id: 'before',
 		label: '02 · What that chain cost. Summer 2025, before the redesign',
 		beats: [
-			{ id: 'handoff', title: '3+ programs, and a different person at each one.', text: 'Prep in the browser. Design in 3Shape, exocad, or the Dandy Design Editor. Audit in another portal, with scores in a spreadsheet. The case was handed off every time, and the file moved more than the tooth did: download, upload, hunt for the right tool, upload back. That transfer is the waste.', metric: { text: '14.5 min', unit: 'average total crown design time, Q1 2025, before the Design Editor redesign' } },
+			{ id: 'handoff', title: '3+ programs, and a different person at each one.', text: 'Prep in the browser. Design in 3Shape, exocad, or the Dandy Design Editor. Audit in another portal, with scores in a spreadsheet. The case was handed off every time, and the file moved more than the tooth did: download, upload, hunt for the right tool, upload back. That transfer is the waste.', metric: { text: '14.5 min', unit: 'average crown design process time, including waits between steps, Q1 2025, before the Design Editor redesign' } },
 			{ id: 'scatter', title: 'Inside the Dandy Design Editor, the tools were buried.', text: 'Nested menus meant designers hunted for the next click instead of designing.', quote: ['“I wish it could be, like, going stages or maybe have it on the top… group related tools together.”', 'Dental designer, DDE designer interviews'] },
 			{ id: 'survey', title: 'Satisfaction was low next to the competition.', text: 'Before the redesign, designers scored the Dandy Design Editor 6.9 out of 10, against 9.1 for 3Shape. The usual complaints: nested menus and too many clicks, hotkeys that didn’t match 3Shape, and tools they had to leave for, like the cut plane.' },
-			{ id: 'usage', title: 'More than half of designers still worked in other software.', text: 'Only 46% were designing in the Dandy Design Editor. The goal was 100%.' },
+			{ id: 'usage', title: 'Fewer than half of designers used the Dandy Design Editor.', text: 'About 46% of designers did their crown design in it, 43% in Q4 2024 and 49% in Q1 2025. The goal was 100%.' },
 		],
 	},
 	{
@@ -81,32 +81,32 @@ const scenes = [
 			{ id: 'focus', title: 'Three hypotheses to bring design time down and quality up.', titleHtml: 'Three hypotheses to bring design time <span class="hl hl--dn">down</span> and quality <span class="hl hl--up">up</span>.', text: 'Each one is testable. Here they are, in order.' },
 			{ id: 'crown', title: 'If ML generates a bio-mimetic starting crown, design time goes down and quality goes up.', titleHtml: '<small class="hyp">Hypothesis 1</small>If ML generates a bio-mimetic starting crown, design time goes down and quality goes up.', text: 'Measured by: average total design time, refab rate, and design review rejections, on crowns the model touched against ones it didn’t.' },
 			{ id: 'autoprep', title: 'If prep lives in the editor and runs itself, handoffs and wait time go down.', titleHtml: '<small class="hyp">Hypothesis 2</small>If prep lives in the editor and runs itself, handoffs and wait time go down.', text: 'Measured by: time per case from scan to submit, and how many programs and people each case passes through.' },
-			{ id: 'stages', title: 'If navigation follows how designers think, cognitive load goes down.', titleHtml: '<small class="hyp">Hypothesis 3</small>If navigation follows how designers think, cognitive load goes down.', text: 'Measured by: satisfaction (6.9 against 3Shape’s 9.1 at baseline), time spent hunting for tools, and editor adoption (46% at baseline).' },
+			{ id: 'stages', title: 'If navigation follows how designers think, cognitive load goes down.', titleHtml: '<small class="hyp">Hypothesis 3</small>If navigation follows how designers think, cognitive load goes down.', text: 'Measured by: satisfaction (6.9 against 3Shape’s 9.1 at baseline), time spent hunting for tools, and designer adoption (about 46% of designers at baseline).' },
 		],
 	},
 	{
 		id: 'process',
 		label: '05 · The process',
 		beats: [
-			{ id: 'system', title: 'First, a cohesive, branded design system.', text: 'One didn’t exist, so I built it on the production components, in Storybook, so a design change could ship.', link: { href: '/work/dandy-design-system', label: 'Read the design system case study →' } },
-			{ id: 'sliders', title: 'Then prototype in code, with designers every week.', text: 'With that system I prototyped in code, got weekly feedback from designers, and broke the UI into logical stages, one thing per stage.', quote: ['“Making the left side wider was a great move. The old sliders were too short and super sensitive. The new ones are fantastic.”', 'Tom, dental designer'] },
-			{ id: 'choosecrown', title: 'Make room for the ML crowns.', text: 'I built the generated crown into the UI as its own “choose crown” stage, so designers can start from it or set it aside.' },
-			{ id: 'prep', title: 'Bring prep into the editor, simpler and automated.', text: 'One program from prep to send. The base tooth can come from a copy, a mirror, or a neighbor, and later a model can suggest it. Then I simplified the steps and automated what could run on its own.' },
-			{ id: 'bluesky', title: 'Build the blue sky prototype, then slice it up.', text: 'I pulled every change into one blue sky prototype, got feedback, then parsed it into digestible chunks for releases and sprints.', link: { id: 'proto', label: 'Try the blue sky prototype ↓' } },
-			{ id: 'track', title: 'Track the metrics over time.', text: 'Each release, I watched how the numbers moved. That’s the next section.' },
+			{ id: 'system', title: 'First, a cohesive, branded design system.', text: 'The editor didn’t have one, so I built it on the production components, in Storybook, so a design change could ship. Every control, down to the sliders, was explored and tested there first.', link: { href: '/work/dandy-design-system', label: 'Read the design system case study →' }, quote: ['“Making the left side wider was a great move. The old sliders were too short and super sensitive. The new ones are fantastic.”', 'Tom, dental designer'] },
+				{ id: 'feedback', title: 'Then prototype with it, and test with dental designers every week.', text: 'I used the system to build interactive prototypes designers could use and react to, from single components to whole workflows and features, and ran user testing and task analysis on them.', },
+				{ id: 'northstar', title: 'Then build a north star prototype.', text: 'I pulled the best UX ideas from all that feedback into one flow, with no scope limits. In conversations with PMs and engineers it became the north star we measured every feature and change against.', link: { id: 'proto', label: 'Try the north star prototype ↓' } },
+				{ id: 'release', title: 'Then scale back to releasable chunks.', text: 'From the north star we worked out the MVP and sliced the rest into releases: ML crowns first, then prep inside the editor, and then automating it. The navigation and IA work ran alongside, shipping in chunks.' },
 		],
 	},
 	{
 		id: 'impact',
-		label: '06 · What changed, Q1 2025 to Q2 2026',
+		label: '06 · What changed, Q1 2025 vs Q2 2026',
 		beats: [
-			{ id: 'adoption', title: 'From under 1% to about 90%.', text: 'The editor crossed 3Shape around May to June 2025 and has pulled further ahead every quarter. 3Shape fell from about 44% to about 31% of crown orders. It’s still around, but now a minority tool for crowns.', metric: { to: 90, prefix: '~', suffix: '%', unit: 'of crown orders designed in the editor, Q2 2026' } },
-			{ id: 'dante', title: 'Generated crowns, scaled fast.', text: 'About 2% of crown orders were touched by the crown model in Q3 2025, about 38% by Q1 2026, and about 80% by Q2 2026. Automated prep followed, at about 4% in Q2 2026.', metric: { to: 80, prefix: '~', suffix: '%', unit: 'of crown orders touched by the crown model, Q2 2026' } },
-			{ id: 'frontview', title: 'Front view: 134 s to 20 s.', text: 'Mean active seconds per visit, April to August 2026. Visits also fell, from about 48,000 to about 31,000. Choosing the crown went from 39 s to 19 s.' },
-			{ id: 'time', title: 'Crowns take less time to design.', text: 'Average total design time fell from 14.5 to 11.8 minutes as the tools scaled. Core design time ticked up while designers learned the editor (6.7 to 7.2 min), then came down to 6.2.', metric: { text: '−19%', unit: 'total crown design time, 14.5 to 11.8 min' } },
-			{ id: 'm4', title: 'Milestone 4 shipped faster.', text: 'Milestone 4 of the redesign shipped about 29% faster, at about 25% higher quality.', metric: { to: 29, prefix: '~', suffix: '%', unit: 'faster, at ~25% higher quality' } },
-			{ id: 'bridges', title: 'Bridges, more efficient.', text: 'About 30% more efficient on the Bridges redesign, with 15%+ quality gains.', metric: { to: 30, prefix: '~', suffix: '%', unit: 'more efficient, with 15%+ quality gains' } },
-			{ id: 'watching', title: 'What I’m watching.', text: 'Refab within 45 days drifted from 5.07% to 5.61%. Design review rejections rose from 0.024% to 0.301%, still very low. Three changes shipped at once, and order volume roughly doubled, so I can’t credit any one of them yet.' },
+			{ id: 'adoption', title: 'Dandy’s own editor went from 70% to 88% of crown orders.', text: 'The redesigned editor went from under 1% to 88% as it replaced the old one, which was retired by Q4 2025. 3Shape fell from about 29% to about 12% of crown orders, and what’s left is model design, which the editor doesn’t cover.' },
+			{ id: 'speed', title: 'Orders ship about 20% faster.', text: 'Turnaround, placed to shipped, fell from 7.4 to 5.9 days. Most of it is less waiting: design process time, including waits between steps, fell from 14.5 to 11.8 minutes.', metric: { text: '−20%', unit: 'order turnaround, 7.4 to 5.9 days' } },
+			{ id: 'scale', title: '57% more orders, 11.5% less designer time on each.', text: 'Crown volume grew from about 153,000 to about 240,000 a quarter. Hands-on designer time per order fell from 6.4 to 5.6 minutes, so total designer hours grew about 39%, well below the 57% volume growth.', metric: { text: '+57%', unit: 'crown orders a quarter, with 11.5% less designer time per order' } },
+			{ id: 'mlprep', title: 'ML crowns and automated prep, scaling fast.', text: 'The crown model touched about 2% of crown orders in Q3 2025, about 38% in Q1 2026, and about 80% in Q2 2026. Designers kept the generated crown as their starting point about 35% of the time and redid it about 45%. Automated prep launched in Q2 2026 at about 4% and reached about 34% in Q3.', metric: { to: 80, prefix: '~', suffix: '%', unit: 'of crown orders touched by the ML crown, Q2 2026' } },
+			{ id: 'watching', title: 'Quality guardrails: small moves, still watching.', text: 'Refab within 45 days moved from 5.07% to 5.61% of orders. Orders with a design review rejection rose from about 0.005% to about 0.065%, still tiny. Three changes shipped at once and volume grew 57%, so I can’t credit or blame any one of them yet.' },
+			// TODO(designer quotes): when Caitlyn and Maneesh send written feedback, add a beat here:
+			//   { id: 'voice', title: 'What designers say.', text: '…', quote: ['“…”', 'Name, role'] }
+			// Held back until verified: front view / crown selection timings (source unconfirmed),
+			// Milestone 4 (+29% faster, +25% quality) and Bridges (+30% efficiency) project numbers.
 		],
 	},
 ];
@@ -127,13 +127,15 @@ const toc: { id: string; label: string; subs?: { label: string; from: number; to
 			{ label: 'Zooming in on the designer', from: stages.length + 1, to: jrCount - 1 },
 		],
 	},
-	...scenes.map((sc) => ({ id: `sc-${sc.id}`, label: sceneLabel[sc.id] })),
-	{ id: 'proto', label: 'Try the prototype' },
-	{ id: 'phone', label: 'Phone concept' },
+	...scenes.flatMap((sc) => [
+		{ id: `sc-${sc.id}`, label: sceneLabel[sc.id] },
+		...(sc.id === 'process' ? [{ id: 'proto', label: 'Try the prototype' }] : []),
+	]),
+	{ id: 'phone', label: 'Forward thinking' },
 	{ id: 'end', label: 'Closing' },
 ];
 const vizFor: Record<string, string> = {
-	scatter: 'scatter', focus: 'focus', survey: 'survey', usage: 'usage', stages: 'stages', sliders: 'sliders',
+	scatter: 'scatter', focus: 'focus', survey: 'survey', usage: 'usage', stages: 'stages', system: 'sliders', release: 'releases', northstar: 'compare', adoption: 'shift',
 	finding: 'lost', prep: 'prep', frontview: 'frontview', crown: 'crown', autoprep: 'autoprep',
 };
 ---
@@ -175,7 +177,7 @@ const vizFor: Record<string, string> = {
 						<h1 id="cx-h" aria-label={heroTitle}>
 							{heroTitle.split(' ').map((w, i) => (<><span class="hv-w" aria-hidden="true" style={`--i:${i}`}>{w}</span>{' '}</>))}
 						</h1>
-						<p class="cx__lede">One platform to create the whole restoration. Designing in house lowers costs, improves quality, and gives Dandy end-to-end ownership.</p>
+						<p class="cx__lede">One editor for the whole restoration, replacing a chain of legacy and third-party tools.</p>
 					</div>
 						<ul class="h3d__cards">
 							{heroCards.map((c) => (
@@ -316,6 +318,7 @@ const vizFor: Record<string, string> = {
 
 		{
 			scenes.map((sc) => (
+				<>
 				<section class="sc" id={`sc-${sc.id}`} data-scene style={`--n:${sc.beats.length}`} aria-label={sc.label}>
 					<div class="sc__pin">
 						<p class="hv__eyebrow sc__label">{sc.label}</p>
@@ -370,44 +373,53 @@ const vizFor: Record<string, string> = {
 						<ol class="sc__dots" aria-hidden="true">{sc.beats.map((_: any, i: number) => <li data-i={i}></li>)}</ol>
 					</div>
 				</section>
-			))
-		}
-
+					{sc.id === 'process' && (
 		<section class="cx__ch" id="proto" data-fade aria-labelledby="c7">
 			<div class="cx__head">
-				<p class="hv__eyebrow">Concept · not in production</p>
-				<h2 id="c7">Try the blue sky version.</h2>
+				<p class="hv__eyebrow">Try it · the north star, releasing in chunks</p>
+				<h2 id="c7">Try the north star version.</h2>
 			</div>
 			<div class="cx__copy">
-				<p>An early interactive prototype of the designer flow, with sample scans and fictional case data.</p>
+				<p>The north star flow, working. Parts of it are already in production, and the rest is releasing in increments. The tools run, flags appear as you design, and the data is anonymized sample data.</p>
 			</div>
 			<div class="cx__proto">
-				<PrototypeEmbed src="/prototypes/dde/index.html" title="Designer flow, blue sky prototype" status="Concept · in progress" />
+				<PrototypeEmbed src="/prototypes/dde/index.html" title="Designer flow, north star prototype" status="North star · releasing in chunks" />
 			</div>
 		</section>
+					)}
+				</>
+			))
+		}
 
 		<section class="cx__ch cx__ch--phone" id="phone" data-fade aria-labelledby="c8">
 			<div>
 				<div class="cx__head">
-					<p class="hv__eyebrow">Further out · Concept</p>
-					<h2 id="c8">What if designers could check in from a phone?</h2>
+					<p class="hv__eyebrow">Forward thinking · Concept</p>
+						<h2 id="c8">What if designers became auditors?</h2>
+					</div>
+					<div class="cx__copy">
+						<p>As more crowns are fully automated, the designer’s job may shift from building every restoration to auditing what the model produced. This phone concept imagines that world: a lightweight companion for the queue, the case brief, and quick checks on automated work. It’s a thought experiment about scaling this system and changing the nature of design, not a roadmap item. There is no mobile Design Editor today. Sample data only.</p>
+					</div>
 				</div>
-				<div class="cx__copy">
-					<p>There is no mobile version of the Design Editor today. This is a more futuristic concept: a lightweight companion for the queue and case briefs. Sample data only.</p>
-				</div>
-			</div>
-			<div class="cx__proto cx__proto--phone">
+				<div class="cx__proto cx__proto--phone">
 				<PrototypeEmbed src="/prototypes/dde/lite.html?embed=1" title="Phone concept" width={414} height={868} bare />
 				<a class="cx__open" href="/prototypes/dde/lite.html" target="_blank" rel="noopener">Open full screen ↗</a>
 			</div>
 		</section>
 
 		<section class="cx__end" id="end" data-fade aria-labelledby="c9">
-			<h2 id="c9" class="hv__big">The designer still decides.</h2>
-			<div class="cx__copy cx__copy--end">
-				<p>One program for the crown, from prep through send, with a generated starting point the designer can reject. I built the design system, the path through the case, and the screens where the model hands the work to a person.</p>
+			<div class="cx__endrow">
+				<div>
+					<h2 id="c9" class="cx__endh">The designer still decides.</h2>
+					<p class="cx__endp">One program for the crown, from prep through send, with a generated starting point the designer can reject.</p>
+				</div>
+				<nav class="cx__endnav" aria-label="More Dandy work">
+					<a class="is-main" href="/work/dandy">← Dandy overview</a>
+					<a href="/work/dandy-design-system">Design system →</a>
+					<a href="/work/dandy-prototype">Clickable prototypes →</a>
+					<a href="/work/dandy-product-design-hub">Product Design Hub →</a>
+				</nav>
 			</div>
-			<a class="hv__btn" href="/work/dandy">← Dandy overview</a>
 		</section>
 	</div>
 </Base>

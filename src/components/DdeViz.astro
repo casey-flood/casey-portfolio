@@ -69,6 +69,56 @@ const front = [['Apr',134],['May',25],['Jun',20],['Jul',19],['Aug',20]];
 	</div>
 )}
 
+{kind === 'releases' && (
+	<div class="dz dz-focus3" role="img" aria-label="Release order: ML crowns first, then prep in the editor and automated, with navigation and information architecture shipping in parallel, in chunks.">
+		<ol>
+			<li style="--i:0">
+				<span class="f3__m"><video src="/work/dde/choose-crown.mp4" poster="/work/dde/choose-crown.jpg" muted loop playsinline autoplay preload="metadata"></video><em>1</em></span>
+				<b>ML crowns <small>release 1</small></b>
+			</li>
+			<li style="--i:1">
+				<span class="f3__m"><video src="/work/dde/prep-in-dde.mp4" poster="/work/dde/prep-in-dde.jpg" muted loop playsinline autoplay preload="metadata"></video><em>2</em></span>
+				<b>Prep in the editor, then automated <small>release 2</small></b>
+			</li>
+			<li style="--i:2">
+				<span class="f3__m"><img src="/work/dde/stage-design.webp" alt="" loading="lazy" decoding="async" /><em>3</em></span>
+				<b>Navigation and IA <small>in parallel, in chunks</small></b>
+			</li>
+		</ol>
+	</div>
+)}
+
+{kind === 'compare' && (
+	<div class="dz cmp" data-cmp role="group" aria-label="Compare the original Design Editor with the north star prototype">
+		<div class="cmp__frame">
+			<img class="cmp__img" src="/work/dde/cmp-old.webp" alt="The original Dandy Design Editor" loading="lazy" decoding="async" />
+			<img class="cmp__img cmp__img--new" src="/work/dde/cmp-new.webp" alt="The north star prototype of the Design Editor" loading="lazy" decoding="async" />
+			<span class="cmp__tag cmp__tag--l">Before · Design Editor</span>
+			<span class="cmp__tag cmp__tag--r">After · north star</span>
+			<i class="cmp__bar"><b></b></i>
+			<input class="cmp__in" type="range" min="0" max="100" value="50" aria-label="Drag to compare before and after" />
+			<button class="cmp__exp" type="button" aria-label="Expand to full screen" data-cmp-exp><svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M9.5 2H14v4.5M6.5 14H2V9.5M14 2 9 7M2 14l5-5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Expand</span></button>
+			<button class="cmp__x" type="button" aria-label="Close full screen" data-cmp-x>&times;</button>
+		</div>
+	</div>
+)}
+
+{kind === 'shift' && (
+	<div class="dz shf" role="img" aria-label="Share of crown orders by tool, Q1 2025 to Q2 2026: Dandy's own editor rose from 70 to 88 percent, up 18 points; 3Shape fell from 29 to 12 percent, down 18 points.">
+		<p class="shf__cap">Share of crown orders finished in each tool</p>
+		<div class="shf__row shf__row--up" style="--lo:70.4;--hi:88.2">
+			<div class="shf__head"><b>Dandy’s own editor</b><strong>+18 <small>pts</small></strong></div>
+			<div class="shf__trk"><i class="shf__base"></i><i class="shf__d"></i></div>
+			<p class="shf__leg"><span>Q1 2025 · 70%</span><span>Q2 2026 · 88%</span></p>
+		</div>
+		<div class="shf__row shf__row--down" style="--lo:11.7;--hi:29.3">
+			<div class="shf__head"><b>3Shape</b><strong>−18 <small>pts</small></strong></div>
+			<div class="shf__trk"><i class="shf__base"></i><i class="shf__d"></i></div>
+			<p class="shf__leg"><span>Q1 2025 · 29%</span><span>Q2 2026 · 12%</span></p>
+		</div>
+	</div>
+)}
+
 {kind === 'stages' && (
 	<div class="dz dz-st5" role="img" aria-label="The five stages of the redesigned editor: Prep, Front, Crown, Design, Submit">
 		<ol>
@@ -83,9 +133,40 @@ const front = [['Apr',134],['May',25],['Jun',20],['Jul',19],['Aug',20]];
 )}
 
 {kind === 'sliders' && (
-	<div class="dz dz-sliders" aria-hidden="true">
-		<div><span>Before</span><i class="s s--short"><u></u></i></div>
-		<div><span>After</span><i class="s s--long"><u></u></i></div>
+	<div class="dz slx" aria-hidden="true">
+		<p class="slx__cap">Slider and step-control explorations</p>
+		<div class="slx__grid">
+			<div class="slx__col">
+				<p class="slx__h">Tools</p>
+				<div class="slx__seg"><b>Morph</b><b>Sculpt</b></div>
+				<p class="slx__sub">Sculpting modes</p>
+				<div class="slx__modes"><b>+</b><b>−</b><b>≈</b></div>
+				<div class="slx__row slx__row--tri" data-sl data-min="5" data-max="30" data-dec="2" data-speed="0.9" data-phase="0">
+					<span class="slx__lab">Radius</span><i class="slx__trk"><u></u></i><em><b data-val>1.04</b><s>mm</s></em>
+				</div>
+				<div class="slx__row slx__row--tri" data-sl data-min="10" data-max="90" data-dec="1" data-speed="0.7" data-phase="2">
+					<span class="slx__lab">Strength</span><i class="slx__trk"><u></u></i><em><b data-val>5.0</b><s>µm</s></em>
+				</div>
+			</div>
+			<div class="slx__col">
+				<div class="slx__row slx__row--prox" data-sl data-min="0" data-max="100" data-speed="0.6" data-phase="1" data-words>
+					<p class="slx__head"><b>Proximal Contact</b><span data-word>Light</span></p>
+					<i class="slx__trk"><u></u></i>
+					<p class="slx__ends"><span>Very light</span><span>Very tight</span></p>
+				</div>
+				<div class="slx__panel">
+					<div class="slx__row slx__row--pill" data-sl data-min="5" data-max="95" data-dec="0" data-suf="%" data-speed="0.8" data-phase="0.5">
+						<p class="slx__head"><span>Opacity</span><em data-val>26%</em></p><i class="slx__trk"><u></u></i>
+					</div>
+					<div class="slx__row slx__row--pill" data-sl data-min="10" data-max="95" data-dec="0" data-suf="%" data-speed="1.05" data-phase="3">
+						<p class="slx__head"><span>Blend/softness</span><em data-val>83%</em></p><i class="slx__trk"><u></u></i>
+					</div>
+					<div class="slx__row slx__row--pill" data-sl data-min="5" data-max="90" data-dec="0" data-suf="%" data-speed="0.65" data-phase="4.5">
+						<p class="slx__head"><span>Spread</span><em data-val>49%</em></p><i class="slx__trk"><u></u></i>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 )}
 
@@ -161,3 +242,82 @@ const front = [['Apr',134],['May',25],['Jun',20],['Jul',19],['Aug',20]];
 		<p class="dz-sort__note">Illustration: sorting the tools into stages.</p>
 	</div>
 )}
+
+<script>
+	// Slider explorations: each control glides back and forth on its own rhythm.
+	const rows = Array.from(document.querySelectorAll<HTMLElement>('.slx [data-sl]'));
+	if (rows.length) {
+		const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+		const words = ['Very light', 'Light', 'Tight', 'Very tight'];
+		const paint = (row: HTMLElement, t: number) => {
+			const min = +(row.dataset.min ?? 0), max = +(row.dataset.max ?? 100);
+			const f = 0.5 + 0.5 * Math.sin(t * +(row.dataset.speed ?? 1) + +(row.dataset.phase ?? 0));
+			const v = min + (max - min) * f;
+			row.style.setProperty('--v', String(((v - min) / (max - min)) * 100));
+			const out = row.querySelector<HTMLElement>('[data-val]');
+			if (out) {
+				const shown = row.dataset.dec === '0' ? String(Math.round(v)) : row.dataset.dec ? (v / (row.dataset.dec === '2' ? 10 : 10)).toFixed(+row.dataset.dec) : String(Math.round(v));
+				out.textContent = shown + (row.dataset.suf ?? '');
+			}
+			const w = row.querySelector<HTMLElement>('[data-word]');
+			if (w) w.textContent = words[Math.min(3, Math.floor(f * 4))];
+		};
+		if (reduce) rows.forEach((r) => paint(r, 1));
+		else {
+			const t0 = performance.now();
+			const tick = (now: number) => {
+				const t = (now - t0) / 1000;
+				rows.forEach((r) => {
+					const live = document.querySelector('.cx--live');
+					if (!live || r.closest('.sc__row.on')) paint(r, t);
+				});
+				requestAnimationFrame(tick);
+			};
+			requestAnimationFrame(tick);
+		}
+	}
+</script>
+
+<script>
+	// Before/after comparison: drag (or use arrow keys) to reveal the north star prototype.
+	// "Expand" lifts it into a full-screen overlay (moved to <body> so scroll-scene transforms can't clip it).
+	document.querySelectorAll<HTMLElement>('[data-cmp]').forEach((el) => {
+		const input = el.querySelector<HTMLInputElement>('.cmp__in');
+		if (!input) return;
+		const touch = () => {
+			if (!el.classList.contains('is-touched')) {
+				const cur = parseFloat(getComputedStyle(el).getPropertyValue('--p')) || 50;
+				input.value = String(cur);
+				el.classList.add('is-touched');
+				el.style.setProperty('--p', String(cur));
+			}
+		};
+		input.addEventListener('input', () => { touch(); el.style.setProperty('--p', input.value); });
+		let holder: HTMLElement | null = null;
+		const close = () => {
+			if (!holder) return;
+			el.classList.remove('is-full');
+			holder.replaceWith(el);
+			holder = null;
+			document.documentElement.classList.remove('cmp-lock');
+			document.removeEventListener('keydown', onKey);
+			el.querySelector<HTMLElement>('[data-cmp-exp]')?.focus();
+		};
+		const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') close(); };
+		const open = () => {
+			if (holder) return;
+			touch();
+			holder = document.createElement('div');
+			holder.style.height = el.getBoundingClientRect().height + 'px';
+			el.replaceWith(holder);
+			document.body.appendChild(el);
+			el.classList.add('is-full');
+			document.documentElement.classList.add('cmp-lock');
+			document.addEventListener('keydown', onKey);
+			el.querySelector<HTMLElement>('[data-cmp-x]')?.focus();
+		};
+		el.querySelector('[data-cmp-exp]')?.addEventListener('click', open);
+		el.querySelector('[data-cmp-x]')?.addEventListener('click', close);
+		el.addEventListener('click', (e) => { if (e.target === el) close(); });
+	});
+</script>
