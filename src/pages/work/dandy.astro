@@ -1,5 +1,11 @@
 ---
 import Base from '../../layouts/Base.astro';
+import { testimonials } from '../../data/testimonials';
+import { highlights } from '../../data/highlights';
+import { companies } from '../../data/companies';
+import { tools } from '../../data/tools';
+import ToolsScene from '../../components/ToolsScene.astro';
+import JourneyLite from '../../components/JourneyLite.astro';
 import { stages } from '../../data/scan-to-smile';
 import { stageImages } from '../../data/scan-to-smile-images';
 
@@ -21,7 +27,7 @@ const projects = [
 	{
 		kicker: 'For dental designers',
 		title: 'Dandy Design Editor',
-		text: "The 3D workspace where designers prepare cases and design restorations. I'm the sole product designer on it.",
+		text: "One end-to-end system for designing the whole restoration in house: faster turnaround for customers, lower costs for Dandy.",
 		on: [4],
 		img: { src: '/scan-to-smile/04-design.webp', alt: 'A dental designer working on a 3D restoration' },
 		link: { label: 'Read the case study', href: '/work/dandy-design-editor' },
@@ -29,25 +35,37 @@ const projects = [
 	{
 		kicker: 'For dentists',
 		title: 'Instant Design Preview',
-		text: 'Dentists preview the generated crown in Chairside, tweak it, and add notes before it goes to a designer or the lab.',
+		text: 'Dentists approve the generated crown before it’s made, so fewer get remade.',
 		on: [3, 4],
 		img: { src: '/scan-to-smile/extra-ml-crown.webp', alt: 'A machine-learning generated crown' },
 		link: { label: 'Case study coming soon' },
 	},
 	{
 		kicker: 'For dentists and patients',
-		title: 'Goldilocks',
-		text: 'An opt-in program with three versions of the same crown at different contact fits, so dentists can choose the best one without reordering.',
+		title: 'Perfect Fit (Goldilocks)',
+		text: 'Three crown fits in one order: quicker turnaround, fewer seating appointments, happier patients.',
 		on: [3, 6],
 		img: { src: '/scan-to-smile/06-place.webp', alt: 'A crown being placed in a patient’s mouth' },
 		link: { label: 'Case study coming soon' },
 	},
 ];
 
+const toc: { id: string; label: string; subs?: { label: string; from: number; to: number }[] }[] = [
+	{ id: 'dv-top', label: 'Overview' },
+	{ id: 'journey', label: 'From scan to smile', subs: stages.map((s, i) => ({ label: s.title, from: i + 1, to: i + 1 })) },
+	{ id: 'dv-fit', label: 'Where I fit in' },
+	{ id: 'dv-sys', label: 'Behind the work' },
+	{ id: 'dv-tools', label: 'Tools I use' },
+	...(testimonials.length > 0 ? [{ id: 'dv-praise', label: 'What coworkers say' }] : []),
+	...(highlights.length > 0 ? [{ id: 'dv-highlights', label: 'Other highlights' }] : []),
+];
+
+const more = companies.filter((c) => c.id !== 'dandy' && c.cta);
+
 const systems = [
-	{ t: 'Design Editor design system', m: 'Built in Storybook, on production code', href: '/work/dandy-design-system' },
-	{ t: 'Clickable prototypes', m: 'Real components, full flows', href: '/work/dandy-prototype' },
-	{ t: 'Product Design Hub', m: 'Design-in-code, taught across the team', href: '/work/dandy-product-design-hub' },
+	{ t: 'Built a design system with AI (Cursor)', m: 'Designs match what ships.', href: '/work/dandy-design-system', vid: '/work/behind/ds' },
+	{ t: 'Prototype in code, for every project', m: 'Real flows, ready for early feedback.', href: '/work/dandy-prototype', vid: '/work/behind/proto' },
+	{ t: 'Built a hub that teaches the team to prototype in code', m: 'A guided path for the whole company.', href: '/work/dandy-product-design-hub', vid: '/work/behind/hub' },
 ];
 ---
 
@@ -56,18 +74,36 @@ const systems = [
 	description="Casey Flood's work at Dandy, a digital dental lab: Chairside ordering, the Design Editor, and the systems around them."
 >
 	<div class="hv" data-hv>
+		<nav class="toc" data-toc aria-label="Page contents">
+			<ul class="toc__rail" aria-hidden="true">{toc.map((s) => <li data-rail={s.id}></li>)}</ul>
+			<div class="toc__panel">
+				<p class="toc__title">On this page</p>
+				<ol class="toc__list">
+					{toc.map((s) => (
+						<li class="toc__item" data-sec={s.id}>
+							<a href={`#${s.id}`} data-go={s.id}>{s.label}</a>
+							{s.subs && (
+								<ol class="toc__sub">
+									{s.subs.map((u) => <li><a href={`#${s.id}`} data-go={s.id} data-i={u.from} data-to={u.to}>{u.label}</a></li>)}
+								</ol>
+							)}
+						</li>
+					))}
+				</ol>
+			</div>
+		</nav>
 		<!-- 1. Cover -->
-		<section class="hv__cover" aria-labelledby="dandy-h">
+		<section class="hv__cover" id="dv-top" aria-labelledby="dandy-h">
 			<img class="hv__logo" src="/brand/dandy-wordmark.svg" alt="Dandy" width="96" height="34" />
 			<div class="hv__cover-text">
-				<p class="hv__eyebrow">Work · Senior Product Designer · 2025 – now</p>
+				<p class="hv__eyebrow">Work · Dandy · 2025 – now</p>
 				<h1 id="dandy-h" aria-label={heroTitle}>
 					{heroTitle.split(' ').map((w, i) => (<><span class="hv-w" aria-hidden="true" style={`--i:${i}`}>{w}</span>{' '}</>))}
 				</h1>
 			</div>
 			<div class="hv__cover-art" aria-hidden="true" data-parallax>
-				<img src="/work/dandy-scan.webp" alt="" />
-				<span class="hv__beam"></span>
+				<video data-scan src="/work/vision-scan.mp4" muted playsinline preload="auto" disablepictureinpicture></video>
+				<canvas data-scancv></canvas>
 			</div>
 		</section>
 
@@ -80,78 +116,47 @@ const systems = [
 			</div>
 		</section>
 
-		<!-- 3. The journey as a pinned scene: one step at a time -->
-		<section class="hv__story" data-story aria-labelledby="story-h">
-			<div class="hv__pin">
-				<h2 id="story-h" class="hv__eyebrow hv__eyebrow--lg">From scan to smile</h2>
-				<div class="hv__scene">
-					<div class="hv__steps">
-						{
-							stages.map((s) => (
-								<div class="hv__step" data-i={s.n - 1}>
-									<p class="hv__persona">{persona[s.group]}</p>
-									<h3>{s.title}</h3>
-									<p>{s.teaser}</p>
-								</div>
-							))
-						}
-					</div>
-					<div class="hv__frames" aria-hidden="true">
-						{
-							stages.map((s) => (
-								<img class="hv__frame" data-i={s.n - 1} src={stageImages[s.n].src} alt="" loading="lazy" decoding="async" />
-							))
-						}
-					</div>
-				</div>
-				<ol class="hv__rail" aria-label="Journey progress">
-					{stages.map((s) => <li data-i={s.n - 1}>{s.title}</li>)}
-				</ol>
-			</div>
-		</section>
+		<!-- 3. The journey: same scroll story as the Design Editor case study -->
+		<JourneyLite />
 
-		<!-- 4. My projects, one at a time -->
-		<section class="hv__work" aria-labelledby="work-h">
-			<h2 id="work-h" class="hv__big">Where I fit in.</h2>
-			<p class="hv__lede">Product work along the journey, one project at a time.</p>
-			{
-				projects.map((p) => (
-					<article class="hv__proj" data-fade>
-						<div class="hv__proj-text">
-							<p class="hv__persona">{p.kicker}</p>
-							<h3>{p.title}</h3>
-							<p>{p.text}</p>
-							{p.link.href ? (
-								<a class="hv__cta" href={p.link.href}>{p.link.label} →</a>
-							) : (
-								<span class="hv__soon">{p.link.label}</span>
-							)}
-							<ol class="hv__fit" aria-label="Where this fits in the journey">
-								{stages.map((s) => <li class:list={{ on: p.on.includes(s.n) }}>{s.title}</li>)}
-							</ol>
-						</div>
-						<figure class="hv__proj-art">
-							<img src={p.img.src} alt={p.img.alt} loading="lazy" decoding="async" />
-						</figure>
-					</article>
-				))
-			}
+		<!-- 4. Product changes, as cards -->
+		<section class="hv__work hv__work--cards" id="dv-fit" aria-labelledby="work-h">
+			<h2 id="work-h" class="hv__big hv__big--md">Where I fit in.</h2>
+			<p class="hv__lede">What changed in the product, for the people using it.</p>
+			<ul class="hv__cards">
+				{
+					projects.map((p) => (
+						<li class="hv__card" data-fade>
+							{p.link.href ? <a class="hv__card-link" href={p.link.href} aria-label={`${p.title}: ${p.link.label}`}></a> : null}
+							<figure class="hv__card-art">
+								<img src={p.img.src} alt={p.img.alt} loading="lazy" decoding="async" />
+							</figure>
+							<div class="hv__card-body">
+								<p class="hv__persona">{p.kicker}</p>
+								<h3>{p.title}</h3>
+								<p>{p.text}</p>
+								<div class="hv__card-foot">
+									{p.link.href ? <span class="hv__cta">{p.link.label} →</span> : <span class="hv__soon">Coming soon</span>}
+								</div>
+							</div>
+						</li>
+					))
+				}
+			</ul>
 		</section>
 
 		<!-- 5. Systems, with one number -->
-		<section class="hv__sys" aria-labelledby="sys-h" data-fade>
-			<h2 id="sys-h" class="hv__big">Behind the work.</h2>
-			<div class="hv__num">
-				<span>5–10 min</span>
-				<p>design iteration in code with the design system, down from 30–45 minutes.</p>
-			</div>
-			<ul class="hv__rows">
+		<section class="hv__sys hv__sys--cards" id="dv-sys" aria-labelledby="sys-h" data-fade>
+			<h2 id="sys-h" class="hv__big hv__big--md">Behind the work.</h2>
+			<p class="hv__sysstat"><b>5–10 min</b> design iteration in code with the design system, down from 30–45 minutes.</p>
+			<ul class="hv__rowlist">
 				{
 					systems.map((r) => (
-						<li>
-							<a href={r.href}>
-								<span>{r.t}</span>
-								<small>{r.m}</small>
+						<li class="hv__rowitem">
+							<a class="hv__rowlink" href={r.href}>
+								<video class="hv__rowvid" src={`${r.vid}.mp4`} poster={`${r.vid}.jpg`} muted loop playsinline preload="none" data-hovervid></video>
+								<span class="hv__rowtext"><b>{r.t}</b><small>{r.m}</small></span>
+								<span class="hv__rowgo" aria-hidden="true">→</span>
 							</a>
 						</li>
 					))
@@ -159,10 +164,69 @@ const systems = [
 			</ul>
 		</section>
 
-		<!-- 6. Close -->
-		<section class="hv__end" data-fade>
-			<h2 class="hv__big">See it in depth.</h2>
-			<a class="hv__btn" href="/work/dandy-design-editor">Dandy Design Editor case study →</a>
+		<!-- Tools: its own scroll scene -->
+		<ToolsScene id="dv-tools" tools={tools} title="Design in code, with AI in the loop." lede="Most of my day happens in these." />
+
+		<!-- 6. What coworkers say: its own pinned scene, one quote at a time -->
+		{
+			testimonials.length > 0 && (
+				<section class="hv__praise" id="dv-praise" data-praise style={`--n:${testimonials.length}`} aria-labelledby="praise-h">
+					<div class="hv__pin hv__praise-pin">
+						<div class="hv__praise-head">
+							<h2 id="praise-h" class="hv__big hv__big--md">What coworkers say.</h2>
+							<ol class="hv__praise-dots" aria-hidden="true">{testimonials.map(() => <li></li>)}</ol>
+						</div>
+						<div class="hv__praise-stage">
+							{testimonials.map((q) => (
+								<figure class="hv__q">
+									{q.context && <span class="hv__stepno">{q.context}</span>}
+									<blockquote>“{q.quote}”</blockquote>
+									<figcaption class="hv__who"><b>{q.name}</b><span>{q.role}</span></figcaption>
+								</figure>
+							))}
+						</div>
+					</div>
+				</section>
+			)
+		}
+		<!-- 7. Other highlights: a tilted photo wall -->
+		{
+			highlights.length > 0 && (
+				<section class="hv__hl" id="dv-highlights" aria-labelledby="hl-h">
+					<div class="hv__hl-head" data-fade>
+						<h2 id="hl-h" class="hv__big hv__big--md">Other highlights.</h2>
+						<p class="hv__lede">The people I get to build with.</p>
+					</div>
+					<ul class="hv__wall">
+						{highlights.map((h, i) => (
+							<li class="hv__shot" data-fade style={`--r:${h.rot}deg;--y:${h.y}rem;--w:${h.w}rem;--d:${i * 70}ms`}>
+								<figure>
+									<img src={h.src} alt={h.alt} loading="lazy" decoding="async" />
+									{h.caption && <figcaption>{h.caption}</figcaption>}
+								</figure>
+							</li>
+						))}
+					</ul>
+				</section>
+			)
+		}
+		<!-- 8. Closer: keep exploring -->
+		<section class="hv__more" aria-labelledby="more-h">
+			<h2 id="more-h" class="hv__big hv__big--md">Keep exploring.</h2>
+			<div class="hv__more-row">
+				<a class="hv__more-all" href="/work">← All work</a>
+				<ul class="hv__more-list">
+					{more.map((c) => (
+						<li>
+							<a class="hv__more-card" href={c.cta!.href}>
+								<span class="hv__more-name">{c.name}</span>
+								<span class="hv__more-blurb">{c.blurb}</span>
+								<span class="hv__more-go">{c.when} →</span>
+							</a>
+						</li>
+					))}
+				</ul>
+			</div>
 		</section>
 	</div>
 </Base>
@@ -171,7 +235,29 @@ const systems = [
 	const root = document.querySelector<HTMLElement>('[data-hv]');
 	const calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 	if (root && !calm) {
-		root.classList.add('is-live');
+		root.classList.add('is-live', 'cx--live');
+		const mob = window.matchMedia('(max-width: 899px)').matches;
+		if (mob) root.classList.add('cx--mob');
+		// the journey: one pinned section, a phase per step (desktop only; phones read it as a vertical list)
+		const jr = root.querySelector<HTMLElement>('[data-journey]');
+		if (jr && !mob) {
+			const items = Array.from(jr.querySelectorAll<HTMLElement>('[data-p]'));
+			const w: number[] = JSON.parse(jr.dataset.w || '[1]');
+			const total = w.reduce((a, b) => a + b, 0);
+			let lastP = -1;
+			const jtick = () => {
+				const r = jr.getBoundingClientRect();
+				const q = Math.max(0, Math.min(0.9999, -r.top / Math.max(1, r.height - window.innerHeight))) * total;
+				let acc = 0, p = w.length - 1;
+				for (let i = 0; i < w.length; i++) { acc += w[i]; if (q < acc) { p = i; break; } }
+				if (p === lastP) return;
+				lastP = p;
+				items.forEach((e) => { const k = Number(e.dataset.p); e.classList.toggle('on', k === p); e.classList.toggle('seen', k <= p); });
+			};
+			addEventListener('scroll', () => requestAnimationFrame(jtick), { passive: true });
+			addEventListener('resize', jtick);
+			jtick();
+		}
 		const clamp = (n: number) => Math.max(0, Math.min(1, n));
 		// progress through a tall section: 0 when its top reaches the viewport top, 1 when its bottom reaches the viewport bottom
 		const progress = (el: HTMLElement) => {
@@ -187,6 +273,43 @@ const systems = [
 		const frames = idx('.hv__frame');
 		const rail = idx('.hv__rail li');
 		const par = root.querySelector<HTMLElement>('[data-parallax]');
+		const praise = root.querySelector<HTMLElement>('[data-praise]');
+		const pq = praise ? Array.from(praise.querySelectorAll<HTMLElement>('.hv__q')) : [];
+		const pd = praise ? Array.from(praise.querySelectorAll<HTMLElement>('.hv__praise-dots li')) : [];
+		let lastQ = -1;
+		// the scanner sweeps the arch as the cover scrolls: video time follows scroll position
+		const scan = root.querySelector<HTMLVideoElement>('[data-scan]');
+		let scanT = -1;
+		const scrub = () => {
+			if (!scan || !scan.duration) return;
+			const r = scan.getBoundingClientRect();
+			const vh = window.innerHeight;
+			const p = clamp((vh * 0.95 - r.top) / (vh * 0.95 - vh * 0.05 + r.height * 0.3));
+			const t = p * (scan.duration - 0.05);
+			if (Math.abs(t - scanT) > 0.015) { scanT = t; scan.currentTime = t; }
+		};
+		// black becomes transparent: alpha = brightest channel, colour un-multiplied, so it sits on the page green
+		const cv = root.querySelector<HTMLCanvasElement>('[data-scancv]');
+		const cx2 = cv?.getContext('2d', { willReadFrequently: true });
+		const paint = () => {
+			if (!scan || !cv || !cx2 || !scan.videoWidth) return;
+			if (cv.width !== scan.videoWidth) { cv.width = scan.videoWidth; cv.height = scan.videoHeight; }
+			cx2.drawImage(scan, 0, 0, cv.width, cv.height);
+			const img = cx2.getImageData(0, 0, cv.width, cv.height);
+			const d = img.data;
+			for (let i = 0; i < d.length; i += 4) {
+				const m = Math.max(d[i], d[i + 1], d[i + 2]);
+				if (m < 14) { d[i + 3] = 0; continue; }
+				const k = 255 / m;
+				d[i] = d[i] * k; d[i + 1] = d[i + 1] * k; d[i + 2] = d[i + 2] * k;
+				d[i + 3] = Math.min(255, (m - 14) * 2.2);
+			}
+			cx2.putImageData(img, 0, 0);
+			cv.classList.add('ready');
+		};
+		scan?.addEventListener('seeked', paint);
+		scan?.addEventListener('loadeddata', () => { scrub(); paint(); });
+		scan?.addEventListener('loadedmetadata', scrub);
 		let last = -1;
 
 		const tick = () => {
@@ -203,6 +326,15 @@ const systems = [
 					[steps, frames, rail].forEach((list) => list.forEach((el, k) => el.classList.toggle('on', k === i)));
 				}
 			}
+			if (praise) {
+				const k = Math.min(pq.length - 1, Math.floor(progress(praise) * pq.length));
+				if (k !== lastQ) {
+					lastQ = k;
+					pq.forEach((el, i) => { el.classList.toggle('on', i === k); el.classList.toggle('past', i < k); });
+					pd.forEach((el, i) => el.classList.toggle('on', i === k));
+				}
+			}
+			scrub();
 			if (par) par.style.setProperty('--py', `${Math.min(scrollY, 900) * -0.08}px`);
 		};
 		let raf = 0;
@@ -210,11 +342,74 @@ const systems = [
 		addEventListener('resize', tick);
 		tick();
 
+		// short loops play only while on screen
+		const vio = new IntersectionObserver((es) => es.forEach((e) => { const v = e.target as HTMLVideoElement; if (e.isIntersecting) v.play().catch(() => {}); else v.pause(); }), { threshold: 0.25 });
+		root.querySelectorAll<HTMLVideoElement>('[data-hovervid]').forEach((v) => {
+			const a = v.closest('a')!;
+			const go = () => v.play().catch(() => {});
+			const stop = () => { v.pause(); v.currentTime = 0; };
+			a.addEventListener('mouseenter', go); a.addEventListener('mouseleave', stop);
+			a.addEventListener('focus', go); a.addEventListener('blur', stop);
+			if (matchMedia('(hover: none)').matches) vio.observe(v);
+		});
+
 		// everything else fades up once as it enters
 		const io = new IntersectionObserver(
 			(es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }),
 			{ rootMargin: '0px 0px -10% 0px', threshold: 0.1 },
 		);
 		root.querySelectorAll('[data-fade]').forEach((el) => io.observe(el));
+	}
+</script>
+
+<script>
+	// Page navigator for the overview: dots at the left, a panel on hover with the journey steps.
+	const toc = document.querySelector<HTMLElement>('[data-toc]');
+	if (toc) {
+		const pinned = !!document.querySelector('.cx--live') && !document.querySelector('.cx--mob');
+		const items = Array.from(toc.querySelectorAll<HTMLElement>('.toc__item'));
+		const rail = Array.from(toc.querySelectorAll<HTMLElement>('[data-rail]'));
+		const secOf = (id: string) => document.getElementById(id)!;
+		const phase = (sec: HTMLElement) => {
+			const w: number[] = JSON.parse(sec.dataset.w || '[1]');
+			const total = w.reduce((a, b) => a + b, 0);
+			const r = sec.getBoundingClientRect();
+			const q = Math.max(0, Math.min(0.9999, -r.top / Math.max(1, r.height - innerHeight))) * total;
+			let acc = 0;
+			for (let i = 0; i < w.length; i++) { acc += w[i]; if (q < acc) return i; }
+			return w.length - 1;
+		};
+		const goTo = (id: string, i?: number) => {
+			const sec = secOf(id);
+			if (!sec) return;
+			const top = sec.getBoundingClientRect().top + scrollY;
+			if (i == null || !sec.hasAttribute('data-journey')) { scrollTo({ top: id === 'dv-top' ? 0 : top - 70, behavior: 'smooth' }); return; }
+			if (pinned) {
+				const w: number[] = JSON.parse(sec.dataset.w || '[1]');
+				const total = w.reduce((a, b) => a + b, 0);
+				const start = w.slice(0, i).reduce((a, b) => a + b, 0) + w[i] * 0.5;
+				scrollTo({ top: top + (start / total) * (sec.offsetHeight - innerHeight), behavior: 'smooth' });
+			} else {
+				(sec.querySelector(`.lc__t[data-p="${i}"]`) as HTMLElement | null)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+			}
+		};
+		toc.querySelectorAll<HTMLAnchorElement>('a[data-go]').forEach((a) =>
+			a.addEventListener('click', (e) => { e.preventDefault(); goTo(a.dataset.go!, a.dataset.i != null ? Number(a.dataset.i) : undefined); }),
+		);
+		let raf = 0;
+		const tick = () => {
+			let cur = 0;
+			items.forEach((it, k) => { if (secOf(it.dataset.sec!).getBoundingClientRect().top <= innerHeight * 0.35) cur = k; });
+			items.forEach((it, k) => it.classList.toggle('on', k === cur));
+			rail.forEach((r, k) => r.classList.toggle('on', k === cur));
+			const sec = secOf(items[cur].dataset.sec!);
+			if (sec.hasAttribute('data-journey')) {
+				const pi = phase(sec);
+				items[cur].querySelectorAll<HTMLElement>('.toc__sub a').forEach((a) => a.classList.toggle('on', pi >= Number(a.dataset.i) && pi <= Number(a.dataset.to)));
+			}
+		};
+		addEventListener('scroll', () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(tick); }, { passive: true });
+		addEventListener('resize', tick);
+		tick();
 	}
 </script>

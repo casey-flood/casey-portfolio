@@ -1,0 +1,264 @@
+---
+import Base from './Base.astro';
+import ToolsScene from '../components/ToolsScene.astro';
+
+import type { Beat, ScrollProps } from '../data/dandy-scroll-types';
+interface Props extends ScrollProps {}
+const { toolsScene, title, description, eyebrow, heroTitle, lede, tools, hero, scenes, endTitle, endText, endLinks = [{ href: '/work/dandy', label: '← Dandy overview' }, { href: '/work', label: 'All work', ghost: true }] } = Astro.props;
+
+const toc = [{ id: 'dsx-top', label: 'Overview' }, ...scenes.flatMap((s) => [{ id: `sc-${s.id}`, label: s.nav }, ...(toolsScene && toolsScene.after === s.id ? [{ id: 'dsx-tools', label: 'Tools I use' }] : [])]), { id: 'end', label: 'Closing' }];
+const users = [
+	{ who: 'Engineers', what: 'Copy-ready code and handoff docs', i: '</>' },
+	{ who: 'Product managers', what: 'One place to see what exists and what is new', i: '◎' },
+	{ who: 'Designers', what: 'A browsable taxonomy with every state', i: '▦' },
+];
+---
+<Base title={title} description={description}>
+	<div class="hv cx dsx" data-cx>
+		<nav class="toc" data-toc aria-label="Page contents">
+			<ul class="toc__rail" aria-hidden="true">{toc.map((s) => <li data-rail={s.id}></li>)}</ul>
+			<div class="toc__panel">
+				<p class="toc__title">On this page</p>
+				<ol class="toc__list">
+					{toc.map((s) => (
+						<li class="toc__item" data-sec={s.id}><a href={`#${s.id}`} data-go={s.id}>{s.label}</a></li>
+					))}
+				</ol>
+			</div>
+		</nav>
+
+		<header class="cx__hero dsx__hero" id="dsx-top" aria-labelledby="dsx-h">
+			<div class="cx__top">
+				<img class="hv__logo" src="/brand/dandy-wordmark.svg" alt="Dandy" width="96" height="34" />
+				<a class="cx__back" href="/work/dandy">← Dandy overview</a>
+			</div>
+			<div class="dsx__grid">
+				<div class="dsx__copy">
+					<p class="hv__eyebrow">{eyebrow}</p>
+					<h1 id="dsx-h" aria-label={heroTitle}>
+						{heroTitle.split(' ').map((w, i) => (<><span class="hv-w" aria-hidden="true" style={`--i:${i}`}>{w}</span>{' '}</>))}
+					</h1>
+					<p class="cx__lede">{lede}{tools && <span class="dsx__tools">{tools}</span>}</p>
+				</div>
+				<figure class="dsx__vid">
+					<video src={hero.src} poster={hero.poster} muted loop playsinline autoplay preload="auto" data-herovid></video>
+				</figure>
+			</div>
+		</header>
+
+		{
+			scenes.map((sc) => (
+				<>
+				<section class="sc" id={`sc-${sc.id}`} data-scene style={`--n:${sc.beats.length}`} aria-label={sc.label}>
+					<div class="sc__pin">
+						<p class="hv__eyebrow sc__label">{sc.label}</p>
+						<div class="sc__rows">
+							{sc.beats.map((b, i) => (
+								<article class:list={['sc__row', { 'sc__row--solo': !b.media && !b.viz && !b.metric }]} data-i={i}>
+									<div class="sc__text">
+										<h3>{b.title}</h3>
+										<p>{b.text}</p>
+										{b.quote && (
+											<blockquote class="sc__quote"><p>{b.quote[0]}</p><footer>{b.quote[1]}</footer></blockquote>
+										)}
+										{b.links && (
+											<p class="dsx__links">{b.links.map((l) => <a class="hv__btn" href={l.href}>{l.label}</a>)}</p>
+										)}
+									</div>
+									{(b.media || b.viz || b.metric) && (
+										<div class:list={['sc__viz', { 'sc__viz--metric': !!b.metric, 'sc__viz--shots': b.media?.kind === 'image' }]}>
+											{b.media?.kind === 'image' && <img src={b.media.src} alt={b.media.alt} loading="lazy" decoding="async" />}
+											{b.media && b.media.kind !== 'image' && (
+												<video src={b.media.src} poster={b.media.poster} muted loop playsinline preload="metadata" aria-label={b.media.alt} data-start={b.media.start} data-end={b.media.end}></video>
+											)}
+											{b.viz === 'empty' && (
+												<ul class="dsx__empty" aria-label="Nothing existed yet: no component library, documentation, or design tokens">
+													<li><i aria-hidden="true">✕</i>Component library</li>
+													<li><i aria-hidden="true">✕</i>Documentation</li>
+													<li><i aria-hidden="true">✕</i>Design tokens</li>
+												</ul>
+											)}
+											{b.viz === 'users' && (
+												<ul class="dsx__users">
+													{users.map((u) => (
+														<li><span aria-hidden="true">{u.i}</span><b>{u.who}</b><small>{u.what}</small></li>
+													))}
+												</ul>
+											)}
+											{b.metric && (
+												<div class="dz-metric">
+													<b data-count={b.metric.to ?? undefined} data-prefix={b.metric.prefix ?? ''} data-suffix={b.metric.suffix ?? ''}>{b.metric.text ?? `${b.metric.prefix ?? ''}${b.metric.to}${b.metric.suffix ?? ''}`}</b>
+													<span>{b.metric.unit}</span>
+												</div>
+											)}
+										</div>
+									)}
+								</article>
+							))}
+						</div>
+						<ol class="sc__dots" aria-hidden="true">{sc.beats.map((_, i) => <li data-i={i}></li>)}</ol>
+					</div>
+				</section>
+				{toolsScene && toolsScene.after === sc.id && <ToolsScene id="dsx-tools" tools={toolsScene.tools} title={toolsScene.title} lede={toolsScene.lede} />}
+				</>
+			))
+		}
+
+		<section class="cx__end" id="end" data-fade aria-labelledby="dsx-end">
+			<h2 id="dsx-end" class="hv__big">{endTitle}</h2>
+			<div class="cx__copy cx__copy--end">
+				<p>{endText}</p>
+			</div>
+			<p class="dsx__links">
+				{endLinks.map((l) => <a class:list={['hv__btn', { 'hv__btn--ghost': l.ghost }]} href={l.href}>{l.label}</a>)}
+			</p>
+		</section>
+	</div>
+</Base>
+
+<script>
+	const root = document.querySelector<HTMLElement>('[data-cx]');
+	// a viewer's manual pause sticks until they press play again
+	const play = (v?: HTMLVideoElement | null) => { if (v && v.dataset.userpaused !== '1') v.play().catch(() => {}); };
+	const calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
+	const mob = matchMedia('(max-width: 899px)').matches;
+
+	// slices of the long walkthrough loop between start and end seconds
+	document.querySelectorAll<HTMLVideoElement>('video[data-start]').forEach((v) => {
+		const s = Number(v.dataset.start ?? 0), e = Number(v.dataset.end ?? 0);
+		if (!e) return;
+		v.addEventListener('loadedmetadata', () => { v.currentTime = s; });
+		v.addEventListener('timeupdate', () => { if (v.currentTime >= e) v.currentTime = s; });
+	});
+
+	const countUp = (row: HTMLElement) => {
+		const el = row.querySelector<HTMLElement>('[data-count]');
+		if (!el) return;
+		const to = Number(el.dataset.count), pre = el.dataset.prefix ?? '', suf = el.dataset.suffix ?? '';
+		const t0 = performance.now();
+		const step = (t: number) => {
+			const k = Math.min(1, (t - t0) / 1100), e = 1 - Math.pow(1 - k, 3);
+			el.textContent = pre + Math.round(to * e).toLocaleString('en-US') + suf;
+			if (k < 1) requestAnimationFrame(step);
+		};
+		requestAnimationFrame(step);
+	};
+
+	if (root && !calm && 'IntersectionObserver' in window) {
+		root.classList.add('is-live', 'cx--live');
+		if (mob) root.classList.add('cx--mob');
+
+		const io = new IntersectionObserver(
+			(es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }),
+			{ rootMargin: '0px 0px -12% 0px', threshold: 0.1 },
+		);
+		root.querySelectorAll('[data-fade]').forEach((el) => io.observe(el));
+
+		const scenes = Array.from(root.querySelectorAll<HTMLElement>('[data-scene]')).map((el) => ({
+			el,
+			rows: Array.from(el.querySelectorAll<HTMLElement>('.sc__row')),
+			dots: Array.from(el.querySelectorAll<HTMLElement>('.sc__dots li')),
+			last: -1,
+		}));
+		if (mob) {
+			scenes.forEach((s) => s.rows.forEach((row) => {
+				const v = row.querySelector('video');
+				new IntersectionObserver((es) => es.forEach((e) => {
+					if (e.isIntersecting) { row.classList.add('on'); if (!row.dataset.counted) { row.dataset.counted = '1'; countUp(row); } play(v); }
+					else v?.pause();
+				}), { threshold: 0.35 }).observe(row);
+			}));
+		} else {
+			const tick = () => {
+				for (const s of scenes) {
+					const r = s.el.getBoundingClientRect();
+					const p = Math.max(0, Math.min(0.9999, -r.top / Math.max(1, r.height - innerHeight)));
+					const i = Math.min(s.rows.length - 1, Math.floor(p * s.rows.length));
+					if (i === s.last) continue;
+					s.last = i;
+					s.rows.forEach((row, k) => {
+						row.classList.toggle('on', k === i);
+						const v = row.querySelector('video');
+						if (v) { if (k === i) play(v); else v.pause(); }
+						if (k === i) countUp(row);
+					});
+					s.dots.forEach((d, k) => d.classList.toggle('on', k === i));
+				}
+			};
+			let raf = 0;
+			addEventListener('scroll', () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(tick); }, { passive: true });
+			addEventListener('resize', tick);
+			tick();
+		}
+	} else {
+		document.querySelectorAll('.sc video').forEach((v) => { (v as HTMLVideoElement).autoplay = true; });
+	}
+
+	// navigator
+	const toc = document.querySelector<HTMLElement>('[data-toc]');
+	if (toc) {
+		const items = Array.from(toc.querySelectorAll<HTMLElement>('.toc__item'));
+		const rail = Array.from(toc.querySelectorAll<HTMLElement>('[data-rail]'));
+		const secOf = (id: string) => document.getElementById(id)!;
+		toc.querySelectorAll<HTMLAnchorElement>('a[data-go]').forEach((a) => a.addEventListener('click', (e) => {
+			e.preventDefault();
+			const id = a.dataset.go!;
+			scrollTo({ top: id === 'dsx-top' ? 0 : secOf(id).getBoundingClientRect().top + scrollY - 70, behavior: 'smooth' });
+		}));
+		let raf = 0;
+		const tick = () => {
+			let cur = 0;
+			items.forEach((it, k) => { if (secOf(it.dataset.sec!).getBoundingClientRect().top <= innerHeight * 0.35) cur = k; });
+			items.forEach((it, k) => it.classList.toggle('on', k === cur));
+			rail.forEach((r, k) => r.classList.toggle('on', k === cur));
+		};
+		addEventListener('scroll', () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(tick); }, { passive: true });
+		addEventListener('resize', tick);
+		tick();
+	}
+	// pause + expand on every clip and screenshot
+	const dlg = document.createElement('dialog');
+	dlg.className = 'mx';
+	dlg.innerHTML = '<button type="button" class="mx__x" aria-label="Close">✕</button><div class="mx__body"></div>';
+	document.body.append(dlg);
+	const mxBody = dlg.querySelector<HTMLElement>('.mx__body')!;
+	dlg.querySelector('.mx__x')!.addEventListener('click', () => dlg.close());
+	dlg.addEventListener('click', (e) => { if (e.target === dlg) dlg.close(); });
+	dlg.addEventListener('close', () => { mxBody.textContent = ''; });
+	const expand = (el: HTMLVideoElement | HTMLImageElement) => {
+		mxBody.textContent = '';
+		if (el instanceof HTMLVideoElement) {
+			const v = document.createElement('video');
+			v.src = el.currentSrc || el.src; v.poster = el.poster; v.loop = true; v.muted = true; v.autoplay = true; v.controls = true; v.playsInline = true;
+			const s = Number(el.dataset.start ?? 0);
+			if (s) v.addEventListener('loadedmetadata', () => { v.currentTime = s; }, { once: true });
+			mxBody.append(v);
+			v.play().catch(() => {});
+		} else {
+			const im = document.createElement('img'); im.src = el.src; im.alt = el.alt; mxBody.append(im);
+		}
+		dlg.showModal();
+	};
+	document.querySelectorAll<HTMLElement>('.sc__viz, .dsx__vid').forEach((box) => {
+		const media = box.querySelector<HTMLVideoElement | HTMLImageElement>('video, img');
+		if (!media) return;
+		const bar = document.createElement('div');
+		bar.className = 'mc';
+		if (media instanceof HTMLVideoElement) {
+			const pp = document.createElement('button');
+			pp.type = 'button'; pp.className = 'mc__b'; pp.setAttribute('aria-label', 'Pause');
+			pp.textContent = '❚❚';
+			pp.addEventListener('click', (e) => {
+				e.stopPropagation();
+				if (media.paused) { media.dataset.userpaused = '0'; media.play().catch(() => {}); pp.textContent = '❚❚'; pp.setAttribute('aria-label', 'Pause'); }
+				else { media.dataset.userpaused = '1'; media.pause(); pp.textContent = '▶'; pp.setAttribute('aria-label', 'Play'); }
+			});
+			bar.append(pp);
+		}
+		const ex = document.createElement('button');
+		ex.type = 'button'; ex.className = 'mc__b'; ex.setAttribute('aria-label', 'Expand'); ex.textContent = '⤢';
+		ex.addEventListener('click', (e) => { e.stopPropagation(); expand(media); });
+		bar.append(ex);
+		box.append(bar);
+	});
+</script>

@@ -1,0 +1,45 @@
+---
+// A pinned scene of its own: heading on the left, tool tiles arriving one by one as you scroll.
+import fs from 'node:fs';
+import type { Tool } from '../data/tools';
+interface Props { id: string; tools: Tool[]; eyebrow?: string; title: string; lede?: string }
+const { id, tools, eyebrow = 'Tools I use', title, lede } = Astro.props;
+const list = tools.map((x) => ({ ...x, logo: ['svg', 'webp', 'png'].map((e) => `/tools/${x.slug}.${e}`).find((f) => fs.existsSync(`./public${f}`)) ?? null }));
+---
+<section class="ts" id={id} data-toolscene style={`--n:${list.length}`} aria-labelledby={`${id}-h`}>
+	<div class="ts__pin">
+		<div class="ts__copy">
+			<p class="hv__eyebrow">{eyebrow}</p>
+			<h2 id={`${id}-h`} class="hv__big hv__big--md">{title}</h2>
+			{lede && <p class="hv__lede">{lede}</p>}
+		</div>
+		<ul class="ts__tiles">
+			{list.map((tl, i) => (
+				<li class="ts__tile" style={`--i:${i}`} tabindex="0">
+					{tl.logo ? <img src={tl.logo} alt={tl.name} loading="lazy" /> : <span>{tl.name}</span>}
+					<span class="ts__tip" role="tooltip"><b>{tl.name}</b><small>{tl.desc}</small></span>
+				</li>
+			))}
+		</ul>
+	</div>
+</section>
+
+<script>
+	// wait a tick so the page script has marked the page as live first
+	setTimeout(() => document.querySelectorAll<HTMLElement>('[data-toolscene]').forEach((sec) => {
+		const root = sec.closest('.is-live');
+		const tiles = Array.from(sec.querySelectorAll<HTMLElement>('.ts__tile'));
+		if (!root || matchMedia('(max-width: 899px)').matches || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+		sec.classList.add('ts--live');
+		let raf = 0;
+		const tick = () => {
+			const r = sec.getBoundingClientRect();
+			const p = Math.max(0, Math.min(1, -r.top / Math.max(1, r.height - innerHeight)));
+			const n = Math.min(tiles.length, Math.ceil(p * 1.25 * tiles.length));
+			tiles.forEach((t, i) => t.classList.toggle('on', i < n));
+		};
+		addEventListener('scroll', () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(tick); }, { passive: true });
+		addEventListener('resize', tick);
+		tick();
+	}), 0);
+</script>

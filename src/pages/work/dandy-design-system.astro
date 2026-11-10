@@ -1,417 +1,124 @@
 ---
-import ScanToSmile from '../../components/ScanToSmile.astro';
-import Base from '../../layouts/Base.astro';
+import DandyScroll from '../../layouts/DandyScroll.astro';
+import type { Beat } from '../../data/dandy-scroll-types';
 
-// Steps play a looped slice of the walkthrough (start/end are seconds in /journey/storybook-ds.mp4),
-// or a dedicated clip / screenshot. Everything is expandable.
-const steps = [
+const WALK = '/journey/storybook-ds.mp4';
+const scenes: { id: string; label: string; nav: string; beats: Beat[] }[] = [
 	{
-		n: '01',
-		title: 'Reuse what exists, build what is new',
-		text: 'I reused Floss UI components wherever I could and created many net new ones, using Cursor, referencing our production code, and hosting it all in Storybook.',
-		media: { kind: 'slice', start: 0, end: 4, label: 'Browsing the catalog' },
+		id: 'gap',
+		label: '01 · The gap',
+		nav: 'The gap',
+		beats: [
+			{
+				title: 'Chairside had a design system.',
+				text: 'Its system, Floss UI, was fully built in Figma and live in code, for the dentist-facing product.',
+				media: { kind: 'clip', src: '/journey/floss-ui-preview.mp4', poster: '/journey/floss-ui-poster.jpg', alt: 'A walkthrough of Floss UI, the design system for the dentist-facing product' },
+			},
+			{
+				title: 'Dandy Design Center had none.',
+				text: 'Software for designing 3D restorations, essentially Figma for teeth. A very different product, with a very different architecture and front end.',
+				viz: 'empty',
+			},
+			{
+				title: 'So I built one from scratch.',
+				text: 'In Storybook, with Cursor, on real production code, for the tool that makes every restoration possible.',
+				media: { kind: 'clip', src: '/journey/storybook-ds-preview.mp4', poster: WALK.replace('.mp4', '-cover.jpg'), alt: 'Building the design system in Storybook' },
+			},
+		],
 	},
 	{
-		n: '02',
-		title: 'Tag every component',
-		text: 'New, existing, or exploring. A status on everything makes reuse the default.',
-		media: { kind: 'clip', src: '/journey/storybook-ds-status.mp4', poster: '/journey/storybook-ds-status-poster.jpg', label: 'Filtering components by status: implemented, exploratory, in progress' },
+		id: 'users',
+		label: '02 · The users',
+		nav: 'The users',
+		beats: [
+			{
+				title: 'Engineers, PMs, and designers were my end users.',
+				text: 'Each needed something different from the same system.',
+				viz: 'users',
+			},
+		],
 	},
 	{
-		n: '03',
-		title: 'Organize it into one taxonomy',
-		text: 'IA rules decide where each component lives, so the whole system can be browsed in one place.',
-		media: { kind: 'slice', start: 4, end: 8, label: 'Browsing by category' },
+		id: 'build',
+		label: '03 · The build',
+		nav: 'The build',
+		beats: [
+			{
+				title: 'Reuse what exists, build what is new.',
+				text: 'I reused Floss UI components wherever I could and created many net new ones, using Cursor, referencing our production code, and hosting it all in Storybook.',
+				media: { kind: 'slice', src: WALK, poster: '/journey/storybook-ds-cover.jpg', start: 0, end: 4, alt: 'Browsing the component catalog' },
+			},
+			{
+				title: 'Tag every component.',
+				text: 'New, existing, or exploring. A status on everything makes reuse the default.',
+				media: { kind: 'clip', src: '/journey/storybook-ds-status.mp4', poster: '/journey/storybook-ds-status-poster.jpg', alt: 'Filtering components by status' },
+			},
+			{
+				title: 'One taxonomy.',
+				text: 'IA rules decide where each component lives, so the whole system can be browsed in one place.',
+				media: { kind: 'slice', src: WALK, poster: '/journey/storybook-ds-cover.jpg', start: 4, end: 8, alt: 'Browsing by category' },
+			},
+			{
+				title: 'Every state, with code to copy.',
+				text: 'Each component page has all of its states and a ready-to-paste snippet.',
+				media: { kind: 'clip', src: '/journey/storybook-ds-components.mp4', poster: '/journey/storybook-ds-components-poster.jpg', alt: 'Flipping through a component’s states and code' },
+			},
+			{
+				title: 'A page, not a meeting.',
+				text: 'A handoff guide and Jira templates cover where the source lives, how it ships, and how to measure success.',
+				media: { kind: 'image', src: '/journey/storybook-handoff.jpg', alt: 'The engineering handoff page' },
+			},
+		],
 	},
 	{
-		n: '04',
-		title: 'Show every state, with code to copy',
-		text: 'Each component page has all of its states and a ready-to-paste snippet.',
-		media: { kind: 'clip', src: '/journey/storybook-ds-components.mp4', poster: '/journey/storybook-ds-components-poster.jpg', label: 'Flipping through a component’s states and code' },
+		id: 'impact',
+		label: '04 · The impact',
+		nav: 'The impact',
+		beats: [
+			{ title: '5–10 minutes.', text: 'Per component iteration, down from 30–45 minutes in Figma.', metric: { text: '5–10 min', unit: 'per iteration, down from 30–45' } },
+			{ title: 'Faster to ship.', text: 'Milestone 4 shipped about 29% faster, at about 25% higher quality.', metric: { to: 29, prefix: '~', suffix: '%', unit: 'faster, Milestone 4' } },
+			{ title: 'More efficient on Bridges.', text: 'About 30% more efficient on the Bridges redesign, with 15%+ quality gains.', metric: { to: 30, prefix: '~', suffix: '%', unit: 'more efficient, Bridges' } },
+			{
+				title: 'Now used across all of DDE.',
+				text: 'The Cursor and Storybook setup became how the whole team works.',
+				quote: ['“The Cursor and Storybook environment you built is now used across all of DDE, and it has made a real, measurable difference.”', 'Lizzie, my manager'],
+			},
+			{
+				title: 'What the team said.',
+				text: 'From engineering and design, in their words.',
+				quote: ['“Very neat! It is kind of pleasant not seeing the MUI artifacts all over everything.”', 'Michael, Dandy engineering'],
+			},
+		],
 	},
 	{
-		n: '05',
-		title: 'Hand off with a page, not a meeting',
-		text: 'A handoff guide and Jira templates cover where the source lives, how it ships, and how to measure success.',
-		media: { kind: 'image', src: '/journey/storybook-handoff.jpg', label: 'The engineering handoff page' },
+		id: 'reflect',
+		label: '05 · Reflection',
+		nav: 'Reflection',
+		beats: [
+			{ title: 'Not smooth at first.', text: 'Getting Storybook, the build pipeline, and 3D scan rendering working took real time. Engineers on the team helped me get it right.' },
+			{
+				title: 'Then it unlocked more.',
+				text: 'With real components, I build full interactive flows, and I teach the team to do the same.',
+				links: [
+					{ href: '/work/dandy-prototype', label: 'Clickable prototypes →' },
+					{ href: '/work/dandy-product-design-hub', label: 'The Product Design Hub →' },
+				],
+			},
+		],
 	},
 ];
 
-const audiences = [
-	{ who: 'Engineers', what: 'Copy-ready code and handoff docs', i: '</>' },
-	{ who: 'Product managers', what: 'One place to see what exists and what is new', i: '◎' },
-	{ who: 'Designers', what: 'A browsable taxonomy with every state', i: '▦' },
-];
-
-const metrics = [
-	{ v: '5–10 min', l: 'per component iteration, down from 30–45 min in Figma' },
-	{ v: '~29%', l: 'faster to ship Milestone 4, with ~25% higher quality' },
-	{ v: '~30%', l: 'more efficient on the Bridges redesign, with 15%+ quality gains' },
-	{ v: 'All of DDE', l: 'now works in the Cursor and Storybook setup I built' },
-];
-
-const quotes = [
-	{ q: 'The Cursor and Storybook environment you built is now used across all of DDE, and it has made a real, measurable difference.', who: 'Lizzie', role: 'My manager', big: true },
-	{ q: 'I got it, and I love it!', who: 'Maneesh', role: 'Dandy engineering' },
-	{ q: 'Very neat! It is kind of pleasant not seeing the MUI artifacts all over everything.', who: 'Michael', role: 'Dandy engineering' },
-	{ q: 'Casey’s Storybook seems to resolve most of the general UX issues.', who: 'CAD team', role: 'review notes' },
-	{ q: 'Casey’s prototype is much more compelling than presenting a bulleted list.', who: 'Eileen', role: 'Dandy design' },
-	{ q: 'I think the new sliders are fantastic, both in how they look and how they work.', who: 'Tom', role: 'Dandy engineering' },
-];
-
-const chapters = [
-	['gap', 'The gap'],
-	['users', 'The users'],
-	['build', 'The build'],
-	['impact', 'The impact'],
-	['reflect', 'Reflection'],
-];
 ---
 
-<Base title="Design system in Storybook · Dandy" description="How I built Dandy's design system in Storybook with Cursor, on real production code.">
-	<nav class="dz-nav" aria-label="Chapters">
-		<div class="shell">
-			<ol id="dz-nav">
-				{chapters.map(([id, label], i) => <li><a href={`#${id}`} class={i === 0 ? 'is-on' : ''}><span>{String(i + 1).padStart(2, '0')}</span>{label}</a></li>)}
-			</ol>
-		</div>
-	</nav>
-
-	<article class="ds">
-		<div class="shell">
-			<a class="ds__back" href="/journey#dandy">← Back to my time at Dandy</a>
-
-			<header class="ds__head">
-				<p class="eyebrow">Dandy · 2025 – now</p>
-				<h1>I built a design system from scratch for the tool that makes every restoration possible.</h1>
-				<p class="ds__lede">
-					Dandy Design Center had no design system. I built one in Storybook, with Cursor, on real production code.
-				</p>
-				<dl class="ds__meta">
-					<div><dt>Tools</dt><dd>Storybook, Cursor, Claude</dd></div>
-					<div><dt>When</dt><dd>2025 – now</dd></div>
-				</dl>
-			</header>
-
-			<figure class="ds__video dz-x">
-				<video id="ds-video" src="/journey/storybook-ds.mp4" poster="/journey/storybook-ds-cover.jpg" controls autoplay loop muted playsinline preload="auto"></video>
-				<button type="button" class="dz-x__btn" aria-label="Expand video" data-src="/journey/storybook-ds.mp4" data-kind="video" data-poster="/journey/storybook-ds-cover.jpg">⤢</button>
-			</figure>
-
-			<!-- 01 THE GAP -->
-			<ScanToSmile compact project="dde" />
-
-			<section class="dz-ch" id="gap">
-				<div class="dz-ch__head">
-					<span class="dz-ch__no">01</span>
-					<div>
-						<p class="dz-ch__k">The gap</p>
-						<h2>Chairside had a design system. Dandy Design Center needed its own.</h2>
-					</div>
-				</div>
-				<div class="dz-gap">
-					<div class="dz-compare">
-						<div class="dz-panel dz-panel--yes">
-							<header>
-								<b>Chairside</b>
-								<small>The dentist-facing product</small>
-							</header>
-							<p>Ordering, scanning, and practice management. Its design system, Floss UI, was fully built in Figma and live in code.</p>
-							<div class="dz-x dz-shot">
-								<video src="/journey/floss-ui-preview.mp4" poster="/journey/floss-ui-poster.jpg" muted loop playsinline preload="metadata" aria-label="Walkthrough of Floss UI, the design system for the dentist-facing product"></video>
-								<button type="button" class="dz-x__btn" aria-label="Expand: Floss UI walkthrough" data-src="/journey/floss-ui.mp4" data-kind="video" data-poster="/journey/floss-ui-poster.jpg">⤢</button>
-							</div>
-							<em>✓ Established design system</em>
-						</div>
-						<span class="dz-arrow" aria-hidden="true">≠</span>
-						<div class="dz-panel dz-panel--no">
-							<header>
-								<b>Dandy Design Center</b>
-								<small>For dental lab technicians and designers</small>
-							</header>
-							<p>Software for designing 3D restorations, essentially Figma for teeth. A very different product, with a very different architecture and front end.</p>
-							<div class="dz-empty" aria-label="Nothing existed yet: no component library, documentation, or design tokens">
-								<ul>
-									<li><i aria-hidden="true">✕</i>Component library</li>
-									<li><i aria-hidden="true">✕</i>Documentation</li>
-									<li><i aria-hidden="true">✕</i>Design tokens</li>
-								</ul>
-							</div>
-							<em>No design system</em>
-						</div>
-					</div>
-					<p class="dz-bridge">So I built one from scratch.</p>
-				</div>
-			</section>
-
-			<!-- 02 THE USERS -->
-			<section class="dz-ch" id="users">
-				<div class="dz-ch__head">
-					<span class="dz-ch__no">02</span>
-					<div>
-						<p class="dz-ch__k">The users</p>
-						<h2>Engineers, PMs, and designers were my end users.</h2>
-					</div>
-				</div>
-				<div class="dz-users">
-					{
-						audiences.map((a) => (
-							<div class="dz-user">
-								<span class="dz-user__i" aria-hidden="true">{a.i}</span>
-								<b>{a.who}</b>
-								<p>{a.what}</p>
-							</div>
-						))
-					}
-				</div>
-			</section>
-
-			<!-- 03 THE BUILD -->
-			<section class="dz-ch" id="build">
-				<div class="dz-ch__head">
-					<span class="dz-ch__no">03</span>
-					<div>
-						<p class="dz-ch__k">The build</p>
-						<h2>Five moves, one source of truth.</h2>
-					</div>
-				</div>
-				<ol class="dz-steps" id="dz-steps">
-					{
-						steps.map((s, i) => (
-							<li class="dz-step" data-i={i}>
-								<span class="dz-node">{s.n}</span>
-								<div class="dz-copy">
-									<h3>{s.title}</h3>
-									<p>{s.text}</p>
-								</div>
-								<div class="dz-x dz-media">
-									{s.media.kind === 'slice' && (
-										<video src="/journey/storybook-ds.mp4" poster="/journey/storybook-ds-cover.jpg" muted playsinline preload="metadata" data-start={s.media.start} data-end={s.media.end} aria-label={s.media.label}></video>
-									)}
-									{s.media.kind === 'clip' && (
-										<video src={s.media.src} poster={s.media.poster} muted loop playsinline preload="metadata" data-loop aria-label={s.media.label}></video>
-									)}
-									{s.media.kind === 'image' && <img src={s.media.src} alt={s.media.label} loading="lazy" />}
-									<button
-										type="button"
-										class="dz-x__btn"
-										aria-label={`Expand: ${s.media.label}`}
-										data-src={s.media.kind === 'slice' ? '/journey/storybook-ds.mp4' : s.media.src}
-										data-kind={s.media.kind === 'image' ? 'image' : 'video'}
-										data-start={s.media.kind === 'slice' ? s.media.start : 0}
-										data-poster={s.media.kind === 'slice' ? '/journey/storybook-ds-cover.jpg' : (s.media.poster ?? '')}
-									>⤢</button>
-								</div>
-							</li>
-						))
-					}
-				</ol>
-			</section>
-
-			<!-- 04 THE IMPACT -->
-			<section class="dz-ch" id="impact">
-				<div class="dz-ch__head">
-					<span class="dz-ch__no">04</span>
-					<div>
-						<p class="dz-ch__k">The impact</p>
-						<h2>Faster to design, faster to ship.</h2>
-					</div>
-				</div>
-				<div class="ds__nums">
-					{metrics.map((m) => <div><strong>{m.v}</strong><span>{m.l}</span></div>)}
-				</div>
-				<div class="ds__quotes">
-					{
-						quotes.map((q) => (
-							<figure class={`ds__quote ${q.big ? 'is-big' : ''}`}>
-								<blockquote>“{q.q}”</blockquote>
-								<figcaption><b>{q.who}</b>, {q.role}</figcaption>
-							</figure>
-						))
-					}
-				</div>
-			</section>
-
-			<!-- 05 REFLECTION -->
-			<section class="dz-ch" id="reflect">
-				<div class="dz-ch__head">
-					<span class="dz-ch__no">05</span>
-					<div>
-						<p class="dz-ch__k">Reflection</p>
-						<h2>Hard at first. Then it unlocked more.</h2>
-					</div>
-				</div>
-				<div class="dz-split">
-					<div class="dz-col">
-						<p class="dz-split__k">The challenge</p>
-						<div class="dz-card dz-card--hard">
-							<h3>Not smooth at first</h3>
-							<p>Getting Storybook, the build pipeline, and 3D scan rendering working took real time. Engineers on the team helped me get it right.</p>
-						</div>
-					</div>
-					<span class="dz-split__arrow" aria-hidden="true">→</span>
-					<div class="dz-col">
-						<p class="dz-split__k">What it unlocked</p>
-						<a class="dz-card dz-card--link" href="/work/dandy-prototype">
-							<span class="dz-card__go" aria-hidden="true">→</span>
-							<h3>Clickable prototypes</h3>
-							<p>With real components, I build full interactive flows in Storybook.</p>
-						</a>
-						<a class="dz-card dz-card--link" href="/work/dandy-product-design-hub">
-							<span class="dz-card__go" aria-hidden="true">→</span>
-							<h3>Teaching it</h3>
-							<p>Onboarding, design jams, and the Product Design Hub.</p>
-						</a>
-					</div>
-				</div>
-			</section>
-
-			<footer class="ds__foot">
-				<a class="button" href="/journey#dandy">← Back to my time at Dandy</a>
-				<a class="button button--ghost" href="/work">See all work</a>
-			</footer>
-		</div>
-	</article>
-
-	<div class="dz-lb" id="dz-lb" hidden role="dialog" aria-modal="true" aria-label="Expanded media">
-		<button type="button" class="dz-lb__x" aria-label="Close">×</button>
-		<div class="dz-lb__body" id="dz-lb-body"></div>
-	</div>
-</Base>
-
-<script>
-	// light haptic feedback on supported phones when a card is tapped
-	document.querySelectorAll('.dz-card--link').forEach((c) => c.addEventListener('click', () => navigator.vibrate?.(12)));
-
-	// ---- hero video: autoplays and loops; pauses off-screen to save battery, and respects a manual pause ----
-	const hero = document.getElementById('ds-video') as HTMLVideoElement | null;
-	if (hero) {
-		let userPaused = false;
-		let autoPaused = false;
-		hero.addEventListener('pause', () => {
-			if (!autoPaused) userPaused = true;
-		});
-		hero.addEventListener('play', () => (userPaused = false));
-		new IntersectionObserver(
-			(en) => {
-				if (en[0].isIntersecting) {
-					if (!userPaused) hero.play().catch(() => {});
-				} else if (!hero.paused) {
-					autoPaused = true;
-					hero.pause();
-					autoPaused = false;
-				}
-			},
-			{ threshold: 0.25 },
-		).observe(hero);
-	}
-
-	// ---- slices of the walkthrough: loop only while visible; clips loop natively ----
-	document.querySelectorAll<HTMLVideoElement>('.dz-media video, .dz-shot video').forEach((v) => {
-		const start = Number(v.dataset.start ?? 0);
-		const end = Number(v.dataset.end ?? 0);
-		if (end) {
-			v.addEventListener('loadedmetadata', () => (v.currentTime = start));
-			v.addEventListener('timeupdate', () => {
-				if (v.currentTime >= end) v.currentTime = start;
-			});
-		}
-		new IntersectionObserver(
-			(en) => (en[0].isIntersecting ? v.play().catch(() => {}) : v.pause()),
-			{ threshold: 0.5 },
-		).observe(v);
-	});
-
-	// ---- expand any asset ----
-	const lb = document.getElementById('dz-lb');
-	const body = document.getElementById('dz-lb-body');
-	const close = () => {
-		if (lb) lb.hidden = true;
-		if (body) body.innerHTML = '';
-		document.body.style.overflow = '';
-	};
-	document.querySelectorAll<HTMLElement>('.dz-x').forEach((box) => {
-		const btn = box.querySelector<HTMLButtonElement>('.dz-x__btn');
-		const open = () => {
-			if (!btn || !lb || !body) return;
-			body.innerHTML = '';
-			if (btn.dataset.kind === 'image') {
-				const img = document.createElement('img');
-				img.src = btn.dataset.src ?? '';
-				body.appendChild(img);
-			} else {
-				const v = document.createElement('video');
-				v.src = btn.dataset.src ?? '';
-				if (btn.dataset.poster) v.poster = btn.dataset.poster;
-				v.controls = true;
-				v.autoplay = true;
-				v.muted = true;
-				v.loop = true;
-				v.playsInline = true;
-				const t = Number(btn.dataset.start ?? 0);
-				v.addEventListener('loadedmetadata', () => (v.currentTime = t));
-				body.appendChild(v);
-			}
-			lb.hidden = false;
-			document.body.style.overflow = 'hidden';
-		};
-		btn?.addEventListener('click', open);
-		// clicking the picture itself also expands (but never fights the native video controls)
-		box.querySelectorAll('img, .dz-media video, .dz-shot video').forEach((el) => el.addEventListener('click', open));
-	});
-	lb?.querySelector('.dz-lb__x')?.addEventListener('click', close);
-	lb?.addEventListener('click', (e) => {
-		if (e.target === lb || e.target === body) close();
-	});
-	document.addEventListener('keydown', (e) => e.key === 'Escape' && close());
-
-	// ---- chapter nav: highlight where you are ----
-	const links = Array.from(document.querySelectorAll<HTMLAnchorElement>('#dz-nav a'));
-	const chapterEls = links.map((a) => document.getElementById(a.getAttribute('href')!.slice(1))!);
-	const spy = new IntersectionObserver(
-		(en) =>
-			en.forEach((e) => {
-				if (!e.isIntersecting) return;
-				const i = chapterEls.indexOf(e.target as HTMLElement);
-				links.forEach((a, k) => a.classList.toggle('is-on', k === i));
-			}),
-		{ rootMargin: '-35% 0px -55% 0px' },
-	);
-	chapterEls.forEach((el) => el && spy.observe(el));
-
-	// ---- focus: whatever is near the middle of the screen is bright, the rest recedes ----
-	const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-	const units = Array.from(document.querySelectorAll<HTMLElement>('.dz-ch__head, .dz-gap, .dz-users, .dz-step, .ds__nums, .ds__quotes, .dz-split, .dz-feature'));
-	const focus = () => {
-		const vh = window.innerHeight;
-		const c = vh * 0.5;
-		units.forEach((u) => {
-			const r = u.getBoundingClientRect();
-			const d = r.top < c && r.bottom > c ? 0 : Math.min(Math.abs(r.top - c), Math.abs(r.bottom - c));
-			const o = Math.max(0.2, Math.min(1, 1 - (d / (vh * 0.42)) * 0.8));
-			u.style.opacity = o.toFixed(2);
-			u.style.transform = `translateY(${((1 - o) * 14).toFixed(1)}px)`;
-		});
-	};
-	if (!reduceMotion) {
-		units.forEach((u) => (u.style.transition = 'opacity 0.25s ease-out, transform 0.25s ease-out'));
-		window.addEventListener('scroll', focus, { passive: true });
-		window.addEventListener('resize', focus);
-		focus();
-	}
-
-	// ---- the build timeline fills as you scroll ----
-	const steps = document.getElementById('dz-steps');
-	const stepEls = Array.from(document.querySelectorAll<HTMLElement>('.dz-step'));
-	const fill = () => {
-		if (!steps) return;
-		const r = steps.getBoundingClientRect();
-		const mid = window.innerHeight * 0.55;
-		const p = Math.max(0, Math.min(1, (mid - r.top) / r.height));
-		steps.style.setProperty('--p', String(p));
-		stepEls.forEach((s) => s.classList.toggle('is-on', s.getBoundingClientRect().top < mid));
-	};
-	window.addEventListener('scroll', fill, { passive: true });
-	window.addEventListener('resize', fill);
-	fill();
-</script>
+<DandyScroll
+	title="Design system in Storybook · Dandy"
+	description="How I built Dandy's design system in Storybook with Cursor, on real production code."
+	eyebrow="Design system · 2025 – now · Sole product designer"
+	heroTitle="I built a design system from scratch for the tool that makes every restoration possible."
+	lede="Dandy Design Center had no design system. I built one in Storybook, with Cursor, on real production code."
+	tools="Storybook · Cursor · Claude"
+	hero={{ src: '/journey/storybook-ds-preview.mp4', poster: '/journey/storybook-ds-cover.jpg' }}
+	scenes={scenes}
+	endTitle="One source of truth, shared by the team."
+	endText="Designers, engineers, and PMs now work from the same components, in the same place, in minutes instead of meetings."
+/>

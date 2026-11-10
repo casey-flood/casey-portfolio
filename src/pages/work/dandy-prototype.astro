@@ -1,44 +1,90 @@
 ---
-import DandyStory from '../../layouts/DandyStory.astro';
+import DandyScroll from '../../layouts/DandyScroll.astro';
+import type { Beat } from '../../data/dandy-scroll-types';
+
+const scenes: { id: string; label: string; nav: string; beats: Beat[] }[] = [
+	{
+		id: 'why',
+		label: '01 · Why',
+		nav: 'Why',
+		beats: [
+			{
+				title: 'A static file can’t show how 3D software feels.',
+				text: 'Dandy Design Center is 3D, interactive software, with scans, 3D designs and AutoCAD-style tools. Static Figma frames can’t capture how it behaves.',
+			},
+			{
+				title: 'So people click through it instead.',
+				text: 'A clickable prototype lets people feel the tool and give lightweight, useful feedback.',
+				media: { kind: 'clip', src: '/work/behind/proto.mp4', poster: '/work/behind/proto.jpg', alt: 'Clicking through a prototype of the crown review flow in Storybook' },
+			},
+		],
+	},
+	{
+		id: 'how',
+		label: '02 · How',
+		nav: 'How',
+		beats: [
+			{
+				title: 'First, in Storybook.',
+				text: 'I assembled full, interactive flows from the design system’s real components, in Storybook, for engineers and stakeholders to click through.',
+			},
+			{
+				title: 'Then, in Claude Design.',
+				text: 'My coworkers ported the Chairside and Portal design systems into Claude Design, so it uses real production components too. That keeps prototyping fast and efficient, even with scans, 3D designs and AutoCAD.',
+			},
+			{
+				title: 'Minutes, not days.',
+				text: 'UI design iteration in code dropped from 30–45 minutes to 5–10.',
+				metric: { text: '5–10 min', unit: 'per iteration, down from 30–45' },
+			},
+		],
+	},
+	{
+		id: 'impact',
+		label: '03 · The impact',
+		nav: 'The impact',
+		beats: [
+			{
+				title: 'Sprints moved faster.',
+				text: 'Milestone 4 of the Design Editor redesign shipped about 29% faster, at about 25% higher quality.',
+				metric: { to: 29, prefix: '~', suffix: '%', unit: 'faster, Milestone 4' },
+			},
+			{
+				title: 'More iterations, earlier.',
+				text: 'With UI design time down, there was room for more rounds before anything was built.',
+			},
+			{
+				title: 'More time for user research.',
+				text: 'Prototypes accurate enough to send to doctors and dental designers for feedback, so I could test ideas with the people who would use them.',
+			},
+			{
+				title: 'Better bets, shipped faster.',
+				text: 'A clickable prototype turns a hypothesis into something people can react to, so product changes are educated bets, not guesses.',
+			},
+			{
+				title: 'Code-ready, closer to engineering.',
+				text: 'Because prototypes use production components, they work as implementation references, and I can push PRs myself. Design and engineering collaborate on the same thing.',
+			},
+			{
+				title: 'More compelling.',
+				text: 'Stakeholders could try an idea before it was built.',
+				quote: ['“Casey’s prototype is much more compelling than presenting a bulleted list.”', 'Eileen, Dandy design'],
+			},
+		],
+	},
+];
 ---
 
-<DandyStory
+<DandyScroll
 	title="Clickable prototypes in Storybook · Dandy"
 	description="How I build fully clickable, interactive prototypes from real production components at Dandy."
-	eyebrow="Dandy · 2025 – now"
-	h1="I build clickable prototypes from the real components."
-	lede="Once the design system existed, I could assemble full, interactive flows in Storybook that engineers and stakeholders click through."
-	meta={[
-		{ k: 'Tools', v: 'Storybook, Cursor, Claude' },
-		{ k: 'Built on', v: 'The Dandy Design Center design system' },
-		{ k: 'When', v: '2025 – now' },
-	]}
-	hero={{ label: 'Clickable prototype walkthrough', hint: 'Add a screen recording or GIF of a flow in Storybook' }}
-	prev={{ href: '/work/dandy-design-system', label: 'Back to the design system' }}
-	sections={[
-		{
-			id: 'why',
-			label: 'Why',
-			title: 'A static file cannot show how 3D software feels.',
-			text: 'Dandy Design Center is 3D, interactive software. Static Figma frames cannot capture how a tool behaves, but a clickable prototype lets people feel it and give lightweight, useful feedback.',
-		},
-		{
-			id: 'how',
-			label: 'How',
-			title: 'Real components, assembled into real flows.',
-			text: 'I compose the components from the design system into full flows in Storybook, using Cursor and Claude to iterate in minutes. Everything is built on the production code, so what people click is what would ship.',
-			media: { label: 'A flow, assembled in Storybook', hint: 'Add a screenshot or recording' },
-		},
-		{
-			id: 'impact',
-			label: 'The impact',
-			title: 'Prototypes became the engineering reference.',
-			points: [
-				'Prototypes now serve as implementation references for engineering.',
-				'Engineering partners found them more effective for 3D collaboration than static Figma files.',
-				'Designers and stakeholders could try an idea before it was built.',
-			],
-			quotes: [{ q: 'Casey’s prototype is much more compelling than presenting a bulleted list.', who: 'Eileen', role: 'Dandy design' }],
-		},
-	]}
+	eyebrow="Prototyping · 2025 – now"
+	heroTitle="I build clickable prototypes from the real components."
+	lede="With the design system in place, I could assemble full, interactive flows from real production components that engineers, doctors and dental designers click through."
+	tools="Storybook · Cursor · Claude · Claude Design"
+	hero={{ src: '/work/behind/proto.mp4', poster: '/work/behind/proto.jpg' }}
+	scenes={scenes}
+	endTitle="Try it before it’s built."
+	endText="Prototypes on production components moved feedback earlier and gave engineering something real, and code-ready, to build from."
+	endLinks={[{ href: '/work/dandy', label: '← Dandy overview' }, { href: '/work/dandy-product-design-hub', label: 'Teaching it: the Product Design Hub →', ghost: true }]}
 />

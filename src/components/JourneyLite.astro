@@ -1,0 +1,60 @@
+---
+// The "From Scan to Smile" scroll story, same markup and styles as the Design Editor case study, without the designer zoom-in.
+import { stages, groups } from '../data/scan-to-smile';
+import { stageImages } from '../data/scan-to-smile-images';
+import { extra, icons, preview } from '../data/journey-extra';
+const count = 1 + stages.length;
+const weights = Array.from({ length: count }, (_, i) => (i === 0 ? 0.45 : 1));
+---
+<section class="lc jr" id="journey" data-journey data-w={JSON.stringify(weights)} style={`--n:${count};--w:${weights.reduce((a, b) => a + b, 0)}`} aria-label="From scan to smile">
+	<div class="lc__pin jr__pin">
+		<p class="hv__eyebrow lc__eyebrow">From scan to smile</p>
+		<div class="jr__top">
+			<div class="lc__texts">
+				<div class="lc__t" data-p="0">
+					<h2>From Scan to Smile</h2>
+					<p>How a dental restoration gets from the dentist’s chair to the lab and back to the patient.</p>
+					<span class="jr__cue" aria-hidden="true">Scroll <i>↓</i></span>
+				</div>
+				{stages.map((s, i) => (
+					<div class="lc__t" data-p={i + 1}>
+						<p class="lc__who">
+							<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={icons[s.group]} />
+							{groups[s.group].label}
+						</p>
+						<h2>{s.title}</h2>
+						{stageImages[s.n].src && <img class="lc__tm" src={stageImages[s.n].src} alt="" loading="lazy" decoding="async" />}
+						<p>{extra[s.n]?.teaser ?? s.teaser}</p>
+						{extra[s.n]?.more.length > 0 && (
+							<p class="lc__more">
+								{extra[s.n].more.map((part) =>
+									typeof part === 'string' ? part : (
+										<span class="pv">
+											<a href={part.href} target="_blank" rel="noopener">{part.t}</a>
+											<span class="pv__card" role="tooltip">
+												{preview(part.slug) && <img src={preview(part.slug)!} alt="" loading="lazy" />}
+												<b>{part.title}</b>
+												<small>{part.desc}</small>
+												<em>{new URL(part.href).hostname.replace('www.', '')} ↗</em>
+											</span>
+										</span>
+									),
+								)}
+							</p>
+						)}
+					</div>
+				))}
+			</div>
+		</div>
+		<div class="jr__row">
+			<ol class="lc__cards" aria-hidden="true">
+				{stages.map((s, i) => (
+					<li class="lc__card" data-p={i + 1} style={`--i:${i}`}>
+						<span class="lc__no">{s.n}</span>
+						{stageImages[s.n].src && <img src={stageImages[s.n].src} alt="" loading="lazy" decoding="async" />}
+					</li>
+				))}
+			</ol>
+		</div>
+	</div>
+</section>

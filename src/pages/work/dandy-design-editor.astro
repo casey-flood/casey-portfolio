@@ -14,7 +14,13 @@ import { stageImages } from '../../data/scan-to-smile-images';
 const stillName = ['dde-editor.webp', 'dde-editor.png', 'dde-editor.jpg'].find((f) => fs.existsSync(`./public/work/${f}`));
 const still = stillName ? `/work/${stillName}` : null;
 
-const heroTitle = 'One place to design the crown.';
+const heroCards: { dir: 'up' | 'down'; lead: string; word: string; note?: string }[] = [
+	{ dir: 'down', lead: 'Business costs', word: 'down', note: 'Designing in house instead of relying on third-party software.' },
+	{ dir: 'down', lead: 'Time to design a restoration', word: 'down', note: 'Time spent in the front view and crown selection steps more than halved.' },
+	{ dir: 'up', lead: 'Restoration design quality', word: 'up' },
+	{ dir: 'up', lead: 'Designer satisfaction', word: 'up' },
+];
+const heroTitle = 'Reimagining how dental designers design restorations.';
 const meta = [
 	['Role', 'Sole product designer'],
 	['Product', 'Fixed crowns and bridges'],
@@ -22,56 +28,8 @@ const meta = [
 	['Status', 'In production, still shipping'],
 ];
 
-// Extra context for some journey steps, shown under the one-line description. Facts are from the lifecycle data.
-type Part = import('../../components/PvText.astro').Part;
-const preview = (slug: string) => ['webp', 'png', 'jpg'].map((e) => `/work/previews/${slug}.${e}`).find((f) => fs.existsSync(`./public${f}`)) ?? null;
-const extra: Record<number, { teaser?: string; more: Part[] }> = {
-	2: {
-		more: [
-			'The scan can come from Dandy’s own ',
-			{ t: 'Dandy Vision scanner', href: 'https://www.meetdandy.com/technology/intraoral-scanner/', title: 'Dandy Vision scanner', desc: 'Dandy’s intraoral scanner, hardware Dandy manufactures.', slug: 'dandy-vision' },
-			', or from third-party scanners like ',
-			{ t: '3Shape Trios', href: 'https://www.3shape.com', title: '3Shape Trios', desc: 'An intraoral scanner from 3Shape.', slug: 'trios' },
-			' and ',
-			{ t: 'iTero', href: 'https://www.itero.com', title: 'iTero', desc: 'An intraoral scanner from Align Technology.', slug: 'itero' },
-			'.',
-		],
-	},
-	5: {
-		more: [
-			'Zirconia is milled from a ceramic block, sintered in a furnace, then stained, glazed, and polished. Dandy automates much of it with robotics and, ',
-			{ t: 'by its own account', href: 'https://www.meetdandy.com/labs/crown-and-bridge/', title: 'Dandy crown and bridge lab', desc: 'How Dandy makes crowns and bridges, in Dandy’s words.', slug: 'dandy-crown-bridge' },
-			', checks each crown against the original scan with computer vision before it ships.',
-		],
-	},
-	6: {
-		more: [
-			'This used to run through small local labs: physical molds shipped back and forth, with little visibility into the process. Dandy digitized and automated it at scale, for faster turnaround and more volume. Dandy reports ',
-			{ t: 'up to 50% fewer remakes and first-fit accuracy above 98%', href: 'https://www.meetdandy.com/labs/crown-and-bridge/', title: 'Dandy crown and bridge lab', desc: 'Dandy’s published remake and first-fit figures.', slug: 'dandy-crown-bridge' },
-			'.',
-		],
-	},
-	4: {
-		teaser: 'A dental designer (lab tech) receives the order from the dentist through the Dandy Ops portal and designs the restoration in 3D.',
-		more: [],
-	},
-	3: {
-		teaser: 'The dentist uses Chairside, Dandy’s ordering software, to view the scans, choose the product, the material, and preferences like fit, aesthetics, and shipping time.',
-		more: [],
-	},
-};
-
-// Small line icons for who the step belongs to.
-const icons: Record<string, string> = {
-	patient: '<circle cx="12" cy="8" r="3.4"/><path d="M5 20c.6-3.8 3.4-6 7-6s6.4 2.2 7 6"/>',
-	dentist: '<circle cx="12" cy="8" r="3.4"/><path d="M5 20c.6-3.8 3.4-6 7-6s6.4 2.2 7 6"/><path d="M16.5 3.5v4M14.5 5.5h4"/>',
-	designer: '<rect x="3" y="4" width="18" height="12" rx="2"/><path d="M9 20h6M12 16v4"/><path d="M8.5 11.5c.6-2.2 2-3 3.5-3s2.900.8 3.500 3"/>',
-	ops: '<circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.600 5.600l2.100 2.100M16.300 16.300l2.100 2.100M18.400 5.600l-2.100 2.100M7.700 16.300l-2.100 2.100"/>',
-	prep: '<path d="M14.500 5.500a4 4 0 0 0-5 5L4 16l4 4 5.500-5.500a4 4 0 0 0 5-5l-2.500 2.500-2.500-.5-.5-2.500z"/>',
-	audit: '<circle cx="12" cy="12" r="8.500"/><path d="M8 12.500l2.800 2.800L16.500 9.500"/>',
-	portal: '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 9h18"/>',
-	both: '<circle cx="8.500" cy="9" r="2.800"/><circle cx="16" cy="9.500" r="2.400"/><path d="M3 19c.5-3 2.500-4.800 5.500-4.800S13.500 16 14 19M14.500 15c2.600-.2 4.700 1.200 5.500 4"/>',
-};
+import { extra, icons, preview } from '../../data/journey-extra';
+type Part = import('../../data/journey-extra').Part;
 
 // Zooming in on the designer step: what happened to a case before the redesign (until summer 2025).
 const subs: { tag: string; icon: string; who: string; title: string; text: Part[]; media?: { type: 'video' | 'image'; src: string; poster?: string; wide?: boolean } }[] = [
@@ -125,6 +83,8 @@ const scenes = [
 			{ id: 'sliders', title: 'Longer sliders.', text: 'The short ones were too sensitive to land a contact.', quote: ['“Making the left side wider was a great move. The old sliders were too short and super sensitive. The new ones are fantastic.”', 'Tom, dental designer'] },
 			{ id: 'prep', title: 'Prep moved in.', text: 'One program from prep to send. The base tooth can come from a copy, a mirror, or a neighbor, and later a model can suggest it.' },
 			{ id: 'frontview', title: 'Front view: 134 s to 20 s.', text: 'Mean active seconds per visit, April to August 2026. Visits also fell, from about 48,000 to about 31,000. Choosing the crown went from 39 s to 19 s.' },
+			{ id: 'm4', title: 'Milestone 4 shipped faster.', text: 'Milestone 4 of the redesign shipped about 29% faster, at about 25% higher quality.', metric: { to: 29, prefix: '~', suffix: '%', unit: 'faster, at ~25% higher quality' } },
+			{ id: 'bridges', title: 'Bridges, more efficient.', text: 'About 30% more efficient on the Bridges redesign, with 15%+ quality gains.', metric: { to: 30, prefix: '~', suffix: '%', unit: 'more efficient, with 15%+ quality gains' } },
 		],
 	},
 	{
@@ -193,22 +153,47 @@ const vizFor: Record<string, string> = {
 				<img class="hv__logo" src="/brand/dandy-wordmark.svg" alt="Dandy" width="96" height="34" />
 				<a class="cx__back" href="/work/dandy">← Dandy overview</a>
 			</div>
-			<p class="hv__eyebrow">Design Editor · 2025 – now · Sole product designer</p>
-			<h1 id="cx-h" aria-label={heroTitle}>
-				{heroTitle.split(' ').map((w, i) => (<><span class="hv-w" aria-hidden="true" style={`--i:${i}`}>{w}</span>{' '}</>))}
-			</h1>
-			<p class="cx__lede">A dentist sends a scan. A designer turns it into the crown the lab will make. It used to take three programs. I designed the software that does it in one.</p>
-			{still && (
-				<figure class="cx__still">
-					<img src={still} alt="The Design Editor with a scan in the mouth, the crown seated, and one tooth marked" />
-					<span class="cx__win cx__win--a" aria-hidden="true">Prep in Browser</span>
-					<span class="cx__win cx__win--b" aria-hidden="true">3Shape</span>
-					<span class="cx__win cx__win--c" aria-hidden="true">The old editor</span>
-				</figure>
-			)}
-			<dl class="cx__meta">
-				{meta.map(([k, v]) => <div><dt>{k}</dt><dd>{v}</dd></div>)}
-			</dl>
+			<div class="cx__stagewrap" data-hero3d>
+				<div class="h3d__pin">
+					<div class="h3d__copy">
+					<div class="h3d__intro">
+						<p class="hv__eyebrow">Design Editor · Sole product designer <span class="cx__status"><i></i>In progress since 2025</span></p>
+						<h1 id="cx-h" aria-label={heroTitle}>
+							{heroTitle.split(' ').map((w, i) => (<><span class="hv-w" aria-hidden="true" style={`--i:${i}`}>{w}</span>{' '}</>))}
+						</h1>
+						<p class="cx__lede">One platform to create the whole restoration. Designing in house lowers costs, improves quality, and gives Dandy end-to-end ownership.</p>
+					</div>
+						<ul class="h3d__cards">
+							{heroCards.map((c) => (
+								<li class="h3d__card">
+									<svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+										{c.dir === 'down' ? <path d="M12 4v16M6 14l6 6 6-6" /> : <path d="M12 20V4M6 10l6-6 6 6" />}
+									</svg>
+									<div>
+										<p>{c.lead} <b>{c.word}</b></p>
+										{c.note && <small>{c.note}</small>}
+									</div>
+								</li>
+							))}
+						</ul>
+					</div>
+					<div class="h3d__stage">
+						<video src="/work/dde/hero.mp4" poster="/work/dde/hero.jpg" muted loop autoplay playsinline preload="metadata" aria-label="A looping walkthrough of the Design Editor concept: a generated crown, then design tools"></video>
+						<canvas aria-hidden="true"></canvas>
+						<div class="h3d__flag" data-flag aria-hidden="true">
+							<p><b>Automated</b> · Trim</p>
+							<span>Dandy trimmed away loose tissue around the edge of the scan, outlined in purple.</span>
+							<em>Revert</em>
+						</div>
+						<div class="h3d__flag h3d__flag--warn" data-flag aria-hidden="true">
+							<p><b>Blocking</b> · Transform</p>
+							<span>Wider than +12% pushes the mesial and distal contacts into #12 and #14. Contacts have to stay at −0.04 mm.</span>
+						</div>
+						<p class="h3d__hint" aria-hidden="true">Scroll <i>↓</i></p>
+					</div>
+
+				</div>
+			</div>
 		</header>
 
 		<!-- 01: the lifecycle, one step at a time. Cards dim around the active one. -->
@@ -229,6 +214,7 @@ const vizFor: Record<string, string> = {
 									{groups[s.group].label}
 								</p>
 								<h2>{s.title}</h2>
+								{stageImages[s.n].src && <img class="lc__tm" src={stageImages[s.n].src} alt="" loading="lazy" decoding="async" />}
 								<p>{extra[s.n]?.teaser ?? s.teaser}</p>
 								{extra[s.n]?.more.length > 0 && (
 									<p class="lc__more">
@@ -264,6 +250,8 @@ const vizFor: Record<string, string> = {
 									{s.who}
 								</p>
 								<h2>{s.title}</h2>
+								{s.media?.type === 'video' && <video class="lc__tm" src={s.media.src} poster={s.media.poster} muted loop playsinline preload="none" data-mvid></video>}
+								{s.media?.type === 'image' && <img class="lc__tm" src={s.media.src} alt="" loading="lazy" decoding="async" />}
 								<p><PvText parts={s.text} /></p>
 							</div>
 						))}
@@ -412,7 +400,10 @@ const vizFor: Record<string, string> = {
 <script>
 	const root = document.querySelector<HTMLElement>('[data-cx]');
 	if (root && !window.matchMedia('(prefers-reduced-motion: reduce)').matches && 'IntersectionObserver' in window) {
+		const mob = window.matchMedia('(max-width: 899px)').matches;
 		root.classList.add('is-live', 'cx--live');
+		// phones: no pinned scroll scenes. Hero stays animated; everything else is a calm vertical read.
+		if (mob) root.classList.add('cx--mob');
 
 		// fade-up for the simple chapters
 		const io = new IntersectionObserver(
@@ -458,9 +449,23 @@ const vizFor: Record<string, string> = {
 			requestAnimationFrame(step);
 		};
 		let raf = 0;
-		addEventListener('scroll', () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(tick); }, { passive: true });
-		addEventListener('resize', tick);
-		tick();
+		if (mob) {
+			scenes.forEach((s) => s.rows.forEach((row) => {
+				const v = row.querySelector('video');
+				const vio = new IntersectionObserver((es) => es.forEach((e) => {
+					if (e.isIntersecting) { row.classList.add('on'); if (!row.dataset.counted) { row.dataset.counted = '1'; countUp(row); } v?.play().catch(() => {}); }
+					else v?.pause();
+				}), { threshold: 0.35 });
+				vio.observe(row);
+			}));
+			document.querySelectorAll<HTMLVideoElement>('video[data-mvid]').forEach((v) => {
+				new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) v.play().catch(() => {}); else v.pause(); }), { threshold: 0.3 }).observe(v);
+			});
+		} else {
+			addEventListener('scroll', () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(tick); }, { passive: true });
+			addEventListener('resize', tick);
+			tick();
+		}
 	} else {
 		document.querySelectorAll('.sc video').forEach((v) => { (v as HTMLVideoElement).autoplay = true; });
 	}
@@ -478,7 +483,7 @@ const vizFor: Record<string, string> = {
 	// The journey: one pinned section. Progress picks a phase; cards come in, dim, and the designer step zooms in.
 	const clamp01 = (n: number) => Math.max(0, Math.min(1, n));
 	document.querySelectorAll<HTMLElement>('[data-journey]').forEach((sec) => {
-		if (!sec.closest('.cx--live')) return;
+		if (!sec.closest('.cx--live') || sec.closest('.cx--mob')) return;
 		const items = Array.from(sec.querySelectorAll<HTMLElement>('[data-p]'));
 		const total = Number(getComputedStyle(sec).getPropertyValue('--n')) || 1;
 		const zoomAt = items.filter((e) => e.classList.contains('lc__card')).length + 1; // first phase after the six cards
@@ -545,7 +550,7 @@ const vizFor: Record<string, string> = {
 	// Page navigator: highlights where you are, jumps to sections and sub-sections.
 	const toc = document.querySelector<HTMLElement>('[data-toc]');
 	if (toc) {
-		const live = !!document.querySelector('.cx--live');
+		const live = !!document.querySelector('.cx--live') && !document.querySelector('.cx--mob');
 		const items = Array.from(toc.querySelectorAll<HTMLElement>('.toc__item'));
 		const rail = Array.from(toc.querySelectorAll<HTMLElement>('[data-rail]'));
 		const secOf = (id: string) => document.getElementById(id)!;
@@ -593,5 +598,40 @@ const vizFor: Record<string, string> = {
 		addEventListener('scroll', () => { cancelAnimationFrame(tocRaf); tocRaf = requestAnimationFrame(tocTick); }, { passive: true });
 		addEventListener('resize', tocTick);
 		tocTick();
+	}
+
+	// 3D cover: loads once the stage is near the screen, falls back to the video if WebGL or the files fail.
+	const h3 = document.querySelector<HTMLElement>('[data-hero3d]');
+	if (h3 && !matchMedia('(prefers-reduced-motion: reduce)').matches && 'IntersectionObserver' in window) {
+		const stage = h3.querySelector<HTMLElement>('.h3d__stage')!;
+		const pin = h3.querySelector<HTMLElement>('.h3d__pin')!;
+		const heroCardEls = Array.from(h3.querySelectorAll<HTMLElement>('.h3d__card'));
+		const progress = () => {
+			const r = h3.getBoundingClientRect();
+			const stick = parseFloat(getComputedStyle(pin).top) || 0;
+			return clamp01((stick - r.top) / Math.max(1, r.height - pin.offsetHeight));
+		};
+		// metric cards slide in one by one as the animation plays (works with or without WebGL)
+		const cardAt = [0.1, 0.36, 0.6, 0.8];
+		const showCards = () => { const p = progress(); heroCardEls.forEach((c, i) => c.classList.toggle('in', p >= cardAt[i])); };
+		addEventListener('scroll', () => requestAnimationFrame(showCards), { passive: true });
+		addEventListener('resize', showCards);
+		showCards();
+		const hio = new IntersectionObserver(async (es) => {
+			if (!es.some((e) => e.isIntersecting)) return;
+			hio.disconnect();
+			try {
+				const probe = document.createElement('canvas');
+				if (!(probe.getContext('webgl2') || probe.getContext('webgl'))) return;
+				const heroUrl = '/work/dde/hero3d.js';
+				const mod = await (new Function('u', 'return import(u)') as (u: string) => Promise<any>)(heroUrl);
+				const hero = await mod.mountHero(stage, progress);
+				stage.classList.add('is-3d');
+				(window as any).__hero = hero;
+			} catch (err) {
+				console.warn('3D cover unavailable, keeping the video', err);
+			}
+		}, { rootMargin: '300px' });
+		hio.observe(h3);
 	}
 </script>
