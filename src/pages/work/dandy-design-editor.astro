@@ -761,6 +761,36 @@ const vizFor: Record<string, string> = {
 			rail(box, slides, true, (i) => dots.forEach((d, k) => d.classList.toggle('on', k === i)));
 		});
 
+		// phones: make sure every visual actually paints (no lazy-loading inside side-scrolling rows, first frame for videos)
+		mobRoot.querySelectorAll<HTMLImageElement>('img[loading="lazy"]').forEach((im) => { im.loading = 'eager'; });
+		mobRoot.querySelectorAll<HTMLVideoElement>('.sc__row video, .lc__t video').forEach((v) => {
+			if (v.poster) return;
+			v.preload = 'auto';
+			const u = v.getAttribute('src');
+			if (u && !u.includes('#')) v.setAttribute('src', `${u}#t=0.001`);
+		});
+		// shrink each non-photo visual (charts, stage thumbs, slider studies, compare) to fit the card's visual area
+		const fitAll = () => {
+			mobRoot.querySelectorAll<HTMLElement>('.sc__row .sc__viz').forEach((viz) => {
+				const bw = viz.clientWidth, bh = viz.clientHeight;
+				if (!bw || !bh) return;
+				viz.querySelectorAll<HTMLElement>(':scope > :not(img):not(video):not(.dz-metric)').forEach((k) => {
+					k.style.setProperty('--fs', '1'); k.style.setProperty('--fx', '0px'); k.style.setProperty('--fy', '0px');
+					const cw = Math.max(k.offsetWidth, k.scrollWidth), ch = Math.max(k.offsetHeight, k.scrollHeight);
+					if (!cw || !ch) return;
+					const sc = Math.min(1, bw / cw, bh / ch);
+					k.style.setProperty('--fs', String(sc));
+					k.style.setProperty('--fx', `${(bw - cw * sc) / 2}px`);
+					k.style.setProperty('--fy', `${(bh - ch * sc) / 2}px`);
+				});
+			});
+		};
+		fitAll();
+		addEventListener('load', fitAll);
+		addEventListener('resize', fitAll);
+		document.fonts?.ready.then(fitAll);
+		setTimeout(fitAll, 900);
+
 		// journey: stage chips 1-6, then the zoom into the designer step
 		mobRoot.querySelectorAll<HTMLElement>('[data-journey]').forEach((sec) => {
 			const box = sec.querySelector<HTMLElement>('.lc__texts');
