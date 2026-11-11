@@ -67,33 +67,33 @@ const scenes = [
 		label: '03 · Field research',
 		beats: [
 			{ id: 'miles', title: 'I went to where the work happens.', text: 'San Diego to Cairo, to learn from hundreds of designers at their own desks. I set up the research sessions myself.', metric: { to: 7600, prefix: '', suffix: '+', unit: 'miles, San Diego to Cairo, one way' } },
-			{ id: 'leads', title: 'In-depth conversations with the leads.', text: 'One-on-one, with the design leads running the labs in Egypt.', metric: { to: 8, prefix: '', suffix: '', unit: 'design leads in Egypt' } },
-			{ id: 'shadow', title: 'Shadowing, at every level.', text: 'Watching designers finish real cases, from newer designers to the most experienced.', metric: { to: 20, prefix: '', suffix: '+', unit: 'virtual shadow sessions' } },
-			{ id: 'reviews', title: 'Every week, in the open.', text: 'I led design reviews of the UX improvements with the designers who would use them.', metric: { to: 2, prefix: '', suffix: '+ hrs', unit: 'every week' } },
-			{ id: 'competitors', title: 'Competitors and data.', text: 'A close study of 3Shape and exocad, and the editor’s own metrics in dashboards and Sentry replays.', metric: { to: 10, prefix: '', suffix: '+ hrs', unit: 'of competitor research and data analysis' } },
-			{ id: 'finding', title: 'Tools were organized by category, not by how designers think.', text: 'Designers hunted through nested menus, buried in information, with no automation and no warning when a design broke the Rx. I realized navigation was a problem on its own, beyond what ML and automated prep could fix.' },
+			{ id: 'leads', title: 'I had in-depth conversations with the leads.', text: 'One-on-one, with the design leads running the labs in Egypt.', metric: { to: 8, prefix: '', suffix: '', unit: 'design leads in Egypt' } },
+			{ id: 'shadow', title: 'I shadowed designers at every level.', text: 'I watched designers finish real cases, from newer designers to the most experienced.', metric: { to: 20, prefix: '', suffix: '+', unit: 'virtual shadow sessions' } },
+			{ id: 'reviews', title: 'I ran design reviews every week, in the open.', text: 'I led design reviews of the UX improvements with the designers who would use them.', metric: { to: 2, prefix: '', suffix: '+ hrs', unit: 'every week' } },
+			{ id: 'competitors', title: 'I studied the competition and the data.', text: 'I studied 3Shape and exocad closely, along with the editor’s own metrics in dashboards and Sentry replays.', metric: { to: 10, prefix: '', suffix: '+ hrs', unit: 'of competitor research and data analysis' } },
+			{ id: 'finding', title: 'I found that navigation was a problem on its own.', text: 'Tools were grouped by category, not by how designers work, so they hunted through nested menus for the next step. ML and automated prep wouldn’t fix that, so navigation needed its own redesign. There was also no warning when a design broke the Rx.' },
 		],
 	},
 	{
 		id: 'work',
 		label: '04 · The hypotheses',
 		beats: [
-			{ id: 'focus', title: 'Three hypotheses to bring design time down and quality up.', titleHtml: 'Three hypotheses to bring design time <span class="hl hl--dn">down</span> and quality <span class="hl hl--up">up</span>.', text: 'Each one is testable. I proposed what to measure for each, so we could tell whether it worked.' },
-			{ id: 'crown', title: 'If ML generates a bio-mimetic starting crown, design time goes down and quality goes up.', titleHtml: '<small class="hyp">Hypothesis 1</small>If ML generates a bio-mimetic starting crown, design time goes down and quality goes up.', text: 'Measured by: average total design time, refab rate, and design review rejections, on crowns the model touched against ones it didn’t.' },
-			{ id: 'autoprep', title: 'If prep lives in the editor and runs itself, handoffs and wait time go down.', titleHtml: '<small class="hyp">Hypothesis 2</small>If prep lives in the editor and runs itself, handoffs and wait time go down.', text: 'I decided to bring prep into the editor. Measured by: time per case from scan to submit, and how many programs and people each case passes through.' },
-			{ id: 'stages', title: 'If navigation follows how designers think, cognitive load goes down.', titleHtml: '<small class="hyp">Hypothesis 3</small>If navigation follows how designers think, cognitive load goes down.', text: 'Measured by: satisfaction (6.9 against 3Shape’s 9.1 at baseline), time spent hunting for tools, and designer adoption (about 46% of designers at baseline).' },
+			{ id: 'focus', title: 'I framed three hypotheses to bring design time down and quality up.', titleHtml: 'I framed three hypotheses to bring design time <span class="hl hl--dn">down</span> and quality <span class="hl hl--up">up</span>.', text: 'Each is testable, and I proposed how to measure it.' },
+			{ id: 'crown', title: 'If ML generates a bio-mimetic starting crown, time drops and quality rises.', titleHtml: '<small class="hyp">Hypothesis 1</small>If ML generates a bio-mimetic starting crown, time drops and quality rises.', text: 'I designed how designers start and regenerate a crown: from the ML crown, the tooth library, or a mimic tooth.', measures: ['Design time', 'Refab rate', 'Review rejections'], mnote: 'ML-touched vs. untouched crowns' },
+			{ id: 'autoprep', title: 'If prep lives in the editor and runs itself, handoffs and waits drop.', titleHtml: '<small class="hyp">Hypothesis 2</small>If prep lives in the editor and runs itself, handoffs and waits drop.', text: 'I brought prep into the editor so Dandy could automate it. Designers audit it instead, saving time in one ecosystem.', measures: ['Scan-to-submit time', 'Programs and people per case'] },
+			{ id: 'stages', title: 'If navigation follows how designers think, cognitive load drops.', titleHtml: '<small class="hyp">Hypothesis 3</small>If navigation follows how designers think, cognitive load drops.', text: 'I rebuilt navigation around the stages designers work through: Prep, Front, Crown, Design, Submit.', measures: ['Satisfaction (6.9 vs. 3Shape’s 9.1)', 'Time hunting for tools', 'Designer adoption (~46% at baseline)'] },
 		],
 	},
 	{
 		id: 'process',
 		label: '05 · The process',
 		beats: [
-			{ id: 'system', title: 'First, a cohesive, branded design system.', text: 'The editor didn’t have one, so I decided to build it on the production components, in Storybook, so a design change could ship. Every control, down to the sliders, was explored and tested there first.', link: { href: '/work/dandy-design-system', label: 'Read the design system case study →' }, quote: ['“Making the left side wider was a great move. The old sliders were too short and super sensitive. The new ones are fantastic.”', 'Tom, dental designer'] },
-				{ id: 'feedback', title: 'Then prototype with it, and test with dental designers every week.', text: 'I ran a weekly design session with the dental designers. I built interactive prototypes from the system, from single components to whole workflows and features. They played with them, we iterated together on what worked and what didn’t, and I measured success with user testing and task analysis.' },
-				{ id: 'northstar', title: 'Then design the ideal version.', text: 'I pulled the best UX ideas from all that feedback into one flow, with no scope limits, and designed how automated prep, the ML crown generation and choices, and the navigation and IA should look and feel. It became the ideal version the team measured every feature and change against.', link: { id: 'proto', label: 'Try the ideal-version prototype ↓' } },
-				{ id: 'tagging', title: 'I designed the tagging system: detect, flag, fix.', text: 'I came up with the tagging system and how it works: it detects a problem, flags it as the designer works, and helps fix it. Guidance stays advisory, with hard stops only for Rx and doctor-note violations.' },
-				{ id: 'release', title: 'Then scale back to releasable chunks.', text: 'From the ideal version, I worked out the MVP with PMs and engineers and sliced the rest into releases: ML crowns first, then prep inside the editor, and then automating it. I set how the release cycle runs: a coded prototype for each sprint, and every change tied to a Jira ticket. The navigation and IA work ran alongside, shipping in chunks.' },
-				{ id: 'hub', title: 'And I built a hub so others can learn it.', text: 'The Product Design Hub is a central source of truth others can learn from.', link: { href: '/work/dandy-product-design-hub', label: 'See the Product Design Hub →' } },
+			{ id: 'system', title: 'First, I built a branded design system.', text: 'The editor had no design system. I built one in Storybook from the production components, so every control, down to the sliders, was tested as it would ship.', link: { href: '/work/dandy-design-system', label: 'Read the design system case study →' }, quote: ['“The old sliders were too short and super sensitive. The new ones are fantastic.”', 'Tom, dental designer'] },
+				{ id: 'feedback', title: 'Then I prototyped with it and tested weekly with dental designers.', text: 'I built interactive prototypes from the system, from single components to whole workflows. Each week the dental designers played with them, we iterated together, and I measured success with user testing and task analysis.' },
+				{ id: 'northstar', title: 'Then I designed the ideal version.', text: 'With no scope limits, I pulled the best ideas from that feedback into one flow: automated prep, ML crown generation and choices, and navigation. It became the benchmark the team measured every feature against.', link: { id: 'proto', label: 'Try the ideal-version prototype ↓' } },
+				{ id: 'tagging', title: 'It included a tagging system I designed: detect, flag, fix.', text: 'It detects a problem, flags it as the designer works, and helps fix it. Guidance stays advisory, with hard stops only for Rx and doctor-note violations.' },
+				{ id: 'release', title: 'Then I scaled it back to releasable chunks.', text: 'With PMs and engineers, I worked out the MVP and sliced the rest of the ideal version into releases. I set how the release cycle runs: a coded prototype for each sprint, and every change tied to a Jira ticket.' },
+				{ id: 'hub', title: 'I built a hub to share my process.', text: 'A customized Product Design Hub where teammates learn how to work the way I do on the editor.', mlabel: 'Inside the hub', measures: ['Set up Cursor and GitHub', 'Prototype in code', 'See DDE sprint cycles and each sprint’s prototypes', 'Access the DDE design system'], link: { href: '/work/dandy-product-design-hub', label: 'See the Product Design Hub →' } },
 		],
 	},
 	{
@@ -103,7 +103,7 @@ const scenes = [
 			{ id: 'adoption', title: 'Dandy’s own editor went from 70% to 88% of crown orders.', text: 'From Q1 2025 to Q2 2026, the redesigned editor went from under 1% to 88% as it replaced the old one, which was retired by Q4 2025. 3Shape fell from about 29% to about 12% of crown orders, and what’s left is model design, which the editor doesn’t cover.' },
 			{ id: 'speed', title: 'Orders ship about 20% faster.', text: 'Turnaround, placed to shipped, fell from 7.4 to 5.9 days. Most of it is less waiting: design process time, including waits between steps, fell from 14.5 to 11.8 minutes.', metric: { text: '−20%', unit: 'order turnaround, 7.4 to 5.9 days' } },
 			{ id: 'scale', title: '57% more orders, 11.5% less designer time on each.', text: 'Crown volume grew from about 153,000 to about 240,000 a quarter. Hands-on designer time per order fell from 6.4 to 5.6 minutes, so total designer hours grew about 39%, well below the 57% volume growth.', metric: { text: '+57%', unit: 'crown orders a quarter, with 11.5% less designer time per order' } },
-			{ id: 'mlprep', title: 'ML crowns and automated prep, scaling fast.', text: 'The crown model touched about 2% of crown orders in Q3 2025, about 38% in Q1 2026, and about 80% in Q2 2026. Designers kept the generated crown as their starting point about 35% of the time and redid it about 45%. Automated prep launched in Q2 2026 at about 4% and reached about 34% in Q3.', metric: { to: 80, prefix: '~', suffix: '%', unit: 'of crown orders touched by the ML crown, Q2 2026' } },
+			{ id: 'mlprep', title: 'ML crowns and automated prep, scaling fast.', text: 'The crown model touched about 2% of crown orders in Q3 2025, about 38% in Q1 2026, and about 80% in Q2 2026. Designers kept the generated crown as their starting point about 35% of the time and redid it about 45%. Crowns where the model generated a starting crown had a 5.8% refab rate, against 6.6% for the rest. Automated prep launched in Q2 2026 at about 4% and reached about 34% in Q3.', metric: { to: 80, prefix: '~', suffix: '%', unit: 'of crown orders touched by the ML crown, Q2 2026' } },
 						// TODO(designer quotes): when Caitlyn and Maneesh send written feedback, add a beat here:
 			//   { id: 'voice', title: 'What designers say.', text: '…', quote: ['“…”', 'Name, role'] }
 			// Held back until verified: front view / crown selection timings (source unconfirmed),
@@ -116,7 +116,7 @@ const scenes = [
 		beats: [
 			{ id: 'challenges', title: 'What was hard.', text: 'Shipping ML crowns, prep and the new navigation at the same time makes it hard to attribute a result to any one change. Designers kept the generated crown about 35% of the time and redid it about 45%, so trust in automation has to be earned. And guidance has to stay out of the way: designers worried about intrusive blockers, so hard stops are for Rx and doctor-note violations, and everything else is advisory.' },
 			{ id: 'watching', title: 'What I’m still tracking.', text: 'Quality. The refab rate has held at 6.3–6.5% every quarter while crown volume grew, so speed hasn’t cost quality, but I can’t yet show it improved. Design review rejection records have gaps, so I’m not relying on them yet. I’m also re-running the designer survey and measuring time per step as automated prep and the next releases roll out. Several changes shipped at once, so isolating what each one did is the hard part.' },
-			{ id: 'next', title: 'What’s next.', text: 'Keep releasing the ideal version in chunks: more of the guided flow and navigation, then the same architecture for bridges, implants and other case types.' },
+			{ id: 'next', title: 'What’s next.', text: 'I’ll keep releasing the ideal version in chunks: more of the guided flow and navigation, then the same architecture for bridges, implants and other case types.' },
 		],
 	},
 ];
@@ -145,6 +145,15 @@ const toc: { id: string; label: string; subs?: { label: string; from: number; to
 	{ id: 'phone', label: 'Forward thinking' },
 	{ id: 'end', label: 'Closing' },
 ];
+// Short names shown when hovering a progress dash under each scene.
+const shortNames: Record<string, string> = {
+	handoff: 'The handoff', scatter: 'The old editor', survey: 'Survey', usage: 'Usage',
+	miles: 'Cairo', leads: 'Team leads', shadow: 'Shadowing', reviews: 'Design reviews', competitors: 'Competitors', finding: 'Navigation',
+	focus: 'Focus', crown: 'ML crown', autoprep: 'Automated prep', stages: 'Stages',
+	system: 'Design system', feedback: 'Prototype and test', northstar: 'Ideal version', tagging: 'Tagging', release: 'Releases', hub: 'Design hub',
+	adoption: 'Adoption', speed: 'Speed', scale: 'Scale', mlprep: 'ML and prep',
+	challenges: 'Challenges', watching: 'Still tracking', next: 'What’s next',
+};
 const vizFor: Record<string, string> = {
 	scatter: 'scatter', focus: 'focus', survey: 'survey', usage: 'usage', stages: 'stages', system: 'sliders', release: 'releases', northstar: 'compare', adoption: 'shift',
 	finding: 'lost', prep: 'prep', frontview: 'frontview', crown: 'crown', autoprep: 'autoprep',
@@ -351,10 +360,17 @@ const vizFor: Record<string, string> = {
 								const m = ddeMedia[b.id];
 								const kind = vizFor[b.id];
 								return (
-									<article class:list={['sc__row', { 'sc__row--solo': !m && !kind && !b.metric }]} data-i={i}>
+									<article class:list={['sc__row', { 'sc__row--solo': !m && !kind && !b.metric }]} data-i={i} data-beat={b.id}>
 										<div class="sc__text">
 											<h3><span set:html={b.titleHtml ?? b.title} /></h3>
 											<p>{b.text}</p>
+												{b.measures && (
+													<div class="sc__measure">
+														<p class="sc__mlabel">{b.mlabel ?? 'Measured by'}</p>
+														<ul>{b.measures.map((m: string) => <li>{m}</li>)}</ul>
+														{b.mnote && <p class="sc__mnote">{b.mnote}</p>}
+													</div>
+												)}
 											{b.quote && (
 												<blockquote class="sc__quote">
 													<p>{b.quote[0]}</p>
@@ -394,7 +410,7 @@ const vizFor: Record<string, string> = {
 								);
 							})}
 						</div>
-						<ol class="sc__dots" aria-hidden="true">{sc.beats.map((_: any, i: number) => <li data-i={i}></li>)}</ol>
+						<ol class="sc__dots" aria-hidden="true">{sc.beats.map((b: any, i: number) => <li data-i={i} data-label={b.short ?? shortNames[b.id] ?? ''}></li>)}</ol>
 					</div>
 				</section>
 					{sc.id === 'process' && (
