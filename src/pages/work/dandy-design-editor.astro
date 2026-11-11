@@ -69,8 +69,8 @@ const mtexts: Record<string, string> = {
 	release: 'With PMs and engineers, I scoped the MVP and sliced the rest into releases. I set the release cycle: a coded prototype per sprint, every change tied to a Jira ticket.',
 	adoption: 'The old editor was retired by Q4 2025. 3Shape fell from about 29% to about 12% of crown orders, and what’s left is mostly model design, which the editor doesn’t cover.',
 	speed: 'Most of it is less waiting: design process time, including waits between steps, fell from 14.5 to 11.8 minutes.',
-	scale: 'Crown volume grew from about 153,000 to about 240,000 a quarter. Total dental designer hours grew about 39%, well below the 57% volume growth.',
-	mlprep: 'The crown model touched about 2% of crown orders in Q3 2025, 38% in Q1 2026 and 80% in Q2 2026. Crowns with a model-generated start had a 5.8% refab rate, against 6.6% for the rest. Automated prep went from 4% at launch to about 34% in Q3.',
+	scale: 'Crown volume grew 57%, but total dental designer hours rose only about 39%.',
+	quality: 'Refab held at 6.3–6.5% every quarter. Crowns that started from the ML crown: 5.8%, against 6.6% for the rest. Quality held; I can’t yet show it improved.',
 	challenges: 'Shipping ML crowns, prep and navigation together makes it hard to credit any one change. Trust in automation has to be earned: dental designers kept the generated crown about 35% of the time and redid it about 45%. Hard stops are only for Rx and doctor-note violations; everything else stays advisory.',
 	watching: 'Quality: the refab rate held at 6.3–6.5% every quarter as volume grew, so speed hasn’t cost quality, but I can’t yet show it improved. I’m re-running the dental designer survey and timing each step as releases roll out. Several changes shipped at once, so isolating each is the hard part.',
 	next: 'I’ll keep releasing the ideal version in chunks, then bring the same architecture to bridges, implants and other case types.',
@@ -129,11 +129,15 @@ const scenes = [
 		id: 'impact',
 		label: '07 · The impact',
 		beats: [
-			{ id: 'adoption', title: 'Dandy’s own editor went from 70% to 88% of crown orders.', text: 'From Q1 2025 to Q2 2026, the redesigned editor went from under 1% to 88% as it replaced the old one, which was retired by Q4 2025. 3Shape fell from about 29% to about 12% of crown orders, and what’s left is model design, which the editor doesn’t cover.' },
-			{ id: 'speed', title: 'Orders ship about 20% faster.', text: 'Turnaround, placed to shipped, fell from 7.4 to 5.9 days. Most of it is less waiting: design process time, including waits between steps, fell from 14.5 to 11.8 minutes.', metric: { text: '−20%', unit: 'order turnaround, 7.4 to 5.9 days' } },
-			{ id: 'scale', title: '57% more orders, 11.5% less dental designer time on each.', text: 'Crown volume grew from about 153,000 to about 240,000 a quarter. Hands-on dental designer time per order fell from 6.4 to 5.6 minutes, so total dental designer hours grew about 39%, well below the 57% volume growth.', metric: { text: '+57%', unit: 'crown orders a quarter, with 11.5% less designer time per order' } },
-			{ id: 'mlprep', title: 'ML crowns and automated prep, scaling fast.', text: 'The crown model touched about 2% of crown orders in Q3 2025, about 38% in Q1 2026, and about 80% in Q2 2026. Dental designers kept the generated crown as their starting point about 35% of the time and redid it about 45%. Crowns where the model generated a starting crown had a 5.8% refab rate, against 6.6% for the rest. Automated prep launched in Q2 2026 at about 4% and reached about 34% in Q3.', metric: { to: 80, prefix: '~', suffix: '%', unit: 'of crown orders touched by the ML crown, Q2 2026' } },
-						// TODO(designer quotes): when Caitlyn and Maneesh send written feedback, add a beat here:
+			{ id: 'scale', title: 'Less dental designer time on every order.', titleHtml: '<small class="hyp">Goal 1 · Less design time, same quality</small>Less dental designer time on every order.', text: 'Hands-on design time per order fell from 6.4 to 5.6 minutes while crown volume grew 57%, so total dental designer hours rose only about 39%.',
+				imp: { big: '−11.5%', sub: 'dental designer time per order', rows: [{ label: 'Q1 2025', vals: '6.4 min', v: 6.4, w: 6.4, max: 7 }, { label: 'Q2 2026', vals: '5.6 min', v: 5.6, w: 6.4, max: 7, hi: true }], chips: ['Crown orders +57% a quarter', '153K → 240K'] } },
+			{ id: 'speed', title: 'Orders ship about 20% faster.', titleHtml: '<small class="hyp">Goal 1 · Less design time, same quality</small>Orders ship about 20% faster.', text: 'Placed to shipped fell from 7.4 to 5.9 days. Most of it is less waiting: design process time, including waits between steps, fell from 14.5 to 11.8 minutes.',
+				imp: { big: '−20%', sub: 'order to shipped', rows: [{ label: 'Placed to shipped', vals: '7.4 → 5.9 days', v: 5.9, w: 7.4, max: 8, hi: true }, { label: 'Design process time, incl. waits', vals: '14.5 → 11.8 min', v: 11.8, w: 14.5, max: 16, hi: true }] } },
+			{ id: 'quality', title: 'Quality held as volume grew.', titleHtml: '<small class="hyp">Goal 1 · Less design time, same quality</small>Quality held as volume grew.', text: 'The refab rate stayed at 6.3–6.5% every quarter. Crowns that started from the ML crown had a 5.8% refab rate, against 6.6% for the rest. Quality held; I can’t yet show it improved.',
+				imp: { big: '6.3–6.5%', sub: 'refab rate, every quarter', rows: [{ label: 'Started from the ML crown', vals: '5.8%', v: 5.8, w: 5.8, max: 8, hi: true }, { label: 'Everything else', vals: '6.6%', v: 6.6, w: 6.6, max: 8 }], chips: ['ML crown on ~80% of crown orders', 'Automated prep on ~34%'] } },
+			{ id: 'adoption', title: 'Dental designers chose our editor over 3Shape.', titleHtml: '<small class="hyp">Goal 2 · Designers choose our editor over 3Shape</small>Dental designers chose our editor over 3Shape.', text: 'Dandy’s editor went from 70% to 88% of crown orders (+26%) as the old one was retired by Q4 2025. 3Shape fell from about 29% to about 12%, and what’s left is model design, which the editor doesn’t cover.',
+				imp: { big: '+26%', sub: 'crown orders designed in Dandy’s editor', rows: [{ label: 'Dandy’s editor', vals: '70% → 88%', v: 88, w: 70, max: 100, hi: true }, { label: '3Shape', vals: '29% → 12%', v: 12, w: 29, max: 100, bad: true }] } },
+// TODO(designer quotes): when Caitlyn and Maneesh send written feedback, add a beat here:
 			//   { id: 'voice', title: 'What designers say.', text: '…', quote: ['“…”', 'Name, role'] }
 			// Held back until verified: front view / crown selection timings (source unconfirmed),
 			// Milestone 4 (+29% faster, +25% quality) and Bridges (+30% efficiency) project numbers.
@@ -180,11 +184,11 @@ const shortNames: Record<string, string> = {
 	miles: 'Cairo', leads: 'Team leads', shadow: 'Shadowing', reviews: 'Design reviews', competitors: 'Competitors', finding: 'Navigation',
 	focus: 'Focus', crown: 'ML crown', autoprep: 'Automated prep', stages: 'Stages',
 	system: 'Design system', feedback: 'Prototype and test', northstar: 'Ideal version', tagging: 'Tagging', release: 'Releases', hub: 'Design hub',
-	adoption: 'Adoption', speed: 'Speed', scale: 'Scale', mlprep: 'ML and prep',
+	adoption: 'Adoption', speed: 'Speed', scale: 'Designer time', quality: 'Quality',
 	challenges: 'Challenges', watching: 'Still tracking', next: 'What’s next',
 };
 const vizFor: Record<string, string> = {
-	scatter: 'scatter', focus: 'focus', survey: 'survey', usage: 'usage', stages: 'stages', system: 'sliders', release: 'releases', northstar: 'compare', adoption: 'shift',
+	scatter: 'scatter', focus: 'focus', survey: 'survey', usage: 'usage', stages: 'stages', system: 'sliders', release: 'releases', northstar: 'compare',
 	finding: 'lost', prep: 'prep', frontview: 'frontview', crown: 'crown', autoprep: 'autoprep',
 };
 ---
@@ -472,8 +476,8 @@ const vizFor: Record<string, string> = {
 											)}
 											{b.link && <a class="sc__link" href={b.link.href ?? `#${b.link.id}`} data-goid={b.link.id}>{b.link.label}</a>}
 										</div>
-										{(m || kind || b.metric) && (
-											<div class:list={['sc__viz', { 'sc__viz--metric': b.metric && !m, 'sc__viz--shots': m?.fit === 'contain' }]}>
+										{(m || kind || b.metric || b.imp) && (
+											<div class:list={['sc__viz', { 'sc__viz--metric': (b.metric || b.imp) && !m, 'sc__viz--imp': b.imp, 'sc__viz--shots': m?.fit === 'contain' }]}>
 												{m ? (
 													m.type === 'gallery' ? (
 														<div class="sc__gal" style={`--n:${(m.srcs ?? [m.src]).length}`} role="img" aria-label={m.alt}>
@@ -487,6 +491,18 @@ const vizFor: Record<string, string> = {
 												) : kind ? (
 													<DdeViz kind={kind} />
 												) : null}
+												{b.imp && (
+													<div class="imp">
+														<div class="imp__top"><b>{b.imp.big}</b><span>{b.imp.sub}</span></div>
+														<ul class="imp__rows">{b.imp.rows.map((r: any) => (
+															<li class:list={{ 'is-hi': r.hi, 'is-bad': r.bad }} style={`--lo:${(Math.min(r.v, r.w) / r.max) * 100}%;--hi:${(Math.max(r.v, r.w) / r.max) * 100}%`}>
+																<div class="imp__l"><span>{r.label}</span><em>{r.vals}</em></div>
+																<div class="imp__t"><i class="imp__hi"></i><i class="imp__lo"></i></div>
+															</li>
+														))}</ul>
+														{b.imp.chips && <ul class="imp__chips">{b.imp.chips.map((c: string) => <li>{c}</li>)}</ul>}
+													</div>
+												)}
 												{b.metric && (
 													<div class="dz-metric">
 														<b
@@ -507,7 +523,8 @@ const vizFor: Record<string, string> = {
 					</div>
 				</section>
 					{sc.id === 'process' && (
-		<section class="cx__ch" id="proto" data-fade aria-labelledby="c7">
+		<section class="cx__ch" id="proto" data-fade data-dwell="1.7" aria-labelledby="c7">
+			<div class="cx__pin">
 			<div class="cx__head">
 				<p class="hv__eyebrow">06 · Try it. The ideal version, releasing in chunks</p>
 				<h2 id="c7">Try the ideal version.</h2>
@@ -518,7 +535,8 @@ const vizFor: Record<string, string> = {
 			<div class="cx__proto">
 				<PrototypeEmbed src="/prototypes/dde/index.html" title="Designer flow, ideal-version prototype" status="Ideal version · releasing in chunks" />
 			</div>
-		</section>
+			</div>
+			</section>
 					)}
 				</>
 			))
@@ -882,7 +900,7 @@ const vizFor: Record<string, string> = {
 			mobRoot.querySelectorAll<HTMLElement>('.sc__row .sc__viz').forEach((viz) => {
 				const bw = viz.clientWidth, bh = viz.clientHeight;
 				if (!bw || !bh) return;
-				viz.querySelectorAll<HTMLElement>(':scope > :not(img):not(video):not(.dz-metric)').forEach((k) => {
+				viz.querySelectorAll<HTMLElement>(':scope > :not(img):not(video):not(.dz-metric):not(.imp)').forEach((k) => {
 					k.style.setProperty('--fs', '1'); k.style.setProperty('--fx', '0px'); k.style.setProperty('--fy', '0px');
 					const cw = Math.max(k.offsetWidth, k.scrollWidth), ch = Math.max(k.offsetHeight, k.scrollHeight);
 					if (!cw || !ch) return;

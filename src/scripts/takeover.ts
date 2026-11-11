@@ -23,7 +23,7 @@ export function stackSections(root: HTMLElement, els: HTMLElement[]) {
 	const HAND = 0.5; // the handoff takes half a screen of scrolling; the next section starts that far up
 	const place = (s: HTMLElement) => {
 		s.style.top = `${Math.min(hvTop, innerHeight - s.offsetHeight)}px`;
-		s.style.minHeight = `${innerHeight - hvTop}px`;
+		s.style.minHeight = `${(innerHeight - hvTop) * (parseFloat(s.dataset.dwell || '1') || 1)}px`;
 		s.style.marginTop = els.indexOf(s) > 0 ? `${-HAND * (innerHeight - hvTop)}px` : '';
 	};
 	const update = () => {

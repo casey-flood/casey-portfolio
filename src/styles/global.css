@@ -14919,7 +14919,7 @@ video.cmp__img:not(.cmp__img--new){object-position:left center}
  .cx--mob .sc__row .sc__viz{position:relative;display:block!important;height:12.5rem!important;min-height:0!important;flex:none;overflow:hidden!important;border-radius:1rem;background:rgba(255,255,255,.05)}
  .cx--mob .sc__row .sc__viz > img,.cx--mob .sc__row .sc__viz > video{position:absolute!important;inset:0;width:100%!important;height:100%!important;object-fit:cover;border-radius:0!important;box-shadow:none!important;margin:0!important}
  .cx--mob .sc__row .sc__viz--shots > img,.cx--mob .sc__row .sc__viz--shots > video{object-fit:contain;background:#fff}
- .cx--mob .sc__row .sc__viz > :not(img):not(video):not(.dz-metric){position:absolute!important;left:0;top:0;transform-origin:0 0;transform:translate(var(--fx,0px),var(--fy,0px)) scale(var(--fs,1))}
+ .cx--mob .sc__row .sc__viz > :not(img):not(video):not(.dz-metric):not(.imp){position:absolute!important;left:0;top:0;transform-origin:0 0;transform:translate(var(--fx,0px),var(--fy,0px)) scale(var(--fs,1))}
  /* big numbers: centered in the visual area, never squeezed */
  .cx--mob .sc__viz--metric{display:grid!important;place-items:center}
  .cx--mob .sc__viz--metric .dz-metric{position:static!important;display:grid;width:100%;max-width:none!important;margin:0!important;padding:1rem 1.2rem!important;box-sizing:border-box;text-align:left;background:transparent!important;border:0!important}
@@ -15379,3 +15379,49 @@ video.cmp__img:not(.cmp__img--new){object-position:left center}
 	.cx--mob .sc .sc__row[data-beat="tagging"] .sc__viz { height: auto !important; aspect-ratio: 1264 / 916; }
 	.cx--mob .sc .sc__row[data-beat="tagging"] .sc__viz > video { object-fit: contain; object-position: top center; }
 }
+
+/* phones: the hub clip keeps its top (the e-learning UI); only the empty bottom is cropped */
+@media (max-width: 899px) {
+	.cx--mob .sc .sc__row[data-beat="hub"] .sc__viz { height: auto !important; aspect-ratio: 1000 / 600; }
+	.cx--mob .sc .sc__row[data-beat="hub"] .sc__viz > video { object-fit: cover; object-position: top center; }
+}
+
+/* 07 impact: metric panels that fill the visual column and scale with the browser */
+.imp{width:100%;box-sizing:border-box;display:grid;gap:clamp(1rem,2.2vw,1.8rem);padding:clamp(1.2rem,2.6vw,2.6rem);align-content:center}
+.imp__top{display:grid;gap:.35rem}
+.imp__top b{color:var(--lime);font-weight:500;line-height:1;letter-spacing:-.03em;font-size:clamp(3rem,7vw,6.5rem);font-variant-numeric:tabular-nums}
+.imp__top span{color:#c3dbd3;font-size:clamp(.95rem,1.2vw,1.15rem)}
+.imp__rows{list-style:none;margin:0;padding:0;display:grid;gap:clamp(.9rem,1.8vw,1.4rem)}
+.imp__l{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;margin-bottom:.45rem;color:#eaf3ef;font-size:clamp(.9rem,1.15vw,1.1rem)}
+.imp__l em{font-style:normal;font-family:var(--mono,ui-monospace,monospace);font-size:.85em;color:#b9d3cb;white-space:nowrap}
+.is-hi .imp__l em{color:var(--lime)}
+.imp__t{position:relative;height:clamp(.8rem,1.4vw,1.2rem);border-radius:99px;background:rgba(255,255,255,.08);overflow:hidden}
+.imp__t i{position:absolute;left:0;top:0;bottom:0;border-radius:99px;transition:width 1s cubic-bezier(.2,.7,.2,1) .15s}
+.imp__hi{width:var(--hi);background:rgba(205,242,91,.55)}
+.imp__lo{width:var(--lo);background:#5d8d4a}
+.is-hi .imp__lo{background:#6f9f52}
+.is-bad .imp__hi{background:repeating-linear-gradient(135deg,rgba(255,150,130,.65) 0 5px,rgba(255,150,130,.25) 5px 10px)}
+.is-bad .imp__lo{background:#7f9a96}
+.cx--live .sc__row:not(.on) .imp__t i{width:0}
+.imp__chips{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:.5rem}
+.imp__chips li{padding:.35rem .8rem;border:1px solid rgba(255,255,255,.2);border-radius:99px;color:#eaf3ef;font-size:clamp(.8rem,1vw,.95rem)}
+.sc__viz--imp{min-height:0!important;align-items:center}
+@media (min-width:900px){
+	#sc-impact .sc__row{grid-template-columns:minmax(0,.85fr) minmax(0,1.25fr);gap:clamp(2rem,4vw,4.5rem)}
+	#sc-impact .sc__viz--imp{min-height:clamp(22rem,52vh,34rem)!important}
+	#sc-impact .sc__text>p{max-width:30rem}
+}
+/* 06 try it: the prototype fits the screen so the section can pin like the others */
+@media (min-width:900px){
+	#proto .cx__proto{max-width:min(100%,54rem,max(30rem,calc((100svh - 31rem) * 1.6)));margin-inline:auto}
+	#proto.cx__ch{padding-block:clamp(1.2rem,3vh,2.4rem)!important;gap:.8rem}
+}
+
+@media (min-width:900px){
+	.cx--live #proto.dv-take{display:block;padding-block:0!important}
+	.cx--live #proto .cx__pin{position:sticky;top:var(--hv-top,4.2rem);height:calc(100svh - var(--hv-top,4.2rem));box-sizing:border-box;display:flex;flex-direction:column;justify-content:center;gap:.8rem;padding-block:1rem}
+}
+
+/* stacked sections are driven by scroll: no reveal transition or offset (it made 06, 09 and the closing lag behind the others) */
+.cx--live .dv-take[data-fade], .hv.is-live .dv-take[data-fade] { transition: none !important; }
+.cx--live .dv-take[data-fade]:not(.in), .hv.is-live .dv-take[data-fade]:not(.in) { transform: none; }
