@@ -20,7 +20,7 @@ const { src, title, width = 1600, height = 1000, status, caption, poster, bare =
 		<span class="pe__title">{title}</span>
 		{status && <span class="pe__status">{status}</span>}
 		<span class="pe__actions">
-			<button type="button" class="pe__btn" data-pe-full hidden>Full screen</button>
+			<button type="button" class="pe__btn pe__btn--exp" data-pe-full>Expand <span aria-hidden="true">⤢</span></button>
 			<a class="pe__btn" href={src} target="_blank" rel="noopener">Open in new tab ↗</a>
 		</span>
 	</div>
@@ -77,13 +77,37 @@ const { src, title, width = 1600, height = 1000, status, caption, poster, bare =
 		new ResizeObserver(fit).observe(stage);
 		document.addEventListener('fullscreenchange', fit);
 
-		if (document.fullscreenEnabled) {
-			fullBtn.hidden = false;
-			fullBtn.addEventListener('click', () => {
-				if (!frame) launch.click();
-				if (document.fullscreenElement) document.exitFullscreen();
-				else stage.requestFullscreen?.();
-			});
+		// Expand into an overlay. The figure stays in the DOM (fixed positioning), so a running prototype keeps its state.
+		let spacer: HTMLElement | null = null;
+		const closeBtn = document.createElement('button');
+		closeBtn.type = 'button';
+		closeBtn.className = 'pe__x';
+		closeBtn.setAttribute('aria-label', 'Close expanded prototype');
+		closeBtn.innerHTML = '&times;';
+		root.querySelector('.pe__bar')?.appendChild(closeBtn);
+		const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') close(); };
+		const open = () => {
+			if (root.classList.contains('is-max')) return;
+			if (!frame) launch.click();
+			spacer = document.createElement('div');
+			spacer.style.height = root.offsetHeight + 'px';
+			root.before(spacer);
+			root.classList.add('is-max');
+			document.documentElement.classList.add('pe-lock');
+			document.addEventListener('keydown', onKey);
+			closeBtn.focus();
+			requestAnimationFrame(fit);
+		};
+		function close() {
+			root.classList.remove('is-max');
+			document.documentElement.classList.remove('pe-lock');
+			document.removeEventListener('keydown', onKey);
+			spacer?.remove();
+			spacer = null;
+			fullBtn.focus();
+			requestAnimationFrame(fit);
 		}
+		fullBtn.addEventListener('click', open);
+		closeBtn.addEventListener('click', close);
 	});
 </script>

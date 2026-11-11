@@ -90,8 +90,8 @@ const scenes = [
 		beats: [
 			{ id: 'system', title: 'First, a cohesive, branded design system.', text: 'The editor didn’t have one, so I built it on the production components, in Storybook, so a design change could ship. Every control, down to the sliders, was explored and tested there first.', link: { href: '/work/dandy-design-system', label: 'Read the design system case study →' }, quote: ['“Making the left side wider was a great move. The old sliders were too short and super sensitive. The new ones are fantastic.”', 'Tom, dental designer'] },
 				{ id: 'feedback', title: 'Then prototype with it, and test with dental designers every week.', text: 'I used the system to build interactive prototypes designers could use and react to, from single components to whole workflows and features, and ran user testing and task analysis on them.', },
-				{ id: 'northstar', title: 'Then build a north star prototype.', text: 'I pulled the best UX ideas from all that feedback into one flow, with no scope limits. In conversations with PMs and engineers it became the north star we measured every feature and change against.', link: { id: 'proto', label: 'Try the north star prototype ↓' } },
-				{ id: 'release', title: 'Then scale back to releasable chunks.', text: 'From the north star we worked out the MVP and sliced the rest into releases: ML crowns first, then prep inside the editor, and then automating it. The navigation and IA work ran alongside, shipping in chunks.' },
+				{ id: 'northstar', title: 'Then design the ideal version.', text: 'I pulled the best UX ideas from all that feedback into one flow, with no scope limits. In conversations with PMs and engineers it became the north star we measured every feature and change against.', link: { id: 'proto', label: 'Try the ideal-version prototype ↓' } },
+				{ id: 'release', title: 'Then scale back to releasable chunks.', text: 'From the ideal version we worked out the MVP and sliced the rest into releases: ML crowns first, then prep inside the editor, and then automating it. The navigation and IA work ran alongside, shipping in chunks.' },
 		],
 	},
 	{
@@ -113,8 +113,8 @@ const scenes = [
 		label: '08 · Reflections',
 		beats: [
 			{ id: 'challenges', title: 'What was hard.', text: 'Shipping ML crowns, prep and the new navigation at the same time makes it hard to attribute a result to any one change. Designers kept the generated crown about 35% of the time and redid it about 45%, so trust in automation has to be earned. And guidance has to stay out of the way: designers worried about intrusive blockers, so hard stops are for Rx and doctor-note violations, and everything else is advisory.' },
-			{ id: 'watching', title: 'What I’m still tracking.', text: 'Quality and designer satisfaction. I’m following refab and design review rates, re-running the designer survey, and measuring time per step as automated prep and the next releases roll out. Several changes shipped at once, so I’m working to isolate what each one did.' },
-			{ id: 'next', title: 'What’s next.', text: 'Keep releasing the north star in chunks: more of the guided flow and navigation, then the same architecture for bridges, implants and other case types.' },
+			{ id: 'watching', title: 'What I’m still tracking.', text: 'Quality. The refab rate has held at 6.3–6.5% every quarter while crown volume grew, so speed hasn’t cost quality, but I can’t yet show it improved. Design review rejection records have gaps, so I’m not relying on them yet. I’m also re-running the designer survey and measuring time per step as automated prep and the next releases roll out. Several changes shipped at once, so isolating what each one did is the hard part.' },
+			{ id: 'next', title: 'What’s next.', text: 'Keep releasing the ideal version in chunks: more of the guided flow and navigation, then the same architecture for bridges, implants and other case types.' },
 		],
 	},
 ];
@@ -127,6 +127,7 @@ const jrTotal = jrWeights.reduce((a, b) => a + b, 0);
 const sceneLabel: Record<string, string> = { before: 'What the chain cost', research: 'Field research', work: 'The hypotheses', process: 'The process', impact: 'The impact', reflections: 'Reflections' };
 const toc: { id: string; label: string; subs?: { label: string; from: number; to: number }[] }[] = [
 	{ id: 'cx-top', label: 'Overview' },
+	{ id: 'cx-short', label: 'The short version' },
 	{
 		id: 'journey',
 		label: 'The journey',
@@ -181,25 +182,13 @@ const vizFor: Record<string, string> = {
 				<div class="h3d__pin">
 					<div class="h3d__copy">
 					<div class="h3d__intro">
-						<p class="hv__eyebrow">Design Editor · Sole product designer <span class="cx__status"><i></i>In progress since 2025</span></p>
+						<p class="hv__eyebrow">Design Editor · Sole product designer <span class="cx__status"><i></i>Still shipping, since 2025</span></p>
 						<h1 id="cx-h" aria-label={heroTitle}>
 							{heroTitle.split(' ').map((w, i) => (<><span class="hv-w" aria-hidden="true" style={`--i:${i}`}>{w}</span>{' '}</>))}
 						</h1>
 						<p class="cx__lede">One editor for the whole restoration, replacing a chain of legacy and third-party tools.</p>
 					</div>
-						<ul class="h3d__cards">
-							{heroCards.map((c) => (
-								<li class="h3d__card">
-									<svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-										{c.dir === 'down' ? <path d="M12 4v16M6 14l6 6 6-6" /> : <path d="M12 20V4M6 10l6-6 6 6" />}
-									</svg>
-									<div>
-										<p>{c.lead} <b>{c.word}</b></p>
-										{c.note && <small>{c.note}</small>}
-									</div>
-								</li>
-							))}
-						</ul>
+						
 					</div>
 					<div class="h3d__stage">
 						<video src="/work/dde/hero.mp4" poster="/work/dde/hero.jpg" muted loop autoplay playsinline preload="metadata" aria-label="A looping walkthrough of the Design Editor concept: a generated crown, then design tools"></video>
@@ -219,6 +208,31 @@ const vizFor: Record<string, string> = {
 				</div>
 			</div>
 		</header>
+
+		<!-- The short version: problem, three bets, impact. The full story follows. -->
+		<section class="cx__short" id="cx-short" aria-labelledby="cx-short-h">
+			<p class="hv__eyebrow">The short version</p>
+			<div class="cx__shortgrid">
+				<div class="cx__shortcol">
+					<h2 id="cx-short-h" class="cx__shorth">Turning a slow, siloed crown design process into one intelligent editor.</h2>
+					<dl class="cx__story">
+						<div><dt>The problem</dt><dd>Dandy’s original Design Editor was built fast, by devs, to get out the door. Designing a crown took 3+ handoffs between 3 personas (prepper, designer, auditor), and more time went to moving the file between tools than to designing the tooth. Designers rated it 6.9 out of 10 (3Shape: 9.1), and fewer than half used it.</dd></div>
+						<div><dt>What I owned</dt><dd>The goals: design time down without lowering quality, and designers choosing our own editor over 3Shape. I set the direction, prioritized with PMs and engineering, and prototyped in code to test real cases with designers. We release in chunks, and it’s still shipping.</dd></div>
+
+					</dl>
+					<a class="cx__more" href="#journey" data-go="journey">Read how I did it <span aria-hidden="true">↓</span></a>
+				</div>
+				<div class="cx__shortviz">
+					<DdeViz kind="compare" />
+					<ul class="cx__glass" aria-label="Impact, Q1 2025 to Q2 2026">
+							<li><b>−11.5%</b><span>designer time per order</span></li>
+							<li><b>−20%</b><span>order to shipped, 7.4 to 5.9 days</span></li>
+							<li><b>+26%</b><span>crown orders in Dandy’s editor vs 3Shape, 70% to 88%</span></li>
+							<li><b>6.3–6.5%</b><span>refab rate, steady as volume grew</span></li>
+						</ul>
+				</div>
+			</div>
+		</section>
 
 		<!-- 01: the lifecycle, one step at a time. Cards dim around the active one. -->
 		<section class="lc jr" id="journey" data-journey data-w={JSON.stringify(jrWeights)} style={`--n:${jrCount};--w:${jrTotal}`} aria-label="From scan to smile, and the designer’s step in detail">
@@ -384,14 +398,14 @@ const vizFor: Record<string, string> = {
 					{sc.id === 'process' && (
 		<section class="cx__ch" id="proto" data-fade aria-labelledby="c7">
 			<div class="cx__head">
-				<p class="hv__eyebrow">06 · Try it. The north star, releasing in chunks</p>
-				<h2 id="c7">Try the north star version.</h2>
+				<p class="hv__eyebrow">06 · Try it. The ideal version, releasing in chunks</p>
+				<h2 id="c7">Try the ideal version.</h2>
 			</div>
 			<div class="cx__copy">
-				<p>The north star flow, working. Parts of it are already in production, and the rest is releasing in increments. The tools run, flags appear as you design, and the data is anonymized sample data.</p>
+				<p>The ideal flow, working. Parts of it are already in production, and the rest is releasing in increments. The tools run, flags appear as you design, and the data is anonymized sample data.</p>
 			</div>
 			<div class="cx__proto">
-				<PrototypeEmbed src="/prototypes/dde/index.html" title="Designer flow, north star prototype" status="North star · releasing in chunks" />
+				<PrototypeEmbed src="/prototypes/dde/index.html" title="Designer flow, ideal-version prototype" status="Ideal version · releasing in chunks" />
 			</div>
 		</section>
 					)}

@@ -1,4 +1,7 @@
 ---
+import fs from 'node:fs';
+const hasOldVid = fs.existsSync(`${process.cwd()}/public/work/dde/cmp-old.mp4`);
+const hasOldWebm = fs.existsSync(`${process.cwd()}/public/work/dde/cmp-old.webm`);
 // Small animated illustrations for the Design Editor story. Final state is the default;
 // the page script plays them in when their beat becomes active.
 interface Props { kind: string }
@@ -89,12 +92,22 @@ const front = [['Apr',134],['May',25],['Jun',20],['Jul',19],['Aug',20]];
 )}
 
 {kind === 'compare' && (
-	<div class="dz cmp" data-cmp role="group" aria-label="Compare the original Design Editor with the north star prototype">
+	<div class="dz cmp" data-cmp role="group" aria-label="Compare the original Design Editor with the ideal-version prototype">
 		<div class="cmp__frame">
-			<img class="cmp__img" src="/work/dde/cmp-old.webp" alt="The original Dandy Design Editor" loading="lazy" decoding="async" />
-			<img class="cmp__img cmp__img--new" src="/work/dde/cmp-new.webp" alt="The north star prototype of the Design Editor" loading="lazy" decoding="async" />
+			{hasOldVid ? (
+				<video class="cmp__img" data-cmp-vid poster="/work/dde/cmp-old.webp" muted loop playsinline preload="metadata" aria-label="The original Dandy Design Editor, in use">
+					{hasOldWebm && <source src="/work/dde/cmp-old.webm" type="video/webm" />}
+					<source src="/work/dde/cmp-old.mp4" type="video/mp4" />
+				</video>
+			) : (
+				<img class="cmp__img" src="/work/dde/cmp-old.webp" alt="The original Dandy Design Editor" loading="lazy" decoding="async" />
+			)}
+			<video class="cmp__img cmp__img--new" data-cmp-vid poster="/work/dde/cmp-new.webp" muted loop playsinline preload="metadata" aria-label="The ideal-version prototype of the Design Editor, in use">
+				<source src="/work/dde/cmp-new.webm" type="video/webm" />
+				<source src="/work/dde/cmp-new.mp4" type="video/mp4" />
+			</video>
 			<span class="cmp__tag cmp__tag--l">Before · Design Editor</span>
-			<span class="cmp__tag cmp__tag--r">After · north star</span>
+			<span class="cmp__tag cmp__tag--r">After · ideal version</span>
 			<i class="cmp__bar"><b></b></i>
 			<input class="cmp__in" type="range" min="0" max="100" value="50" aria-label="Drag to compare before and after" />
 			<button class="cmp__exp" type="button" aria-label="Expand to full screen" data-cmp-exp><svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M9.5 2H14v4.5M6.5 14H2V9.5M14 2 9 7M2 14l5-5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Expand</span></button>
@@ -279,11 +292,17 @@ const front = [['Apr',134],['May',25],['Jun',20],['Jul',19],['Aug',20]];
 </script>
 
 <script>
-	// Before/after comparison: drag (or use arrow keys) to reveal the north star prototype.
+	// Before/after comparison: drag (or use arrow keys) to reveal the ideal-version prototype.
 	// "Expand" lifts it into a full-screen overlay (moved to <body> so scroll-scene transforms can't clip it).
+	const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+	document.querySelectorAll<HTMLVideoElement>('[data-cmp-vid]').forEach((v) => {
+		if (reduce) return;
+		new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) v.play().catch(() => {}); else v.pause(); }), { threshold: 0.35 }).observe(v);
+	});
 	document.querySelectorAll<HTMLElement>('[data-cmp]').forEach((el) => {
 		const input = el.querySelector<HTMLInputElement>('.cmp__in');
 		if (!input) return;
+		if (!reduce) new IntersectionObserver((es, o) => { if (es[0].isIntersecting) { el.classList.add('is-peek'); o.disconnect(); } }, { threshold: 0.6 }).observe(el);
 		const touch = () => {
 			if (!el.classList.contains('is-touched')) {
 				const cur = parseFloat(getComputedStyle(el).getPropertyValue('--p')) || 50;
