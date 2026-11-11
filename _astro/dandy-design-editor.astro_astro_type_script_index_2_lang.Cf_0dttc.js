@@ -1,1 +1,0 @@
-import{s as r,w as s}from"./takeover.9VcNbijv.js";const e=document.querySelector("[data-cx]");if(e){const o=Array.from(e.querySelectorAll(":scope > header.cx__hero, :scope > section, :scope > .lc")).filter(c=>!c.matches("dialog"));r(e,o),s(e)}
