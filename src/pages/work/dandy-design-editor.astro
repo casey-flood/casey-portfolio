@@ -50,6 +50,27 @@ const subs: { tag: string; icon: string; who: string; title: string; text: Part[
 	{ tag: '4e', icon: 'audit', who: 'Auditor', title: 'Audited, by hand', text: ['An auditor reviews the design in the auditor portal, separate software from Prep in Browser and the Design Editor. Their notes, observations, and scores go into spreadsheets they keep by hand, so it meant constant switching between tools and a lot of manual tracking.'], media: { type: 'image', src: '/work/dde/4e-audit-sheet.webp', wide: true } },
 ];
 
+// Shorter copy for phones only (same facts and the same "I", fewer words). Desktop keeps the full text.
+const mtexts: Record<string, string> = {
+	handoff: 'Prep in the browser, design in 3Shape, exocad or our editor, audit in another portal with scores in a spreadsheet. The file moved more than the tooth did, and that transfer is the waste.',
+	survey: 'Designers scored our editor 6.9 out of 10, against 9.1 for 3Shape. The usual complaints: nested menus, too many clicks, and hotkeys that didn’t match 3Shape.',
+	finding: 'Tools were grouped by category, not by how designers work, so they hunted for the next step. ML and automated prep wouldn’t fix that, so navigation needed its own redesign. Nothing warned when a design broke the Rx.',
+	system: 'The editor had none, so I built one in Storybook from production components and tested every control, down to the sliders, as it would ship.',
+	feedback: 'I built interactive prototypes from the system, from single components to full workflows. Dental designers tested them weekly, and I measured success with user testing and task analysis.',
+	northstar: 'With no scope limits, I pulled the best ideas from that feedback into one flow: automated prep, ML crowns and navigation. The team measured every feature against it.',
+	release: 'With PMs and engineers, I scoped the MVP and sliced the rest into releases. I set the release cycle: a coded prototype per sprint, every change tied to a Jira ticket.',
+	adoption: 'From Q1 2025 to Q2 2026 the redesigned editor went from under 1% to 88% of crown orders, and the old one was retired by Q4 2025. 3Shape fell from about 29% to about 12%, mostly model design, which the editor doesn’t cover.',
+	speed: 'Placed to shipped fell from 7.4 to 5.9 days, mostly less waiting: design process time, including waits between steps, fell from 14.5 to 11.8 minutes.',
+	scale: 'Crown volume grew from about 153,000 to about 240,000 a quarter, while hands-on designer time per order fell from 6.4 to 5.6 minutes. Total designer hours grew about 39%, well below the 57% volume growth.',
+	mlprep: 'The crown model touched about 2% of crown orders in Q3 2025, 38% in Q1 2026 and 80% in Q2 2026. Crowns with a model-generated start had a 5.8% refab rate, against 6.6% for the rest. Automated prep went from 4% at launch to about 34% in Q3.',
+	challenges: 'Shipping ML crowns, prep and navigation together makes it hard to credit any one change. Trust in automation has to be earned: designers kept the generated crown about 35% of the time and redid it about 45%. Hard stops are only for Rx and doctor-note violations; everything else stays advisory.',
+	watching: 'Quality: the refab rate held at 6.3–6.5% every quarter as volume grew, so speed hasn’t cost quality, but I can’t yet show it improved. I’m re-running the designer survey and timing each step as releases roll out. Several changes shipped at once, so isolating each is the hard part.',
+	next: 'I’ll keep releasing the ideal version in chunks, then bring the same architecture to bridges, implants and other case types.',
+};
+const subM: Record<string, string> = {
+	'4e': 'An auditor reviews the design in a separate portal and keeps notes and scores by hand in spreadsheets, switching tools constantly.',
+};
+
 // Each scene scrolls one small beat at a time. `viz` picks the built-in illustration; media from dde-media.ts replaces it.
 const scenes = [
 	{
@@ -222,13 +243,14 @@ const vizFor: Record<string, string> = {
 
 		<!-- The short version: problem, three bets, impact. The full story follows. -->
 		<section class="cx__short" id="cx-short" aria-labelledby="cx-short-h">
+			<div class="cx__shortpin">
 			<p class="hv__eyebrow">The short version</p>
 			<div class="cx__shortgrid">
 				<div class="cx__shortcol">
 					<h2 id="cx-short-h" class="cx__shorth">Turning a slow, siloed crown design process into one intelligent editor.</h2>
 					<dl class="cx__story">
-						<div><dt>The problem</dt><dd>Dandy’s original Design Editor was built fast, by devs, to get out the door. Designing a crown took 3+ handoffs between 3 personas (prepper, designer, auditor), and more time went to moving the file between tools than to designing the tooth. Designers rated it 6.9 out of 10 (3Shape: 9.1), and fewer than half used it.</dd></div>
-						<div><dt>What I owned</dt><dd>The goals: design time down without lowering quality, and designers choosing our own editor over 3Shape. As the sole product designer, I set the direction, ran the research, built the design system, and prototyped in code to test real cases with designers. It releases in chunks, and it’s still shipping.</dd></div>
+						<div><dt>The problem</dt><dd><span class="tx-d">Dandy’s original Design Editor was built fast, by devs, to get out the door. Designing a crown took 3+ handoffs between 3 personas (prepper, designer, auditor), and more time went to moving the file between tools than to designing the tooth. Designers rated it 6.9 out of 10 (3Shape: 9.1), and fewer than half used it.</span><span class="tx-m">Built fast by devs, the original editor took 3+ handoffs between 3 personas per crown, and more time went to moving files than designing the tooth. Designers rated it 6.9/10 (3Shape: 9.1), and fewer than half used it.</span></dd></div>
+						<div><dt>What I owned</dt><dd><span class="tx-d">The goals: design time down without lowering quality, and designers choosing our own editor over 3Shape. As the sole product designer, I set the direction, ran the research, built the design system, and prototyped in code to test real cases with designers. It releases in chunks, and it’s still shipping.</span><span class="tx-m">The goals: less design time without lower quality, and designers choosing our editor over 3Shape. As the sole product designer, I set the direction, ran the research, built the design system, and prototyped in code with designers.</span></dd></div>
 
 					</dl>
 					<a class="cx__more" href="#journey" data-go="journey">Read how I did it <span aria-hidden="true">↓</span></a>
@@ -243,10 +265,51 @@ const vizFor: Record<string, string> = {
 						</ul>
 				</div>
 			</div>
+			<ol class="cx__sdots" aria-hidden="true"><li></li><li></li><li></li><li></li></ol>
+			</div>
 		</section>
 
 		<!-- 01: the lifecycle, one step at a time. Cards dim around the active one. -->
 		<section class="lc jr" id="journey" data-journey data-w={JSON.stringify(jrWeights)} style={`--n:${jrCount};--w:${jrTotal}`} aria-label="From scan to smile, and the designer’s step in detail">
+			<div class="jm" data-jm aria-label="The journey in three steps: a crown’s six steps, the designer’s step in detail, and the step I redesigned">
+				<div class="jm__pin">
+					<p class="hv__eyebrow jm__eyebrow">01 · The journey</p>
+					<div class="jm__stage">
+						<ol class="jm__chain">
+							{stages.map((st, i) => (
+								<li class:list={['jm__node', { 'is-designer': st.n === 4 }]} style={`--i:${i}`}>
+									<span class="jm__ic"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={icons[st.group]} /></span>
+									<span class="jm__n">{st.n}</span>
+									<small>{st.title}</small>
+								</li>
+							))}
+						</ol>
+						<p class="jm__you" aria-hidden="true">This case study</p>
+						<div class="jm__zoom">
+							<ol class="jm__sub">
+								{subs.map((u, i) => (
+									<li style={`--i:${i}`}>
+										<span class="jm__tag">{u.tag}</span>
+										<span class="jm__stx"><b>{u.title}</b><small>{u.who}</small></span>
+									</li>
+								))}
+								<span class="jm__file" aria-hidden="true"></span>
+							</ol>
+							<div class="jm__one" aria-hidden="true">
+								<span class="jm__oneic"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" set:html={icons.designer} /></span>
+								<b>One editor</b>
+								<small>Prep, design and audit in one place</small>
+							</div>
+						</div>
+					</div>
+					<div class="jm__caps">
+						<div class="jm__cap"><h3>A crown takes six steps.</h3><p>From the patient’s chair to the lab, and back to their smile.</p></div>
+						<div class="jm__cap"><h3>Step 4 is the designer’s job.</h3><p>Five stops across 3+ programs. The file moved more than the tooth did.</p></div>
+						<div class="jm__cap"><h3>That’s the step I redesigned.</h3><p>I turned that chain into one editor, with the designer’s experience at the center.</p></div>
+					</div>
+					<ol class="jm__dots" aria-hidden="true"><li></li><li></li><li></li></ol>
+				</div>
+			</div>
 			<div class="lc__pin jr__pin">
 				<p class="hv__eyebrow lc__eyebrow">01 · The journey</p>
 				<div class="jr__top">
@@ -301,7 +364,7 @@ const vizFor: Record<string, string> = {
 								<h2>{s.title}</h2>
 								{s.media?.type === 'video' && <video class="lc__tm" src={s.media.src} poster={s.media.poster} muted loop playsinline preload="none" data-mvid></video>}
 								{s.media?.type === 'image' && <img class="lc__tm" src={s.media.src} alt="" loading="lazy" decoding="async" />}
-								<p><PvText parts={s.text} /></p>
+								{subM[s.tag] ? <p><span class="tx-d"><PvText parts={s.text} /></span><span class="tx-m">{subM[s.tag]}</span></p> : <p><PvText parts={s.text} /></p>}
 							</div>
 						))}
 					</div>
@@ -363,7 +426,7 @@ const vizFor: Record<string, string> = {
 									<article class:list={['sc__row', { 'sc__row--solo': !m && !kind && !b.metric }]} data-i={i} data-beat={b.id}>
 										<div class="sc__text">
 											<h3><span set:html={b.titleHtml ?? b.title} /></h3>
-											<p>{b.text}</p>
+											{mtexts[b.id] ? <p><span class="tx-d">{b.text}</span><span class="tx-m">{mtexts[b.id]}</span></p> : <p>{b.text}</p>}
 												{b.measures && (
 													<div class="sc__measure">
 														<p class="sc__mlabel">{b.mlabel ?? 'Measured by'}</p>
@@ -483,6 +546,12 @@ const vizFor: Record<string, string> = {
 		root.classList.add('is-live', 'cx--live');
 		// phones: no pinned scroll scenes. Hero stays animated; everything else is a calm vertical read.
 		if (mob) root.classList.add('cx--mob');
+		// The layout is chosen once, at load. Crossing the phone breakpoint (resizing a window, rotating a device) reloads so nothing is left half-applied.
+		{
+			const mq = window.matchMedia('(max-width: 899px)');
+			let t = 0;
+			mq.addEventListener('change', () => { clearTimeout(t); t = window.setTimeout(() => location.reload(), 150); });
+		}
 
 		// fade-up for the simple chapters
 		const io = new IntersectionObserver(
@@ -529,14 +598,15 @@ const vizFor: Record<string, string> = {
 		};
 		let raf = 0;
 		if (mob) {
-			scenes.forEach((s) => s.rows.forEach((row) => {
-				const v = row.querySelector('video');
-				const vio = new IntersectionObserver((es) => es.forEach((e) => {
-					if (e.isIntersecting) { row.classList.add('on'); if (!row.dataset.counted) { row.dataset.counted = '1'; countUp(row); } v?.play().catch(() => {}); }
-					else v?.pause();
-				}), { threshold: 0.35 });
-				vio.observe(row);
-			}));
+				scenes.forEach((s) => s.rows.forEach((row) => {
+					const v = row.querySelector('video');
+					const react = () => {
+						if (row.classList.contains('on')) { if (!row.dataset.counted) { row.dataset.counted = '1'; countUp(row); } v?.play().catch(() => {}); }
+						else v?.pause();
+					};
+					new MutationObserver(react).observe(row, { attributes: true, attributeFilter: ['class'] });
+					react();
+				}));
 			document.querySelectorAll<HTMLVideoElement>('video[data-mvid]').forEach((v) => {
 				new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) v.play().catch(() => {}); else v.pause(); }), { threshold: 0.3 }).observe(v);
 			});
@@ -726,7 +796,7 @@ const vizFor: Record<string, string> = {
 	// each section takes over the screen and replaces the previous one
 	const root = document.querySelector<HTMLElement>('[data-cx]');
 	if (root) {
-		const els = Array.from(root.querySelectorAll<HTMLElement>(':scope > section, :scope > .lc')).filter((e) => !e.matches('dialog'));
+		const els = Array.from(root.querySelectorAll<HTMLElement>(':scope > header.cx__hero, :scope > section, :scope > .lc')).filter((e) => !e.matches('dialog'));
 		stackSections(root, els);
 		wireDots(root);
 	}
@@ -769,16 +839,6 @@ const vizFor: Record<string, string> = {
 			return { go: (i: number) => { const s = slides[i]; if (s) box.scrollTo({ left: s.offsetLeft - (box.clientWidth - s.offsetWidth) / 2, behavior: 'smooth' }); } };
 		};
 
-		// scenes: swipe through the beats, dots follow
-		mobRoot.querySelectorAll<HTMLElement>('[data-scene]').forEach((sc) => {
-			const box = sc.querySelector<HTMLElement>('.sc__rows');
-			if (!box) return;
-			const slides = Array.from(box.querySelectorAll<HTMLElement>('.sc__row'));
-			const dots = Array.from(sc.querySelectorAll<HTMLElement>('.sc__dots li'));
-			if (slides.length < 2) return;
-			rail(box, slides, true, (i) => dots.forEach((d, k) => d.classList.toggle('on', k === i)));
-		});
-
 		// phones: make sure every visual actually paints (no lazy-loading inside side-scrolling rows, first frame for videos)
 		mobRoot.querySelectorAll<HTMLImageElement>('img[loading="lazy"]').forEach((im) => { im.loading = 'eager'; });
 		mobRoot.querySelectorAll<HTMLVideoElement>('.sc__row video, .lc__t video').forEach((v) => {
@@ -808,6 +868,49 @@ const vizFor: Record<string, string> = {
 		addEventListener('resize', fitAll);
 		document.fonts?.ready.then(fitAll);
 		setTimeout(fitAll, 900);
+
+		// scroll-driven stages: a tall section with a sticky stage; scrolling swaps which step is showing.
+		const stepper = (sec: HTMLElement, pin: HTMLElement | null, steps: number, dots: HTMLElement[], apply: (i: number) => void) => {
+			let cur = -1;
+			const travelOf = () => sec.offsetHeight - (pin?.offsetHeight ?? innerHeight);
+			const upd = () => {
+				const travel = travelOf();
+				const p = travel > 0 ? Math.min(0.999, Math.max(0, -sec.getBoundingClientRect().top / travel)) : 0;
+				const i = Math.floor(p * steps);
+				if (i === cur) return;
+				cur = i;
+				apply(i);
+				dots.forEach((d, k) => d.classList.toggle('on', k === i));
+			};
+			upd();
+			addEventListener('scroll', upd, { passive: true });
+			addEventListener('resize', upd);
+			dots.forEach((d, k) => d.addEventListener('click', () => {
+				scrollTo({ top: sec.getBoundingClientRect().top + scrollY + ((k + 0.5) / steps) * travelOf(), behavior: 'smooth' });
+			}));
+		};
+
+		// short version: problem, what I owned, slider + metrics, button
+		const shortSec = mobRoot.querySelector<HTMLElement>('.cx__short');
+		if (shortSec) {
+			stepper(shortSec, shortSec.querySelector<HTMLElement>('.cx__shortpin'), 4, Array.from(shortSec.querySelectorAll<HTMLElement>('.cx__sdots li')), (i) => { shortSec.dataset.step = String(i); });
+		}
+
+		// journey storyboard: six steps -> the designer's chain -> one editor
+		const jmSec = mobRoot.querySelector<HTMLElement>('.jr');
+		const jm = jmSec?.querySelector<HTMLElement>('[data-jm]');
+		if (jmSec && jm) {
+			stepper(jmSec, jm.querySelector<HTMLElement>('.jm__pin'), 3, Array.from(jm.querySelectorAll<HTMLElement>('.jm__dots li')), (i) => { jm.dataset.step = String(i); });
+		}
+
+		// every scene: one beat at a time, replaced in place as you scroll
+		mobRoot.querySelectorAll<HTMLElement>('[data-scene]').forEach((sc) => {
+			const rows = Array.from(sc.querySelectorAll<HTMLElement>('.sc__row'));
+			if (rows.length < 2) return;
+			stepper(sc, sc.querySelector<HTMLElement>('.sc__pin'), rows.length, Array.from(sc.querySelectorAll<HTMLElement>('.sc__dots li')), (i) => {
+				rows.forEach((r, k) => r.classList.toggle('on', k === i));
+			});
+		});
 
 		// journey: stage chips 1-6, then the zoom into the designer step
 		mobRoot.querySelectorAll<HTMLElement>('[data-journey]').forEach((sec) => {
