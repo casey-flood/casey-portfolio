@@ -50,21 +50,29 @@ const subs: { tag: string; icon: string; who: string; title: string; text: Part[
 	{ tag: '4e', icon: 'audit', who: 'Auditor', title: 'Audited, by hand', text: ['An auditor reviews the design in the auditor portal, separate software from Prep in Browser and the Design Editor. Their notes, observations, and scores go into spreadsheets they keep by hand, so it meant constant switching between tools and a lot of manual tracking.'], media: { type: 'image', src: '/work/dde/4e-audit-sheet.webp', wide: true } },
 ];
 
+// One short sentence per designer stop, for the phone journey.
+const jmSubText: Record<string, string> = {
+	'4a': 'The order arrives through the Dandy Ops portal.',
+	'4b': 'A prepper readies the scans in Prep in Browser.',
+	'4c': 'The dental designer downloads the files, uploads them to 3Shape or exocad, and designs.',
+	'4d': 'They upload the design back to the portal, and the order goes to QA.',
+	'4e': 'An auditor reviews it in a separate portal and tracks scores in spreadsheets.',
+};
+
 // Shorter copy for phones only (same facts and the same "I", fewer words). Desktop keeps the full text.
 const mtexts: Record<string, string> = {
-	handoff: 'Prep in the browser, design in 3Shape, exocad or our editor, audit in another portal with scores in a spreadsheet. The file moved more than the tooth did, and that transfer is the waste.',
-	survey: 'Designers scored our editor 6.9 out of 10, against 9.1 for 3Shape. The usual complaints: nested menus, too many clicks, and hotkeys that didn’t match 3Shape.',
-	finding: 'Tools were grouped by category, not by how designers work, so they hunted for the next step. ML and automated prep wouldn’t fix that, so navigation needed its own redesign. Nothing warned when a design broke the Rx.',
+	handoff: 'Prep, design and audit each happened in a different tool, so the file moved more than the tooth did.',
+	scatter: 'Nested menus meant dental designers hunted for the next click instead of designing. Their other top complaints: too many clicks, and hotkeys that didn’t match 3Shape.',
 	system: 'The editor had none, so I built one in Storybook from production components and tested every control, down to the sliders, as it would ship.',
 	feedback: 'I built interactive prototypes from the system, from single components to full workflows. Dental designers tested them weekly, and I measured success with user testing and task analysis.',
 	northstar: 'With no scope limits, I pulled the best ideas from that feedback into one flow: automated prep, ML crowns and navigation. The team measured every feature against it.',
 	release: 'With PMs and engineers, I scoped the MVP and sliced the rest into releases. I set the release cycle: a coded prototype per sprint, every change tied to a Jira ticket.',
-	adoption: 'From Q1 2025 to Q2 2026 the redesigned editor went from under 1% to 88% of crown orders, and the old one was retired by Q4 2025. 3Shape fell from about 29% to about 12%, mostly model design, which the editor doesn’t cover.',
-	speed: 'Placed to shipped fell from 7.4 to 5.9 days, mostly less waiting: design process time, including waits between steps, fell from 14.5 to 11.8 minutes.',
-	scale: 'Crown volume grew from about 153,000 to about 240,000 a quarter, while hands-on designer time per order fell from 6.4 to 5.6 minutes. Total designer hours grew about 39%, well below the 57% volume growth.',
+	adoption: 'The old editor was retired by Q4 2025. 3Shape fell from about 29% to about 12% of crown orders, and what’s left is mostly model design, which the editor doesn’t cover.',
+	speed: 'Most of it is less waiting: design process time, including waits between steps, fell from 14.5 to 11.8 minutes.',
+	scale: 'Crown volume grew from about 153,000 to about 240,000 a quarter. Total dental designer hours grew about 39%, well below the 57% volume growth.',
 	mlprep: 'The crown model touched about 2% of crown orders in Q3 2025, 38% in Q1 2026 and 80% in Q2 2026. Crowns with a model-generated start had a 5.8% refab rate, against 6.6% for the rest. Automated prep went from 4% at launch to about 34% in Q3.',
-	challenges: 'Shipping ML crowns, prep and navigation together makes it hard to credit any one change. Trust in automation has to be earned: designers kept the generated crown about 35% of the time and redid it about 45%. Hard stops are only for Rx and doctor-note violations; everything else stays advisory.',
-	watching: 'Quality: the refab rate held at 6.3–6.5% every quarter as volume grew, so speed hasn’t cost quality, but I can’t yet show it improved. I’m re-running the designer survey and timing each step as releases roll out. Several changes shipped at once, so isolating each is the hard part.',
+	challenges: 'Shipping ML crowns, prep and navigation together makes it hard to credit any one change. Trust in automation has to be earned: dental designers kept the generated crown about 35% of the time and redid it about 45%. Hard stops are only for Rx and doctor-note violations; everything else stays advisory.',
+	watching: 'Quality: the refab rate held at 6.3–6.5% every quarter as volume grew, so speed hasn’t cost quality, but I can’t yet show it improved. I’m re-running the dental designer survey and timing each step as releases roll out. Several changes shipped at once, so isolating each is the hard part.',
 	next: 'I’ll keep releasing the ideal version in chunks, then bring the same architecture to bridges, implants and other case types.',
 };
 const subM: Record<string, string> = {
@@ -77,22 +85,22 @@ const scenes = [
 		id: 'before',
 		label: '02 · What that chain cost. Summer 2025, before the redesign',
 		beats: [
-			{ id: 'handoff', title: '3+ programs, and a different person at each one.', text: 'Prep in the browser. Design in 3Shape, exocad, or the Dandy Design Editor. Audit in another portal, with scores in a spreadsheet. The case was handed off every time, and the file moved more than the tooth did: download, upload, hunt for the right tool, upload back. That transfer is the waste.', metric: { text: '14.5 min', unit: 'average crown design process time, including waits between steps, Q1 2025, before the Design Editor redesign' } },
-			{ id: 'scatter', title: 'Inside the Dandy Design Editor, the tools were buried.', text: 'Nested menus meant designers hunted for the next click instead of designing.', quote: ['“I wish it could be, like, going stages or maybe have it on the top… group related tools together.”', 'Dental designer, DDE designer interviews'] },
-			{ id: 'survey', title: 'Satisfaction was low next to the competition.', text: 'Before the redesign, designers scored the Dandy Design Editor 6.9 out of 10, against 9.1 for 3Shape. The usual complaints: nested menus and too many clicks, hotkeys that didn’t match 3Shape, and tools they had to leave for, like the cut plane.' },
-			{ id: 'usage', title: 'Fewer than half of designers used the Dandy Design Editor.', text: 'About 46% of designers did their crown design in it, 43% in Q4 2024 and 49% in Q1 2025. The goal was 100%.' },
+			{ id: 'handoff', title: '3+ programs, and a different person at each one.', text: 'Prep in the browser. Design in 3Shape, exocad, or the Dandy Design Editor. Audit in another portal, with scores in a spreadsheet. The case was handed off every time, and the file moved more than the tooth did: download, upload, hunt for the right tool, upload back. That transfer is the waste.', metric: { text: '14.5 min', unit: 'average crown design time, including waits between steps (Q1 2025)' } },
+			{ id: 'scatter', title: 'Inside the Dandy Design Editor, the tools were buried.', text: 'Nested menus meant dental designers hunted for the next click instead of designing.', quote: ['“I wish it could be, like, going stages or maybe have it on the top… group related tools together.”', 'Dental designer, DDE designer interviews'] },
+			{ id: 'survey', title: 'Satisfaction was low next to the competition.', text: 'Before the redesign, dental designers scored the Dandy Design Editor 6.9 out of 10, against 9.1 for 3Shape. The usual complaints: nested menus and too many clicks, hotkeys that didn’t match 3Shape, and tools they had to leave for, like the cut plane.', mskip: true },
+			{ id: 'usage', title: 'Fewer than half of dental designers used the Dandy Design Editor.', text: 'About 46% of dental designers did their crown design in it, 43% in Q4 2024 and 49% in Q1 2025. The goal was 100%.', mskip: true },
 		],
 	},
 	{
 		id: 'research',
 		label: '03 · Field research',
 		beats: [
-			{ id: 'miles', title: 'I went to where the work happens.', text: 'San Diego to Cairo, to learn from hundreds of designers at their own desks. I set up the research sessions myself.', metric: { to: 7600, prefix: '', suffix: '+', unit: 'miles, San Diego to Cairo, one way' } },
+			{ id: 'miles', title: 'I went to where the work happens.', text: 'San Diego to Cairo, to learn from hundreds of dental designers at their own desks. I set up the research sessions myself.', metric: { to: 7600, prefix: '', suffix: '+', unit: 'miles, San Diego to Cairo, one way' } },
 			{ id: 'leads', title: 'I had in-depth conversations with the leads.', text: 'One-on-one, with the design leads running the labs in Egypt.', metric: { to: 8, prefix: '', suffix: '', unit: 'design leads in Egypt' } },
-			{ id: 'shadow', title: 'I shadowed designers at every level.', text: 'I watched designers finish real cases, from newer designers to the most experienced.', metric: { to: 20, prefix: '', suffix: '+', unit: 'virtual shadow sessions' } },
-			{ id: 'reviews', title: 'I ran design reviews every week, in the open.', text: 'I led design reviews of the UX improvements with the designers who would use them.', metric: { to: 2, prefix: '', suffix: '+ hrs', unit: 'every week' } },
+			{ id: 'shadow', title: 'I shadowed dental designers at every level.', text: 'I watched dental designers finish real cases, from newer designers to the most experienced.', metric: { to: 20, prefix: '', suffix: '+', unit: 'virtual shadow sessions' } },
+			{ id: 'reviews', title: 'I ran design reviews every week, in the open.', text: 'I led design reviews of the UX improvements with the dental designers who would use them.', metric: { to: 2, prefix: '', suffix: '+ hrs', unit: 'every week' } },
 			{ id: 'competitors', title: 'I studied the competition and the data.', text: 'I studied 3Shape and exocad closely, along with the editor’s own metrics in dashboards and Sentry replays.', metric: { to: 10, prefix: '', suffix: '+ hrs', unit: 'of competitor research and data analysis' } },
-			{ id: 'finding', title: 'I found that navigation was a problem on its own.', text: 'Tools were grouped by category, not by how designers work, so they hunted through nested menus for the next step. ML and automated prep wouldn’t fix that, so navigation needed its own redesign. There was also no warning when a design broke the Rx.' },
+			{ id: 'finding', title: 'I found the tools were grouped by category, not by how dental designers work.', text: 'So they hunted for the next step. That became the case for redesigning navigation around how dental designers actually work.' },
 		],
 	},
 	{
@@ -101,8 +109,8 @@ const scenes = [
 		beats: [
 			{ id: 'focus', title: 'I framed three hypotheses to bring design time down and quality up.', titleHtml: 'I framed three hypotheses to bring design time <span class="hl hl--dn">down</span> and quality <span class="hl hl--up">up</span>.', text: 'Each is testable, and I proposed how to measure it.' },
 			{ id: 'crown', title: 'If ML generates a bio-mimetic starting crown, time drops and quality rises.', titleHtml: '<small class="hyp">Hypothesis 1</small>If ML generates a bio-mimetic starting crown, time drops and quality rises.', text: 'I designed how designers start and regenerate a crown: from the ML crown, the tooth library, or a mimic tooth.', measures: ['Design time', 'Refab rate', 'Review rejections'], mnote: 'ML-touched vs. untouched crowns' },
-			{ id: 'autoprep', title: 'If prep lives in the editor and runs itself, handoffs and waits drop.', titleHtml: '<small class="hyp">Hypothesis 2</small>If prep lives in the editor and runs itself, handoffs and waits drop.', text: 'I brought prep into the editor so Dandy could automate it. Designers audit it instead, saving time in one ecosystem.', measures: ['Scan-to-submit time', 'Programs and people per case'] },
-			{ id: 'stages', title: 'If navigation follows how designers think, cognitive load drops.', titleHtml: '<small class="hyp">Hypothesis 3</small>If navigation follows how designers think, cognitive load drops.', text: 'I rebuilt navigation around the stages designers work through: Prep, Front, Crown, Design, Submit.', measures: ['Satisfaction (6.9 vs. 3Shape’s 9.1)', 'Time hunting for tools', 'Designer adoption (~46% at baseline)'] },
+			{ id: 'autoprep', title: 'If prep lives in the editor and runs itself, handoffs and waits drop.', titleHtml: '<small class="hyp">Hypothesis 2</small>If prep lives in the editor and runs itself, handoffs and waits drop.', text: 'I brought prep into the editor so Dandy could automate it. Dental designers audit it instead, saving time in one ecosystem.', measures: ['Scan-to-submit time', 'Programs and people per case'] },
+			{ id: 'stages', title: 'If navigation follows how designers think, cognitive load drops.', titleHtml: '<small class="hyp">Hypothesis 3</small>If navigation follows how designers think, cognitive load drops.', text: 'I rebuilt navigation around the stages designers work through: Prep, Front, Crown, Design, Submit.', measures: ['Satisfaction (6.9 vs. 3Shape’s 9.1)', 'Time hunting for tools', 'Dental designer adoption (~46% at baseline)'] },
 		],
 	},
 	{
@@ -112,7 +120,7 @@ const scenes = [
 			{ id: 'system', title: 'First, I built a branded design system.', text: 'The editor had no design system. I built one in Storybook from the production components, so every control, down to the sliders, was tested as it would ship.', link: { href: '/work/dandy-design-system', label: 'Read the design system case study →' }, quote: ['“The old sliders were too short and super sensitive. The new ones are fantastic.”', 'Tom, dental designer'] },
 				{ id: 'feedback', title: 'Then I prototyped with it and tested weekly with dental designers.', text: 'I built interactive prototypes from the system, from single components to whole workflows. Each week the dental designers played with them, we iterated together, and I measured success with user testing and task analysis.' },
 				{ id: 'northstar', title: 'Then I designed the ideal version.', text: 'With no scope limits, I pulled the best ideas from that feedback into one flow: automated prep, ML crown generation and choices, and navigation. It became the benchmark the team measured every feature against.', link: { id: 'proto', label: 'Try the ideal-version prototype ↓' } },
-				{ id: 'tagging', title: 'It included a tagging system I designed: detect, flag, fix.', text: 'It detects a problem, flags it as the designer works, and helps fix it. Guidance stays advisory, with hard stops only for Rx and doctor-note violations.' },
+				{ id: 'tagging', title: 'It included a tagging system I designed: detect, flag, fix.', text: 'Nothing used to warn a dental designer when a design broke the Rx. Now the system detects a problem, flags it as they work, and helps fix it. Guidance stays advisory, with hard stops only for Rx and doctor-note violations.' },
 				{ id: 'release', title: 'Then I scaled it back to releasable chunks.', text: 'With PMs and engineers, I worked out the MVP and sliced the rest of the ideal version into releases. I set how the release cycle runs: a coded prototype for each sprint, and every change tied to a Jira ticket.' },
 				{ id: 'hub', title: 'I built a hub to share my process.', text: 'A customized Product Design Hub where teammates learn how to work the way I do on the editor.', mlabel: 'Inside the hub', measures: ['Set up Cursor and GitHub', 'Prototype in code', 'See DDE sprint cycles and each sprint’s prototypes', 'Access the DDE design system'], link: { href: '/work/dandy-product-design-hub', label: 'See the Product Design Hub →' } },
 		],
@@ -123,8 +131,8 @@ const scenes = [
 		beats: [
 			{ id: 'adoption', title: 'Dandy’s own editor went from 70% to 88% of crown orders.', text: 'From Q1 2025 to Q2 2026, the redesigned editor went from under 1% to 88% as it replaced the old one, which was retired by Q4 2025. 3Shape fell from about 29% to about 12% of crown orders, and what’s left is model design, which the editor doesn’t cover.' },
 			{ id: 'speed', title: 'Orders ship about 20% faster.', text: 'Turnaround, placed to shipped, fell from 7.4 to 5.9 days. Most of it is less waiting: design process time, including waits between steps, fell from 14.5 to 11.8 minutes.', metric: { text: '−20%', unit: 'order turnaround, 7.4 to 5.9 days' } },
-			{ id: 'scale', title: '57% more orders, 11.5% less designer time on each.', text: 'Crown volume grew from about 153,000 to about 240,000 a quarter. Hands-on designer time per order fell from 6.4 to 5.6 minutes, so total designer hours grew about 39%, well below the 57% volume growth.', metric: { text: '+57%', unit: 'crown orders a quarter, with 11.5% less designer time per order' } },
-			{ id: 'mlprep', title: 'ML crowns and automated prep, scaling fast.', text: 'The crown model touched about 2% of crown orders in Q3 2025, about 38% in Q1 2026, and about 80% in Q2 2026. Designers kept the generated crown as their starting point about 35% of the time and redid it about 45%. Crowns where the model generated a starting crown had a 5.8% refab rate, against 6.6% for the rest. Automated prep launched in Q2 2026 at about 4% and reached about 34% in Q3.', metric: { to: 80, prefix: '~', suffix: '%', unit: 'of crown orders touched by the ML crown, Q2 2026' } },
+			{ id: 'scale', title: '57% more orders, 11.5% less dental designer time on each.', text: 'Crown volume grew from about 153,000 to about 240,000 a quarter. Hands-on dental designer time per order fell from 6.4 to 5.6 minutes, so total dental designer hours grew about 39%, well below the 57% volume growth.', metric: { text: '+57%', unit: 'crown orders a quarter, with 11.5% less designer time per order' } },
+			{ id: 'mlprep', title: 'ML crowns and automated prep, scaling fast.', text: 'The crown model touched about 2% of crown orders in Q3 2025, about 38% in Q1 2026, and about 80% in Q2 2026. Dental designers kept the generated crown as their starting point about 35% of the time and redid it about 45%. Crowns where the model generated a starting crown had a 5.8% refab rate, against 6.6% for the rest. Automated prep launched in Q2 2026 at about 4% and reached about 34% in Q3.', metric: { to: 80, prefix: '~', suffix: '%', unit: 'of crown orders touched by the ML crown, Q2 2026' } },
 						// TODO(designer quotes): when Caitlyn and Maneesh send written feedback, add a beat here:
 			//   { id: 'voice', title: 'What designers say.', text: '…', quote: ['“…”', 'Name, role'] }
 			// Held back until verified: front view / crown selection timings (source unconfirmed),
@@ -135,8 +143,8 @@ const scenes = [
 		id: 'reflections',
 		label: '08 · Reflections',
 		beats: [
-			{ id: 'challenges', title: 'What was hard.', text: 'Shipping ML crowns, prep and the new navigation at the same time makes it hard to attribute a result to any one change. Designers kept the generated crown about 35% of the time and redid it about 45%, so trust in automation has to be earned. And guidance has to stay out of the way: designers worried about intrusive blockers, so hard stops are for Rx and doctor-note violations, and everything else is advisory.' },
-			{ id: 'watching', title: 'What I’m still tracking.', text: 'Quality. The refab rate has held at 6.3–6.5% every quarter while crown volume grew, so speed hasn’t cost quality, but I can’t yet show it improved. Design review rejection records have gaps, so I’m not relying on them yet. I’m also re-running the designer survey and measuring time per step as automated prep and the next releases roll out. Several changes shipped at once, so isolating what each one did is the hard part.' },
+			{ id: 'challenges', title: 'What was hard.', text: 'Shipping ML crowns, prep and the new navigation at the same time makes it hard to attribute a result to any one change. Dental designers kept the generated crown about 35% of the time and redid it about 45%, so trust in automation has to be earned. And guidance has to stay out of the way: designers worried about intrusive blockers, so hard stops are for Rx and doctor-note violations, and everything else is advisory.' },
+			{ id: 'watching', title: 'What I’m still tracking.', text: 'Quality. The refab rate has held at 6.3–6.5% every quarter while crown volume grew, so speed hasn’t cost quality, but I can’t yet show it improved. Design review rejection records have gaps, so I’m not relying on them yet. I’m also re-running the dental designer survey and measuring time per step as automated prep and the next releases roll out. Several changes shipped at once, so isolating what each one did is the hard part.' },
 			{ id: 'next', title: 'What’s next.', text: 'I’ll keep releasing the ideal version in chunks: more of the guided flow and navigation, then the same architecture for bridges, implants and other case types.' },
 		],
 	},
@@ -218,7 +226,7 @@ const vizFor: Record<string, string> = {
 						<h1 id="cx-h" aria-label={heroTitle}>
 							{heroTitle.split(' ').map((w, i) => (<><span class="hv-w" aria-hidden="true" style={`--i:${i}`}>{w}</span>{' '}</>))}
 						</h1>
-						<p class="cx__lede">One editor for the whole restoration, replacing a chain of legacy and third-party tools.</p>
+						<p class="cx__lede">Dandy’s Design Editor is 3D CAD software that dental designers use to design crowns and bridges from a patient’s scan. <span class="tx-d">One editor for the whole restoration, replacing a chain of legacy and third-party tools.</span></p>
 					</div>
 						
 					</div>
@@ -249,8 +257,32 @@ const vizFor: Record<string, string> = {
 				<div class="cx__shortcol">
 					<h2 id="cx-short-h" class="cx__shorth">Turning a slow, siloed crown design process into one intelligent editor.</h2>
 					<dl class="cx__story">
-						<div><dt>The problem</dt><dd><span class="tx-d">Dandy’s original Design Editor was built fast, by devs, to get out the door. Designing a crown took 3+ handoffs between 3 personas (prepper, designer, auditor), and more time went to moving the file between tools than to designing the tooth. Designers rated it 6.9 out of 10 (3Shape: 9.1), and fewer than half used it.</span><span class="tx-m">Built fast by devs, the original editor took 3+ handoffs between 3 personas per crown, and more time went to moving files than designing the tooth. Designers rated it 6.9/10 (3Shape: 9.1), and fewer than half used it.</span></dd></div>
-						<div><dt>What I owned</dt><dd><span class="tx-d">The goals: design time down without lowering quality, and designers choosing our own editor over 3Shape. As the sole product designer, I set the direction, ran the research, built the design system, and prototyped in code to test real cases with designers. It releases in chunks, and it’s still shipping.</span><span class="tx-m">The goals: less design time without lower quality, and designers choosing our editor over 3Shape. As the sole product designer, I set the direction, ran the research, built the design system, and prototyped in code with designers.</span></dd></div>
+						<div><dt>The problem</dt><dd><span class="tx-d">Dandy’s original Design Editor was built fast, by devs, to get out the door. Designing a crown took 3+ handoffs between 3 personas (prepper, designer, auditor), and more time went to moving the file between tools than to designing the tooth. Dental designers rated it 6.9 out of 10 (3Shape: 9.1), and fewer than half used it.</span><div class="tx-m tx-mb mprob">
+								<p class="mlead">Dandy’s first Design Editor was built fast, by devs. Dental designers spent more time moving files than designing the tooth.</p>
+								<ul class="mstats">
+									<li><b>3+</b><div><strong>Programs per crown</strong><p>The prepper, designer and auditor each used a different one. Downloading, uploading and waiting <span class="mem">added design time.</span></p></div></li>
+									<li><b>6.9</b><div><strong>Satisfaction score, out of 10</strong><p>From dental designers, against 9.1 for 3Shape, the competitor software.</p></div></li>
+									<li><b>46<small>%</small></b><div><strong>Adoption of our editor</strong><p><span class="mem">Fewer than half</span> of dental designers used it. The goal was 100%.</p></div></li>
+								</ul>
+							</div></dd></div>
+						<div><dt>What I owned</dt><dd><span class="tx-d">The goals: design time down without lowering quality, and dental designers choosing our own editor over 3Shape. As the sole product designer, I set the direction, ran the research, built the design system, and prototyped in code to test real cases with dental designers. It releases in chunks, and it’s still shipping.</span><div class="tx-m tx-mb mown">
+								<p class="mlabel">The goals</p>
+								<ul class="mgoals">
+									<li><span class="mic"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><span>Less design time, same quality</span></li>
+									<li><span class="mic"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5"/><circle cx="17" cy="9" r="2.5"/><path d="M16 14c2.8-.3 5 1.5 5 4.5"/></svg></span><span>Dental designers choose our editor over 3Shape</span></li>
+								</ul>
+								<p class="mlabel">As the sole product designer, I</p>
+								<ul class="mdid">
+									<li><span class="mic"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/></svg></span><span>Set the direction</span></li>
+									<li><span class="mic"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="6"/><path d="M20 20l-4.2-4.2"/></svg></span><span>Ran the research</span></li>
+									<li><span class="mic"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.5"/></svg></span><span>Built the design system</span></li>
+									<li><span class="mic"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 7L3.5 12l5 5M15.5 7l5 5-5 5M13.5 5l-3 14"/></svg></span><span>Prototyped in code</span></li>
+									<li><span class="mic"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg></span><span>Tested weekly with dental designers</span></li>
+									<li><span class="mic"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l2.4 5.6L20 11l-5.6 2.4L12 19l-2.4-5.6L4 11l5.6-2.4z"/></svg></span><span>Designed the ideal version</span></li>
+									<li><span class="mic"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h14M14 4l4 4-4 4M20 16H6M10 12l-4 4 4 4"/></svg></span><span>Led design-to-dev handoff</span></li>
+									<li><span class="mic"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 20V11M12 20V4M19 20v-6"/></svg></span><span>Tracked the metrics</span></li>
+								</ul>
+							</div></dd></div>
 
 					</dl>
 					<a class="cx__more" href="#journey" data-go="journey">Read how I did it <span aria-hidden="true">↓</span></a>
@@ -258,11 +290,11 @@ const vizFor: Record<string, string> = {
 				<div class="cx__shortviz">
 					<DdeViz kind="compare" />
 					<ul class="cx__glass" aria-label="Impact, Q1 2025 to Q2 2026">
-							<li><b>−11.5%</b><span>designer time per order</span></li>
-							<li><b>−20%</b><span>order to shipped, 7.4 to 5.9 days</span></li>
-							<li><b>+26%</b><span>crown orders in Dandy’s editor vs 3Shape, 70% to 88%</span></li>
-							<li><b>6.3–6.5%</b><span>refab rate, steady as volume grew</span></li>
-						</ul>
+							<li><b>−11.5%</b><span>Dental designer time per order</span></li>
+								<li><b>−20%</b><span>Order to shipped <small>7.4 → 5.9 days</small></span></li>
+								<li><b>+26%</b><span>Adoption: crown orders designed in Dandy’s editor, not 3Shape <small>70% → 88%</small></span></li>
+								<li><b>6.3–6.5%</b><span>Refab rate, steady as volume grew</span></li>
+							</ul>
 				</div>
 			</div>
 			<ol class="cx__sdots" aria-hidden="true"><li></li><li></li><li></li><li></li></ol>
@@ -271,43 +303,41 @@ const vizFor: Record<string, string> = {
 
 		<!-- 01: the lifecycle, one step at a time. Cards dim around the active one. -->
 		<section class="lc jr" id="journey" data-journey data-w={JSON.stringify(jrWeights)} style={`--n:${jrCount};--w:${jrTotal}`} aria-label="From scan to smile, and the designer’s step in detail">
-			<div class="jm" data-jm aria-label="The journey in three steps: a crown’s six steps, the designer’s step in detail, and the step I redesigned">
+			<div class="jm" data-jm data-phase="a" aria-label="The journey on phones: a crown’s six steps, then a zoom into step 4, the designer’s step">
 				<div class="jm__pin">
-					<p class="hv__eyebrow jm__eyebrow">01 · The journey</p>
-					<div class="jm__stage">
-						<ol class="jm__chain">
-							{stages.map((st, i) => (
-								<li class:list={['jm__node', { 'is-designer': st.n === 4 }]} style={`--i:${i}`}>
-									<span class="jm__ic"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={icons[st.group]} /></span>
-									<span class="jm__n">{st.n}</span>
-									<small>{st.title}</small>
-								</li>
-							))}
-						</ol>
-						<p class="jm__you" aria-hidden="true">This case study</p>
-						<div class="jm__zoom">
-							<ol class="jm__sub">
-								{subs.map((u, i) => (
-									<li style={`--i:${i}`}>
-										<span class="jm__tag">{u.tag}</span>
-										<span class="jm__stx"><b>{u.title}</b><small>{u.who}</small></span>
+					<div class="jm__top"><p class="hv__eyebrow jm__eyebrow">01 · The journey</p><span class="jm__count" data-jmcount>Step 1 of 6</span></div>
+					<div class="jm__head">
+						<div class="jm__h" data-h="a"><h3>A crown takes six steps.</h3><p>From the patient’s chair to the lab, and back to their smile.</p></div>
+						<div class="jm__h" data-h="b"><h3>Zooming in on step 4.</h3><p>What it took to get one order designed, historically. <em>Until summer 2025.</em></p></div>
+					</div>
+					<div class="jm__view" data-view>
+						<div class="jm__track" data-track>
+							<ol class="jm__list">
+								{stages.map((st, i) => (
+									<li class:list={['jm__item', { 'is-parent': st.n === 4 }]} data-main={i}>
+										<div class="jm__card">
+											<span class="jm__pic">{stageImages[st.n]?.src && <img src={stageImages[st.n].src} alt="" decoding="async" />}<span class="jm__num">{st.n}</span></span>
+											<span class="jm__txt"><b>{st.title}</b><small>{st.teaser}</small></span>
+										</div>
+										{st.n === 4 && (
+											<ol class="jm__sublist">
+												{subs.map((u, k) => (
+													<li class="jm__item jm__item--sub" data-sub={k}>
+														<div class="jm__card">
+															<span class="jm__pic">{(u.media?.poster ?? u.media?.src) && <img src={u.media?.poster ?? u.media?.src} alt="" decoding="async" />}<span class="jm__num">{u.tag}</span></span>
+															<span class="jm__txt"><b>{u.title}</b><small>{jmSubText[u.tag]}</small></span>
+														</div>
+														<span class="jm__conn" aria-hidden="true"></span>
+													</li>
+												))}
+											</ol>
+										)}
+										<span class="jm__conn" aria-hidden="true"></span>
 									</li>
 								))}
-								<span class="jm__file" aria-hidden="true"></span>
 							</ol>
-							<div class="jm__one" aria-hidden="true">
-								<span class="jm__oneic"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" set:html={icons.designer} /></span>
-								<b>One editor</b>
-								<small>Prep, design and audit in one place</small>
-							</div>
 						</div>
 					</div>
-					<div class="jm__caps">
-						<div class="jm__cap"><h3>A crown takes six steps.</h3><p>From the patient’s chair to the lab, and back to their smile.</p></div>
-						<div class="jm__cap"><h3>Step 4 is the designer’s job.</h3><p>Five stops across 3+ programs. The file moved more than the tooth did.</p></div>
-						<div class="jm__cap"><h3>That’s the step I redesigned.</h3><p>I turned that chain into one editor, with the designer’s experience at the center.</p></div>
-					</div>
-					<ol class="jm__dots" aria-hidden="true"><li></li><li></li><li></li></ol>
 				</div>
 			</div>
 			<div class="lc__pin jr__pin">
@@ -415,7 +445,7 @@ const vizFor: Record<string, string> = {
 		{
 			scenes.map((sc) => (
 				<>
-				<section class="sc" id={`sc-${sc.id}`} data-scene style={`--n:${sc.beats.length}`} aria-label={sc.label}>
+				<section class="sc" id={`sc-${sc.id}`} data-scene style={`--n:${sc.beats.length};--nm:${sc.beats.filter((x: any) => !x.mskip).length}`} aria-label={sc.label}>
 					<div class="sc__pin">
 						<p class="hv__eyebrow sc__label">{sc.label}</p>
 						<div class="sc__rows">
@@ -423,7 +453,7 @@ const vizFor: Record<string, string> = {
 								const m = ddeMedia[b.id];
 								const kind = vizFor[b.id];
 								return (
-									<article class:list={['sc__row', { 'sc__row--solo': !m && !kind && !b.metric }]} data-i={i} data-beat={b.id}>
+									<article class:list={['sc__row', { 'sc__row--solo': !m && !kind && !b.metric, 'm-skip': b.mskip }]} data-i={i} data-beat={b.id}>
 										<div class="sc__text">
 											<h3><span set:html={b.titleHtml ?? b.title} /></h3>
 											{mtexts[b.id] ? <p><span class="tx-d">{b.text}</span><span class="tx-m">{mtexts[b.id]}</span></p> : <p>{b.text}</p>}
@@ -473,7 +503,7 @@ const vizFor: Record<string, string> = {
 								);
 							})}
 						</div>
-						<ol class="sc__dots" aria-hidden="true">{sc.beats.map((b: any, i: number) => <li data-i={i} data-label={b.short ?? shortNames[b.id] ?? ''}></li>)}</ol>
+						<ol class="sc__dots" aria-hidden="true">{sc.beats.map((b: any, i: number) => <li class:list={{ 'm-skip': b.mskip }} data-i={i} data-label={b.short ?? shortNames[b.id] ?? ''}></li>)}</ol>
 					</div>
 				</section>
 					{sc.id === 'process' && (
@@ -896,18 +926,54 @@ const vizFor: Record<string, string> = {
 			stepper(shortSec, shortSec.querySelector<HTMLElement>('.cx__shortpin'), 4, Array.from(shortSec.querySelectorAll<HTMLElement>('.cx__sdots li')), (i) => { shortSec.dataset.step = String(i); });
 		}
 
-		// journey storyboard: six steps -> the designer's chain -> one editor
+		// journey: cards in focus one at a time, then a zoom into step 4 (its card rises to the top, the other steps fold away)
 		const jmSec = mobRoot.querySelector<HTMLElement>('.jr');
 		const jm = jmSec?.querySelector<HTMLElement>('[data-jm]');
 		if (jmSec && jm) {
-			stepper(jmSec, jm.querySelector<HTMLElement>('.jm__pin'), 3, Array.from(jm.querySelectorAll<HTMLElement>('.jm__dots li')), (i) => { jm.dataset.step = String(i); });
+			const mains = Array.from(jm.querySelectorAll<HTMLElement>('[data-main]'));
+			const subsEls = Array.from(jm.querySelectorAll<HTMLElement>('[data-sub]'));
+			const view = jm.querySelector<HTMLElement>('[data-view]')!;
+			const track = jm.querySelector<HTMLElement>('[data-track]')!;
+			const count = jm.querySelector<HTMLElement>('[data-jmcount]')!;
+			const designer = mains.findIndex((m) => m.classList.contains('is-parent'));
+			const total = mains.length + subsEls.length;
+			let focusEl: HTMLElement | null = null;
+			const place = () => {
+				if (!focusEl) return;
+				const room = Math.max(0, track.scrollHeight - view.clientHeight);
+				// offsetTop is relative to the nearest positioned ancestor; walk up to the track
+				let y = 0, el: HTMLElement | null = focusEl;
+				while (el && el !== track) { y += el.offsetTop; el = el.offsetParent as HTMLElement | null; }
+				const target = Math.min(room, Math.max(0, y - view.clientHeight * 0.3));
+				track.style.transform = `translateY(${-target}px)`;
+				view.dataset.scrolled = target > 2 ? '1' : '0';
+			};
+			new ResizeObserver(place).observe(track);
+			stepper(jmSec, jm.querySelector<HTMLElement>('.jm__pin'), total, [], (i) => {
+				const zoom = i >= mains.length;
+				jm.dataset.phase = zoom ? 'b' : 'a';
+				mains.forEach((m, k) => {
+					m.classList.toggle('is-gone', zoom && k !== designer);
+					m.classList.toggle('is-focus', !zoom && k === i);
+					m.classList.toggle('is-past', !zoom && k < i);
+				});
+				subsEls.forEach((u, k) => {
+					const at = i - mains.length;
+					u.classList.toggle('is-focus', zoom && k === at);
+					u.classList.toggle('is-past', zoom && k < at);
+				});
+				focusEl = zoom ? subsEls[i - mains.length] : mains[i];
+				count.textContent = zoom ? `Step 4${'abcde'[i - mains.length] ?? ''} of 4e` : `Step ${i + 1} of ${mains.length}`;
+				place();
+				setTimeout(place, 700);
+			});
 		}
 
 		// every scene: one beat at a time, replaced in place as you scroll
 		mobRoot.querySelectorAll<HTMLElement>('[data-scene]').forEach((sc) => {
-			const rows = Array.from(sc.querySelectorAll<HTMLElement>('.sc__row'));
+			const rows = Array.from(sc.querySelectorAll<HTMLElement>('.sc__row:not(.m-skip)'));
 			if (rows.length < 2) return;
-			stepper(sc, sc.querySelector<HTMLElement>('.sc__pin'), rows.length, Array.from(sc.querySelectorAll<HTMLElement>('.sc__dots li')), (i) => {
+			stepper(sc, sc.querySelector<HTMLElement>('.sc__pin'), rows.length, Array.from(sc.querySelectorAll<HTMLElement>('.sc__dots li:not(.m-skip)')), (i) => {
 				rows.forEach((r, k) => r.classList.toggle('on', k === i));
 			});
 		});
