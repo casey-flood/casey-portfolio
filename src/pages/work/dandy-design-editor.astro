@@ -727,3 +727,88 @@ const vizFor: Record<string, string> = {
 		});
 	}
 </script>
+
+<script>
+	// Phones: the journey and each scene become swipeable cards, with a step tracker for the journey.
+	// Runs after the page's main script (which adds .cx--mob), so wait for DOMContentLoaded.
+	const setupMobile = () => {
+	const mobRoot = document.querySelector<HTMLElement>('.cx--mob');
+	if (mobRoot) {
+		const rail = (box: HTMLElement, slides: HTMLElement[], addOn: boolean, onChange: (i: number) => void) => {
+			let cur = -1;
+			const set = (i: number) => {
+				if (i === cur || i < 0) return;
+				cur = i;
+				slides.forEach((s, k) => { if (k !== i) s.classList.remove('on'); });
+				if (addOn) slides[i].classList.add('on');
+				onChange(i);
+			};
+			const io = new IntersectionObserver((es) => {
+				es.forEach((e) => { if (e.isIntersecting && e.intersectionRatio >= 0.6) set(slides.indexOf(e.target as HTMLElement)); });
+			}, { root: box, threshold: [0.6, 0.85] });
+			slides.forEach((s) => io.observe(s));
+			set(0);
+			return { go: (i: number) => { const s = slides[i]; if (s) box.scrollTo({ left: s.offsetLeft - (box.clientWidth - s.offsetWidth) / 2, behavior: 'smooth' }); } };
+		};
+
+		// scenes: swipe through the beats, dots follow
+		mobRoot.querySelectorAll<HTMLElement>('[data-scene]').forEach((sc) => {
+			const box = sc.querySelector<HTMLElement>('.sc__rows');
+			if (!box) return;
+			const slides = Array.from(box.querySelectorAll<HTMLElement>('.sc__row'));
+			const dots = Array.from(sc.querySelectorAll<HTMLElement>('.sc__dots li'));
+			if (slides.length < 2) return;
+			rail(box, slides, true, (i) => dots.forEach((d, k) => d.classList.toggle('on', k === i)));
+		});
+
+		// journey: stage chips 1-6, then the zoom into the designer step
+		mobRoot.querySelectorAll<HTMLElement>('[data-journey]').forEach((sec) => {
+			const box = sec.querySelector<HTMLElement>('.lc__texts');
+			const top = sec.querySelector<HTMLElement>('.jr__top');
+			if (!box || !top) return;
+			const slides = Array.from(box.querySelectorAll<HTMLElement>('.lc__t'));
+			const nums = Array.from(sec.querySelectorAll<HTMLElement>('.lc__cards .lc__no')).map((n) => n.textContent?.trim() ?? '');
+			const subTags = Array.from(sec.querySelectorAll<HTMLElement>('.jr__subcard .jr__tag')).map((n) => n.textContent?.trim() ?? '');
+			const zoomAt = nums.length + 1;
+			const designer = Math.max(0, nums.indexOf('4'));
+			const el = document.createElement('div');
+			el.className = 'jr__mstep';
+			el.innerHTML = '<div class="jr__mlabel"><span data-l1></span><span data-l2></span></div><ol class="jr__mchips jr__mchips--main"></ol><div class="jr__msub"><span>Inside step 4</span><ol class="jr__mchips jr__mchips--sub"></ol></div>';
+			top.prepend(el);
+			const main = el.querySelector<HTMLElement>('.jr__mchips--main')!;
+			const sub = el.querySelector<HTMLElement>('.jr__mchips--sub')!;
+			const chip = (label: string, to: () => void) => {
+				const li = document.createElement('li');
+				const b = document.createElement('button');
+				b.type = 'button'; b.textContent = label; b.setAttribute('aria-label', `Go to ${label}`);
+				b.addEventListener('click', to);
+				li.append(b);
+				return b;
+			};
+			let r: { go: (i: number) => void };
+			const mainBtns = nums.map((n, k) => { const b = chip(n, () => r.go(k + 1)); main.append(b.parentElement!); return b; });
+			const subBtns = subTags.map((t, k) => { const b = chip(t, () => r.go(zoomAt + 1 + k)); sub.append(b.parentElement!); return b; });
+			const l1 = el.querySelector<HTMLElement>('[data-l1]')!;
+			const l2 = el.querySelector<HTMLElement>('[data-l2]')!;
+			r = rail(box, slides, true, (i) => {
+				const zoom = i >= zoomAt;
+				el.classList.toggle('is-zoom', zoom);
+				mainBtns.forEach((b, k) => {
+					const on = zoom ? k === designer : i === k + 1;
+					b.classList.toggle('on', on);
+					b.classList.toggle('past', !on && (zoom ? k < designer : k + 1 < i));
+				});
+				subBtns.forEach((b, k) => {
+					const p = zoomAt + 1 + k;
+					b.classList.toggle('on', i === p);
+					b.classList.toggle('past', i > p);
+				});
+				l1.textContent = i === 0 ? 'The journey' : zoom ? 'Step 4, zoomed in' : `Step ${nums[i - 1] ?? i} of ${nums.length}`;
+				l2.textContent = `${i + 1} / ${slides.length}`;
+			});
+		});
+	}
+	};
+	if (document.readyState === 'complete') setupMobile();
+	else document.addEventListener('DOMContentLoaded', setupMobile);
+</script>

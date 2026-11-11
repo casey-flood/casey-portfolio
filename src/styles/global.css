@@ -14845,3 +14845,69 @@ video.cmp__img:not(.cmp__img--new){object-position:left center}
 .cx__shortviz .cmp,.cx__shortviz .cmp .cmp__frame{width:100%;max-width:none;margin-inline:0}
 .cx__shortviz .cmp{padding:0}
 @media(max-width:560px) and (min-width:360px){.cx__glass{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* ===== Design Editor on phones: one thing at a time =====
+   Everything below is gated by .cx--mob (phones only), so desktop is untouched. */
+@media (max-width:899px){
+ html:has(.cx--mob){scroll-snap-type:y proximity}
+ .cx--mob > section,.cx--mob > .lc{scroll-snap-align:start;scroll-margin-top:4.5rem}
+
+ /* short version: title + story, then slider + metrics + the button last */
+ .cx--mob .cx__shortgrid{display:flex;flex-direction:column;gap:0}
+ .cx--mob .cx__shortcol{display:contents}
+ .cx--mob .cx__shorth{order:1}
+ .cx--mob .cx__story{order:2}
+ .cx--mob .cx__shortviz{order:3;margin-top:3rem;scroll-snap-align:start;scroll-margin-top:5rem}
+ .cx--mob .cx__more{order:4;align-self:flex-start;margin-top:1.4rem}
+ .cx--mob .cmp__tag{font-size:.56rem;padding:.22rem .5rem;top:.5rem}
+ .cx--mob .cmp__tag--l{left:.5rem}.cx--mob .cmp__tag--r{right:.5rem}
+ .cx--mob .cx__glass li{padding:.75rem .8rem}
+ .cx--mob .cx__glass b{font-size:1.25rem}
+ .cx--mob .cx__glass span{font-size:.72rem}
+
+ /* swipeable rails (journey + scenes) */
+ .cx--mob .jr .lc__texts,.cx--mob .sc__rows{
+  display:flex!important;gap:.8rem;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;
+  margin-inline:calc(50% - 50vw);padding:.3rem 7vw .8rem;scroll-padding-inline:7vw;scrollbar-width:none;
+  position:relative;-webkit-overflow-scrolling:touch;align-items:stretch}
+ .cx--mob .jr .lc__texts::-webkit-scrollbar,.cx--mob .sc__rows::-webkit-scrollbar{display:none}
+ .cx--mob .jr .lc__t,.cx--mob .sc__row{
+  flex:0 0 84vw;max-width:23rem;scroll-snap-align:center;scroll-snap-stop:always;box-sizing:border-box;
+  display:flex!important;flex-direction:column;justify-content:flex-start;gap:.8rem!important;
+  padding:1.1rem;border-radius:1.2rem;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.12);
+  transition:opacity .35s ease,transform .35s ease}
+ .cx--mob .jr .lc__texts .lc__t:not(.on),.cx--mob .sc__rows .sc__row:not(.on){opacity:.5!important;transform:scale(.97)!important}
+ .cx--mob .jr .lc__texts .lc__t.on,.cx--mob .sc__rows .sc__row.on{opacity:1!important;transform:none!important}
+ .cx--mob .jr .lc__t,.cx--mob .jr .lc__t[data-p="7"]{padding-top:1.1rem;border-top:1px solid rgba(255,255,255,.12)}
+ .cx--mob .jr .lc__t h2{font-size:1.45rem!important;margin:0}
+ .cx--mob .jr .lc__t[data-p="0"] h2{font-size:1.9rem!important}
+ .cx--mob .jr .lc__t p{font-size:.95rem!important;margin:0}
+ .cx--mob .jr .lc__more{display:none}
+ .cx--mob .lc__tm{aspect-ratio:16/10;margin:0}
+ .cx--mob .jr .lc__t[data-p="0"]::after{content:"Swipe →";margin-top:auto;color:var(--lime);font-family:var(--mono,ui-monospace,monospace);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase}
+
+ .cx--mob .sc{padding-block:2rem!important}
+ .cx--mob .sc__label{margin:0 0 .7rem}
+ .cx--mob .sc__text h3{font-size:1.4rem;margin:0 0 .6rem}
+ .cx--mob .sc__text>p{font-size:.95rem;max-width:none}
+ .cx--mob .sc__viz{min-height:11rem;border-radius:1rem}
+ .cx--mob .sc__viz:has(> img),.cx--mob .sc__viz:has(.sc__gal){min-height:12rem}
+ .cx--mob .sc__dots{display:flex!important;justify-content:center;gap:.4rem;margin:.4rem 0 0;padding:0;list-style:none}
+
+ /* journey step tracker: which stop you're at, and the zoom into step 4 */
+ .cx--mob .jr__mstep{display:grid;gap:.55rem;margin:0 0 .9rem}
+ .jr__mstep{display:none}
+ .jr__mlabel{display:flex;justify-content:space-between;gap:.6rem;font-family:var(--mono,ui-monospace,monospace);font-size:.68rem;letter-spacing:.07em;text-transform:uppercase;color:#9fc4b8}
+ .jr__mchips{display:flex;align-items:center;gap:.35rem;list-style:none;margin:0;padding:0}
+ .jr__mchips button{min-width:1.9rem;height:1.9rem;padding:0 .35rem;border-radius:99px;border:1px solid rgba(255,255,255,.22);background:transparent;color:#cfe3dc;font:inherit;font-size:.74rem;cursor:pointer;transition:background .25s,color .25s,border-color .25s}
+ .jr__mchips button.past{border-color:rgba(205,242,91,.45);color:var(--lime,#cdf25b)}
+ .jr__mchips button.on{background:var(--lime,#cdf25b);border-color:transparent;color:#0b2a24;font-weight:600}
+ .jr__msub{display:none;align-items:center;gap:.6rem;padding:.55rem .65rem;border-radius:.9rem;border:1px solid rgba(205,242,91,.35);background:rgba(205,242,91,.07)}
+ .jr__msub > span{font-size:.7rem;color:var(--lime,#cdf25b);white-space:nowrap}
+ .jr__mstep.is-zoom .jr__msub{display:flex}
+ .jr__mstep.is-zoom .jr__mchips--main button:not(.on){opacity:.45}
+}
+@media (max-width:899px){
+ .cx--mob .jr .jr__top,.cx--mob .jr .lc__pin{width:100%!important;max-width:100%!important;min-width:0!important}
+}
+@media (max-width:899px){ .cx--mob .sc__rows{align-items:flex-start} }
