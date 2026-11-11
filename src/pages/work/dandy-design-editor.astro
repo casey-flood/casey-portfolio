@@ -96,17 +96,25 @@ const scenes = [
 	},
 	{
 		id: 'impact',
-		label: '06 · What changed, Q1 2025 vs Q2 2026',
+		label: '07 · The impact',
 		beats: [
-			{ id: 'adoption', title: 'Dandy’s own editor went from 70% to 88% of crown orders.', text: 'The redesigned editor went from under 1% to 88% as it replaced the old one, which was retired by Q4 2025. 3Shape fell from about 29% to about 12% of crown orders, and what’s left is model design, which the editor doesn’t cover.' },
+			{ id: 'adoption', title: 'Dandy’s own editor went from 70% to 88% of crown orders.', text: 'From Q1 2025 to Q2 2026, the redesigned editor went from under 1% to 88% as it replaced the old one, which was retired by Q4 2025. 3Shape fell from about 29% to about 12% of crown orders, and what’s left is model design, which the editor doesn’t cover.' },
 			{ id: 'speed', title: 'Orders ship about 20% faster.', text: 'Turnaround, placed to shipped, fell from 7.4 to 5.9 days. Most of it is less waiting: design process time, including waits between steps, fell from 14.5 to 11.8 minutes.', metric: { text: '−20%', unit: 'order turnaround, 7.4 to 5.9 days' } },
 			{ id: 'scale', title: '57% more orders, 11.5% less designer time on each.', text: 'Crown volume grew from about 153,000 to about 240,000 a quarter. Hands-on designer time per order fell from 6.4 to 5.6 minutes, so total designer hours grew about 39%, well below the 57% volume growth.', metric: { text: '+57%', unit: 'crown orders a quarter, with 11.5% less designer time per order' } },
 			{ id: 'mlprep', title: 'ML crowns and automated prep, scaling fast.', text: 'The crown model touched about 2% of crown orders in Q3 2025, about 38% in Q1 2026, and about 80% in Q2 2026. Designers kept the generated crown as their starting point about 35% of the time and redid it about 45%. Automated prep launched in Q2 2026 at about 4% and reached about 34% in Q3.', metric: { to: 80, prefix: '~', suffix: '%', unit: 'of crown orders touched by the ML crown, Q2 2026' } },
-			{ id: 'watching', title: 'Quality guardrails: small moves, still watching.', text: 'Refab within 45 days moved from 5.07% to 5.61% of orders. Orders with a design review rejection rose from about 0.005% to about 0.065%, still tiny. Three changes shipped at once and volume grew 57%, so I can’t credit or blame any one of them yet.' },
-			// TODO(designer quotes): when Caitlyn and Maneesh send written feedback, add a beat here:
+						// TODO(designer quotes): when Caitlyn and Maneesh send written feedback, add a beat here:
 			//   { id: 'voice', title: 'What designers say.', text: '…', quote: ['“…”', 'Name, role'] }
 			// Held back until verified: front view / crown selection timings (source unconfirmed),
 			// Milestone 4 (+29% faster, +25% quality) and Bridges (+30% efficiency) project numbers.
+		],
+	},
+	{
+		id: 'reflections',
+		label: '08 · Reflections',
+		beats: [
+			{ id: 'challenges', title: 'What was hard.', text: 'Shipping ML crowns, prep and the new navigation at the same time makes it hard to attribute a result to any one change. Designers kept the generated crown about 35% of the time and redid it about 45%, so trust in automation has to be earned. And guidance has to stay out of the way: designers worried about intrusive blockers, so hard stops are for Rx and doctor-note violations, and everything else is advisory.' },
+			{ id: 'watching', title: 'What I’m still tracking.', text: 'Quality and designer satisfaction. I’m following refab and design review rates, re-running the designer survey, and measuring time per step as automated prep and the next releases roll out. Several changes shipped at once, so I’m working to isolate what each one did.' },
+			{ id: 'next', title: 'What’s next.', text: 'Keep releasing the north star in chunks: more of the guided flow and navigation, then the same architecture for bridges, implants and other case types.' },
 		],
 	},
 ];
@@ -116,7 +124,7 @@ const jrWeights = Array.from({ length: jrCount }, (_, i) => (i === 0 ? 0.45 : 1)
 const jrTotal = jrWeights.reduce((a, b) => a + b, 0);
 
 // Page navigator: sections and their sub-sections.
-const sceneLabel: Record<string, string> = { before: 'What the chain cost', research: 'Field research', work: 'The hypotheses', process: 'The process', impact: 'What changed' };
+const sceneLabel: Record<string, string> = { before: 'What the chain cost', research: 'Field research', work: 'The hypotheses', process: 'The process', impact: 'The impact', reflections: 'Reflections' };
 const toc: { id: string; label: string; subs?: { label: string; from: number; to: number }[] }[] = [
 	{ id: 'cx-top', label: 'Overview' },
 	{
@@ -151,7 +159,7 @@ const vizFor: Record<string, string> = {
 				<p class="toc__title">On this page</p>
 				<ol class="toc__list">
 					{toc.map((s) => (
-						<li class="toc__item" data-sec={s.id}>
+						<li class="toc__item" data-sec={s.id} data-prev={`/toc/dde/${s.id}.webp`}>
 							<a href={`#${s.id}`} data-go={s.id}>{s.label}</a>
 							{s.subs && (
 								<ol class="toc__sub">
@@ -376,7 +384,7 @@ const vizFor: Record<string, string> = {
 					{sc.id === 'process' && (
 		<section class="cx__ch" id="proto" data-fade aria-labelledby="c7">
 			<div class="cx__head">
-				<p class="hv__eyebrow">Try it · the north star, releasing in chunks</p>
+				<p class="hv__eyebrow">06 · Try it. The north star, releasing in chunks</p>
 				<h2 id="c7">Try the north star version.</h2>
 			</div>
 			<div class="cx__copy">
@@ -394,7 +402,7 @@ const vizFor: Record<string, string> = {
 		<section class="cx__ch cx__ch--phone" id="phone" data-fade aria-labelledby="c8">
 			<div>
 				<div class="cx__head">
-					<p class="hv__eyebrow">Forward thinking · Concept</p>
+					<p class="hv__eyebrow">09 · Forward thinking, part of the reflections</p>
 						<h2 id="c8">What if designers became auditors?</h2>
 					</div>
 					<div class="cx__copy">
@@ -408,24 +416,35 @@ const vizFor: Record<string, string> = {
 		</section>
 
 		<section class="cx__end" id="end" data-fade aria-labelledby="c9">
-			<div class="cx__endrow">
-				<div>
-					<h2 id="c9" class="cx__endh">The designer still decides.</h2>
-					<p class="cx__endp">One program for the crown, from prep through send, with a generated starting point the designer can reject.</p>
-				</div>
-				<nav class="cx__endnav" aria-label="More Dandy work">
-					<a class="is-main" href="/work/dandy">← Dandy overview</a>
-					<a href="/work/dandy-design-system">Design system →</a>
-					<a href="/work/dandy-prototype">Clickable prototypes →</a>
-					<a href="/work/dandy-product-design-hub">Product Design Hub →</a>
-				</nav>
+			<div class="cx__endtop">
+				<h2 id="c9" class="cx__endh">Thanks for viewing.</h2>
+				<p class="cx__endp">Want to see more of my work at Dandy?</p>
 			</div>
+			<ul class="cx__cards">
+				{[
+					{ href: '/work/dandy-design-system', title: 'Design Editor design system', tag: 'Systems design', note: 'Iteration down from 30–45 minutes to 5–10.', src: '/work/behind/ds.mp4', poster: '/work/behind/ds.jpg' },
+					{ href: '/work/dandy-prototype', title: 'Clickable prototypes', tag: 'Systems design', note: 'Real components, full flows.', src: '/work/behind/proto.mp4', poster: '/work/behind/proto.jpg' },
+					{ href: '/work/dandy-product-design-hub', title: 'Product Design Hub', tag: 'Systems design', note: 'Design-in-code, taught.', src: '/work/behind/hub.mp4', poster: '/work/behind/hub.jpg' },
+				].map((c) => (
+					<li>
+						<a class="cx__card" href={c.href} data-hovervid>
+							<span class="cx__cardm">
+								<img src={c.poster} alt="" loading="lazy" decoding="async" />
+								<video src={c.src} muted loop playsinline preload="none" aria-hidden="true"></video>
+							</span>
+							<span class="cx__cardt"><small>{c.tag}</small><b>{c.title}</b><em>{c.note}</em></span>
+							<span class="cx__cardgo" aria-hidden="true">→</span>
+						</a>
+					</li>
+				))}
+			</ul>
+			<a class="cx__endall" href="/work/dandy#dv-fit">← All Dandy work</a>
 		</section>
 	</div>
 </Base>
 
 <script>
-	import { natTop, railLabels } from '../../scripts/takeover';
+	import { natTop, railLabels, tocPreview } from '../../scripts/takeover';
 	const root = document.querySelector<HTMLElement>('[data-cx]');
 	if (root && !window.matchMedia('(prefers-reduced-motion: reduce)').matches && 'IntersectionObserver' in window) {
 		const mob = window.matchMedia('(max-width: 899px)').matches;
@@ -582,6 +601,7 @@ const vizFor: Record<string, string> = {
 		const items = Array.from(toc.querySelectorAll<HTMLElement>('.toc__item'));
 		const rail = Array.from(toc.querySelectorAll<HTMLElement>('[data-rail]'));
 		railLabels(items, rail);
+		tocPreview(toc);
 		const secOf = (id: string) => document.getElementById(id)!;
 		const phases = (sec: HTMLElement) => (sec.hasAttribute('data-journey') ? (JSON.parse(sec.dataset.w || '[1]') as number[]) : Array.from(sec.querySelectorAll('.sc__row')).map(() => 1));
 		const phaseNow = (sec: HTMLElement) => {
@@ -677,5 +697,19 @@ const vizFor: Record<string, string> = {
 		const els = Array.from(root.querySelectorAll<HTMLElement>(':scope > section, :scope > .lc')).filter((e) => !e.matches('dialog'));
 		stackSections(root, els);
 		wireDots(root);
+	}
+</script>
+
+<script>
+	// closing cards: the preview plays while you hover or focus a card
+	if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+		document.querySelectorAll<HTMLElement>('[data-hovervid]').forEach((card) => {
+			const v = card.querySelector<HTMLVideoElement>('video');
+			if (!v) return;
+			const on = () => { card.classList.add('is-playing'); v.play().catch(() => {}); };
+			const off = () => { card.classList.remove('is-playing'); v.pause(); };
+			card.addEventListener('mouseenter', on); card.addEventListener('mouseleave', off);
+			card.addEventListener('focus', on); card.addEventListener('blur', off);
+		});
 	}
 </script>

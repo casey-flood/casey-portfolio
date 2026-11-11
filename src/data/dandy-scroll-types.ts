@@ -15,7 +15,8 @@ export interface ScrollProps {
 	heroTitle: string;
 	lede: string;
 	tools?: string;
-	hero: { src: string; poster?: string };
+	hero: { src: string; poster?: string; image?: boolean; alt?: string };
+	brand?: { logo: string; alt: string; backHref: string; backLabel: string; cls?: string };
 	scenes: { id: string; label: string; nav: string; beats: Beat[] }[];
 	endTitle: string;
 	endText: string;

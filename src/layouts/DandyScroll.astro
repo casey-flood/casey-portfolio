@@ -4,7 +4,7 @@ import ToolsScene from '../components/ToolsScene.astro';
 
 import type { Beat, ScrollProps } from '../data/dandy-scroll-types';
 interface Props extends ScrollProps {}
-const { toolsScene, title, description, eyebrow, heroTitle, lede, tools, hero, scenes, endTitle, endText, endLinks = [{ href: '/work/dandy', label: '← Dandy overview' }, { href: '/work', label: 'All work', ghost: true }] } = Astro.props;
+const { toolsScene, title, description, eyebrow, heroTitle, lede, tools, hero, scenes, endTitle, endText, endLinks = [{ href: '/work/dandy', label: '← Dandy overview' }, { href: '/work', label: 'All work', ghost: true }], brand = { logo: '/brand/dandy-wordmark.svg', alt: 'Dandy', backHref: '/work/dandy', backLabel: '← Dandy overview', cls: '' } } = Astro.props;
 
 const toc = [{ id: 'dsx-top', label: 'Overview' }, ...scenes.flatMap((s) => [{ id: `sc-${s.id}`, label: s.nav }, ...(toolsScene && toolsScene.after === s.id ? [{ id: 'dsx-tools', label: 'Tools I use' }] : [])]), { id: 'end', label: 'Closing' }];
 const users = [
@@ -12,16 +12,17 @@ const users = [
 	{ who: 'Product managers', what: 'One place to see what exists and what is new', i: '◎' },
 	{ who: 'Designers', what: 'A browsable taxonomy with every state', i: '▦' },
 ];
+const slug = Astro.url.pathname.split('/').filter(Boolean).pop() ?? 'page';
 ---
 <Base title={title} description={description}>
-	<div class="hv cx dsx" data-cx>
+	<div class:list={['hv cx dsx', brand.cls]} data-cx>
 		<nav class="toc" data-toc aria-label="Page contents">
 			<ul class="toc__rail" aria-hidden="true">{toc.map((s) => <li data-rail={s.id}></li>)}</ul>
 			<div class="toc__panel">
 				<p class="toc__title">On this page</p>
 				<ol class="toc__list">
 					{toc.map((s) => (
-						<li class="toc__item" data-sec={s.id}><a href={`#${s.id}`} data-go={s.id}>{s.label}</a></li>
+						<li class="toc__item" data-sec={s.id} data-prev={`/toc/${slug}/${s.id}.webp`}><a href={`#${s.id}`} data-go={s.id}>{s.label}</a></li>
 					))}
 				</ol>
 			</div>
@@ -29,8 +30,8 @@ const users = [
 
 		<header class="cx__hero dsx__hero" id="dsx-top" aria-labelledby="dsx-h">
 			<div class="cx__top">
-				<img class="hv__logo" src="/brand/dandy-wordmark.svg" alt="Dandy" width="96" height="34" />
-				<a class="cx__back" href="/work/dandy">← Dandy overview</a>
+				<img class="hv__logo" src={brand.logo} alt={brand.alt} width="96" height="34" />
+				<a class="cx__back" href={brand.backHref}>{brand.backLabel}</a>
 			</div>
 			<div class="dsx__grid">
 				<div class="dsx__copy">
@@ -41,7 +42,7 @@ const users = [
 					<p class="cx__lede">{lede}{tools && <span class="dsx__tools">{tools}</span>}</p>
 				</div>
 				<figure class="dsx__vid">
-					<video src={hero.src} poster={hero.poster} muted loop playsinline autoplay preload="auto" data-herovid></video>
+					{hero.image ? <img src={hero.src} alt={hero.alt ?? ''} /> : <video src={hero.src} poster={hero.poster} muted loop playsinline autoplay preload="auto" data-herovid></video>}
 				</figure>
 			</div>
 		</header>
@@ -117,7 +118,7 @@ const users = [
 </Base>
 
 <script>
-	import { natTop, railLabels } from '../scripts/takeover';
+	import { natTop, railLabels, tocPreview } from '../scripts/takeover';
 	const root = document.querySelector<HTMLElement>('[data-cx]');
 	// a viewer's manual pause sticks until they press play again
 	const play = (v?: HTMLVideoElement | null) => { if (v && v.dataset.userpaused !== '1') v.play().catch(() => {}); };
@@ -201,6 +202,7 @@ const users = [
 		const items = Array.from(toc.querySelectorAll<HTMLElement>('.toc__item'));
 		const rail = Array.from(toc.querySelectorAll<HTMLElement>('[data-rail]'));
 		railLabels(items, rail);
+		tocPreview(toc);
 		const secOf = (id: string) => document.getElementById(id)!;
 		toc.querySelectorAll<HTMLAnchorElement>('a[data-go]').forEach((a) => a.addEventListener('click', (e) => {
 			e.preventDefault();

@@ -1,24 +1,114 @@
 ---
 import Base from '../../layouts/Base.astro';
-import CompanyBanner from '../../components/CompanyBanner.astro';
 import { companies } from '../../data/companies';
+
+// One entry per project. Lead with the result, then a clear title.
+type P = { co: string; title: string; line: string; d?: string; metric?: { v: string; l: string }; note?: string; tags: string[]; img?: string; ph?: string; href?: string };
+const projects: P[] = [
+	{ co: 'dandy', title: 'Dandy Design Editor', line: 'Designed the in-house crown design tool, cutting designer time per order by <b>11.5%</b>.', d: 'One end-to-end tool for designing the whole restoration in house.', metric: { v: '−11.5%', l: 'designer time per crown order' }, tags: ['designer experience', 'dental', 'in-house design', 'machine learning', 'sole designer'], img: '/scan-to-smile/04-design.webp', href: '/work/dandy-design-editor' },
+	{ co: 'dandy', title: 'Instant Design Preview', line: 'Dentists approve the generated crown before it’s made, so fewer get remade.', d: 'Dentists approve the generated crown before it is made.', note: 'Chairside · case study coming soon', tags: ['dentist experience', 'dental', 'crown'], img: '/scan-to-smile/extra-ml-crown.webp' },
+	{ co: 'dandy', title: 'Perfect Fit (Goldilocks)', line: 'Three crown fits in one order: quicker turnaround and fewer seating appointments.', d: 'Three crown fits in one order, one right fit.', note: 'Three fits, one right crown · coming soon', tags: ['dentist experience', 'patient', 'crown'], img: '/scan-to-smile/06-place.webp' },
+	{ co: 'dandy', title: 'Design Editor design system', line: 'Built its first design system, cutting each iteration from 30–45 to <b>5–10 minutes</b>.', d: 'Built from scratch in Storybook, on real production code.', metric: { v: '5–10 min', l: 'per iteration, down from 30–45' }, tags: ['systems design', 'design system', 'storybook', 'cursor'], img: '/journey/storybook-ds-cover.jpg', href: '/work/dandy-design-system' },
+	{ co: 'dandy', title: 'Clickable prototypes', line: 'Prototyped real flows from production components for early feedback.', d: 'Real components, full flows, early feedback.', note: 'Systems', tags: ['systems design', 'prototype', 'code'], img: '/work/behind/proto.jpg', href: '/work/dandy-prototype' },
+	{ co: 'dandy', title: 'Product Design Hub', line: 'A guided path that teaches the whole team to prototype in code.', d: 'A guided path that teaches the team to prototype in code.', note: 'Systems', tags: ['systems design', 'education', 'hub'], img: '/work/behind/hub.jpg', href: '/work/dandy-product-design-hub' },
+	{ co: 'amwell', title: 'Admin portal redesign', line: 'Redesigned the admin portal around each role, lifting task completion from <b>45% to 82%</b>.', d: 'One role-based system for a fragmented enterprise portal.', metric: { v: '45% → 82%', l: 'admin task completion' }, tags: ['admin', 'navigation', 'information architecture', 'healthcare', 'enterprise', 'design system'], img: '/amwell/cs/hero.webp', href: '/work/amwell-admin-portal' },
+	{ co: 'amwell', title: 'AI While You Wait', line: 'ML-assisted pre-visit triage that cut perceived wait time by <b>45%</b>.', d: 'ML-assisted pre-visit triage for patients.', metric: { v: '45%', l: 'lower perceived wait time' }, tags: ['patient experience', 'triage', 'machine learning', 'healthcare'], img: '/amwell/triage.webp' },
+	{ co: 'amwell', title: 'Patient onboarding', line: 'Streamlined enrollment, lifting onboarding conversion by <b>20%</b>.', d: 'Enrollment and intake, reused across white-label clients.', metric: { v: '+20%', l: 'onboarding conversion' }, tags: ['patient experience', 'onboarding', 'mobile', 'healthcare'], img: '/amwell/onboarding.webp' },
+	{ co: 'earlier', title: 'Paper Airplane', line: 'Made in-person dating approachable, from first survey to a tested prototype.', d: 'A dating app for meeting in the same room.', metric: { v: '13', l: 'tested screens' }, tags: ['startup', 'mobile', 'dating', 'research'], img: '/paper-airplane/screen-01.webp', href: '/work/paper-airplane' },
+	{ co: 'earlier', title: 'My Trips', line: 'Cut the time to share a trip by <b>94%</b>.', d: 'An itinerary app built around sharing a trip fast.', metric: { v: '94%', l: 'less time to share a trip' }, tags: ['mobile', 'travel', 'freelance'], ph: 'Add a screen or short clip of the itinerary app' },
+];
+
+const co = companies.map((c) => ({ ...c, items: projects.filter((p) => p.co === c.id) }));
+const chips = [{ id: 'all', label: 'All' }, ...companies.map((c) => ({ id: c.id, label: c.name.replace(' and independent', '') }))];
 ---
 
 <Base
 	title="Work"
 	description="Product design work by Casey Flood, grouped by company: Dandy, Amwell, and earlier projects."
 >
-	<section class="page-intro">
+	<div class="wk" data-wk>
 		<div class="shell">
-			<p class="eyebrow eyebrow--sky">Work</p>
-			<h1>Where I've done the work.</h1>
-			<p class="lede">Start with a company for the context, or jump straight into a project.</p>
-		</div>
-	</section>
+			<header class="wk__head">
+				<h1>All work, by company.</h1>
+				<div class="wk__tools" role="search">
+					<label class="wk__search">
+						<span class="sr-only">Search projects</span>
+						<svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true"><circle cx="9" cy="9" r="6" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M14 14l4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+						<input type="search" placeholder="Search work" data-q autocomplete="off" />
+					</label>
+					<div class="wk__chips" role="group" aria-label="Filter by company">
+						{chips.map((c, i) => <button type="button" class="wk__chip" data-chip={c.id} aria-pressed={i === 0 ? 'true' : 'false'}>{c.label}</button>)}
+					</div>
+					<label class="wk__only"><input type="checkbox" data-cs /> <span>Case studies</span></label>
+				</div>
+			</header>
 
-	<section class="section" style="padding-top: 1.5rem" aria-label="Companies">
-		<div class="shell cb-stack">
-			{companies.map((c) => <CompanyBanner company={c} mode="index" />)}
+			{
+				co.map((c) => (
+					<section class={`wk__co wk__co--${c.id}`} data-co={c.id} aria-labelledby={`wk-${c.id}`}>
+						<div class="wk__cohead">
+							{c.id === 'dandy' && <img class="wk__logo" src="/brand/dandy-wordmark.svg" alt="" />}
+							{c.id === 'amwell' && <img class="wk__logo" src="/brand/amwell-white.svg" alt="" />}
+							<h2 id={`wk-${c.id}`} class:list={['wk__coh', { 'sr-only': c.id !== 'earlier' }]}>{c.name}</h2>
+							<p class="wk__meta">{c.role} · {c.when}</p>
+							{c.cta && <a class="wk__over" href={c.cta.href}>Overview <span aria-hidden="true">→</span></a>}
+						</div>
+						<ul class="hp__work wk__cards">
+							{c.items.map((p) => {
+								const q = [p.title, p.d, c.name, p.metric?.v, p.metric?.l, p.note, ...p.tags].filter(Boolean).join(' ').toLowerCase();
+								const Tag = p.href ? 'a' : 'div';
+								return (
+									<li class="wk__item" data-q={q} data-has={p.href ? '1' : '0'}>
+										<Tag class:list={['hp__card', { 'hp__card--soon': !p.href }]} href={p.href}>
+											<span class="hp__img">
+												{p.img ? <img src={p.img} alt="" loading="lazy" decoding="async" /> : <span class="hp__ph">{p.ph}</span>}
+												{p.href && <i class="hp__arrow" aria-hidden="true">↗</i>}
+											</span>
+											<span class="hp__name">{p.title}</span>
+											<span class="hp__sub" set:html={p.line}></span>
+											{!p.href && <span class="hp__soon">Coming soon</span>}
+										</Tag>
+									</li>
+								);
+							})}
+						</ul>
+					</section>
+				))
+			}
+			<p class="wk__none" hidden data-none>No projects match.</p>
 		</div>
-	</section>
+	</div>
 </Base>
+
+<script>
+	const root = document.querySelector<HTMLElement>('[data-wk]');
+	if (root) {
+		const input = root.querySelector<HTMLInputElement>('[data-q]')!;
+		const only = root.querySelector<HTMLInputElement>('[data-cs]')!;
+		const chips = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-chip]'));
+		const items = Array.from(root.querySelectorAll<HTMLElement>('.wk__item'));
+		const secs = Array.from(root.querySelectorAll<HTMLElement>('[data-co]'));
+			const none = root.querySelector<HTMLElement>('[data-none]')!;
+		let co = 'all';
+		const run = () => {
+			const terms = input.value.toLowerCase().split(/\s+/).filter(Boolean);
+			let n = 0;
+			items.forEach((it) => {
+				const sec = it.closest<HTMLElement>('[data-co]')!.dataset.co;
+				const ok = (co === 'all' || co === sec) && (!only.checked || it.dataset.has === '1') && terms.every((t) => it.dataset.q!.includes(t));
+				it.hidden = !ok;
+				if (ok) n++;
+			});
+			secs.forEach((s) => { s.hidden = !s.querySelector('.wk__item:not([hidden])'); });
+			none.hidden = n > 0;
+		};
+		input.addEventListener('input', run);
+		only.addEventListener('change', run);
+		chips.forEach((b) => b.addEventListener('click', () => {
+			co = b.dataset.chip!;
+			chips.forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+			run();
+		}));
+		run();
+	}
+</script>

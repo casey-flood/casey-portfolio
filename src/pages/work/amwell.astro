@@ -1,26 +1,297 @@
 ---
 import Base from '../../layouts/Base.astro';
-import CompanyBanner from '../../components/CompanyBanner.astro';
 import { companies } from '../../data/companies';
-const company = companies.find((c) => c.id === 'amwell')!;
+import { amwell } from '../../data/journey';
+
+const heroTitle = 'Virtual urgent care, used by millions.';
+const statement =
+	'Amwell is an enterprise telehealth platform that health systems and health plans use to deliver virtual care under their own brand. Over five years I grew from UX Designer to Senior Product Designer, shaping the patient experience and the admin tools that power it.';
+const words = statement.split(' ');
+
+
+const projects = [
+	{
+		kicker: 'Admin platform',
+		title: 'Admin portal redesign',
+		metric: { v: '45% → 82%', l: 'admin task completion' },
+		text: 'One role-based system replaced a fragmented portal, with a navigation framework that scales from support views to multi-tenant setups.',
+		img: { src: '/amwell/cs/hero.webp', alt: 'The redesigned Amwell admin dashboard' },
+		link: { label: 'Read the case study', href: '/work/amwell-admin-portal' },
+	},
+	{
+		kicker: 'Patient experience',
+		title: 'AI While You Wait',
+		metric: { v: '45%', l: 'lower perceived wait time' },
+		text: 'An ML-assisted pre-visit triage flow that gives patients something useful to do before their visit starts.',
+		img: { src: '/amwell/triage.webp', alt: 'A patient on a video visit from her couch' },
+		link: { label: 'Case study coming soon' },
+	},
+	{
+		kicker: 'Patient experience',
+		title: 'Patient onboarding and intake',
+		metric: { v: '+20%', l: 'onboarding conversion' },
+		text: 'A streamlined enrollment and intake journey across mobile and web, reused across white-label clients.',
+		img: { src: '/amwell/onboarding.webp', alt: 'Amwell mobile app screens' },
+		link: { label: 'Case study coming soon' },
+	},
+];
+
+const impact = [
+	{ v: '45% → 82%', l: 'admin task completion' },
+	{ v: '+20%', l: 'onboarding conversion' },
+	{ v: '−25%', l: 'inbound inquiries' },
+	{ v: '+18%', l: 'bookings from streamlined intake' },
+	{ v: '#1', l: 'J.D. Power satisfaction ranking' },
+	{ v: '86%', l: 'of user research led' },
+];
+
+const hl = [
+	{ t: 'Team photo', h: 'Asset: the Amwell design team, an offsite, or a launch day' },
+	{ t: 'Research session', h: 'Asset: a photo of a workshop or shadowing session' },
+	{ t: 'Talk or workshop', h: 'Asset: a slide or photo from something you led' },
+];
+
+const toc = [
+	{ id: 'aw-top', label: 'Overview' },
+	{ id: 'aw-what', label: 'What Amwell is' },
+	{ id: 'aw-fit', label: 'Where I fit in' },
+	{ id: 'aw-projects', label: 'My projects' },
+	{ id: 'aw-impact', label: 'My impact' },
+	{ id: 'aw-highlights', label: 'Other highlights' },
+];
+const more = companies.filter((c) => c.id !== 'amwell' && c.cta);
 ---
 
 <Base
 	title="Amwell"
 	description="Five years designing white-label virtual urgent care, from patient onboarding to the admin tools that run it."
 >
-	<section class="page-intro">
-		<div class="shell">
-			<a class="back" href="/work">← All work</a>
-			<p class="eyebrow eyebrow--sky">Work · Amwell</p>
-			<h1>Amwell</h1>
-			<p class="lede">Five years designing white-label virtual urgent care, from patient onboarding to the admin tools that run it.</p>
-		</div>
-	</section>
+	<div class="hv amw aw" data-hv>
+		<nav class="toc" data-toc aria-label="Page contents">
+			<ul class="toc__rail" aria-hidden="true">{toc.map((s) => <li data-rail={s.id}></li>)}</ul>
+			<div class="toc__panel">
+				<p class="toc__title">On this page</p>
+				<ol class="toc__list">
+					{toc.map((s) => (
+						<li class="toc__item" data-sec={s.id} data-prev={`/toc/amwell/${s.id}.webp`}>
+							<a href={`#${s.id}`} data-go={s.id}>{s.label}</a>
+						</li>
+					))}
+				</ol>
+			</div>
+		</nav>
 
-	<section class="section" style="padding-top: 1.5rem" aria-label="Overview">
-		<div class="shell">
-			<CompanyBanner company={company} mode="hub" />
-		</div>
-	</section>
+		<section class="hv__cover aw__cover" id="aw-top" aria-labelledby="amwell-h">
+			<img class="hv__logo aw__logo" src="/brand/amwell-white.svg" alt="Amwell" width="120" height="34" />
+			<div class="hv__cover-text">
+				<p class="hv__eyebrow">Work · Amwell · 2019 – 2024</p>
+				<h1 id="amwell-h" aria-label={heroTitle}>
+					{heroTitle.split(' ').map((w, i) => (<><span class="hv-w" aria-hidden="true" style={`--i:${i}`}>{w}</span>{' '}</>))}
+				</h1>
+			</div>
+			<figure class="aw__art" aria-hidden="true"><img src="/amwell/hero-platform.webp" alt="" /></figure>
+		</section>
+
+		<section class="hv__reveal" data-reveal aria-label="About my work at Amwell">
+			<div class="hv__pin">
+				<p class="hv__statement">{words.map((w) => <span class="hv-rw">{w} </span>)}</p>
+			</div>
+		</section>
+
+		<section class="aw__story" id="aw-what" data-story aria-labelledby="aw-what-h">
+			<div class="aw__pin">
+				<h2 id="aw-what-h" class="hv__big hv__big--md">What Amwell is.</h2>
+				<p class="aw__cap" aria-live="polite">
+					<span data-cap="0">A patient starts a visit in the patient portal.</span>
+					<span data-cap="1">A provider picks it up in the provider portal.</span>
+					<span data-cap="2">Care and follow-ups flow back to the patient.</span>
+					<span data-cap="3">The admin is the link behind both: they configure the whole experience.</span>
+				</p>
+				<div class="aw__stage" data-stage data-ph="3">
+					<figure class="aw__el aw__pat" data-s="0">
+						<figcaption>Patient</figcaption>
+						<img class="aw__persona" src="/amwell/cs/pat-persona.webp" alt="A patient checking a health concern on his phone" />
+						<img class="aw__shot" src="/amwell/cs/pat-portal.webp" alt="The Amwell patient portal" loading="lazy" />
+					</figure>
+					<div class="aw__wires" aria-hidden="true">
+						<i class="aw__arr aw__arr--to" data-s="1"></i>
+						<i class="aw__arr aw__arr--back" data-s="2"></i>
+					</div>
+					<figure class="aw__el aw__prov" data-s="1">
+						<figcaption>Provider</figcaption>
+						<img class="aw__persona aw__persona--cut" src="/amwell/cs/prov-persona.webp" alt="A provider reviewing patient information on a tablet" />
+						<img class="aw__shot" src="/amwell/cs/prov-portal.webp" alt="The Amwell for Clinicians provider portal" loading="lazy" />
+					</figure>
+					<figure class="aw__el aw__adm" data-s="3">
+						<i class="aw__vline" aria-hidden="true"></i>
+						<figcaption>Admin</figcaption>
+						<img class="aw__persona" src="/amwell/cs/admin-persona.webp" alt="An administrator at a health system" />
+						<img class="aw__shot" src="/amwell/cs/admin-portal.webp" alt="The Amwell admin console" loading="lazy" />
+					</figure>
+				</div>
+			</div>
+		</section>
+
+		<section class="aw__sec" id="aw-fit" aria-labelledby="aw-fit-h">
+			<h2 id="aw-fit-h" class="hv__big hv__big--md">Where I fit in.</h2>
+			<p class="hv__lede">{amwell.title}</p>
+			<ol class="aw__ranks">
+				{amwell.ranks.map((r) => (
+					<li class="aw__rank" data-fade>
+						<span class="aw__yr">{r.year}</span>
+						<h3>{r.title}</h3>
+						<p class="aw__scope">{r.scope}</p>
+						<p>{r.summary}</p>
+					</li>
+				))}
+			</ol>
+		</section>
+
+		<section class="hv__work hv__work--cards aw__sec" id="aw-projects" aria-labelledby="aw-proj-h">
+			<h2 id="aw-proj-h" class="hv__big hv__big--md">My projects.</h2>
+			<p class="hv__lede">Led with the result.</p>
+			<ul class="hv__cards">
+				{projects.map((p) => (
+					<li class="hv__card" data-fade>
+						{p.link.href ? <a class="hv__card-link" href={p.link.href} aria-label={`${p.title}: ${p.link.label}`}></a> : null}
+						<figure class="hv__card-art">
+							{p.img ? <img src={p.img.src} alt={p.img.alt} loading="lazy" decoding="async" /> : <span class="aw__ph" role="img" aria-label={`Placeholder. ${p.ph}`}><small>{p.ph}</small></span>}
+						</figure>
+						<div class="hv__card-body">
+							<p class="hv__persona">{p.kicker}</p>
+							<p class="aw__metric"><b>{p.metric.v}</b> {p.metric.l}</p>
+							<h3>{p.title}</h3>
+							<p>{p.text}</p>
+							<div class="hv__card-foot">
+								{p.link.href ? <span class="hv__cta">{p.link.label} →</span> : <span class="hv__soon">Coming soon</span>}
+							</div>
+						</div>
+					</li>
+				))}
+			</ul>
+		</section>
+
+		<section class="aw__sec" id="aw-impact" aria-labelledby="aw-imp-h">
+			<h2 id="aw-imp-h" class="hv__big hv__big--md">My impact.</h2>
+			<p class="hv__lede">Across five years of patient and admin work.</p>
+			<ul class="aw__stats">
+				{impact.map((m) => <li data-fade><b>{m.v}</b><span>{m.l}</span></li>)}
+			</ul>
+		</section>
+
+		<section class="aw__sec" id="aw-highlights" aria-labelledby="aw-hl-h">
+			<h2 id="aw-hl-h" class="hv__big hv__big--md">Other highlights.</h2>
+			<p class="hv__lede">The people and moments behind the work.</p>
+			<ul class="aw__hl">
+				{hl.map((h) => (
+					<li data-fade><span class="aw__ph" role="img" aria-label={`Placeholder. ${h.h}`}><b>{h.t}</b><small>{h.h}</small></span></li>
+				))}
+			</ul>
+		</section>
+
+		<section class="hv__more cx__end" aria-labelledby="more-h">
+			<div class="cx__endtop">
+				<h2 id="more-h" class="cx__endh">Keep exploring.</h2>
+				<p class="cx__endp">More of my product design work.</p>
+			</div>
+			<ul class="cx__cards cx__cards--2">
+				{more.map((c) => (
+					<li>
+						<a class="cx__card" href={c.cta!.href}>
+							<span class="cx__cardm">{c.visual?.src && <img src={c.visual.src} alt="" loading="lazy" decoding="async" />}</span>
+							<span class="cx__cardt"><small>{c.role} · {c.when}</small><b>{c.name}</b><em>{c.blurb}</em></span>
+							<span class="cx__cardgo" aria-hidden="true">→</span>
+						</a>
+					</li>
+				))}
+			</ul>
+			<a class="cx__endall" href="/work">← All work</a>
+		</section>
+	</div>
 </Base>
+
+<script>
+	import { stackSections, wireDots, natTop, railLabels, tocPreview } from '../../scripts/takeover';
+	const root = document.querySelector<HTMLElement>('[data-hv]');
+	const calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
+	const clamp = (n: number) => Math.max(0, Math.min(1, n));
+	if (root && !calm) {
+		root.classList.add('is-live', 'cx--live');
+		if (matchMedia('(max-width: 899px)').matches) root.classList.add('cx--mob');
+		const reveal = root.querySelector<HTMLElement>('[data-reveal]');
+		const rws = reveal ? Array.from(reveal.querySelectorAll<HTMLElement>('.hv-rw')) : [];
+		const tick = () => {
+			if (!reveal) return;
+			const r = reveal.getBoundingClientRect();
+			const p = clamp(-r.top / Math.max(1, r.height - innerHeight));
+			const lit = Math.round(p * 1.25 * rws.length);
+			rws.forEach((w, i) => w.classList.toggle('lit', i < lit));
+		};
+		let raf = 0;
+		addEventListener('scroll', () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(tick); }, { passive: true });
+		addEventListener('resize', tick);
+		tick();
+		const story = root.querySelector<HTMLElement>('[data-story]');
+		const stage = story?.querySelector<HTMLElement>('[data-stage]');
+		const caps = story ? Array.from(story.querySelectorAll<HTMLElement>('[data-cap]')) : [];
+		let lastPh = -1;
+		const phase = () => {
+			if (!story || !stage) return;
+			if (root.classList.contains('cx--mob')) return;
+			const r = story.getBoundingClientRect();
+			const p = clamp(-r.top / Math.max(1, r.height - innerHeight));
+			const ph = Math.min(3, Math.floor(p * 4));
+			if (ph === lastPh) return;
+			lastPh = ph;
+			stage.dataset.ph = String(ph);
+			caps.forEach((c) => c.classList.toggle('on', Number(c.dataset.cap) === ph));
+		};
+		if (story && !root.classList.contains('cx--mob')) { story.classList.add('is-pinned'); if (stage) stage.dataset.ph = '0'; caps[0]?.classList.add('on'); }
+		addEventListener('scroll', () => requestAnimationFrame(phase), { passive: true });
+		addEventListener('resize', phase);
+		phase();
+		const io = new IntersectionObserver(
+			(es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }),
+			{ rootMargin: '0px 0px -10% 0px', threshold: 0.1 },
+		);
+		root.querySelectorAll('[data-fade]').forEach((el) => io.observe(el));
+		if (!root.classList.contains('cx--mob')) {
+			const secs = ['#aw-what', '#aw-fit', '#aw-projects', '#aw-impact', '#aw-highlights', '.hv__more']
+				.map((s) => root.querySelector<HTMLElement>(s)).filter(Boolean) as HTMLElement[];
+			stackSections(root, secs);
+			wireDots(root);
+			const t = location.hash ? document.getElementById(location.hash.slice(1)) : null;
+			if (t) {
+				const go = () => scrollTo({ top: natTop(t) + scrollY - 70, behavior: 'instant' as ScrollBehavior });
+				if (document.readyState === 'complete') setTimeout(go, 150); else addEventListener('load', () => setTimeout(go, 150));
+				setTimeout(go, 1000);
+			}
+		}
+	}
+
+	const toc = document.querySelector<HTMLElement>('[data-toc]');
+	if (toc) {
+		const items = Array.from(toc.querySelectorAll<HTMLElement>('.toc__item'));
+		const rail = Array.from(toc.querySelectorAll<HTMLElement>('[data-rail]'));
+		railLabels(items, rail);
+		tocPreview(toc);
+		const secOf = (id: string) => document.getElementById(id)!;
+		toc.querySelectorAll<HTMLAnchorElement>('a[data-go]').forEach((a) =>
+			a.addEventListener('click', (e) => {
+				e.preventDefault();
+				const id = a.dataset.go!;
+				scrollTo({ top: id === 'aw-top' ? 0 : natTop(secOf(id)) + scrollY - 70, behavior: 'smooth' });
+			}),
+		);
+		let raf2 = 0;
+		const tick2 = () => {
+			let cur = 0;
+			items.forEach((it, k) => { if (natTop(secOf(it.dataset.sec!)) <= innerHeight * 0.35) cur = k; });
+			items.forEach((it, k) => it.classList.toggle('on', k === cur));
+			rail.forEach((r, k) => r.classList.toggle('on', k === cur));
+		};
+		addEventListener('scroll', () => { cancelAnimationFrame(raf2); raf2 = requestAnimationFrame(tick2); }, { passive: true });
+		addEventListener('resize', tick2);
+		tick2();
+	}
+</script>

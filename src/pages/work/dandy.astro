@@ -80,7 +80,7 @@ const systems = [
 				<p class="toc__title">On this page</p>
 				<ol class="toc__list">
 					{toc.map((s) => (
-						<li class="toc__item" data-sec={s.id}>
+						<li class="toc__item" data-sec={s.id} data-prev={`/toc/dandy/${s.id}.webp`}>
 							<a href={`#${s.id}`} data-go={s.id}>{s.label}</a>
 							{s.subs && (
 								<ol class="toc__sub">
@@ -211,28 +211,29 @@ const systems = [
 			)
 		}
 		<!-- 8. Closer: keep exploring -->
-		<section class="hv__more" aria-labelledby="more-h">
-			<h2 id="more-h" class="hv__big hv__big--md">Keep exploring.</h2>
-			<div class="hv__more-row">
-				<a class="hv__more-all" href="/work">← All work</a>
-				<ul class="hv__more-list">
-					{more.map((c) => (
-						<li>
-							<a class="hv__more-card" href={c.cta!.href}>
-								<span class="hv__more-name">{c.name}</span>
-								<span class="hv__more-blurb">{c.blurb}</span>
-								<span class="hv__more-go">{c.when} →</span>
-							</a>
-						</li>
-					))}
-				</ul>
+		<section class="hv__more cx__end" aria-labelledby="more-h">
+			<div class="cx__endtop">
+				<h2 id="more-h" class="cx__endh">Keep exploring.</h2>
+				<p class="cx__endp">More of my product design work, before Dandy.</p>
 			</div>
+			<ul class="cx__cards cx__cards--2">
+				{more.map((c) => (
+					<li>
+						<a class="cx__card" href={c.cta!.href}>
+							<span class="cx__cardm">{c.visual?.src && <img src={c.visual.src} alt="" loading="lazy" decoding="async" />}</span>
+							<span class="cx__cardt"><small>{c.role} · {c.when}</small><b>{c.name}</b><em>{c.blurb}</em></span>
+							<span class="cx__cardgo" aria-hidden="true">→</span>
+						</a>
+					</li>
+				))}
+			</ul>
+			<a class="cx__endall" href="/work">← All work</a>
 		</section>
 	</div>
 </Base>
 
 <script>
-	import { stackSections, wireDots } from '../../scripts/takeover';
+	import { stackSections, wireDots, natTop } from '../../scripts/takeover';
 	const root = document.querySelector<HTMLElement>('[data-hv]');
 	const calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 	if (root && !calm) {
@@ -367,12 +368,20 @@ const systems = [
 				.map((s) => root.querySelector<HTMLElement>(s)).filter(Boolean) as HTMLElement[];
 			stackSections(root, secs);
 			wireDots(root);
+				// arriving with a #section link (e.g. from a case study): land on that section once the stack is set
+				const hashTarget = location.hash ? document.getElementById(location.hash.slice(1)) : null;
+				if (hashTarget) {
+					const goHash = () => scrollTo({ top: natTop(hashTarget) + scrollY - 70, behavior: 'instant' as ScrollBehavior });
+					if (document.readyState === 'complete') setTimeout(goHash, 150);
+					else addEventListener('load', () => setTimeout(goHash, 150));
+					setTimeout(goHash, 1000); // after the browser's own jump to the anchor, if it runs late
+				}
 		}
 	}
 </script>
 
 <script>
-	import { natTop, railLabels } from '../../scripts/takeover';
+	import { natTop, railLabels, tocPreview } from '../../scripts/takeover';
 	// Page navigator for the overview: dots at the left, a panel on hover with the journey steps.
 	const toc = document.querySelector<HTMLElement>('[data-toc]');
 	if (toc) {
@@ -380,6 +389,7 @@ const systems = [
 		const items = Array.from(toc.querySelectorAll<HTMLElement>('.toc__item'));
 		const rail = Array.from(toc.querySelectorAll<HTMLElement>('[data-rail]'));
 		railLabels(items, rail);
+		tocPreview(toc);
 		const secOf = (id: string) => document.getElementById(id)!;
 		const phase = (sec: HTMLElement) => {
 			const w: number[] = JSON.parse(sec.dataset.w || '[1]');

@@ -92,3 +92,41 @@ export function wireDots(root: HTMLElement) {
 		});
 	});
 }
+
+
+/** Hovering a navigator item shows a small preview of that section beside the panel. */
+export function tocPreview(toc: HTMLElement) {
+	if (matchMedia('(hover: none)').matches) return;
+	const panel = toc.querySelector<HTMLElement>('.toc__panel');
+	const items = Array.from(toc.querySelectorAll<HTMLElement>('.toc__item[data-prev]'));
+	if (!panel || !items.length) return;
+	const card = document.createElement('div');
+	card.className = 'toc__prev';
+	card.setAttribute('aria-hidden', 'true');
+	const img = document.createElement('img');
+	img.alt = '';
+	const cap = document.createElement('p');
+	card.append(img, cap);
+	document.body.appendChild(card);
+	let warmed = false;
+	const warm = () => { if (warmed) return; warmed = true; items.forEach((it) => { const i = new Image(); i.src = it.dataset.prev!; }); };
+	const hide = () => card.classList.remove('on');
+	const show = (it: HTMLElement) => {
+		warm();
+		const r = it.getBoundingClientRect();
+		const pr = panel.getBoundingClientRect();
+		const h = card.offsetHeight || 190;
+		img.onerror = hide;
+		img.src = it.dataset.prev!;
+		cap.textContent = it.querySelector('a')?.textContent?.trim() ?? '';
+		card.style.left = `${pr.right + 10}px`;
+		card.style.top = `${Math.max(76, Math.min(innerHeight - h - 12, r.top + r.height / 2 - h / 2))}px`;
+		card.classList.add('on');
+	};
+	items.forEach((it) => {
+		it.addEventListener('mouseenter', () => show(it));
+		it.addEventListener('focusin', () => show(it));
+	});
+	toc.addEventListener('mouseleave', hide);
+	toc.addEventListener('focusout', hide);
+}
