@@ -40,13 +40,13 @@ const who = `
 	<svg class="who__lines" viewBox="0 0 100 20" preserveAspectRatio="none" aria-hidden="true"><path d="M50 0 L50 8 M50 8 L25 8 L25 20 M50 8 L75 8 L75 20" /></svg>
 	<div class="who__grp who__grp--in" data-part="in" tabindex="0" role="button" aria-label="Focus on the internal Amwell team">
 		<p class="who__h">Internal · <b>Amwell team</b></p>
-		<div class="who__p"><img src="/amwell/cs/av-impl.webp" alt="" /><b>Implementation managers</b><small>Set up and configure the platform for each client.</small></div>
-		<div class="who__p"><img src="/amwell/cs/av-noc.webp" alt="" /><b>NOC agents</b><small>Monitor platform health and fix performance issues.</small></div>
+		<div class="who__p"><img src="/amwell/cs/av-impl.webp" alt="" /><b>Implementation managers</b><small>Set up and tailor the platform for each healthcare organization.</small></div>
+		<div class="who__p"><img src="/amwell/cs/av-noc.webp" alt="" /><b>NOC agents</b><small>Monitor platform health and address performance issues.</small></div>
 	</div>
 	<div class="who__grp who__grp--out" data-part="out" tabindex="0" role="button" aria-label="Focus on external client organizations">
-		<p class="who__h">External · <b>Client organizations</b></p>
-		<div class="who__p"><img src="/amwell/cs/av-client.webp" alt="" /><b>Client healthcare admins</b><small>Run their own instance, e.g. CVS Health.</small></div>
-		<div class="who__p"><img src="/amwell/cs/av-it.webp" alt="" /><b>Client IT teams</b><small>Connect Amwell to their existing systems.</small></div>
+		<p class="who__h">External · <b>Amwell’s partner organizations</b></p>
+		<div class="who__p"><img src="/amwell/cs/av-client.webp" alt="" /><b>Client healthcare admins</b><small>e.g. CVS Health. Configure and maintain their own instance.</small></div>
+		<div class="who__p"><img src="/amwell/cs/av-it.webp" alt="" /><b>Client IT teams</b><small>e.g. CVS Health IT. Integrate Amwell with their existing systems.</small></div>
 	</div>
 	<p class="eco__hint">Click a group to focus on it, or ⤢ to see the portal full size.</p>
 </div>`;
@@ -84,9 +84,11 @@ const deck = `
 	<figure class="pdeck__card" data-part="0" data-tag="internal" tabindex="0" role="button" aria-label="Sarah, senior implementation manager, internal Amwell user"><img src="/amwell/cs/pc1.webp" alt="Persona: Sarah, senior implementation manager, super admin" /></figure>
 	<figure class="pdeck__card" data-part="1" data-tag="internal" tabindex="0" role="button" aria-label="David, NOC specialist, internal Amwell user"><img src="/amwell/cs/pc2.webp" alt="Persona: David, NOC specialist, tenant admin" /></figure>
 	<figure class="pdeck__card" data-part="2" data-tag="client" tabindex="0" role="button" aria-label="Jennifer, health system admin, client"><img src="/amwell/cs/pc3.webp" alt="Persona: Jennifer, health system admin" /></figure>
+	<figure class="pdeck__card pdeck__card--lite" data-part="3" data-tag="client" tabindex="0" role="button" aria-label="Client IT teams, client"><div class="pdeck__lite"><img src="/amwell/cs/av-it.webp" alt="" /><b>Client IT teams</b><small>ex. CVS Health IT team</small></div></figure>
 	<p class="pdeck__call" data-for="0"><span class="ptag ptag--in"><img src="/brand/amwell-white.svg" alt="Amwell" />Internal user</span><small>Implementation manager</small>Builds and configures client instances across many tenants. Needs every configuration, and teaches clients the platform.</p>
 	<p class="pdeck__call" data-for="1"><span class="ptag ptag--in"><img src="/brand/amwell-white.svg" alt="Amwell" />Internal user</span><small>NOC specialist</small>Supports the whole platform across clients. Troubleshoots anything, so needs broad access and the full architecture.</p>
 	<p class="pdeck__call" data-for="2"><span class="ptag ptag--out">Client</span><small>Health system admin</small>Runs one organization: its service lines, provider network, and patient workflows. Only cares about hers.</p>
+	<p class="pdeck__call" data-for="3"><span class="ptag ptag--out">Client</span><small>Client IT team</small>Ensures seamless integration between the Amwell platform and their organization’s existing IT systems.</p>
 	<p class="eco__hint">Click a card to bring it forward.</p>
 </div>`;
 
@@ -139,8 +141,8 @@ const scenes: { id: string; label: string; nav: string; beats: Beat[] }[] = [
 				html: pains,
 			},
 			{
-				title: 'Three roles, three very different needs.',
-				text: 'Implementation managers configure everything across many clients. NOC specialists troubleshoot the whole platform. Health system admins only care about their own organization.',
+				title: 'Four roles, very different needs.',
+				text: 'Inside Amwell, implementation managers configure everything across many clients and NOC specialists troubleshoot the whole platform. On the client side, health system admins only care about their own organization, and IT teams connect Amwell to the systems they already run.',
 				html: deck,
 			},
 			{

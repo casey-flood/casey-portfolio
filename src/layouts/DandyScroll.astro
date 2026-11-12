@@ -349,7 +349,7 @@ const slug = Astro.url.pathname.split('/').filter(Boolean).pop() ?? 'page';
 		order(0);
 		const pick = (c: HTMLElement) => {
 			const k = cards.indexOf(c);
-			if (c.dataset.slot === '0') { const im = c.querySelector('img'); if (im) expand(im); return; }
+			if (c.dataset.slot === '0') { const im = c.querySelector<HTMLImageElement>(':scope > img'); if (im) expand(im); return; }
 			dk.classList.add('is-swapped');
 			order(k);
 			dk.querySelectorAll<HTMLElement>('.pdeck__call').forEach((p) => { p.style.animation = 'none'; void p.offsetWidth; p.style.animation = ''; });
