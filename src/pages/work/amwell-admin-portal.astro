@@ -141,9 +141,9 @@ const tiers = `
 <div class="tiers">
 	<table class="tm">
 		<thead><tr><td></td>
-			<th scope="col" class="tm--amw"><span><img src="/brand/amwell-white.svg" alt="Amwell" /> Super Admin</span><small>Every organization</small></th>
-			<th scope="col" class="tm--ten"><span>Tenant Super Admin</span><small>One organization</small></th>
-			<th scope="col" class="tm--basic"><span>Tenant Basic Admin</span><small>One department</small></th>
+			<th scope="col" class="tm--amw"><em><img src="/brand/amwell-white.svg" alt="Amwell" /></em><span>Super admin</span><small>Every organization</small></th>
+			<th scope="col" class="tm--ten"><em>Tenant</em><span>Super admin</span><small>One organization</small></th>
+			<th scope="col" class="tm--basic"><em>Tenant</em><span>Basic admin</span><small>One department</small></th>
 		</tr></thead>
 		<tbody><tr><th scope="row">Create tenants</th><td><i class="tm__y" aria-label="Yes">✓</i></td><td><i class="tm__n" aria-label="No">✕</i></td><td><i class="tm__n" aria-label="No">✕</i></td></tr><tr><th scope="row">System-wide settings</th><td><i class="tm__y" aria-label="Yes">✓</i></td><td><i class="tm__n" aria-label="No">✕</i></td><td><i class="tm__n" aria-label="No">✕</i></td></tr><tr><th scope="row">Manage admins</th><td><i class="tm__y" aria-label="Yes">✓</i><small>all tenants</small></td><td><i class="tm__y" aria-label="Yes">✓</i><small>their org</small></td><td><i class="tm__n" aria-label="No">✕</i></td></tr><tr><th scope="row">Service lines</th><td><i class="tm__y" aria-label="Yes">✓</i><small>global</small></td><td><i class="tm__y" aria-label="Yes">✓</i><small>their org</small></td><td><i class="tm__y" aria-label="Yes">✓</i><small>their dept</small></td></tr><tr><th scope="row">Branding</th><td><i class="tm__y" aria-label="Yes">✓</i><small>global</small></td><td><i class="tm__y" aria-label="Yes">✓</i><small>their org</small></td><td><i class="tm__n" aria-label="No">✕</i></td></tr><tr><th scope="row">Reporting</th><td><i class="tm__y" aria-label="Yes">✓</i><small>enterprise</small></td><td><i class="tm__y" aria-label="Yes">✓</i><small>their org</small></td><td><i class="tm__y" aria-label="Yes">✓</i><small>view only</small></td></tr></tbody>
 	</table>
@@ -213,7 +213,7 @@ const scenes: { id: string; label: string; nav: string; beats: Beat[] }[] = [
 			{
 				title: 'Three tiers of access, one system.',
 				text: 'I defined three admin tiers, each a narrower slice of the same portal: Amwell super admins across every organization, tenant super admins across one organization, and tenant basic admins within one department, each with different permissions.',
-				textHtml: '<p>I defined three admin tiers, each a narrower slice of the same portal:</p><ul class="sc__bul"><li class="b--amw"><b>Amwell super admins</b> across every organization</li><li class="b--ten"><b>Tenant super admins</b> across one organization</li><li class="b--basic"><b>Tenant basic admins</b> within one department</li></ul><p>Each tier gets different permissions, and every screen shows only what that tier can touch.</p>',
+				textHtml: '<p class="sc__def"><b>Tenant</b> = one client organization on the platform, like CVS Health.</p><p>I defined three admin tiers, each a narrower slice of the same portal:</p><ul class="sc__bul"><li class="b--amw"><b>Amwell super admins</b> across every organization</li><li class="b--ten"><b>Tenant super admins</b> across one organization</li><li class="b--basic"><b>Tenant basic admins</b> within one department</li></ul><p>Each tier gets different permissions, and every screen shows only what that tier can touch.</p>',
 				html: tiers,
 			},
 		],

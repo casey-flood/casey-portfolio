@@ -16089,3 +16089,11 @@ video.cmp__img:not(.cmp__img--new){object-position:left center}
 }
 /* tiers matrix: a little tighter so it never overflows */
 .tm thead td { width: 27%; } .tm small { font-size: 0.7rem; } .tm tbody td { padding: 0.55rem 0.45rem; }
+/* matrix headers: eyebrow, role, scope — stacked so nothing collides */
+.tm thead th em { display: flex; align-items: center; height: 0.9rem; font-style: normal; font-size: 0.62rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.85; }
+.tm thead th em img { height: 0.8rem; width: auto; }
+.tm thead th span { display: block !important; margin-top: 0.2rem; font-size: 0.82rem !important; font-weight: 700; letter-spacing: 0 !important; text-transform: none !important; white-space: normal !important; }
+.tm thead th small { font-size: 0.74rem !important; font-weight: 500 !important; color: #c3d3ea !important; margin-top: 0.1rem !important; }
+.sc__def { margin: 0 0 0.8rem !important; padding: 0.55rem 0.8rem; border-radius: 0.6rem; background: rgba(140, 200, 255, 0.08); border: 1px solid rgba(140, 200, 255, 0.25); font-size: 0.92rem !important; color: #c3d3ea; }
+.sc__def b { color: #8cc8ff; }
+@media (max-width: 899px) { .tm thead th em { font-size: 0.48rem; } .tm thead th span { font-size: 0.62rem !important; } .tm thead th small { font-size: 0.56rem !important; } .sc__def { font-size: 0.8rem !important; padding: 0.4rem 0.6rem; } }
