@@ -75,7 +75,7 @@ const slug = Astro.url.pathname.split('/').filter(Boolean).pop() ?? 'page';
 						<p class="hv__eyebrow sc__label">{sc.label}</p>
 						<div class="sc__rows">
 							{sc.beats.map((b, i) => (
-								<article class:list={['sc__row', { 'sc__row--solo': !b.media && !b.viz && !b.metric }]} data-i={i}>
+								<article class:list={['sc__row', { 'sc__row--solo': !b.media && !b.viz && !b.metric && !b.cards }]} data-i={i}>
 									<div class="sc__text">
 										<h3>{b.title}</h3>
 										<p>{b.text}</p>
@@ -86,6 +86,17 @@ const slug = Astro.url.pathname.split('/').filter(Boolean).pop() ?? 'page';
 											<p class="dsx__links">{b.links.map((l) => <a class="hv__btn" href={l.href}>{l.label}</a>)}</p>
 										)}
 									</div>
+									{b.cards && (
+										<ol class="lc__cards dsx__cards" style={`--n:${b.cards.items.length}`}>
+											{b.cards.items.map((c, k) => (
+												<li class:list={['lc__card', { on: k === b.cards!.on, seen: k < b.cards!.on }]} style={`--i:${k}`}>
+													<img src={c.src} alt={c.alt} loading="lazy" />
+													<span class="lc__no">{k + 1}</span>
+													<span class="dsx__cap"><small>{c.who}</small>{c.label}</span>
+												</li>
+											))}
+										</ol>
+									)}
 									{(b.media || b.viz || b.metric) && (
 										<div class:list={['sc__viz', { 'sc__viz--metric': !!b.metric, 'sc__viz--shots': b.media?.kind === 'image' }]}>
 											{b.media?.kind === 'image' && <img src={b.media.src} alt={b.media.alt} loading="lazy" decoding="async" />}

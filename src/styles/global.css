@@ -15591,3 +15591,16 @@ video.cmp__img:not(.cmp__img--new){object-position:left center}
 .hp__work .hp__img{aspect-ratio:16/10}
 .hp__sec{padding:clamp(1.75rem,3.5vw,2.75rem) 0!important}
 .aw__art img[src*='admin-dashboard']{border-radius:1rem;border:1px solid rgba(255,255,255,.12);box-shadow:0 30px 70px -20px rgba(0,0,0,.6);filter:none}
+
+/* Case-study story cards (numbered, like the DDE journey): reveal one step per beat */
+.dsx__cards { align-self: center; width: 100%; }
+.dsx__cards .lc__card { aspect-ratio: 3 / 4; }
+.dsx__cap { position: absolute; left: 0; right: 0; bottom: 0; z-index: 2; padding: 2.4rem 0.8rem 0.8rem; background: linear-gradient(180deg, rgba(0, 30, 24, 0) 0%, rgba(0, 30, 24, 0.88) 60%); color: #fff; font-size: 0.92rem; font-weight: 500; line-height: 1.25; }
+.dsx__cap small { display: block; margin-bottom: 0.25rem; color: var(--lime); font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.06em; text-transform: uppercase; }
+.cx--live .sc__row:not(.on) .dsx__cards .lc__card { opacity: 0; transform: translateX(70px) rotate(2.5deg); }
+.cx--live .sc__row.on .dsx__cards .lc__card { transition-delay: calc(var(--i) * 0.08s); }
+@media (max-width: 899px) { .dsx__cards .lc__card { aspect-ratio: 3 / 4; } .dsx__cap { font-size: 0.78rem; padding: 1.6rem 0.5rem 0.5rem; } .dsx__cap small { font-size: 0.58rem; } }
+.dsx__cards .lc__card { aspect-ratio: 4 / 5; }
+.dsx__cards .lc__card:nth-child(1) img { object-position: 85% 50%; }
+.dsx__cards .lc__card:nth-child(2) img { object-position: 55% 40%; }
+.dsx__cards .lc__card:nth-child(3) img { object-position: 75% 50%; }

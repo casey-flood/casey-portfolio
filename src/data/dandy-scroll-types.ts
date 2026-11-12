@@ -5,6 +5,7 @@ export type Beat = {
 	metric?: { to?: number; prefix?: string; suffix?: string; text?: string; unit: string };
 	media?: { kind: 'clip' | 'slice' | 'image'; src: string; poster?: string; start?: number; end?: number; alt: string };
 	viz?: 'empty' | 'users';
+	cards?: { items: { src: string; alt: string; who: string; label: string }[]; on: number };
 	links?: { href: string; label: string }[];
 };
 export interface ScrollProps {
