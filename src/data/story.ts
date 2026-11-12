@@ -97,9 +97,9 @@ export const chapters: Chapter[] = [
 	{
 		id: 'dandy', year: '2025', name: 'Dandy', role: 'Senior Product Designer', dates: 'Mar 2025 – now', place: 'Dandy',
 		title: 'Today, I design in the real material.',
-		text: 'First the dentist ordering flows, then sole product designer on the Design Editor, where dental designers design every crown. I prototype in code and built its design system.',
-		nums: [{ v: '−11.5%', l: 'hands-on designer time per order' }, { v: '+18 pts', l: 'crown orders in our editor' }],
-		quote: { q: 'Exceeding expectations for this stage in her tenure, with a strong trajectory toward broader leadership.', who: 'Mid-year review, 2025' },
+		text: 'Sole designer on the editor where every crown is designed. I prototype in code.',
+		nums: [{ v: '−11.5%', l: 'designer time per order' }],
+		quote: { q: 'A strong trajectory toward broader leadership.', who: 'Mid-year review, 2025' },
 		media: { src: '/work/dde/hero.jpg', alt: 'The Design Editor' },
 		link: { href: '/work/dandy-design-editor', label: 'Read the Design Editor case study' },
 		moments: [
