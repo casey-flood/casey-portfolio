@@ -30,8 +30,7 @@ export const chapters: Chapter[] = [
 	{
 		id: 'origins', year: 'Early', name: 'Origins', role: 'Where it started', dates: 'Growing up', place: 'Before it was a job',
 		title: 'I’ve always seen the world a little differently.',
-		text: 'Making bracelets out of grass at midfield while everyone else chased the ball. Color-coding my notes until the information made sense.',
-		quote: { q: 'Sometimes I get the feeling Casey is more concerned about how her notes look than the content of her notes.', who: 'My high school history teacher, to my parents' },
+		text: 'I was the kid redesigning her own class notes: color, size and type, until the information clicked. Turns out that’s a job.',
 		media: [
 			{ src: '/story/birthday.mp4', poster: '/story/birthday.jpg', alt: 'Blowing out birthday candles, on home video', video: true },
 			{ src: '/story/young-highchair.webp', alt: 'Me in a high chair, very focused', pos: '55% 35%' },
