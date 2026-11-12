@@ -3,18 +3,18 @@ import Base from '../../layouts/Base.astro';
 import { companies } from '../../data/companies';
 
 // One entry per project. Lead with the result, then a clear title.
-type P = { co: string; title: string; line: string; d?: string; metric?: { v: string; l: string }; note?: string; tags: string[]; img?: string; ph?: string; href?: string };
+type P = { co: string; title: string; line: string; d?: string; metric?: { v: string; l: string }; note?: string; tags: string[]; img?: string; vid?: string; ph?: string; href?: string };
 const projects: P[] = [
 	{ co: 'dandy', title: 'Dandy Design Editor', line: 'Designed the in-house crown design tool, cutting hands-on designer time per order <b>11.5%</b> as crown volume grew 57%.', d: 'One end-to-end tool for designing the whole restoration in house.', metric: { v: '−11.5%', l: 'hands-on designer time per order' }, tags: ['designer experience', 'dental', 'in-house design', 'machine learning', 'sole designer'], img: '/scan-to-smile/04-design.webp', href: '/work/dandy-design-editor' },
-	{ co: 'dandy', title: 'Instant Design Preview', line: 'Dentists approve the generated crown before it’s made, so fewer get remade.', d: 'Dentists approve the generated crown before it is made.', note: 'Chairside · case study coming soon', tags: ['dentist experience', 'dental', 'crown'], img: '/scan-to-smile/extra-ml-crown.webp' },
-	{ co: 'dandy', title: 'Perfect Fit (Goldilocks)', line: 'Three crown fits in one order: quicker turnaround and fewer seating appointments.', d: 'Three crown fits in one order, one right fit.', note: 'Three fits, one right crown · coming soon', tags: ['dentist experience', 'patient', 'crown'], img: '/scan-to-smile/06-place.webp' },
+	{ co: 'dandy', title: 'Instant Design Preview', line: 'Dentists approve the generated crown before it’s made, so fewer get remade.', d: 'Dentists review and approve the crown before it’s made.', note: 'Chairside · case study coming soon', tags: ['dentist experience', 'dental', 'crown'], img: '/work/behind/proto.jpg', vid: '/work/behind/proto.mp4' },
+	{ co: 'dandy', title: 'Three-crown Perfect Fit', line: 'Three crown fits in one order: quicker turnaround and fewer seating appointments.', d: 'Three crowns in one order; the dentist seats the best fit.', metric: { v: '+60%', l: 'feedback submissions' }, note: 'Three fits, one right crown · coming soon', tags: ['dentist experience', 'patient', 'crown'], img: '/story/dandy/pf-final.webp' },
 	{ co: 'dandy', title: 'Design Editor design system', line: 'Built its first design system, cutting each iteration from 30–45 to <b>5–10 minutes</b>.', d: 'Built from scratch in Storybook, on real production code.', metric: { v: '5–10 min', l: 'per iteration, down from 30–45' }, tags: ['systems design', 'design system', 'storybook', 'cursor'], img: '/journey/storybook-ds-cover.jpg', href: '/work/dandy-design-system' },
-	{ co: 'dandy', title: 'Clickable prototypes', line: 'Prototyped real flows from production components for early feedback.', d: 'Real components, full flows, early feedback.', note: 'Systems', tags: ['systems design', 'prototype', 'code'], img: '/work/behind/proto.jpg', href: '/work/dandy-prototype' },
-	{ co: 'dandy', title: 'Product Design Hub', line: 'A guided path that teaches the whole team to prototype in code.', d: 'A guided path that teaches the team to prototype in code.', note: 'Systems', tags: ['systems design', 'education', 'hub'], img: '/work/behind/hub.jpg', href: '/work/dandy-product-design-hub' },
-	{ co: 'amwell', title: 'Admin portal redesign', line: 'Redesigned the admin portal around each role, lifting task completion from <b>45% to 82%</b>.', d: 'One role-based system for a fragmented enterprise portal.', metric: { v: '45% → 82%', l: 'admin task completion' }, tags: ['admin', 'navigation', 'information architecture', 'healthcare', 'enterprise', 'design system'], img: '/amwell/admin-dashboard.webp', href: '/work/amwell-admin-portal' },
+	{ co: 'dandy', title: 'Prototypes in production code', line: 'Prototyped real flows from production components for early feedback.', d: 'Real components, full flows, early feedback.', note: 'Systems', tags: ['systems design', 'prototype', 'code'], img: '/work/behind/proto.jpg', href: '/work/dandy-prototype' },
+	{ co: 'dandy', title: 'Prototyping hub for designers', line: 'A guided path that teaches the whole team to prototype in code.', d: 'A guided path that teaches the team to prototype in code.', note: 'Systems', tags: ['systems design', 'education', 'hub'], img: '/work/behind/hub.jpg', href: '/work/dandy-product-design-hub' },
+	{ co: 'amwell', title: 'Role-based admin portal', line: 'Redesigned the admin portal around each role, lifting task completion from <b>45% to 82%</b>.', d: 'One role-based system for a fragmented enterprise portal.', metric: { v: '45% → 82%', l: 'admin task completion' }, tags: ['admin', 'navigation', 'information architecture', 'healthcare', 'enterprise', 'design system'], img: '/amwell/admin-dashboard.webp', href: '/work/amwell-admin-portal' },
 	{ co: 'amwell', title: 'Research library', line: '15 studies I ran, and what each one changed.', d: 'Amwell user research library.', metric: { v: '86%', l: 'of the team’s research, led by me' }, tags: ['research', 'usability', 'interviews', 'healthcare'], img: '/amwell-research/choosing-care/screens/final-care.webp', href: '/work/amwell-research' },
-	{ co: 'amwell', title: 'AI While You Wait', line: 'ML-assisted pre-visit triage that cut perceived wait time by <b>45%</b>.', d: 'ML-assisted pre-visit triage for patients.', metric: { v: '45%', l: 'lower perceived wait time' }, tags: ['patient experience', 'triage', 'machine learning', 'healthcare'], img: '/amwell/triage.webp' },
-	{ co: 'amwell', title: 'Patient onboarding', line: 'Streamlined enrollment, lifting onboarding conversion by <b>20%</b>.', d: 'Enrollment and intake, reused across white-label clients.', metric: { v: '+20%', l: 'onboarding conversion' }, tags: ['patient experience', 'onboarding', 'mobile', 'healthcare'], img: '/amwell/onboarding.webp' },
+	{ co: 'amwell', title: 'AI pre-visit triage', line: 'ML-assisted pre-visit triage that cut perceived wait time by <b>45%</b>.', d: 'ML-assisted pre-visit triage for patients.', metric: { v: '45%', l: 'lower perceived wait time' }, tags: ['patient experience', 'triage', 'machine learning', 'healthcare'], img: '/amwell/triage.webp' },
+	{ co: 'amwell', title: 'Patient onboarding redesign', line: 'Streamlined enrollment, lifting onboarding conversion by <b>20%</b>.', d: 'Enrollment and intake, reused across white-label clients.', metric: { v: '+20%', l: 'onboarding conversion' }, tags: ['patient experience', 'onboarding', 'mobile', 'healthcare'], img: '/amwell/onboarding.webp' },
 	{ co: 'earlier', title: 'Paper Airplane', line: 'Made in-person dating approachable, from first survey to a tested prototype.', d: 'A dating app for meeting in the same room.', metric: { v: '13', l: 'tested screens' }, tags: ['startup', 'mobile', 'dating', 'research'], img: '/paper-airplane/story-trio.webp', href: '/work/paper-airplane' },
 	{ co: 'earlier', title: 'MyTrips', line: 'My first app, built from scratch at Pratt.', d: 'An itinerary app built around sharing a trip fast.', metric: { v: '−94%', l: 'time to share a trip, in testing' }, tags: ['mobile', 'travel', 'pratt', 'capstone'], img: '/mytrips/hero-phones.webp', href: '/work/mytrips' },
 ];
@@ -22,18 +22,20 @@ const projects: P[] = [
 const short: Record<string, string> = {
 	'Dandy Design Editor': 'dental designer time per order',
 	'Design Editor design system': 'per product design iteration, was 30–45',
-	'Admin portal redesign': 'task completion',
+	'Role-based admin portal': 'task completion',
 	'Research library': 'of research, led by me',
-	'AI While You Wait': 'lower perceived wait',
-	'Patient onboarding': 'onboarding conversion',
+	'AI pre-visit triage': 'lower perceived wait',
+	'Patient onboarding redesign': 'onboarding conversion',
 	'Paper Airplane': 'tested screens',
 	'MyTrips': 'time to share a trip',
 };
 const co = companies.map((c) => ({
 	...c,
-	live: projects.filter((p) => p.co === c.id && p.href),
-	soon: projects.filter((p) => p.co === c.id && !p.href),
+	live: [...projects.filter((p) => p.co === c.id && p.href), ...projects.filter((p) => p.co === c.id && !p.href)],
 }));
+// Grid geometry: up to 4 cards fan out in one row, more wrap into two.
+const geo = (n: number) => { const cols = n > 4 ? Math.ceil(n / 2) : n; return { cols, rows: n > 4 ? 2 : 1 }; };
+const pos = (i: number, n: number) => { const { cols } = geo(n); return `--i:${i};--c:${i % cols};--r:${Math.floor(i / cols)}`; };
 ---
 
 <Base
@@ -55,18 +57,20 @@ const co = companies.map((c) => ({
 
 			<div class="gv" aria-label="Work, grouped by company">
 				{co.map((c) => (
-					<div class="gv__deck" style={`--n:${c.live.length + (c.cta ? 1 : 0)}`}>
+					<div class="gv__deck" style={`--n:${c.live.length + (c.cta ? 1 : 0)};--cols:${geo(c.live.length + (c.cta ? 1 : 0)).cols};--rows:${geo(c.live.length + (c.cta ? 1 : 0)).rows}`}>
 						<div class="gv__stage">
 							{c.cta && (
-								<a class={`gv__card gv__card--co gv__card--${c.id}`} href={c.cta.href} style="--i:0">
+								<a class={`gv__card gv__card--co gv__card--${c.id}`} href={c.cta.href} style={pos(0, c.live.length + 1)}>
 									<video class="gv__ov" src={`/work/ov-${c.id}.mp4`} poster={`/work/ov-${c.id}.jpg`} muted loop playsinline preload="none" aria-hidden="true"></video>
 									{c.id === 'earlier' ? <span class="gv__coword">Earlier work</span> : <img class="gv__colog" src={c.id === 'dandy' ? '/brand/dandy-wordmark.svg' : '/brand/amwell-white.svg'} alt="" />}
 									<span class="gv__cap gv__cap--co"><b>Company overview →</b><small>{c.role} · {c.when}</small></span>
 								</a>
 							)}
 							{c.live.map((p, i) => (
-								<a class="gv__card" href={p.href} style={`--i:${i + (c.cta ? 1 : 0)}`}>
+								<a class:list={['gv__card', { 'is-soon': !p.href }]} href={p.href} aria-disabled={p.href ? undefined : 'true'} style={pos(i + (c.cta ? 1 : 0), c.live.length + (c.cta ? 1 : 0))}>
 									<img src={p.img} alt="" loading="lazy" />
+									{p.vid && <video class="gv__ov" src={p.vid} poster={p.img} muted loop playsinline preload="none" aria-hidden="true"></video>}
+									{!p.href && <span class="chip-soon">Coming soon</span>}
 									<span class="gv__cap">{p.metric && <strong class="gv__num">{p.metric.v}</strong>}<b>{p.title}</b>{p.metric && <small>{short[p.title] ?? p.metric.l}</small>}</span>
 								</a>
 							))}
@@ -93,15 +97,14 @@ const co = companies.map((c) => ({
 					<ul class="wk2__list">
 						{c.live.map((p) => (
 							<li>
-								<a class="wk2__row" href={p.href} data-img={p.img}>
+								<a class:list={['wk2__row', { 'is-soon': !p.href }]} href={p.href} aria-disabled={p.href ? undefined : 'true'} data-img={p.img}>
 									{p.img && <img class="wk2__thumb" src={p.img} alt="" loading="lazy" />}
-									<span class="wk2__t"><b>{p.title}</b><span>{p.d}</span></span>
+									<span class="wk2__t"><b>{p.title}{!p.href && <em class="chip-soon">Coming soon</em>}</b><span>{p.d}</span></span>
 									{p.metric && <span class="wk2__m"><strong>{p.metric.v}</strong><small>{short[p.title] ?? p.metric.l}</small></span>}
 								</a>
 							</li>
 						))}
 					</ul>
-					{c.soon.length > 0 && <p class="wk2__soon">Coming soon: {c.soon.map((p) => p.title).join(' · ')}</p>}
 				</section>
 			))}
 		</div>
@@ -131,10 +134,10 @@ const co = companies.map((c) => ({
 
 	// Overview cards preview their page while the deck is open.
 	document.querySelectorAll<HTMLElement>('.gv__deck').forEach((d) => {
-		const v = d.querySelector<HTMLVideoElement>('.gv__ov');
-		if (!v || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-		const play = () => { v.play().catch(() => {}); };
-		const stop = () => { if (!d.matches(':hover, :focus-within, .open')) v.pause(); };
+		const vs = [...d.querySelectorAll<HTMLVideoElement>('.gv__ov')];
+		if (!vs.length || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+		const play = () => vs.forEach((v) => v.play().catch(() => {}));
+		const stop = () => { if (!d.matches(':hover, :focus-within, .open')) vs.forEach((v) => v.pause()); };
 		d.addEventListener('pointerenter', play);
 		d.addEventListener('focusin', play);
 		d.addEventListener('pointerleave', stop);
@@ -168,7 +171,7 @@ const co = companies.map((c) => ({
 	.wk2[data-view='grid'] .wk2__peek { display: none; }
 
 	/* Grid: one stacked deck per company. Hover a deck and it widens while its cards spread into a row. */
-	.gv { display: flex; gap: 1.5rem; height: clamp(18rem, 32vw, 24rem); margin-top: clamp(3rem, 7vw, 4.5rem); }
+	.gv { display: flex; gap: 1.5rem; height: clamp(20rem, 36vw, 28rem); margin-top: clamp(3rem, 7vw, 4.5rem); }
 	.gv__deck { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; outline: none; transition: flex-grow 0.55s cubic-bezier(0.2, 0.8, 0.2, 1); }
 	.gv:hover .gv__deck, .gv:focus-within .gv__deck { flex-grow: 0.7; }
 	.gv .gv__deck:hover, .gv .gv__deck:focus-within, .gv .gv__deck.open { flex-grow: 3.2; }
@@ -179,7 +182,7 @@ const co = companies.map((c) => ({
 	.gv__cap b { font-size: 0.9rem; line-height: 1.25; }
 	.gv__cap small { font-size: 0.72rem; opacity: 0.8; line-height: 1.3; }
 	.gv__num { font-family: var(--display); font-size: clamp(1.3rem, 2.2vw, 1.8rem); letter-spacing: -0.03em; line-height: 1; margin-bottom: 0.3rem; }
-	.gv__deck:is(:hover, :focus-within, .open) .gv__card { --w: calc((100% - (var(--n) - 1) * var(--gap)) / var(--n)); left: calc(var(--i) * (var(--w) + var(--gap))); top: 0; height: 100%; transform: none; }
+	.gv__deck:is(:hover, :focus-within, .open) .gv__card { --w: calc((100% - (var(--cols) - 1) * var(--gap)) / var(--cols)); --h: calc((100% - (var(--rows) - 1) * var(--gap)) / var(--rows)); left: calc(var(--c) * (var(--w) + var(--gap))); top: calc(var(--r) * (var(--h) + var(--gap))); height: var(--h); transform: none; }
 	.gv__deck:is(:hover, :focus-within, .open) .gv__cap { opacity: 1; transform: none; transition-delay: 0.25s; }
 	.gv__deck:is(:hover, :focus-within, .open) .gv__card { pointer-events: auto; }
 	.gv__card:hover { border-color: var(--accent); }
@@ -227,7 +230,14 @@ const co = companies.map((c) => ({
 	.wk2__m strong { font-family: var(--display); font-size: 1.15rem; letter-spacing: -0.02em; line-height: 1.1; white-space: nowrap; }
 	.wk2__m small { color: var(--muted); font-size: 0.74rem; white-space: nowrap; }
 	.wk2__row:hover b { color: var(--accent); }
-	.wk2__soon { margin: 0.9rem 0 0; color: var(--muted); font-size: 0.82rem; opacity: 0.8; }
+	.chip-soon { display: inline-block; margin-left: 0.5rem; padding: 0.12rem 0.5rem; border-radius: 99px; border: 1px dashed currentColor; font-style: normal; font-family: var(--mono); font-size: 0.62rem; font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; vertical-align: 0.15em; color: var(--muted); white-space: nowrap; }
+	.wk2__row.is-soon { cursor: default; }
+	.wk2__row.is-soon :is(.wk2__thumb, .wk2__t > b, .wk2__m) { opacity: 0.55; }
+	.wk2__row.is-soon:hover b { color: inherit; }
+	.gv__card.is-soon { cursor: default; }
+	.gv__card.is-soon > img { filter: saturate(0.4) brightness(0.8); }
+	.gv__card .chip-soon { position: absolute; top: 0.6rem; left: 0.6rem; margin: 0; z-index: 3; color: #fff; background: rgba(0, 0, 0, 0.55); border-color: rgba(255, 255, 255, 0.6); backdrop-filter: blur(4px); }
+	.gv__card.is-soon:hover { border-color: var(--line); }
 
 	.wk2__peek { position: fixed; left: 0; top: 0; z-index: 30; width: 13rem; aspect-ratio: 4 / 3; border-radius: 0.75rem; overflow: hidden; pointer-events: none; opacity: 0; transition: opacity 0.18s; box-shadow: 0 24px 50px -20px rgba(0, 0, 0, 0.6); background: var(--paper); }
 	.wk2__peek.on { opacity: 1; }
