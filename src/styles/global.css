@@ -16384,3 +16384,9 @@ video.cmp__img:not(.cmp__img--new){object-position:left center}
 .dk2__deck:hover .dk2__fig[data-o='0'] figcaption, .dk2__deck:focus-visible .dk2__fig[data-o='0'] figcaption { opacity: 1; transform: none; }
 @media (hover: none) { .dk2__fig[data-o='0'] figcaption { opacity: 1; transform: none; } }
 .dk2__cap { justify-content: flex-end; }
+/* option callout in the beat text */
+.sc__opt { margin-top: 0.4rem; padding: 0.9rem 1rem; border-radius: 0.8rem; background: rgba(140, 200, 255, 0.07); border: 1px solid rgba(140, 200, 255, 0.3); border-left: 3px solid #8cc8ff; max-width: 26rem; }
+.sc__opt small { display: block; color: #8cc8ff; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+.sc__opt b { display: block; margin: 0.15rem 0 0.3rem; color: #fff; font-size: 1.1rem; font-weight: 600; }
+.sc__split .sc__opt p { font-size: 0.95rem !important; color: #c3d3ea; }
+@media (max-width: 899px) { .sc__opt { padding: 0.6rem 0.75rem; } .sc__opt b { font-size: 0.95rem; } .sc__split .sc__opt p { font-size: 0.82rem !important; } }
