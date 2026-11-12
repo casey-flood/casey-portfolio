@@ -208,20 +208,21 @@ const flows = [
 </script>
 
 <style>
-	.mt { --navy: #1b263b; --sky: #73c2fb; --coral: #ff6f61; }
-	.mt-hero { padding: 3rem 0 3.5rem; background: linear-gradient(180deg, #eef6ff, var(--bg)); }
+	.mt { --navy: #1b263b; --sky: #73c2fb; --coral: #ff6f61; --mt-ac: var(--navy); --mt-btn: var(--navy); --mt-btn-ink: #fff; }
+	:global([data-theme='dark']) .mt { --mt-ac: var(--sky); --mt-btn: var(--sky); --mt-btn-ink: #0d1424; }
+	.mt-hero { padding: 3rem 0 3.5rem; background: linear-gradient(180deg, color-mix(in srgb, var(--sky) 16%, var(--bg)), var(--bg)); }
 	.mt-eyebrow, .mt-kicker { font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); font-weight: 600; margin: 1.5rem 0 0.75rem; display: flex; align-items: center; gap: 0.5rem; }
 	.mt-hero h1 { font-family: var(--display); font-size: clamp(2.3rem, 6vw, 4rem); line-height: 1.02; margin: 0; max-width: 16ch; }
-	.mt-hero h1 em { color: var(--navy); font-style: italic; }
+	.mt-hero h1 em { color: var(--mt-ac); font-style: italic; }
 	.mt-lede { font-size: 1.15rem; color: var(--muted); max-width: 40rem; margin: 1rem 0 1.25rem; }
 	.mt-meta { display: flex; flex-wrap: wrap; gap: 0.4rem; list-style: none; padding: 0; margin: 0 0 2rem; }
 	.mt-meta li { border: 1px solid var(--line); border-radius: 99px; padding: 0.3rem 0.75rem; font-size: 0.85rem; background: var(--paper); }
 	.mt-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 1rem; overflow: hidden; list-style: none; padding: 0; margin: 0; max-width: 44rem; }
 	.mt-stats li { background: var(--paper); padding: 1rem 1.1rem; }
-	.mt-stats strong { display: block; font-family: var(--display); font-size: 2rem; line-height: 1; color: var(--navy); }
+	.mt-stats strong { display: block; font-family: var(--display); font-size: 2rem; line-height: 1; color: var(--mt-ac); }
 	.mt-stats span { font-size: 0.85rem; color: var(--muted); }
 	.mt-note { font-size: 0.8rem; color: var(--muted); margin: 0.6rem 0 1.5rem; }
-	.mt-btn { display: inline-block; background: var(--navy); color: #fff; padding: 0.7rem 1.2rem; border-radius: 99px; text-decoration: none; font-weight: 600; font-size: 0.92rem; }
+	.mt-btn { display: inline-block; background: var(--mt-btn); color: var(--mt-btn-ink); padding: 0.7rem 1.2rem; border-radius: 99px; text-decoration: none; font-weight: 600; font-size: 0.92rem; }
 	.mt-link { margin-left: 1rem; color: var(--ink); font-weight: 600; text-decoration: none; }
 
 	.mt-sec { padding: 4rem 0; }
@@ -251,7 +252,7 @@ const flows = [
 	.mt-callout__t { font-family: var(--display); font-size: 1.5rem; margin: 0.3rem 0; line-height: 1.15; }
 	.mt-callout p:last-child { color: var(--muted); margin: 0; }
 
-	.mt-band { background: var(--navy); color: #fff; padding: 3.5rem 0; }
+	.mt-band { background: var(--navy); border-block: 1px solid var(--line); color: #fff; padding: 3.5rem 0; }
 	.mt-kicker--light { color: rgba(255, 255, 255, 0.65); margin-top: 0; }
 	.mt-result { display: grid; grid-template-columns: 1.4fr 1fr; gap: 2rem; align-items: center; }
 	.mt-bars { display: grid; gap: 1rem; }
