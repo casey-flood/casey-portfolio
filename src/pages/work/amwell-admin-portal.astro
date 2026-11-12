@@ -139,10 +139,21 @@ const wire = `
 
 const tiers = `
 <div class="tiers">
-	<article class="tier tier--amw"><p class="tier__k"><img src="/brand/amwell-white.svg" alt="Amwell" /> Super Admin</p><b>Every organization</b><small>Implementation managers, NOC agents</small><i class="tier__scope" style="--w:100%"></i></article>
-	<article class="tier tier--ten"><p class="tier__k">Tenant Super Admin</p><b>One organization</b><small>Chief digital officers, IT directors</small><i class="tier__scope" style="--w:62%"></i></article>
-	<article class="tier tier--basic"><p class="tier__k">Tenant Basic Admin</p><b>One department</b><small>Department managers, service line directors</small><i class="tier__scope" style="--w:30%"></i></article>
+	<table class="tm">
+		<thead><tr><td></td>
+			<th scope="col" class="tm--amw"><span><img src="/brand/amwell-white.svg" alt="Amwell" /> Super Admin</span><small>Every organization</small></th>
+			<th scope="col" class="tm--ten"><span>Tenant Super Admin</span><small>One organization</small></th>
+			<th scope="col" class="tm--basic"><span>Tenant Basic Admin</span><small>One department</small></th>
+		</tr></thead>
+		<tbody><tr><th scope="row">Create tenants</th><td><i class="tm__y" aria-label="Yes">✓</i></td><td><i class="tm__n" aria-label="No">✕</i></td><td><i class="tm__n" aria-label="No">✕</i></td></tr><tr><th scope="row">System-wide settings</th><td><i class="tm__y" aria-label="Yes">✓</i></td><td><i class="tm__n" aria-label="No">✕</i></td><td><i class="tm__n" aria-label="No">✕</i></td></tr><tr><th scope="row">Manage admins</th><td><i class="tm__y" aria-label="Yes">✓</i><small>all tenants</small></td><td><i class="tm__y" aria-label="Yes">✓</i><small>their org</small></td><td><i class="tm__n" aria-label="No">✕</i></td></tr><tr><th scope="row">Service lines</th><td><i class="tm__y" aria-label="Yes">✓</i><small>global</small></td><td><i class="tm__y" aria-label="Yes">✓</i><small>their org</small></td><td><i class="tm__y" aria-label="Yes">✓</i><small>their dept</small></td></tr><tr><th scope="row">Branding</th><td><i class="tm__y" aria-label="Yes">✓</i><small>global</small></td><td><i class="tm__y" aria-label="Yes">✓</i><small>their org</small></td><td><i class="tm__n" aria-label="No">✕</i></td></tr><tr><th scope="row">Reporting</th><td><i class="tm__y" aria-label="Yes">✓</i><small>enterprise</small></td><td><i class="tm__y" aria-label="Yes">✓</i><small>their org</small></td><td><i class="tm__y" aria-label="Yes">✓</i><small>view only</small></td></tr></tbody>
+	</table>
 	<p class="tiers__more"><button type="button" data-full="/amwell/cs/tiers.webp">The full tier chart ⤢</button><button type="button" data-full="/amwell/cs/matrix.webp">The permissions matrix ⤢</button></p>
+</div>`;
+
+const jargon = `
+<div class="jg" role="img" aria-label="Floating platform terms and their definitions, with doctor, provider, clinician and practitioner all meaning the same thing">
+	<span class="jg__t" style="left:4%;top:3%;--d:8.0s;--k:0"><b>Tenant</b><small>A Converge client, like CVS</small></span><span class="jg__t" style="left:56%;top:1%;--d:9.7s;--k:1"><b>Service line</b><small>A clinical offering patients can book</small></span><span class="jg__t" style="left:22%;top:21%;--d:11.4s;--k:2"><b>Classifications</b><small>How services show up for patients</small></span><span class="jg__t" style="left:66%;top:22%;--d:13.1s;--k:3"><b>Tiering</b><small>Lets providers see patients across tenants</small></span><span class="jg__t" style="left:1%;top:41%;--d:8.0s;--k:4"><b>Exclusivity timer</b><small>Gives a client’s own providers first look</small></span><span class="jg__t" style="left:38%;top:43%;--d:9.7s;--k:5"><b>Patient requeue</b><small>Sends a patient back to the queue</small></span><span class="jg__t" style="left:68%;top:50%;--d:11.4s;--k:6"><b>Practitioner tag</b><small>A label attached to a provider</small></span><span class="jg__t" style="left:12%;top:63%;--d:13.1s;--k:7"><b>Provider group</b><small>Providers grouped by a tenant</small></span>
+	<span class="jg__same" style="left:30%;top:84%"><b>Doctor</b><b>Provider</b><b>Clinician</b><b>Practitioner</b><small>Same thing, four words</small></span>
 </div>`;
 
 const scenes: { id: string; label: string; nav: string; beats: Beat[] }[] = [
@@ -201,7 +212,8 @@ const scenes: { id: string; label: string; nav: string; beats: Beat[] }[] = [
 			},
 			{
 				title: 'Three tiers of access, one system.',
-				text: 'I defined three admin tiers, each a narrower slice of the same portal: Amwell super admins across every organization, tenant super admins across one, and tenant basic admins within a department. Every screen shows only what that tier can touch.',
+				text: 'I defined three admin tiers, each a narrower slice of the same portal: Amwell super admins across every organization, tenant super admins across one organization, and tenant basic admins within one department, each with different permissions.',
+				textHtml: '<p>I defined three admin tiers, each a narrower slice of the same portal:</p><ul class="sc__bul"><li class="b--amw"><b>Amwell super admins</b> across every organization</li><li class="b--ten"><b>Tenant super admins</b> across one organization</li><li class="b--basic"><b>Tenant basic admins</b> within one department</li></ul><p>Each tier gets different permissions, and every screen shows only what that tier can touch.</p>',
 				html: tiers,
 			},
 		],
@@ -219,7 +231,7 @@ const scenes: { id: string; label: string; nav: string; beats: Beat[] }[] = [
 			{
 				title: 'No clear paths meant 2+ weeks of training.',
 				text: 'And the jargon was inconsistent: doctor, provider, and clinician; tenant, instance, and client. Same thing, different words.',
-				media: { kind: 'image', src: `${A}/jargon.webp`, alt: 'A board of technical jargon and definitions' },
+				html: jargon,
 			},
 			{
 				title: 'Two focus areas.',
