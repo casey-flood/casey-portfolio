@@ -138,15 +138,25 @@ const wire = `
 </div>`;
 
 const tiers = `
-<div class="tiers">
-	<table class="tm">
-		<thead><tr><td></td>
-			<th scope="col" class="tm--amw"><em><img src="/brand/amwell-white.svg" alt="Amwell" /></em><span>Super admin</span><small>Every organization</small></th>
-			<th scope="col" class="tm--ten"><em>Tenant</em><span>Super admin</span><small>One organization</small></th>
-			<th scope="col" class="tm--basic"><em>Tenant</em><span>Basic admin</span><small>One department</small></th>
-		</tr></thead>
-		<tbody><tr><th scope="row">Create tenants</th><td><i class="tm__y" aria-label="Yes">✓</i></td><td><i class="tm__n" aria-label="No">✕</i></td><td><i class="tm__n" aria-label="No">✕</i></td></tr><tr><th scope="row">System-wide settings</th><td><i class="tm__y" aria-label="Yes">✓</i></td><td><i class="tm__n" aria-label="No">✕</i></td><td><i class="tm__n" aria-label="No">✕</i></td></tr><tr><th scope="row">Manage admins</th><td><i class="tm__y" aria-label="Yes">✓</i><small>all tenants</small></td><td><i class="tm__y" aria-label="Yes">✓</i><small>their org</small></td><td><i class="tm__n" aria-label="No">✕</i></td></tr><tr><th scope="row">Service lines</th><td><i class="tm__y" aria-label="Yes">✓</i><small>global</small></td><td><i class="tm__y" aria-label="Yes">✓</i><small>their org</small></td><td><i class="tm__y" aria-label="Yes">✓</i><small>their dept</small></td></tr><tr><th scope="row">Branding</th><td><i class="tm__y" aria-label="Yes">✓</i><small>global</small></td><td><i class="tm__y" aria-label="Yes">✓</i><small>their org</small></td><td><i class="tm__n" aria-label="No">✕</i></td></tr><tr><th scope="row">Reporting</th><td><i class="tm__y" aria-label="Yes">✓</i><small>enterprise</small></td><td><i class="tm__y" aria-label="Yes">✓</i><small>their org</small></td><td><i class="tm__y" aria-label="Yes">✓</i><small>view only</small></td></tr></tbody>
-	</table>
+<div class="tz" data-t="0">
+	<div class="tz__tabs" role="tablist" aria-label="Admin tiers">
+		<button type="button" role="tab" data-t="0" aria-selected="true"><img src="/brand/amwell-white.svg" alt="Amwell" /> Super admin</button>
+		<button type="button" role="tab" data-t="1" aria-selected="false">Tenant super admin</button>
+		<button type="button" role="tab" data-t="2" aria-selected="false">Tenant basic admin</button>
+	</div>
+	<div class="tz__map" aria-hidden="true">
+		<div class="tz__l0"><span class="tz__lbl">Amwell platform · every tenant</span>
+			<div class="tz__orgs">
+				<div class="tz__l1"><span class="tz__lbl">Tenant · CVS Health</span>
+					<div class="tz__depts"><div class="tz__l2"><span class="tz__lbl">Urgent care</span></div><div class="tz__l2 tz__l2--off"><span class="tz__lbl">Behavioral health</span></div></div>
+				</div>
+				<div class="tz__l1 tz__l1--off"><span class="tz__lbl">Tenant · Cleveland Clinic</span>
+					<div class="tz__depts"><div class="tz__l2 tz__l2--off"><span class="tz__lbl">Primary care</span></div></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tz__caps"><ul class="tz__can" data-for="0"><li><i class="tz__y">✓</i>Create tenants</li><li><i class="tz__y">✓</i>System-wide settings</li><li><i class="tz__y">✓</i>Manage every admin</li></ul><ul class="tz__can" data-for="1"><li><i class="tz__y">✓</i>Service lines and branding</li><li><i class="tz__y">✓</i>Manage their admins</li><li><i class="tz__n">✕</i>Create tenants</li></ul><ul class="tz__can" data-for="2"><li><i class="tz__y">✓</i>Their service lines</li><li><i class="tz__y">✓</i>Department reports</li><li><i class="tz__n">✕</i>Change org settings</li></ul></div>
 	<p class="tiers__more"><button type="button" data-full="/amwell/cs/tiers.webp">The full tier chart ⤢</button><button type="button" data-full="/amwell/cs/matrix.webp">The permissions matrix ⤢</button></p>
 </div>`;
 
@@ -213,7 +223,7 @@ const scenes: { id: string; label: string; nav: string; beats: Beat[] }[] = [
 			{
 				title: 'Three tiers of access, one system.',
 				text: 'I defined three admin tiers, each a narrower slice of the same portal: Amwell super admins across every organization, tenant super admins across one organization, and tenant basic admins within one department, each with different permissions.',
-				textHtml: '<p class="sc__def"><b>Tenant</b> = one client organization on the platform, like CVS Health.</p><p>I defined three admin tiers, each a narrower slice of the same portal:</p><ul class="sc__bul"><li class="b--amw"><b>Amwell super admins</b> across every organization</li><li class="b--ten"><b>Tenant super admins</b> across one organization</li><li class="b--basic"><b>Tenant basic admins</b> within one department</li></ul><p>Each tier gets different permissions, and every screen shows only what that tier can touch.</p>',
+				textHtml: '<p class="sc__def"><b>Tenant</b> = one client organization on the platform, like CVS Health.</p><p>Three tiers, each a narrower slice of the same portal:</p><ul class="sc__bul"><li class="b--amw"><b>Amwell super admins:</b> every tenant</li><li class="b--ten"><b>Tenant super admins:</b> one tenant</li><li class="b--basic"><b>Tenant basic admins:</b> one department</li></ul>',
 				html: tiers,
 			},
 		],
