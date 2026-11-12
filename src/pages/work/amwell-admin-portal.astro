@@ -36,6 +36,11 @@ const scenes: { id: string; label: string; nav: string; beats: Beat[] }[] = [
 				media: { kind: 'image', src: `${A}/context.webp`, alt: 'The legacy admin portal, with a callout about navigation inefficiencies' },
 			},
 			{
+				title: 'What one simple task felt like.',
+				text: 'Turning on Urgent Care for one health system meant cryptic rule names, no organization context, two orgs with nearly the same name, a lost session, and a numeric ID to decode. This reenactment, drawn from usability testing and the admin tickets, is why every later decision puts the organization first.',
+				media: { kind: 'clip', src: `${A}/before.mp4`, poster: `${A}/before.jpg`, alt: 'A reenactment of an admin wandering through the legacy portal to turn on a service line' },
+			},
+			{
 				title: 'Navigation was behind a third of support tickets.',
 				text: 'Across 400+ users, support tickets tied to navigation and workflow inefficiencies were piling up.',
 				metric: { to: 30, suffix: '%', unit: 'of support tickets tied to navigation and workflow' },
@@ -170,7 +175,7 @@ const scenes: { id: string; label: string; nav: string; beats: Beat[] }[] = [
 		beats: [
 			{
 				title: 'The prototype, end to end.',
-				text: 'The clickable prototype I took to leadership: from a tenant’s dashboard into service lines, patient app settings, patients, and Carepoint devices, all in one navigation.',
+				text: 'The clickable prototype I took to leadership: from a tenant’s dashboard into service lines, patient app settings, patients, and Carepoint devices, all in one navigation. The same Urgent Care task now takes three clicks.',
 				media: { kind: 'clip', src: '/amwell/cs/prototype.mp4', poster: '/amwell/cs/prototype.jpg', alt: 'A walkthrough of the admin portal prototype' },
 			},
 			{
