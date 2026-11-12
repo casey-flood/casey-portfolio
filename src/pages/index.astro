@@ -66,6 +66,15 @@ const groups = [
 	] },
 ];
 
+const stops = [
+	{ y: 'Early', l: 'Origins', id: 'origins', img: '/story/young-laughing.webp', h: 'Redesigning my own class notes until they clicked.' },
+	{ y: '2015', l: 'JMU', id: 'jmu', img: '/story/jmu-essay-2017.webp', h: 'Design and code, from day one.' },
+	{ y: '2017', l: 'Paper Airplane', id: 'paper', img: '/paper-airplane/story-trio.webp', h: 'My first design job confirmed it: UX was the work.' },
+	{ y: '2018', l: 'Pratt', id: 'pratt', img: '/mytrips/empathy-wall.webp', h: 'Trained on purpose, and built my first app.' },
+	{ y: '2019', l: 'Amwell', id: 'amwell', img: '/story/ga-panel.webp', h: 'Research, then ownership, then leadership.' },
+	{ y: '2025', l: 'Dandy', id: 'dandy', img: '/story/nyc-2026-presenting.webp', h: 'Designing in the real material: code.' },
+];
+
 const quotes = [
 	{ q: 'Exceeding expectations for this stage in her tenure, with a strong trajectory toward broader leadership.', who: 'Mid-year review', where: 'Dandy, 2025' },
 	{ q: 'I saw her create an entire design system using Cursor that she basically taught herself. She was an inspiration to the design team.', who: 'Liz', where: 'Senior Product Designer, Dandy' },
@@ -165,13 +174,24 @@ const quotes = [
 			<div class="shell ch__in">
 				<p class="label rv" id="k-story"><i>05</i> How I got here</p>
 				<p class="big big--sm rv">From user research to design engineering.</p>
-				<ol class="path rv" aria-label="Career path">
-					<li><b>2017</b>Paper Airplane</li>
-					<li><b>2018</b>Pratt</li>
-					<li><b>2019</b>Amwell</li>
-					<li><b>2025</b>Dandy</li>
-				</ol>
-				<p class="rv"><a class="go" href="/journey">Read my story <span aria-hidden="true">→</span></a></p>
+				<div class="cl rv" data-tl data-stops={JSON.stringify(stops.map(({ h, id }) => ({ h, id })))}>
+					<ol class="tl__rail" aria-label="Career path" style={`--n:${stops.length}`}>
+						<span class="tl__fill" aria-hidden="true"></span>
+						{stops.map((x, i) => (
+							<li><button type="button" data-i={i} aria-pressed={i === stops.length - 1 ? 'true' : 'false'}><i aria-hidden="true"></i><b>{x.y}</b><span>{x.l}</span></button></li>
+						))}
+					</ol>
+					<div class="tl__card">
+						<div class="tl__pics">
+							{stops.map((x, i) => (<img src={x.img} alt="" loading="lazy" decoding="async" class={i === stops.length - 1 ? 'on' : ''} data-i={i} />))}
+						</div>
+						<div class="tl__txt">
+							<p class="tl__h" aria-live="polite">{stops[stops.length - 1].h}</p>
+							<a class="go tl__go" href={`/journey#${stops[stops.length - 1].id}`}>Read this chapter <span aria-hidden="true">→</span></a>
+						</div>
+					</div>
+				</div>
+				<p class="rv"><a class="go" href="/journey">Read my whole story <span aria-hidden="true">→</span></a></p>
 			</div>
 		</section>
 
@@ -274,6 +294,44 @@ const quotes = [
 				li.addEventListener('focusin', open);
 			});
 			pj.querySelectorAll('.pj__list').forEach((l) => l.querySelector('li')?.classList.add('open'));
+		});
+
+
+		// 05: a timeline you can scrub; it plays through once when it arrives
+		root.querySelectorAll<HTMLElement>('[data-tl]').forEach((tl) => {
+			const data = JSON.parse(tl.dataset.stops || '[]');
+			const btns = Array.from(tl.querySelectorAll<HTMLButtonElement>('.tl__rail button'));
+			const pics = Array.from(tl.querySelectorAll<HTMLImageElement>('.tl__pics img'));
+			const h = tl.querySelector<HTMLElement>('.tl__h')!;
+			const go = tl.querySelector<HTMLAnchorElement>('.tl__go')!;
+			const n = btns.length;
+			let cur = n - 1, auto: number | undefined;
+			const pick = (i: number, sound = true) => {
+				if (i === cur && h.textContent === data[i].h) return;
+				cur = i;
+				btns.forEach((b, k) => { b.setAttribute('aria-pressed', String(k === i)); b.classList.toggle('past', k < i); });
+				pics.forEach((p, k) => p.classList.toggle('on', k === i));
+				tl.style.setProperty('--p', String(n > 1 ? i / (n - 1) : 1));
+				h.classList.remove('in'); void h.offsetWidth; h.textContent = data[i].h; h.classList.add('in');
+				go.href = '/journey#' + data[i].id;
+				if (sound) tick(480 + i * 70);
+			};
+			const stop = () => clearInterval(auto);
+			btns.forEach((b, i) => {
+				b.addEventListener('click', () => { stop(); pick(i); });
+				b.addEventListener('pointermove', (e) => { if (e.pointerType === 'mouse' && cur !== i) { stop(); pick(i); } });
+				b.addEventListener('focus', () => { stop(); pick(i, false); });
+			});
+			tl.style.setProperty('--p', '1');
+			if (!calm && 'IntersectionObserver' in window) {
+				const io = new IntersectionObserver(([e]) => {
+					if (!e.isIntersecting) return;
+					io.disconnect();
+					let i = 0; pick(0, false);
+					auto = window.setInterval(() => { i++; if (i >= n) return stop(); pick(i, false); }, 650);
+				}, { threshold: 0.6 });
+				io.observe(tl);
+			}
 		});
 
 		// In their words: one quote at a time
@@ -384,6 +442,29 @@ const quotes = [
 	.pj__list li:global(.open) .pj__more > span { padding-top: 0.4rem; }
 	.pj__list li:global(.open) .pj__row b { color: var(--ink); }
 	.pj__list li:global(.open) .pj__row i { opacity: 1; transform: translateX(2px); color: var(--accent); }
+
+	/* 05: scrub-able timeline */
+	.cl { margin: 2rem 0 1.5rem; max-width: 36rem; --p: 1; }
+	.tl__rail { position: relative; list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(var(--n), 1fr); }
+	.tl__rail::before, .tl__fill { content: ''; position: absolute; top: 0.4rem; left: 0.3rem; height: 1px; background: var(--line-strong); right: calc(100% / var(--n) - 0.3rem); }
+	.tl__fill { right: auto; width: calc((100% - 100% / var(--n)) * var(--p)); background: var(--accent); height: 2px; top: calc(0.4rem - 0.5px); transition: width 0.45s cubic-bezier(0.2, 0.7, 0.2, 1); }
+	.tl__rail button { position: relative; display: flex; flex-direction: column; align-items: flex-start; gap: 0.15rem; width: 100%; padding: 1.4rem 0.25rem 0.25rem 0; background: none; border: 0; text-align: left; cursor: pointer; color: var(--muted); font: inherit; }
+	.tl__rail button i { position: absolute; top: 0; left: 0; width: 0.8rem; height: 0.8rem; border-radius: 50%; background: var(--bg); border: 1.5px solid var(--line-strong); transition: transform 0.25s cubic-bezier(0.2, 0.9, 0.3, 1.4), background 0.2s, border-color 0.2s; }
+	.tl__rail button:global(.past) i { border-color: var(--accent); }
+	.tl__rail button[aria-pressed='true'] i { background: var(--accent); border-color: var(--accent); transform: scale(1.35); box-shadow: 0 0 0 5px color-mix(in srgb, var(--accent) 22%, transparent); }
+	.tl__rail b { font-family: var(--mono); font-size: 0.78rem; font-weight: 500; color: var(--muted); transition: color 0.2s; }
+	.tl__rail span { font-size: 0.82rem; line-height: 1.25; }
+	.tl__rail button:hover b, .tl__rail button[aria-pressed='true'] b { color: var(--ink); }
+	.tl__rail button[aria-pressed='true'] span { color: var(--ink); }
+	.tl__card { display: grid; grid-template-columns: 9rem 1fr; gap: 1.25rem; align-items: center; margin-top: 1.5rem; }
+	.tl__pics { position: relative; aspect-ratio: 4 / 3; border-radius: 0.75rem; overflow: hidden; background: var(--paper); border: 1px solid var(--line); transform: rotate(-2deg); }
+	.tl__pics img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transform: scale(1.06); transition: opacity 0.4s ease, transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1); }
+	.tl__pics img[src*='story-trio'], .tl__pics img[src*='jmu-essay'] { object-fit: contain; }
+	.tl__pics img:global(.on) { opacity: 1; transform: none; }
+	.tl__h { margin: 0; font-size: 1.05rem; line-height: 1.45; color: var(--ink); }
+	.tl__h:global(.in) { animation: qin 0.4s ease; }
+	.tl__go { display: inline-block; margin-top: 0.5rem; font-size: 0.88rem; }
+	@media (max-width: 560px) { .tl__card { grid-template-columns: 6.5rem 1fr; } .tl__rail span { display: none; } }
 
 	/* In their words */
 	.qs__item[hidden] { display: none; }
