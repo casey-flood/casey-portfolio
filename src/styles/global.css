@@ -16168,3 +16168,25 @@ video.cmp__img:not(.cmp__img--new){object-position:left center}
 	.tq--ten::before, .tq--basic::before { left: -0.95rem; width: 0.7rem; }
 	.tq__head b { font-size: 0.85rem; } .tq__head span { font-size: 0.68rem; } .tq__row p { font-size: 0.72rem; } .tq__more { font-size: 0.68rem; margin-top: 0.6rem; }
 }
+
+/* tiers matrix with a moving focus: one column at a time, with a one-line "what's different" */
+.tmx { color: #eef3fb; }
+.tmx .tm thead th { cursor: pointer; }
+.tmx .tm th[data-c], .tmx .tm td { transition: opacity 0.45s, background 0.45s, box-shadow 0.45s; }
+.tmx[data-c='0'] .tm tr > :nth-child(3), .tmx[data-c='0'] .tm tr > :nth-child(4),
+.tmx[data-c='1'] .tm tr > :nth-child(2), .tmx[data-c='1'] .tm tr > :nth-child(4),
+.tmx[data-c='2'] .tm tr > :nth-child(2), .tmx[data-c='2'] .tm tr > :nth-child(3) { opacity: 0.28; }
+.tmx[data-c='0'] .tm tr > :nth-child(2) { background: rgba(140, 200, 255, 0.16) !important; }
+.tmx[data-c='1'] .tm tr > :nth-child(3) { background: rgba(240, 140, 160, 0.15) !important; }
+.tmx[data-c='2'] .tm tr > :nth-child(4) { background: rgba(214, 221, 232, 0.12) !important; }
+.tmx .tm tbody td small { color: #c3d3ea; }
+.tmx__caps { display: grid; margin-top: 0.9rem; min-height: 2.8em; }
+.tmx__caps p { grid-area: 1 / 1; margin: 0; padding-left: 0.8rem; border-left: 3px solid #8cc8ff; color: #c3d3ea; font-size: 0.92rem; line-height: 1.45; opacity: 0; transform: translateY(6px); transition: opacity 0.35s, transform 0.35s; }
+.tmx__caps p[data-for='1'] { border-color: #f08ca0; } .tmx__caps p[data-for='2'] { border-color: #c8d2e2; }
+.tmx__caps b { color: #fff; }
+.tmx[data-c='0'] .tmx__caps [data-for='0'], .tmx[data-c='1'] .tmx__caps [data-for='1'], .tmx[data-c='2'] .tmx__caps [data-for='2'] { opacity: 1; transform: none; transition-delay: 0.15s; }
+.tmx .tq__more { margin-top: 0.7rem; }
+@media (max-width: 899px) {
+	.cx.cx--mob .sc .sc__row .sc__viz.sc__viz--html > .tmx { position: relative !important; transform: none !important; }
+	.tmx__caps p { font-size: 0.72rem; } .tmx__caps { margin-top: 0.5rem; }
+}
