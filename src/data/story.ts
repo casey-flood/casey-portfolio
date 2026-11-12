@@ -1,11 +1,12 @@
-// My story (/journey): a year rail, one chapter at a time, and the moments inside it.
+// My story (/journey): one moment at a time.
 //
 // Add photos: drop files in public/story/ (webp or jpg, ~1600px wide) and reference them, e.g.
-//   media: { src: '/story/ddx-2026.jpg', alt: 'Me at DDX San Diego' }
+//   media: { src: '/story/ddx-2026.webp', alt: 'Me at DDX San Diego' }
+// `pos` sets the crop focus for portrait photos, e.g. pos: '50% 30%'.
 // Videos: { src: '/story/clip.mp4', poster: '/story/clip.jpg', alt: '...', video: true }
 // A moment without media shows as a text card (no empty boxes).
 
-export type Media = { src: string; alt: string; poster?: string; video?: boolean; fit?: 'contain' };
+export type Media = { src: string; alt: string; poster?: string; video?: boolean; fit?: 'contain'; pos?: string };
 export type Num = { v: string; l: string };
 export type Moment = { kicker: string; date: string; title: string; text: string; num?: Num; media?: Media; link?: { href: string; label: string; external?: boolean } };
 export type Chapter = {
@@ -27,15 +28,21 @@ export type Chapter = {
 
 export const chapters: Chapter[] = [
 	{
-		id: 'jmu', year: '2015', name: 'JMU', role: 'Media Arts & Design', dates: 'Fall 2015 – Spring 2017', place: 'James Madison University, Virginia',
-		title: 'Where design met code.',
-		text: 'Media Arts and Design with an interactive design concentration, plus computer information systems in the business school. A foot in both worlds is why I still prototype in code.',
-		moments: [],
+		id: 'jmu', year: '2015', name: 'JMU', role: 'Media Arts & Design + CIS', dates: 'Fall 2015 – Spring 2017', place: 'James Madison University, Virginia',
+		title: 'Design and code, from day one.',
+		text: 'I studied Media Arts and Design alongside Computer Information Systems, and took summer classes at UMass Amherst to get ahead. I paid for school myself, so I paid close attention to what each class was buying me.',
+		moments: [
+			{
+				kicker: 'The pivot', date: 'Spring 2017',
+				title: 'I paused school to test the field first.',
+				text: 'Graduating seniors told me the degree was too broad, spread across journalism, cinematography and every other concentration. UX was still young, but I knew it was what I wanted. Before paying for more school, I went to find out if I was right.',
+			},
+		],
 	},
 	{
 		id: 'paper', year: '2017', name: 'Paper Airplane', role: 'First design job', dates: '2017', place: 'Boston',
-		title: 'I did anything and everything.',
-		text: 'An early-stage app for meeting people in person. Brand and guerrilla marketing, research and UI for the product, and working with developers on the APIs.',
+		title: 'The field confirmed it: UX was the work.',
+		text: 'At an early-stage app for meeting people in person, I did a bit of everything: brand and guerrilla marketing, research and UI for the product, and working with developers on the APIs.',
 		nums: [{ v: '41', l: 'survey responses' }, { v: '13', l: 'final screens' }],
 		media: { src: '/paper-airplane/screen-01.webp', alt: 'Paper Airplane app screen', fit: 'contain' },
 		link: { href: '/work/paper-airplane', label: 'Read the case study' },
@@ -45,31 +52,32 @@ export const chapters: Chapter[] = [
 		],
 	},
 	{
-		id: 'pratt', year: '2018', name: 'Pratt', role: 'UX/UI certificate', dates: 'Summer 2018', place: 'Pratt Institute, New York',
-		title: 'I learned the craft, then tested it with real people.',
-		text: 'A UX/UI mobile design certificate turned instinct into method. The same year I started freelancing, which I’ve kept up alongside every full-time role since.',
-		nums: [{ v: '−94%', l: 'time to share a trip in My Trips' }, { v: '5', l: 'industries freelanced in' }],
+		id: 'pratt', year: '2018', name: 'Pratt', role: 'UX/UI certificate', dates: '2018', place: 'Pratt Institute, New York',
+		title: 'Then I trained for it, on purpose.',
+		text: 'Instead of a broad degree, I chose a UX/UI mobile design certificate at Pratt: research methods, interface design, and testing with real people. The same year I started freelancing, which I’ve kept up alongside every role since.',
+		nums: [{ v: '−94%', l: 'time to share a trip in My Trips' }],
 		media: { src: '/journey/pratt-scrapbook.png', alt: 'Pratt scrapbook', fit: 'contain' },
 		moments: [
-			{ kicker: 'Testing', date: 'Summer 2018', title: 'People dropped off when asked to review everything at once.', text: 'So I added daily review prompts.', media: { src: '/journey/usertesting.mp4', poster: '/journey/usertesting-poster.jpg', alt: 'In-person testing sessions', video: true } },
-			{ kicker: 'New York', date: '2018', title: 'The Cooper Hewitt.', text: 'Where I started to see the psychology and empathy behind design.', media: { src: '/journey/cooper-hewitt-scrapbook.png', alt: 'Cooper Hewitt scrapbook', fit: 'contain' } },
-			{ kicker: 'Freelance', date: '2018 – now', title: 'Always a few side quests.', text: 'Healthcare, finance, travel, construction and digital media. It keeps me fast at learning new domains.' },
+			{ kicker: 'Testing', date: 'Summer 2018', title: 'People dropped off when asked to review everything at once.', text: 'So I added daily review prompts. My first lesson in designing for how people actually behave.', media: { src: '/journey/usertesting.mp4', poster: '/journey/usertesting-poster.jpg', alt: 'In-person testing sessions', video: true } },
+			{ kicker: 'New York', date: '2018', title: 'New York made me obsessed with design.', text: 'Living in one of the biggest design communities in the world, with the Cooper Hewitt as my favorite museum.', media: { src: '/story/nyc-2018.webp', alt: 'Casey on the Met rooftop above Central Park' } },
+			{ kicker: 'Back to Boston', date: 'Fall 2018', title: 'I chose the work over four years of art school.', text: 'A semester at MassArt made it clear its BFA meant four years of traditional art classes. Not my path. I freelanced, worked part-time and applied for UX roles, and joined Amwell that January.' },
 		],
 	},
 	{
 		id: 'amwell', year: '2019', name: 'Amwell', role: 'UX Designer → Senior Product Designer', dates: 'Jan 2019 – Feb 2024', place: 'Boston and New York',
 		title: 'Research, then ownership, then leadership.',
-		text: 'Virtual urgent care used by millions: patient, provider and admin experiences on web and white-label mobile. I started by running research and grew into owning design direction and mentoring designers.',
+		text: 'Virtual urgent care used by millions: patient, provider and admin experiences on web and white-label mobile. I started by running research and grew into owning design direction and mentoring designers, and finished my degree along the way.',
 		ladder: [{ t: 'UX Designer', when: '2019' }, { t: 'Senior UX Designer', when: '2021' }, { t: 'Senior Product Designer', when: '2023' }],
 		nums: [{ v: '2', l: 'promotions' }, { v: '14', l: 'OKRs completed' }, { v: '45% → 82%', l: 'admin task completion' }],
 		media: { src: '/amwell/cs/hero.webp', alt: 'Amwell admin portal' },
 		link: { href: '/work/amwell', label: 'See the Amwell work' },
 		moments: [
-			{ kicker: 'Research', date: '2019 – 2020', title: 'My research fed a #1 J.D. Power ranking.', text: 'I led most of the team’s user research and presented it to the C-suite.', num: { v: '~86%', l: 'of the team’s research, led by me' } },
-			{ kicker: 'Speaking', date: 'As a UX Designer', title: 'General Assembly panel.', text: 'On design and career development, as a UX designer in telehealth.', link: { href: 'https://www.generalassemb.ly/instructors/casey-flood/22082', label: 'GA profile', external: true } },
-			{ kicker: 'Conference', date: 'Early at Amwell', title: 'UserTesting’s conference.', text: 'Learning from the research community when research was most of my job.' },
+			{ kicker: 'Conference', date: '2019', title: 'The Human Insight Summit.', text: 'UserTesting’s research conference in my first year, when research was most of my job.', media: { src: '/story/usertesting-this-2019.webp', alt: 'The stage at UserTesting’s Human Insight Summit, 2019' } },
+			{ kicker: 'Research', date: '2019 – 2020', title: 'My research fed a #1 J.D. Power ranking.', text: 'I led most of the team’s user research (interviews, usability tests, surveys) and presented it to the C-suite.', num: { v: '~86%', l: 'of the team’s research, led by me' } },
+			{ kicker: 'Speaking', date: 'Boston', title: 'On a General Assembly panel.', text: 'A panel on design and career development, speaking as a UX designer at Amwell.', media: { src: '/story/ga-panel.webp', alt: 'Casey speaking on a General Assembly panel in Boston', pos: '30% 40%' }, link: { href: 'https://www.generalassemb.ly/instructors/casey-flood/22082', label: 'GA profile', external: true } },
+			{ kicker: 'Degree', date: 'While at Amwell', title: 'I finished my degree while working full time.', text: 'A B.S. in Information Technology from UMass Lowell, with a concentration in design and development, completed online. Design and development: the combination I’d wanted from the start.', media: { src: '/story/umass-lowell-grad.webp', alt: 'Casey in cap and gown in Central Park', pos: '50% 30%' } },
 			{ kicker: 'Craft', date: '2023', title: 'One admin portal for every role.', text: 'A fragmented portal became one role-based system.', num: { v: '45% → 82%', l: 'task completion' }, media: { src: '/amwell/cs/sketches.webp', alt: 'Admin portal sketches' }, link: { href: '/work/amwell-admin-portal', label: 'Case study' } },
-			{ kicker: 'Leadership', date: '2023', title: 'Mentoring designers.', text: 'I mentored two junior designers and led sprints and critiques.', num: { v: '2', l: 'designers mentored' } },
+			{ kicker: 'The team', date: '2019 – 2024', title: '“The first person I turn to when I’m seeking input on my designs.”', text: 'Kate Murdoch, Principal Product Designer at Amwell. I mentored two junior designers and led sprints and critiques.', num: { v: '2', l: 'designers mentored' }, media: { src: '/story/amwell-team.webp', alt: 'The Amwell team' } },
 		],
 	},
 	{
@@ -84,6 +92,7 @@ export const chapters: Chapter[] = [
 			{ kicker: 'Week three', date: 'Spring 2025', title: 'A feedback flow, shipped in my third week.', text: 'For the Goldilocks crown-fit program: the program’s best feedback rates.', num: { v: '+60%', l: 'submissions' } },
 			{ kicker: 'Field research', date: '2025 – 2026', title: 'San Diego to Cairo.', text: 'Watching dental designers at their own desks, and roundtables with the leads.', num: { v: '7,600+', l: 'miles, one way' }, media: { src: '/work/dde/cairo-team.webp', alt: 'The team in Cairo' } },
 			{ kicker: 'Design engineering', date: '2025', title: 'A design system in code.', text: 'Built in Storybook from production components.', num: { v: '30–45 → 5–10', l: 'minutes per design change' }, media: { src: '/journey/storybook-ds.mp4', poster: '/journey/storybook-ds-cover.jpg', alt: 'The design system', video: true }, link: { href: '/work/dandy-design-system', label: 'Read more' } },
+			{ kicker: 'Community', date: 'San Diego', title: 'Volunteering with SDXD.', text: 'I volunteer at San Diego Experience Design events for the local design community.', media: { src: '/story/sdxd.webp', alt: 'Casey after an SDXD event', pos: '50% 30%' } },
 			{ kicker: 'Conference', date: 'Sep 17, 2026', title: 'DDX’26 San Diego.', text: '300+ design and product leaders, one question: if AI makes “good enough” free, what is the job now?' },
 		],
 	},

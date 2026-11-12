@@ -14,7 +14,7 @@ type P = {
 	nums?: { v: string; l: string }[];
 	ladder?: { t: string; when: string }[];
 	quote?: { q: string; who: string };
-	media?: { src: string; alt: string; poster?: string; video?: boolean; fit?: 'contain' };
+	media?: { src: string; alt: string; poster?: string; video?: boolean; fit?: 'contain'; pos?: string };
 	link?: { href: string; label: string; external?: boolean };
 	tip: string;
 };
@@ -43,7 +43,7 @@ const pages: P[] = chapters.flatMap((c) => [
 						</div>
 						{p.media && (
 							<figure class:list={['sb__fig', { 'is-contain': p.media.fit === 'contain' }]}>
-								{p.media.video ? <video src={p.media.src} poster={p.media.poster} muted loop playsinline preload="none" aria-label={p.media.alt}></video> : <img src={p.media.src} alt={p.media.alt} loading="lazy" decoding="async" />}
+								{p.media.video ? <video src={p.media.src} poster={p.media.poster} muted loop playsinline preload="none" aria-label={p.media.alt}></video> : <img src={p.media.src} alt={p.media.alt} loading="lazy" decoding="async" style={p.media.pos ? `object-position:${p.media.pos}` : undefined} />}
 							</figure>
 						)}
 					</div>
