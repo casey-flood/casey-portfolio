@@ -202,7 +202,7 @@ const pages: P[] = chapters.flatMap((c) => [
 		.sb__page.has-media .sb__body { grid-template-columns: 1fr; }
 		.sb__fig { order: -1; aspect-ratio: 16 / 10; }
 		/* Phones: photo first, everything compact, so the whole moment fits on one screen */
-		.sb__deck { order: -1; aspect-ratio: 16 / 10; margin-bottom: 0.25rem; }
+		.sb__deck { order: -1; aspect-ratio: auto; height: min(34svh, 15rem); margin-bottom: 0.25rem; }
 		.sb__deck.is-multi { margin-bottom: 1.5rem; }
 		.sb__page { padding: 0.9rem 0.9rem 1.1rem; border-radius: 1.1rem; }
 		.sb__head { flex-direction: row; justify-content: center; gap: 0.5rem; margin-bottom: 0.7rem; }
@@ -218,7 +218,7 @@ const pages: P[] = chapters.flatMap((c) => [
 		.sb__link { margin-top: 0.7rem; font-size: 0.85rem; }
 		.sb__ladder { margin-top: 0.6rem; }
 		.sb__page:not(.has-media) .sb__body { padding: 0.5rem 0; }
-		.sb__scrub { position: sticky; bottom: 0; z-index: 4; padding: 0 0.25rem 0.6rem; background: linear-gradient(transparent, var(--sb-bg, #000) 30%); }
+		.sb__scrub { padding: 0 0.25rem 0.6rem; }
 		.sb__groups { padding-top: 1.2rem; }
 		.sb__now { margin-top: 0.5rem; }
 		.sb__side { display: none; }
