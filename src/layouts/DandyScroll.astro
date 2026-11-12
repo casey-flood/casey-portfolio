@@ -5,7 +5,7 @@ import ToolsScene from '../components/ToolsScene.astro';
 import DdeViz from '../components/DdeViz.astro';
 import type { Beat, ScrollProps } from '../data/dandy-scroll-types';
 interface Props extends ScrollProps {}
-const { short, toolsScene, title, description, eyebrow, heroTitle, lede, tools, hero, scenes, endTitle, endText, endLinks = [{ href: '/work/dandy', label: '← Dandy overview' }, { href: '/work', label: 'All work', ghost: true }], brand = { logo: '/brand/dandy-wordmark.svg', alt: 'Dandy', backHref: '/work/dandy', backLabel: '← Dandy overview', cls: '' } } = Astro.props;
+const { short, toolsScene, title, description, eyebrow, heroTitle, lede, tools, hero, scenes, endTitle, endText, endCards, endAll, endLinks = [{ href: '/work/dandy', label: '← Dandy overview' }, { href: '/work', label: 'All work', ghost: true }], brand = { logo: '/brand/dandy-wordmark.svg', alt: 'Dandy', backHref: '/work/dandy', backLabel: '← Dandy overview', cls: '' } } = Astro.props;
 
 const toc = [{ id: 'dsx-top', label: 'Overview' }, ...(short ? [{ id: 'dsx-short', label: 'The short version' }] : []), ...scenes.flatMap((s) => [{ id: `sc-${s.id}`, label: s.nav }, ...(toolsScene && toolsScene.after === s.id ? [{ id: 'dsx-tools', label: 'Tools I use' }] : [])]), { id: 'end', label: 'Closing' }];
 const users = [
@@ -138,6 +138,29 @@ const slug = Astro.url.pathname.split('/').filter(Boolean).pop() ?? 'page';
 			))
 		}
 
+		{endCards ? (
+			<section class="cx__end" id="end" data-fade aria-labelledby="dsx-end">
+				<div class="cx__endtop">
+					<h2 id="dsx-end" class="cx__endh">{endTitle}</h2>
+					<p class="cx__endp">{endText}</p>
+				</div>
+				<ul class:list={['cx__cards', { 'cx__cards--two': endCards.length === 2 }]}>
+					{endCards.map((c) => (
+						<li>
+							<a class="cx__card" href={c.href} data-hovervid={c.src ? '' : undefined}>
+								<span class="cx__cardm">
+									<img src={c.poster} alt="" loading="lazy" decoding="async" />
+									{c.src && <video src={c.src} muted loop playsinline preload="none" aria-hidden="true"></video>}
+								</span>
+								<span class="cx__cardt"><small>{c.tag}</small><b>{c.title}</b><em>{c.note}</em></span>
+								<span class="cx__cardgo" aria-hidden="true">→</span>
+							</a>
+						</li>
+					))}
+				</ul>
+				{endAll && <a class="cx__endall" href={endAll.href}>{endAll.label}</a>}
+			</section>
+		) : (
 		<section class="cx__end" id="end" data-fade aria-labelledby="dsx-end">
 			<h2 id="dsx-end" class="hv__big">{endTitle}</h2>
 			<div class="cx__copy cx__copy--end">
@@ -147,6 +170,7 @@ const slug = Astro.url.pathname.split('/').filter(Boolean).pop() ?? 'page';
 				{endLinks.map((l) => <a class:list={['hv__btn', { 'hv__btn--ghost': l.ghost }]} href={l.href}>{l.label}</a>)}
 			</p>
 		</section>
+		)}
 	</div>
 </Base>
 
@@ -503,6 +527,15 @@ const slug = Astro.url.pathname.split('/').filter(Boolean).pop() ?? 'page';
 	document.querySelectorAll<HTMLElement>('.uxm').forEach((w) => {
 		const imgs = Array.from(w.querySelectorAll<HTMLImageElement>('.uxm__row li:not([aria-hidden]) img'));
 		w.querySelectorAll<HTMLImageElement>('.uxm__row img').forEach((im) => im.addEventListener('click', () => { const k = imgs.findIndex((x) => x.src === im.src); expand(imgs[Math.max(0, k)], imgs); }));
+	});
+	// closing cards: the preview plays while you hover or focus a card
+	if (!reduceMo) document.querySelectorAll<HTMLElement>('.cx__end [data-hovervid]').forEach((card) => {
+		const v = card.querySelector<HTMLVideoElement>('video');
+		if (!v) return;
+		const on = () => { card.classList.add('is-playing'); v.play().catch(() => {}); };
+		const off = () => { card.classList.remove('is-playing'); v.pause(); };
+		card.addEventListener('mouseenter', on); card.addEventListener('mouseleave', off);
+		card.addEventListener('focus', on); card.addEventListener('blur', off);
 	});
 	// anything marked data-full opens that image full size
 	document.querySelectorAll<HTMLElement>('.sc__viz--html [data-full]').forEach((el) => {

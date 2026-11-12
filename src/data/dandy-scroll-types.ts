@@ -24,4 +24,6 @@ export interface ScrollProps {
 	endTitle: string;
 	endText: string;
 	endLinks?: { href: string; label: string; ghost?: boolean }[];
+	endCards?: { href: string; title: string; tag: string; note: string; poster: string; src?: string }[];
+	endAll?: { href: string; label: string };
 }

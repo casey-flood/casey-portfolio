@@ -253,6 +253,13 @@ const gtn = `
 	</div>
 </div>`;
 
+const recs = `
+<ul class="rcm">
+	<li style="--i:0"><i aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/></svg></i><b>Smart search on every list</b><span>One search box that understands names, IDs and tenants, instead of a separate field for each.</span></li>
+	<li style="--i:1"><i aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><circle cx="16" cy="9" r="2.5"/><path d="M3.5 19c.6-3.2 2.8-5 5.5-5s4.9 1.8 5.5 5M14 14.3c2.6-.3 5 1.2 6 4.2"/></svg></i><b>One Practitioners area</b><span>Merge the two overlapping practitioner sections, so there’s one place to find and edit a provider.</span></li>
+	<li style="--i:2"><i aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 21V4M5 4h11l-2 4 2 4H5"/></svg></i><b>Launch status in the tenant list</b><span>Show each client’s launch stage and point person right in the list, so support knows who to call.</span></li>
+</ul>`;
+
 const tiers = `
 <div class="tmx" data-c="0">
 	<table class="tm">
@@ -646,8 +653,8 @@ const scenes: { id: string; label: string; nav: string; beats: Beat[] }[] = [
 			},
 			{
 				title: 'What I recommended after the MVP.',
-				text: 'Smart search on every list instead of separate fields. One Practitioners area instead of two overlapping ones. Launch status and a point person in the tenant list. And testing the final prototype with a panel of admin stakeholders.',
-				links: [{ href: '/work/amwell', label: '← Amwell overview' }],
+				text: 'Once the portal shipped, I recommended three changes for the next release.',
+				html: recs,
 			},
 		],
 	},
@@ -682,8 +689,13 @@ const scenes: { id: string; label: string; nav: string; beats: Beat[] }[] = [
 	}}
 	hero={{ src: '/amwell/cs/hero-screen.webp', image: true, alt: 'The redesigned Amwell admin dashboard' }}
 	scenes={scenes}
-	endTitle="One platform for every kind of admin."
-	endText="Healthcare organizations now configure the patient and provider experience from a single, role-aware system."
+	endTitle="Thanks for reading."
+	endText="Want to see more of my work at Amwell?"
+	endCards={[
+		{ href: '/work/amwell-research', title: 'Amwell research', tag: 'Research', note: 'About 86% of Amwell’s user research, led by me.', poster: '/amwell/triage.webp' },
+		{ href: '/work/amwell', title: 'Amwell overview', tag: 'Overview', note: 'Patients, providers and admins: the whole platform.', poster: '/work/ov-amwell.jpg', src: '/work/ov-amwell.mp4' },
+	]}
+	endAll={{ href: '/work', label: '← All work' }}
 	endLinks={[{ href: '/work/amwell', label: '← Amwell overview' }, { href: '/work', label: 'All work', ghost: true }]}
 	brand={{ logo: '/brand/amwell-white.svg', alt: 'Amwell', backHref: '/work/amwell', backLabel: '← Amwell overview', cls: 'amw' }}
 />
