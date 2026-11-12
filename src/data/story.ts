@@ -56,7 +56,7 @@ export const chapters: Chapter[] = [
 		],
 	},
 	{
-		id: 'paper', year: '2017', name: 'Paper Airplane', role: 'First design job', dates: '2017', place: 'Boston',
+		id: 'paper', year: '2017', name: 'Paper Airplane', role: 'First design job', dates: '2017', place: 'Paper Airplane',
 		title: 'The field confirmed it: UX was the work.',
 		text: 'At an early-stage app for meeting people in person, I did a bit of everything: brand and guerrilla marketing, research and UI for the product, and working with developers on the APIs.',
 		nums: [{ v: '41', l: 'survey responses' }, { v: '13', l: 'final screens' }],
@@ -78,7 +78,7 @@ export const chapters: Chapter[] = [
 		],
 	},
 	{
-		id: 'amwell', year: '2019', name: 'Amwell', role: 'UX Designer → Senior Product Designer', dates: 'Jan 2019 – Feb 2024', place: 'Boston and New York',
+		id: 'amwell', year: '2019', name: 'Amwell', role: 'UX Designer → Senior Product Designer', dates: 'Jan 2019 – Feb 2024', place: 'Amwell',
 		title: 'Research, then ownership, then leadership.',
 		text: 'Telehealth for patients, providers and admins. I started by running research and grew into owning design direction.',
 		nums: [{ v: '2', l: 'promotions' }, { v: '86%', l: 'of our research, led by me' }],
@@ -95,7 +95,7 @@ export const chapters: Chapter[] = [
 		],
 	},
 	{
-		id: 'dandy', year: '2025', name: 'Dandy', role: 'Senior Product Designer', dates: 'Mar 2025 – now', place: 'San Diego',
+		id: 'dandy', year: '2025', name: 'Dandy', role: 'Senior Product Designer', dates: 'Mar 2025 – now', place: 'Dandy',
 		title: 'Today, I design in the real material.',
 		text: 'First the dentist ordering flows, then sole product designer on the Design Editor, where dental designers design every crown. I prototype in code and built its design system.',
 		nums: [{ v: '−11.5%', l: 'hands-on designer time per order' }, { v: '+18 pts', l: 'crown orders in our editor' }],
