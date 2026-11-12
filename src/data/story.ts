@@ -63,7 +63,6 @@ export const chapters: Chapter[] = [
 		media: { src: '/paper-airplane/story-trio.webp', alt: 'Three Paper Airplane screens: the venue map, a venue with matches, and chat' },
 		link: { href: '/work/paper-airplane', label: 'Read the case study' },
 		moments: [
-			{ kicker: 'Research', date: '2017', title: 'From survey to MVP.', text: 'Surveys, interviews and card sorts narrowed the product to three features.', num: { v: '6', l: 'card sorts' }, media: { src: '/paper-airplane/card-sort.webp', alt: 'Card sort' } },
 		],
 	},
 	{
