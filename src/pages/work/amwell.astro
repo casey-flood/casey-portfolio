@@ -98,7 +98,8 @@ const more = companies.filter((c) => c.id !== 'amwell' && c.cta);
 			</div>
 		</section>
 
-		<section class="jr" id="aw-what" aria-labelledby="aw-what-h" data-journey>
+		<section class="jr" id="aw-what" aria-labelledby="aw-what-h" data-journey data-ph="2">
+			<div class="jr__pin">
 			<h2 id="aw-what-h" class="jr__h">The journey.</h2>
 			<div class="jr__map">
 				<figure class="jr__side jr__side--l">
@@ -122,13 +123,8 @@ const more = companies.filter((c) => c.id !== 'amwell' && c.cta);
 					<button type="button" class="jr__shot" data-zoom="/amwell/cs/prov-portal.webp" aria-label="Expand the provider portal"><img src="/amwell/cs/prov-portal.webp" alt="The Amwell provider portal" loading="lazy" /></button>
 				</figure>
 			</div>
-			<ul class="jr__does" aria-label="What a healthcare admin does">
-				<li>Configure service lines, like urgent care and behavioral health</li>
-				<li>Manage provider networks and scheduling</li>
-				<li>Set clinical rules and workflows</li>
-				<li>Control patient access and eligibility</li>
-				<li>Monitor system analytics</li>
-			</ul>
+<ul class="jr__does" aria-label="What a healthcare admin sets up"><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h10"/></svg><b>Service lines</b><span>Urgent care, behavioral health</span></li><li><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="7" cy="8" r="3"/><circle cx="17" cy="8" r="3"/><path d="M2 20c0-3 2.2-5 5-5s5 2 5 5M12 20c0-3 2.2-5 5-5s5 2 5 5"/></svg><b>Provider networks</b><span>Who’s available, and when</span></li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4v16M12 4v16M19 4v16"/><circle cx="5" cy="9" r="2"/><circle cx="12" cy="15" r="2"/><circle cx="19" cy="8" r="2"/></svg><b>Clinical rules</b><span>Workflows and policies</span></li><li><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg><b>Patient access</b><span>Eligibility and coverage</span></li></ul>
+			</div>
 			<dialog class="jr__lb" aria-label="Enlarged screen"><button type="button" class="jr__x" aria-label="Close">×</button><img alt="" /></dialog>
 		</section>
 
@@ -269,18 +265,22 @@ const more = companies.filter((c) => c.id !== 'amwell' && c.cta);
 		}
 	}
 
-	// The journey: patients and providers appear, then the admin in the middle comes into focus.
+	// The journey, told by scrolling: the patient, then the provider, then the admin who connects them.
 	document.querySelectorAll<HTMLElement>('[data-journey]').forEach((jr) => {
 		const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-		if (reduce) jr.classList.add('is-in', 'is-focus');
-		else {
-			const io = new IntersectionObserver(([e]) => {
-				if (!e.isIntersecting) return;
-				io.disconnect();
-				jr.classList.add('is-in');
-				setTimeout(() => jr.classList.add('is-focus'), 900);
-			}, { threshold: 0.35 });
-			io.observe(jr);
+		const small = matchMedia('(max-width: 860px)').matches;
+		if (!reduce && !small) {
+			jr.classList.add('is-pinned');
+			let last = -1;
+			const tick = () => {
+				const r = jr.getBoundingClientRect();
+				const p = Math.max(0, Math.min(1, -r.top / Math.max(1, r.height - innerHeight)));
+				const ph = p < 0.28 ? 0 : p < 0.6 ? 1 : 2;
+				if (ph !== last) { last = ph; jr.dataset.ph = String(ph); }
+			};
+			addEventListener('scroll', () => requestAnimationFrame(tick), { passive: true });
+			addEventListener('resize', tick);
+			tick();
 		}
 		const lb = jr.querySelector<HTMLDialogElement>('.jr__lb')!;
 		jr.querySelectorAll<HTMLElement>('[data-zoom]').forEach((s) => s.addEventListener('click', () => { lb.querySelector('img')!.src = s.dataset.zoom!; lb.showModal(); }));
@@ -332,21 +332,33 @@ const more = companies.filter((c) => c.id !== 'amwell' && c.cta);
 	.jr__wire--l::after { right: -4px; }
 	.jr__wire--r::after { left: -4px; }
 
-	/* motion: sides arrive sharp, then soften as the admin takes focus */
-	.jr__side, .jr__mid, .jr__wire, .jr__does { transition: opacity 0.7s ease, filter 0.7s ease, transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1), clip-path 0.7s ease; }
-	:global(.is-live) .jr:not(.is-in) .jr__side { opacity: 0; transform: translateY(14px); }
-	:global(.is-live) .jr:not(.is-in) .jr__mid { opacity: 0; transform: scale(0.96); }
-	:global(.is-live) .jr:not(.is-focus) .jr__wire { clip-path: inset(0 100% 0 0); }
-	:global(.is-live) .jr:not(.is-focus) .jr__does { opacity: 0; transform: translateY(10px); }
-	.jr__side--r { transition-delay: 0.12s; }
-	.jr__mid { transition-delay: 0.25s; }
-	.jr.is-focus .jr__side { filter: blur(3px); opacity: 0.45; }
-	.jr.is-focus .jr__side:hover, .jr.is-focus .jr__side:focus-within { filter: none; opacity: 1; }
-	.jr.is-focus .jr__mid { transform: scale(1.02); }
+	/* scroll story: 0 patient, 1 patient + provider, 2 admin */
+	.jr.is-pinned { height: 260svh; display: block !important; padding: 0; max-width: none; }
+	.jr.is-pinned .jr__pin { position: sticky; top: var(--hv-top, 4.5rem); height: calc(100svh - var(--hv-top, 4.5rem)); max-width: 76rem; margin: 0 auto; padding: 1.5rem clamp(1.25rem, 4vw, 3rem); display: flex; flex-direction: column; justify-content: center; }
+	.jr__pin { width: 100%; }
+	.jr__side, .jr__mid, .jr__wire, .jr__does { transition: opacity 0.6s ease, filter 0.6s ease, transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1), clip-path 0.6s ease, max-height 0.6s ease, margin 0.6s ease; }
+	.jr__mid { border-style: dashed; }
+	.jr[data-ph='0'] .jr__side--r, .jr[data-ph='0'] .jr__mid, .jr[data-ph='1'] .jr__mid { filter: blur(4px); opacity: 0.3; }
+	.jr[data-ph='0'] .jr__mid, .jr[data-ph='1'] .jr__mid { border-color: transparent; background: transparent; }
+	.jr[data-ph='0'] .jr__side--l, .jr[data-ph='1'] .jr__side { transform: scale(1.04); }
+	.jr[data-ph='2'] .jr__side { filter: blur(3px); opacity: 0.4; }
+	.jr[data-ph='2'] .jr__side:hover { filter: none; opacity: 1; }
+	.jr[data-ph='2'] .jr__mid { transform: scale(1.03); }
+	.jr[data-ph='0'] .jr__wire, .jr[data-ph='1'] .jr__wire { clip-path: inset(0 100% 0 0); }
+	.jr[data-ph='0'] .jr__does, .jr[data-ph='1'] .jr__does { opacity: 0; transform: translateY(10px); }
 
-	.jr__does { list-style: none; margin: 1.75rem auto 0; padding: 0; max-width: 34rem; display: grid; gap: 0.55rem; color: rgba(255, 255, 255, 0.85); font-size: 0.98rem; transition-delay: 0.2s; }
-	.jr__does li { position: relative; padding-left: 1.3rem; }
-	.jr__does li::before { content: ''; position: absolute; left: 0.2rem; top: 0.6rem; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); }
+	.jr__shot { max-height: 24svh; }
+	.jr__shot img { height: 100%; max-height: 24svh; object-fit: cover; object-position: top; }
+	.jr__face { width: clamp(3.75rem, 6vw, 5rem); height: clamp(3.75rem, 6vw, 5rem); margin: 0.6rem 0 0.4rem; }
+	.jr__portal { margin-bottom: 0.6rem; }
+	.jr__mid { padding: 1.1rem 1.2rem 1.3rem; }
+	.jr__wire { margin-top: calc(1.1rem + 1.6rem + 2.8rem); }
+
+	.jr__does { list-style: none; margin: 1.5rem auto 0; padding: 0; width: min(100%, 40rem); display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+	.jr__does li { display: grid; grid-template-columns: 2.4rem 1fr; grid-template-rows: auto auto; column-gap: 0.75rem; align-items: center; padding: 0.75rem 0.9rem; border-radius: 0.9rem; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.08); }
+	.jr__does svg { grid-row: 1 / 3; width: 2.4rem; height: 2.4rem; padding: 0.55rem; border-radius: 0.7rem; background: color-mix(in srgb, var(--accent) 22%, transparent); stroke: #fff; fill: none; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+	.jr__does b { color: #fff; font-size: 0.95rem; }
+	.jr__does span { color: rgba(255, 255, 255, 0.65); font-size: 0.8rem; }
 
 	.jr__lb { border: 0; padding: 0; background: transparent; max-width: 96vw; max-height: 94vh; }
 	.jr__lb::backdrop { background: rgba(10, 12, 20, 0.88); }
