@@ -60,7 +60,7 @@ export const chapters: Chapter[] = [
 		moments: [
 			{ kicker: 'Testing', date: 'Summer 2018', title: 'People dropped off when asked to review everything at once.', text: 'So I added daily review prompts. My first lesson in designing for how people actually behave.', media: { src: '/journey/usertesting.mp4', poster: '/journey/usertesting-poster.jpg', alt: 'In-person testing sessions', video: true } },
 			{ kicker: 'New York', date: '2018', title: 'New York made me obsessed with design.', text: 'Living in one of the biggest design communities in the world, with the Cooper Hewitt as my favorite museum.', media: [{ src: '/story/nyc-2018.webp', alt: 'On the Met rooftop above Central Park' }, { src: '/journey/cooper-hewitt-scrapbook.png', alt: 'My Cooper Hewitt scrapbook', fit: 'contain' }] },
-			{ kicker: 'Back to Boston', date: 'Fall 2018', title: 'I chose the work over four years of art school.', text: 'A semester at MassArt made it clear its BFA meant four years of traditional art classes. Not my path. I freelanced, worked part-time and applied for UX roles, and joined Amwell that January.' },
+			{ kicker: 'Back to Boston', date: 'Fall 2018', title: 'I trained my hand at art school, then chose the work.', text: 'A semester at MassArt grounded me in drawing, form and color, all by hand. But the BFA meant four more years of studio classes before I’d touch interaction design. So I went after the work instead: freelancing while I applied for UX roles. In December I was paid for my first website redesign, and a month later I joined Amwell.', num: { v: '$300', l: 'my first freelance check, Dec 2018' }, media: [{ src: '/story/first-freelance-check.webp', alt: 'Holding my first freelance check, for a website redesign', pos: '40% 45%' }] },
 		],
 	},
 	{
