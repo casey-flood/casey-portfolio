@@ -16277,3 +16277,4 @@ video.cmp__img:not(.cmp__img--new){object-position:left center}
 	.fl__it i { width: 2.4rem; height: 2.4rem; } .fl__it svg { width: 1.1rem; height: 1.1rem; } .fl__it button { font-size: 0.6rem; }
 	.fl__pop { width: 9rem; font-size: 0.66rem; padding: 0.5rem 0.6rem; } .fl__src { font-size: 0.56rem; }
 }
+.fl__src { margin: 2.2rem 0 0 !important; color: rgba(180, 198, 228, 0.78) !important; font-size: 0.74rem !important; font-weight: 400; } @media (max-width: 899px) { .fl__src { margin-top: 1.2rem !important; font-size: 0.62rem !important; } }
