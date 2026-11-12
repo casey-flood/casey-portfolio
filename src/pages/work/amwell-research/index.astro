@@ -11,9 +11,10 @@ const areas = ['All', ...new Set(rest.map((s) => s.area))];
 ---
 
 <Base title="Amwell research" description="I led about 86% of Amwell’s user research. Here’s what it changed.">
+	<div class="awb">
 	<section class="ar">
 		<div class="shell ar__in">
-			<a class="ar__back" href="/work/amwell">← Amwell</a>
+			<div class="ar__top"><a class="cx__brand" href="/work/amwell" aria-label="Amwell overview"><img class="hv__logo" src="/brand/amwell-white.svg" alt="Amwell" width="96" height="34" /><span class="cx__peek" aria-hidden="true"><img src="/work/ov-amwell.jpg" alt="" loading="lazy" /><b>Amwell overview →</b></span></a><a class="ar__back" href="/work/amwell">← Amwell overview</a></div>
 
 			<header class="ar__head">
 				<p class="ar__k">Amwell research · 2019 – 2024</p>
@@ -58,6 +59,7 @@ const areas = ['All', ...new Set(rest.map((s) => s.area))];
 			</ul>
 		</div>
 	</section>
+	</div>
 </Base>
 
 <script>

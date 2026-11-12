@@ -16,8 +16,10 @@ const takeaways = s.takeaways ?? [s.finding];
 ---
 
 <Base title={`${s.t} · Amwell research`} description={s.goal}>
+	<div class="awb">
 	<nav class="bar" aria-label="Study navigation">
 		<div class="shell bar__in">
+			<a class="cx__brand" href="/work/amwell" aria-label="Amwell overview"><img class="hv__logo" src="/brand/amwell-white.svg" alt="Amwell" width="96" height="34" /><span class="cx__peek" aria-hidden="true"><img src="/work/ov-amwell.jpg" alt="" loading="lazy" /><b>Amwell overview →</b></span></a>
 			<a class="bar__back" href="/work/amwell-research" data-back>← All research</a>
 			<span class="bar__pos">{i + 1} / {studies.length}</span>
 			<span class="bar__arrows">
@@ -95,6 +97,7 @@ const takeaways = s.takeaways ?? [s.finding];
 		</div>
 	</article>
 	<dialog class="lb" aria-label="Enlarged image"><button type="button" class="lb__x" aria-label="Close">×</button><img alt="" /></dialog>
+	</div>
 </Base>
 
 <script>

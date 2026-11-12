@@ -30,7 +30,7 @@ const slug = Astro.url.pathname.split('/').filter(Boolean).pop() ?? 'page';
 
 		<header class="cx__hero dsx__hero" id="dsx-top" aria-labelledby="dsx-h">
 			<div class="cx__top">
-				<img class="hv__logo" src={brand.logo} alt={brand.alt} width="96" height="34" />
+				<a class="cx__brand" href={brand.backHref} aria-label={brand.backLabel.replace(/^← /, '')}><img class="hv__logo" src={brand.logo} alt={brand.alt} width="96" height="34" /><span class="cx__peek" aria-hidden="true"><img src={brand.backHref.includes('amwell') ? '/work/ov-amwell.jpg' : '/work/ov-dandy.jpg'} alt="" loading="lazy" /><b>{brand.backLabel.replace(/^← /, '')} →</b></span></a>
 				<a class="cx__back" href={brand.backHref}>{brand.backLabel}</a>
 			</div>
 			<div class="dsx__grid">

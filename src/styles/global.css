@@ -15609,3 +15609,20 @@ video.cmp__img:not(.cmp__img--new){object-position:left center}
 /* One back-link style everywhere: a quiet pill that says where it goes */
 .nav-back { display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.45rem 0.95rem; border: 1px solid color-mix(in srgb, currentColor 32%, transparent); border-radius: 99px; font-size: 0.85rem; line-height: 1.1; text-decoration: none !important; white-space: nowrap; transition: background 0.2s, border-color 0.2s; }
 .nav-back:hover { background: color-mix(in srgb, currentColor 10%, transparent); border-color: color-mix(in srgb, currentColor 55%, transparent); }
+
+/* Company logo on a case study links to the company overview, with a small preview on hover */
+.cx__brand { position: relative; display: inline-flex; align-items: center; border-radius: 0.5rem; }
+.cx__brand:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
+.cx__peek { position: absolute; top: calc(100% + 0.7rem); left: -0.4rem; z-index: 30; width: 15rem; padding: 0.45rem; border-radius: 0.9rem; background: #111316; border: 1px solid rgba(255, 255, 255, 0.14); box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45); opacity: 0; transform: translateY(-6px); pointer-events: none; transition: opacity 0.18s ease, transform 0.18s ease; }
+.cx__peek img { display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; object-position: top; border-radius: 0.55rem; }
+.cx__peek b { display: block; padding: 0.55rem 0.3rem 0.2rem; color: #fff; font-size: 0.82rem; font-weight: 500; }
+@media (hover: hover) { .cx__brand:hover .cx__peek, .cx__brand:focus-visible .cx__peek { opacity: 1; transform: none; } }
+.cx__brand .hv__logo { transition: opacity 0.2s; }
+.cx__brand:hover .hv__logo { opacity: 0.8; }
+
+/* Amwell research pages wear Amwell's colors */
+.awb { --bg: #0b1a36; --paper: #0b1a36; --ink: #eef3fb; --muted: #9db6dc; --line: rgba(255, 255, 255, 0.12); --line-strong: rgba(255, 255, 255, 0.24); --accent: #8cc8ff; background: var(--bg); color: var(--ink); min-height: 100vh; }
+.awb .cx__brand .hv__logo { filter: none; width: 5.5rem; }
+.awb .bar .cx__brand .hv__logo { width: 4.5rem; }
+.awb .bar__in { max-width: 46rem; }
+.ar__top { display: flex; align-items: center; gap: 1.2rem; margin-bottom: 2rem; }
