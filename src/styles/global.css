@@ -16224,3 +16224,4 @@ video.cmp__img:not(.cmp__img--new){object-position:left center}
 .sc__row.on .sw__tools li { animation: eco-in 0.4s calc(var(--i) * 0.1s) ease-out forwards, sw-hop 5s calc(1s + var(--i) * 1s) ease-in-out infinite; }
 @media (prefers-reduced-motion: reduce) { .sw__tools li { opacity: 1 !important; transform: none !important; animation: none !important; } }
 @media (max-width: 899px) { .cx.cx--mob .sc .sc__row .sc__viz.sc__viz--html > .sw { position: relative !important; transform: none !important; } .sw__tools li { font-size: 0.7rem; padding: 0.4rem 0.6rem; } }
+.sw__src { margin: 0.35rem 0 0; color: rgba(157, 182, 220, 0.7); font-size: 0.72rem; } .sw__cap { margin-top: 1rem; } .sw { text-align: left; }
