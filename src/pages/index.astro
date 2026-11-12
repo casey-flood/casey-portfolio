@@ -36,22 +36,22 @@ const groups = [
 		{ t: 'Clickable prototypes', tag: 'Prototyping', d: 'Real flows built from production components, so people react to the real thing early.', c: 'Feedback before engineering time is spent.', href: '/work/dandy-prototype' },
 		{ t: 'Product design hub', tag: 'Team systems', d: 'One home for how the design team works: files, process and standards.', href: '/work/dandy-product-design-hub' },
 	] },
-	{ id: 'research', label: 'Amwell research', items: [
-		{ t: 'The experience of choosing care', tag: 'Needs assessment', d: 'How patients browse and pick a service in telehealth.', c: 'Led to a re-architected service selection: +12% patient satisfaction, −18% cancellations.', href: N + 'The-Experience-of-Choosing-Care-1276f464642d8128a17acedc50af484a' },
-		{ t: 'Dependent care', tag: 'Interviews', d: 'Why visits for children were getting cancelled.', c: 'Pediatric onboarding content, provider pre-visit training, no pre-selected answers.', href: N + 'Dependent-Care-1276f464642d81f58ea1d92b17ba5365' },
-		{ t: 'How patients search for care', tag: 'Needs assessment', d: '90% of patients look for coverage first.', c: 'Coverage shown during onboarding, simpler insurance checks.', href: N + 'How-Patients-Search-for-Care-1276f464642d81a7a17dde011ee329b8' },
-		{ t: 'In person vs. Amwell', tag: 'Interviews', d: 'An in-person doctor visit, mapped against our service selection.', c: 'Dependent selection moved earlier, a shorter scheduled-visit flow.', href: N + 'Selecting-Care-In-Person-vs-Amwell-1276f464642d81ee968dd9f7b222b431' },
-		{ t: 'AI While You Wait chatbot', tag: 'Usability study', d: 'Three groups of patients testing a chatbot in the virtual waiting room.', c: 'Better question logic, free-text answers, clearer provider messages.', href: N + 'AI-While-You-Wait-Chatbot-1276f464642d81f5af00d7018ec3f722' },
-		{ t: 'AI While You Wait: COVID-19 script', tag: 'Usability study', d: 'How the COVID-19 chatbot script made patients feel.', c: 'More waiting room content, faster responses, editable answers.', href: N + 'AI-While-You-Wait-Covid-19-Script-1276f464642d81728625c6813673ffd8' },
-		{ t: 'Symptom checker', tag: 'Usability study', d: 'A chatbot-style symptom checker inside the intake flow.', c: 'Replaced with a symptom-focused, multi-page intake.', href: N + 'Symptom-Checker-1276f464642d81bcb0aef268c1ced066' },
-		{ t: 'Top usability issues', tag: 'Usability study', d: 'The top three issues in the white-label patient app.', c: 'A new care-selection IA and no defaulted answers.', href: N + 'Amwell-s-Top-Usability-Issues-1276f464642d8193b323d494a3055b8d' },
-		{ t: 'iOS onboarding', tag: 'Usability study', d: 'Pain points in sync and intake on iOS.', c: 'Sync removed, answers auto-saved.', href: N + 'iOS-App-Consumer-Onboarding-Usability-Test-1276f464642d8176aa45cf8d6d4954c8' },
-		{ t: 'iOS enrollment', tag: 'Competitor analysis', d: 'What people expect when they sign up for a health app.', c: 'A stepper, reasons for each question, the confusing “service key” field removed.', href: N + 'Mobile-iOS-Enrollment-1276f464642d81ada5c2ecb7bc294f2d' },
-		{ t: 'Gender and sex fields', tag: 'Usability study', d: 'Documenting gender and sex for non-binary patients.', c: 'Editable by patient and provider, with an explanation on each field.', href: N + 'Multiple-Genders-vs-Biological-Sex-Fields-Non-Binary-1276f464642d810db95ae94feb576de6' },
-		{ t: 'Virtual primary care: location', tag: 'Usability study', d: 'Whether patients understood why we asked for their location.', c: 'More accurate geolocation and clearer copy.', href: N + 'VPC-Usability-Study-w-focus-on-Patient-s-Location-1276f464642d8191b52ed04f7bedafbd' },
-		{ t: 'Password reset', tag: 'Competitor analysis', d: 'Friction in resetting a password on web and mobile.', c: 'Visible requirements, then a move to Auth0.', href: N + 'Password-Reset-Flow-1276f464642d818c8094dc704bc17853' },
-		{ t: 'Phone number field', tag: 'Competitor analysis', d: 'Why people mistyped and abandoned one field.', c: 'Prefilled country code and auto-formatting.', href: N + 'Phone-Number-Field-1276f464642d8185b2d7c790453d95ba' },
-		{ t: 'Sound effects', tag: 'Usability study', d: 'Notification sounds that get noticed without startling anyone.', c: 'A new provider notification sound. (It’s why this site clicks softly.)', href: N + 'Sound-Effects-1276f464642d81d2b91fe662c9e49559' },
+	{ id: 'research', label: 'Amwell research', all: '/work/amwell-research', items: [
+		{ t: 'The experience of choosing care', tag: 'Needs assessment', d: 'How patients browse and pick a service in telehealth.', c: 'Led to a re-architected service selection: +12% patient satisfaction, −18% cancellations.', href: '/work/amwell-research/choosing-care' },
+		{ t: 'Dependent care', tag: 'Interviews', d: 'Why visits for children were getting cancelled.', c: 'Pediatric onboarding content, provider pre-visit training, no pre-selected answers.', href: '/work/amwell-research/dependent-care' },
+		{ t: 'How patients search for care', tag: 'Needs assessment', d: '90% of patients look for coverage first.', c: 'Coverage shown during onboarding, simpler insurance checks.', href: '/work/amwell-research/patient-search' },
+		{ t: 'In person vs. Amwell', tag: 'Interviews', d: 'An in-person doctor visit, mapped against our service selection.', c: 'Dependent selection moved earlier, a shorter scheduled-visit flow.', href: '/work/amwell-research/in-person-vs-amwell' },
+		{ t: 'AI While You Wait chatbot', tag: 'Usability study', d: 'Three groups of patients testing a chatbot in the virtual waiting room.', c: 'Better question logic, free-text answers, clearer provider messages.', href: '/work/amwell-research/ai-chatbot' },
+		{ t: 'AI While You Wait: COVID-19 script', tag: 'Usability study', d: 'How the COVID-19 chatbot script made patients feel.', c: 'More waiting room content, faster responses, editable answers.', href: '/work/amwell-research/ai-covid' },
+		{ t: 'Symptom checker', tag: 'Usability study', d: 'A chatbot-style symptom checker inside the intake flow.', c: 'Replaced with a symptom-focused, multi-page intake.', href: '/work/amwell-research/symptom-checker' },
+		{ t: 'Top usability issues', tag: 'Usability study', d: 'The top three issues in the white-label patient app.', c: 'A new care-selection IA and no defaulted answers.', href: '/work/amwell-research/top-usability-issues' },
+		{ t: 'iOS onboarding', tag: 'Usability study', d: 'Pain points in sync and intake on iOS.', c: 'Sync removed, answers auto-saved.', href: '/work/amwell-research/ios-onboarding' },
+		{ t: 'iOS enrollment', tag: 'Competitor analysis', d: 'What people expect when they sign up for a health app.', c: 'A stepper, reasons for each question, the confusing “service key” field removed.', href: '/work/amwell-research/ios-enrollment' },
+		{ t: 'Gender and sex fields', tag: 'Usability study', d: 'Documenting gender and sex for non-binary patients.', c: 'Editable by patient and provider, with an explanation on each field.', href: '/work/amwell-research/gender-and-sex-fields' },
+		{ t: 'Virtual primary care: location', tag: 'Usability study', d: 'Whether patients understood why we asked for their location.', c: 'More accurate geolocation and clearer copy.', href: '/work/amwell-research/vpc-location' },
+		{ t: 'Password reset', tag: 'Competitor analysis', d: 'Friction in resetting a password on web and mobile.', c: 'Visible requirements, then a move to Auth0.', href: '/work/amwell-research/password-reset' },
+		{ t: 'Phone number field', tag: 'Competitor analysis', d: 'Why people mistyped and abandoned one field.', c: 'Prefilled country code and auto-formatting.', href: '/work/amwell-research/phone-number-field' },
+		{ t: 'Sound effects', tag: 'Usability study', d: 'Notification sounds that get noticed without startling anyone.', c: 'A new provider notification sound. (It’s why this site clicks softly.)', href: '/work/amwell-research/sound-effects' },
 	] },
 	{ id: 'lead', label: 'Leadership', items: [
 		{ t: 'Admin portal', tag: 'Amwell', d: 'The craft case study: one role-based portal.', c: 'Task completion 45% → 82%.', href: '/work/amwell-admin-portal' },
@@ -148,6 +148,7 @@ const quotes = [
 									</a>
 								</li>
 							))}
+							{g.all && <li class="pj__alli"><a href={g.all}><span class="pj__row"><b>See all {g.items.length} studies on one page</b><small></small><i aria-hidden="true">→</i></span></a></li>}
 						</ul>
 					))}
 				</div>
@@ -429,6 +430,7 @@ const quotes = [
 	.pj__tabs button[aria-selected='true'] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
 	.pj__list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); max-height: 26rem; overflow-y: auto; scrollbar-width: thin; }
 	.pj__list[hidden] { display: none; }
+	.pj__alli .pj__row b { color: var(--accent) !important; }
 	.pj__list li { border-bottom: 1px solid var(--line); }
 	.pj__list a { display: block; padding: 0.8rem 0.25rem; color: inherit; text-decoration: none; }
 	.pj__row { display: grid; grid-template-columns: 1fr auto 1.2rem; align-items: baseline; gap: 1rem; }

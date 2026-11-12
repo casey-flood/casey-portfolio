@@ -1,0 +1,90 @@
+---
+import Base from '../../../layouts/Base.astro';
+import { studies } from '../../../data/amwell-research';
+
+export function getStaticPaths() {
+	return studies.map((s, i) => ({ params: { slug: s.slug }, props: { i } }));
+}
+const { i } = Astro.props;
+const s = studies[i];
+const prev = studies[(i - 1 + studies.length) % studies.length];
+const next = studies[(i + 1) % studies.length];
+const related = (s.related || []).map((r) => studies.find((x) => x.slug === r)).filter(Boolean);
+---
+
+<Base title={`${s.t} · Amwell research`} description={s.goal}>
+	<article class="rs">
+		<div class="shell rs__in">
+			<a class="rs__back" href="/work/amwell-research">← Amwell research <span>{i + 1} of {studies.length}</span></a>
+			<p class="rs__k">{s.area} · {s.method}</p>
+			<h1>{s.t}</h1>
+			<p class="rs__goal">{s.goal}</p>
+
+			<section class="rs__find">
+				<p class="rs__label">What we found</p>
+				<p class="rs__big">{s.finding}</p>
+			</section>
+
+			<section>
+				<p class="rs__label">What changed</p>
+				<ul class="rs__list rs__list--done">{s.changed.map((c) => <li>{c}</li>)}</ul>
+				{s.result && <p class="rs__result">{s.result}</p>}
+			</section>
+
+			{s.recs.length > 0 && (
+				<section>
+					<p class="rs__label">What the study recommended</p>
+					<ol class="rs__list rs__list--recs">{s.recs.map((c) => <li>{c}</li>)}</ol>
+				</section>
+			)}
+
+			<p class="rs__src">
+				{s.deck ? <>The full readout deck, “{s.deck}”, and research clips live in my </> : <>The flow map and notes live in my </>}
+				<a href={s.notion} target="_blank" rel="noopener">research library ↗</a>.
+			</p>
+
+			{related.length > 0 && (
+				<section class="rs__rel">
+					<p class="rs__label">Related studies</p>
+					<ul>{related.map((r) => <li><a href={`/work/amwell-research/${r!.slug}`}>{r!.t} →</a></li>)}</ul>
+				</section>
+			)}
+
+			<nav class="rs__nav" aria-label="More studies">
+				<a href={`/work/amwell-research/${prev.slug}`}><small>Previous</small>{prev.t}</a>
+				<a href={`/work/amwell-research/${next.slug}`}><small>Next</small>{next.t}</a>
+			</nav>
+		</div>
+	</article>
+</Base>
+
+<style>
+	.rs { padding: clamp(2rem, 6vw, 4rem) 0 5rem; }
+	.rs__in { max-width: 40rem; }
+	.rs__back { display: inline-flex; gap: 0.6rem; color: var(--muted); text-decoration: none; font-size: 0.88rem; }
+	.rs__back span { opacity: 0.6; }
+	.rs__back:hover { color: var(--ink); }
+	.rs__k { margin: 2.5rem 0 0.75rem; font-family: var(--mono); font-size: 0.74rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); }
+	.rs h1 { font-size: clamp(2.1rem, 5vw, 3.2rem); line-height: 1.04; letter-spacing: -0.035em; margin: 0; max-width: 18ch; }
+	.rs__goal { margin: 1rem 0 0; font-size: 1.1rem; line-height: 1.6; color: var(--muted); }
+	.rs section { margin-top: 2.75rem; }
+	.rs__label { margin: 0 0 0.8rem; font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+	.rs__find { padding: 1.4rem 1.5rem; border-radius: 1rem; background: var(--paper); border: 1px solid var(--line); }
+	.rs__big { margin: 0; font-family: var(--display); font-size: clamp(1.3rem, 2.6vw, 1.65rem); font-weight: 600; line-height: 1.3; letter-spacing: -0.02em; }
+	.rs__list { margin: 0; padding: 0; list-style: none; display: grid; gap: 0.6rem; }
+	.rs__list li { position: relative; padding-left: 1.6rem; line-height: 1.5; }
+	.rs__list--done li::before { content: '✓'; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+	.rs__list--recs { counter-reset: r; color: var(--muted); }
+	.rs__list--recs li::before { counter-increment: r; content: counter(r); position: absolute; left: 0; font-family: var(--mono); font-size: 0.75rem; top: 0.2rem; color: var(--muted); }
+	.rs__result { margin: 1rem 0 0; padding-left: 1rem; border-left: 2px solid var(--accent); font-weight: 600; }
+	.rs__src { margin-top: 2.75rem; font-size: 0.9rem; color: var(--muted); }
+	.rs__src a { color: var(--ink); }
+	.rs__rel ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.4rem; }
+	.rs__rel a { color: var(--ink); text-decoration: none; }
+	.rs__rel a:hover { color: var(--accent); }
+	.rs__nav { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 3.5rem; padding-top: 1.5rem; border-top: 1px solid var(--line); }
+	.rs__nav a { display: flex; flex-direction: column; gap: 0.2rem; color: var(--ink); text-decoration: none; font-weight: 600; font-size: 0.95rem; }
+	.rs__nav a:last-child { text-align: right; }
+	.rs__nav small { font-weight: 400; color: var(--muted); font-size: 0.78rem; }
+	.rs__nav a:hover { color: var(--accent); }
+</style>
