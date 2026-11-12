@@ -3,6 +3,7 @@
 
 export type Study = {
 	slug: string;
+	icon: string;
 	t: string;
 	method: string;
 	area: string;
@@ -14,6 +15,13 @@ export type Study = {
 	deck?: string;
 	notion: string;
 	related?: string[];
+	// A visual story, from the original readout deck
+	hero?: string;
+	when?: string;
+	stats?: { v: string; l: string }[];
+	story?: { k: string; t: string; d: string; img?: string }[];
+	results?: { from: string; to: string; l: string }[];
+	takeaways?: string[];
 };
 
 const N = 'https://caseyflood.notion.site/';
@@ -21,6 +29,7 @@ const N = 'https://caseyflood.notion.site/';
 export const studies: Study[] = [
 	{
 		slug: 'choosing-care',
+		icon: '🧑🏻‍⚕️',
 		t: 'The experience of choosing care',
 		method: 'Needs assessment',
 		area: 'Selecting care',
@@ -31,9 +40,27 @@ export const studies: Study[] = [
 		recs: ['Make the top navigation more prominent', 'Make search obvious from the first screen', 'Clearer paths so people don’t rely on the back button', 'Bring in the browsing patterns people created in co-creation sessions'],
 		notion: N + 'The-Experience-of-Choosing-Care-1276f464642d8128a17acedc50af484a',
 		related: ['patient-search', 'in-person-vs-amwell', 'dependent-care'],
+		hero: '/amwell-research/choosing-care/hero.webp',
+		when: 'Senior Product Designer · 5 sprints',
+		stats: [{ v: '15.5%', l: 'of visits were being canceled' }, { v: '16', l: 'NPS in one end-to-end test, out of 100' }, { v: '30 / 30', l: 'testers never used the navigation' }],
+		story: [
+			{ k: 'The problem', t: 'Canceled visits were climbing every month.', d: 'On Amwell’s direct-to-consumer app, cancellations rose month over month. My job was to find out why, and make a plan to bring them down.', img: '/amwell-research/choosing-care/trend.webp' },
+			{ k: 'The numbers', t: 'Most visits were on-demand, on iOS, and NPS was alarming.', d: 'In Looker, Google Analytics and UserTesting I reviewed connection types, NPS, 30-day success rates, visit types and drop-off. The biggest drop-off was on the practice page.', img: '/amwell-research/choosing-care/quant.webp' },
+			{ k: 'The people', t: '30 people, one end-to-end study.', d: '30 of 30 never used the navigation or tabs. 28 of 30 were confused by the practice page: after picking urgent care they expected questions about their symptoms, not another menu. Nothing they’d entered earlier shaped their options.', img: '/amwell-research/choosing-care/qual.webp' },
+			{ k: 'Why it matters', t: 'One patient’s story.', d: 'A mother of two couldn’t reach her doctor to refill a medication she’d taken for years. She tapped “Urgent care” because it said fastest, and was matched with a family physician who couldn’t prescribe it. She never came back to Amwell.' },
+			{ k: 'Root causes', t: 'Four buckets behind canceled visits.', d: 'Dependents, the practice page, routing to the right care, and issues we legally can’t treat over telehealth. Separating them let us fix each one in phases while seeing the whole problem.', img: '/amwell-research/choosing-care/causes.webp' },
+			{ k: 'Strategy', t: 'Gold, silver, bronze.', d: 'With PMs and engineers I ideated without limits, then phased the ideas. I designed the gold version first; whatever was scoped down went to the backlog.', img: '/amwell-research/choosing-care/phasing.webp' },
+			{ k: 'Architecture', t: 'A new service selection flow.', d: 'A rough information architecture and user flow, starting with “Who is this visit for?”, then location, then care type. Notes along the way became the wireframes.', img: '/amwell-research/choosing-care/flows.webp' },
+			{ k: 'Concepts', t: 'Options, built fast from our design system.', d: 'Browsing by symptom, a reason-for-visit tagging system, one central call to action, and a separate “Who is this visit for?” step. Engineering flagged symptom browsing as too heavy for the first release, so I iterated.', img: '/amwell-research/choosing-care/concepts.webp' },
+			{ k: 'Iteration', t: 'One question per screen.', d: 'Who the visit is for, where you are, then clear care options with cost and timing up front.', img: '/amwell-research/choosing-care/wires.webp' },
+			{ k: 'Final UI', t: 'Clear choices, plain language.', d: 'Care options that separate physical and mental health, explain timing and show the maximum cost.', img: '/amwell-research/choosing-care/final.webp' },
+		],
+		results: [{ from: '65%', to: '92%', l: 'task completion' }, { from: '5 min', to: '2.5 min', l: 'time on task' }, { from: '20%', to: '5%', l: 'error rate' }, { from: '3.2', to: '4.6', l: 'satisfaction, out of 5' }],
+		takeaways: ['The root cause of canceled visits was service selection, not the visit itself.', 'The fix pushed us to a modular, flexible architecture.', 'I worked beyond design: research, roadmapping, requirements and prioritization.'],
 	},
 	{
 		slug: 'dependent-care',
+		icon: '👶🏻',
 		t: 'Dependent care',
 		method: 'Interviews',
 		area: 'Selecting care',
@@ -44,9 +71,22 @@ export const studies: Study[] = [
 		deck: 'Dependent Flow UX Research',
 		notion: N + 'Dependent-Care-1276f464642d81f58ea1d92b17ba5365',
 		related: ['choosing-care'],
+		hero: '/amwell-research/dependent-care/concept.webp',
+		when: 'UX Designer · August 2019',
+		stats: [{ v: '~40%', l: 'of providers’ canceled visits came from dependent issues' }, { v: '2,029', l: 'web visits canceled by one provider group in 3 months' }, { v: '14', l: 'interviews: 7 providers, 7 patients' }],
+		story: [
+			{ k: 'The numbers', t: 'Providers canceled more visits for children on web.', d: 'Over three months, providers canceled more web visits for minors than for adults. One provider group alone canceled 2,029 visits with patients on web.', img: '/amwell-research/dependent-care/cancels.webp' },
+			{ k: 'What really happened', t: 'A parent, a child, and a canceled visit.', d: 'A parent connects from their own account. The provider needs the child’s chart and asks them to cancel, log into the child’s account and start over. The parent thought they already had.', img: '/amwell-research/dependent-care/journey.webp' },
+			{ k: 'Both sides', t: 'Patients and providers were frustrated.', d: 'Patients didn’t understand how to pick a dependent or switch “accounts.” Providers lost time coaching them, weren’t paid for it, and weren’t sure the patient would come back.', img: '/amwell-research/dependent-care/frustrations.webp' },
+			{ k: 'The interface', t: '“Who is this visit for?” was easy to miss.', d: 'It sat among other questions, styled the same, with “Myself” pre-selected. Cognitive load and the laws of proximity and similarity explained why parents never changed it.', img: '/amwell-research/dependent-care/interface.webp' },
+			{ k: 'The pattern', t: 'One thing per page.', d: 'The next screen in the same flow asked a single question, and people did fine. So the fix was to give “Who is this visit for?” its own screen.', img: '/amwell-research/dependent-care/one-thing.webp' },
+			{ k: 'The concept', t: 'Who is in need of care today?', d: 'A single first question with large buttons for each person, and language that uses the dependent’s name from then on.', img: '/amwell-research/dependent-care/flow.webp' },
+		],
+		takeaways: ['Parents weren’t successfully choosing their dependent for the visit.', 'Amwell defined “dependent” only as a child, though it can mean an elderly parent or a sibling too.', 'The interface didn’t prioritize or distinguish “Who is this visit for?”'],
 	},
 	{
 		slug: 'patient-search',
+		icon: '🔍',
 		t: 'How patients search for care',
 		method: 'Needs assessment',
 		area: 'Selecting care',
@@ -60,6 +100,7 @@ export const studies: Study[] = [
 	},
 	{
 		slug: 'in-person-vs-amwell',
+		icon: '🏥',
 		t: 'In person vs. Amwell',
 		method: 'Interviews and flow mapping',
 		area: 'Selecting care',
@@ -72,6 +113,7 @@ export const studies: Study[] = [
 	},
 	{
 		slug: 'ai-chatbot',
+		icon: '🤖',
 		t: 'AI While You Wait chatbot',
 		method: 'Usability study, 3 user groups',
 		area: 'Conversational AI',
@@ -85,6 +127,7 @@ export const studies: Study[] = [
 	},
 	{
 		slug: 'ai-covid',
+		icon: '💬',
 		t: 'AI While You Wait: COVID-19 script',
 		method: 'Usability study',
 		area: 'Conversational AI',
@@ -98,6 +141,7 @@ export const studies: Study[] = [
 	},
 	{
 		slug: 'symptom-checker',
+		icon: '❤️‍🩹',
 		t: 'Symptom checker',
 		method: 'Usability study and affinity mapping',
 		area: 'Intake',
@@ -110,6 +154,7 @@ export const studies: Study[] = [
 	},
 	{
 		slug: 'top-usability-issues',
+		icon: '🔬',
 		t: 'Top usability issues',
 		method: 'Usability study',
 		area: 'Patient app',
@@ -123,6 +168,7 @@ export const studies: Study[] = [
 	},
 	{
 		slug: 'ios-onboarding',
+		icon: '📱',
 		t: 'iOS onboarding',
 		method: 'Usability study, two rounds',
 		area: 'Patient app',
@@ -136,6 +182,7 @@ export const studies: Study[] = [
 	},
 	{
 		slug: 'ios-enrollment',
+		icon: '📝',
 		t: 'iOS enrollment',
 		method: 'Competitor analysis',
 		area: 'Patient app',
@@ -149,6 +196,7 @@ export const studies: Study[] = [
 	},
 	{
 		slug: 'gender-and-sex-fields',
+		icon: '🚻',
 		t: 'Gender and sex fields',
 		method: 'Usability study',
 		area: 'Provider experience',
@@ -161,6 +209,7 @@ export const studies: Study[] = [
 	},
 	{
 		slug: 'vpc-location',
+		icon: '📍',
 		t: 'Virtual primary care: location',
 		method: 'Usability study',
 		area: 'Intake',
@@ -173,9 +222,10 @@ export const studies: Study[] = [
 	},
 	{
 		slug: 'password-reset',
+		icon: '🔒',
 		t: 'Password reset',
 		method: 'Competitor analysis',
-		area: 'Accounts',
+		area: 'Accounts and forms',
 		goal: 'Reduce friction and failures when resetting a password on web and mobile.',
 		finding: 'No password hints, a poor mobile flow and confusing email links meant low success rates and lots of support tickets.',
 		changed: ['Password requirements shown upfront', 'A move to Auth0 for accounts'],
@@ -185,9 +235,10 @@ export const studies: Study[] = [
 	},
 	{
 		slug: 'phone-number-field',
+		icon: '📞',
 		t: 'Phone number field',
 		method: 'Competitor analysis',
-		area: 'Forms',
+		area: 'Accounts and forms',
 		goal: 'Figure out why people mistyped, and abandoned forms at, one field.',
 		finding: 'People type a phone number as one string of digits and ignore formatting cues, which led to errors and abandoned forms.',
 		changed: ['Country code prefilled', 'Auto-formatting as you type'],
@@ -197,6 +248,7 @@ export const studies: Study[] = [
 	},
 	{
 		slug: 'sound-effects',
+		icon: '🔔',
 		t: 'Sound effects',
 		method: 'Usability study',
 		area: 'Provider experience',

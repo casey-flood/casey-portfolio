@@ -2,43 +2,96 @@
 import Base from '../../../layouts/Base.astro';
 import { studies } from '../../../data/amwell-research';
 const areas = [...new Set(studies.map((s) => s.area))];
+const featured = studies.find((s) => s.slug === 'choosing-care')!;
+const rest = studies.filter((s) => s !== featured);
+const methods = new Set(studies.map((s) => s.method.split(/[ ,]/)[0])).size;
 ---
 
 <Base title="Amwell research" description="Fifteen research studies I ran at Amwell, and what changed because of each.">
 	<section class="ar">
 		<div class="shell ar__in">
 			<a class="ar__back" href="/work/amwell">← Amwell</a>
-			<p class="ar__k">Amwell · 2019 – 2024</p>
 			<h1>Fifteen studies, and what changed.</h1>
-			<p class="ar__lede">I led about 86% of our team’s research: interviews, usability tests, competitor analyses and needs assessments across patients, providers and admins. Each study ends with what actually shipped.</p>
-			{areas.map((a) => (
-				<div class="ar__group">
-					<p class="ar__label">{a}</p>
-					<ul>
-						{studies.filter((s) => s.area === a).map((s) => (
-							<li><a href={`/work/amwell-research/${s.slug}`}><b>{s.t}</b><span>{s.finding}</span><small>{s.method}</small></a></li>
-						))}
-					</ul>
-				</div>
-			))}
+			<ul class="ar__stats">
+				<li><b>86%</b> of our team’s research, led by me</li>
+				<li><b>{studies.length}</b> studies</li>
+				<li><b>{areas.length}</b> areas</li>
+			</ul>
+
+			<p class="ar__label">Start here</p>
+			<a class="feat" href={`/work/amwell-research/${featured.slug}`}>
+				<span class="feat__icon" aria-hidden="true">{featured.icon}</span>
+				<span class="feat__body">
+					<b>{featured.t}</b>
+					<span class="feat__nums"><span><strong>+12%</strong> patient satisfaction</span><span><strong>−18%</strong> cancellations</span></span>
+					<small>{featured.method} · led to the service selection redesign</small>
+				</span>
+				<i aria-hidden="true">→</i>
+			</a>
+
+			<div class="ar__filter" role="tablist" aria-label="Filter by area">
+				<button type="button" aria-pressed="true" data-a="all">All</button>
+				{areas.map((a) => <button type="button" aria-pressed="false" data-a={a}>{a}</button>)}
+			</div>
+
+			<ul class="grid">
+				{rest.map((s) => (
+					<li data-a={s.area}>
+						<a href={`/work/amwell-research/${s.slug}`}>
+							<span class="grid__icon" aria-hidden="true">{s.icon}</span>
+							<b>{s.t}</b>
+							<small>{s.method}</small>
+							<span class="grid__shipped">Shipped: {s.changed[0]}</span>
+						</a>
+					</li>
+				))}
+			</ul>
 		</div>
 	</section>
 </Base>
 
+<script>
+	const btns = Array.from(document.querySelectorAll<HTMLButtonElement>('.ar__filter button'));
+	const items = Array.from(document.querySelectorAll<HTMLElement>('.grid li'));
+	btns.forEach((b) => b.addEventListener('click', () => {
+		btns.forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+		items.forEach((li) => (li.hidden = b.dataset.a !== 'all' && li.dataset.a !== b.dataset.a));
+	}));
+</script>
+
 <style>
 	.ar { padding: clamp(2rem, 6vw, 4rem) 0 5rem; }
-	.ar__in { max-width: 44rem; }
+	.ar__in { max-width: 52rem; }
 	.ar__back { color: var(--muted); text-decoration: none; font-size: 0.88rem; }
-	.ar__k { margin: 2.5rem 0 0.75rem; font-family: var(--mono); font-size: 0.74rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); }
-	.ar h1 { font-size: clamp(2.2rem, 5vw, 3.3rem); line-height: 1.04; letter-spacing: -0.035em; margin: 0; max-width: 16ch; }
-	.ar__lede { margin: 1rem 0 0; font-size: 1.08rem; line-height: 1.6; color: var(--muted); }
-	.ar__group { margin-top: 2.5rem; }
-	.ar__label { margin: 0 0 0.5rem; font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
-	.ar ul { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
-	.ar li { border-bottom: 1px solid var(--line); }
-	.ar li a { display: grid; grid-template-columns: 1fr auto; gap: 0.2rem 1rem; padding: 0.9rem 0; color: inherit; text-decoration: none; }
-	.ar li b { font-weight: 600; }
-	.ar li small { font-family: var(--mono); font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); grid-row: 1; grid-column: 2; }
-	.ar li span { grid-column: 1 / -1; color: var(--muted); font-size: 0.92rem; line-height: 1.45; }
-	.ar li a:hover b { color: var(--accent); }
+	.ar h1 { font-size: clamp(2.2rem, 5vw, 3.3rem); line-height: 1.04; letter-spacing: -0.035em; margin: 2rem 0 0; max-width: 16ch; }
+	.ar__stats { list-style: none; display: flex; flex-wrap: wrap; gap: 0.5rem 1.75rem; margin: 1.25rem 0 0; padding: 0; color: var(--muted); font-size: 0.92rem; }
+	.ar__stats b { color: var(--ink); font-family: var(--display); font-size: 1.15rem; margin-right: 0.25rem; }
+	.ar__label { margin: 3rem 0 0.75rem; font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+
+	.feat { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 1.25rem; padding: 1.25rem 1.4rem; border-radius: 1.1rem; background: var(--paper); border: 1px solid var(--line); color: inherit; text-decoration: none; transition: border-color 0.2s, transform 0.2s; }
+	.feat:hover { border-color: var(--accent); transform: translateY(-2px); }
+	.feat__icon { font-size: 2.2rem; width: 3.6rem; height: 3.6rem; display: grid; place-items: center; border-radius: 0.9rem; background: color-mix(in srgb, var(--accent) 12%, transparent); }
+	.feat__body { display: flex; flex-direction: column; gap: 0.35rem; }
+	.feat__body b { font-size: 1.15rem; }
+	.feat__nums { display: flex; flex-wrap: wrap; gap: 0.25rem 1.25rem; color: var(--muted); font-size: 0.9rem; }
+	.feat__nums strong { font-family: var(--display); font-size: 1.5rem; color: var(--ink); letter-spacing: -0.02em; margin-right: 0.2rem; }
+	.feat small { color: var(--muted); font-size: 0.8rem; }
+	.feat i { font-style: normal; color: var(--accent); font-size: 1.2rem; }
+
+	.ar__filter { display: flex; flex-wrap: wrap; gap: 0.35rem; margin: 2.5rem 0 1rem; }
+	.ar__filter button { padding: 0.4rem 0.8rem; border-radius: 99px; border: 1px solid var(--line); background: none; color: var(--muted); font: inherit; font-size: 0.82rem; cursor: pointer; }
+	.ar__filter button:hover { color: var(--ink); }
+	.ar__filter button[aria-pressed='true'] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+
+	.grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; }
+	.grid li[hidden] { display: none; }
+	.grid a { position: relative; display: flex; flex-direction: column; gap: 0.35rem; height: 100%; min-height: 9.5rem; padding: 1rem 1.05rem; border-radius: 1rem; border: 1px solid var(--line); color: inherit; text-decoration: none; overflow: hidden; transition: border-color 0.2s, background 0.2s; }
+	.grid__icon { font-size: 1.5rem; margin-bottom: 0.4rem; }
+	.grid b { font-weight: 600; font-size: 0.98rem; line-height: 1.25; }
+	.grid small { color: var(--muted); font-size: 0.78rem; }
+	.grid__shipped { position: absolute; inset: auto 0 0 0; padding: 0.7rem 1.05rem; background: var(--paper); border-top: 1px solid var(--line); font-size: 0.8rem; color: var(--ink); line-height: 1.35; transform: translateY(101%); transition: transform 0.3s cubic-bezier(0.2, 0.7, 0.2, 1); }
+	.grid a:hover, .grid a:focus-visible { border-color: var(--accent); background: var(--paper); }
+	.grid a:hover .grid__shipped, .grid a:focus-visible .grid__shipped { transform: none; }
+	@media (max-width: 760px) { .grid { grid-template-columns: 1fr 1fr; } .feat { grid-template-columns: auto 1fr; } .feat i { display: none; } }
+	@media (hover: none) { .grid__shipped { display: none; } }
 </style>

@@ -16,26 +16,61 @@ const related = (s.related || []).map((r) => studies.find((x) => x.slug === r)).
 	<article class="rs">
 		<div class="shell rs__in">
 			<a class="rs__back" href="/work/amwell-research">← Amwell research <span>{i + 1} of {studies.length}</span></a>
-			<p class="rs__k">{s.area} · {s.method}</p>
+			<p class="rs__k">{s.area} · {s.method}{s.when && <> · {s.when}</>}</p>
 			<h1>{s.t}</h1>
 			<p class="rs__goal">{s.goal}</p>
 
-			<section class="rs__find">
-				<p class="rs__label">What we found</p>
-				<p class="rs__big">{s.finding}</p>
-			</section>
+			{s.stats && (
+				<ul class="rs__stats">{s.stats.map((x) => <li><b>{x.v}</b><span>{x.l}</span></li>)}</ul>
+			)}
+			{s.hero && <button type="button" class="rs__hero" data-zoom={s.hero}><img src={s.hero} alt={`${s.t}, from the readout`} /></button>}
 
-			<section>
-				<p class="rs__label">What changed</p>
-				<ul class="rs__list rs__list--done">{s.changed.map((c) => <li>{c}</li>)}</ul>
-				{s.result && <p class="rs__result">{s.result}</p>}
-			</section>
-
-			{s.recs.length > 0 && (
-				<section>
-					<p class="rs__label">What the study recommended</p>
-					<ol class="rs__list rs__list--recs">{s.recs.map((c) => <li>{c}</li>)}</ol>
-				</section>
+			{s.story ? (
+				<>
+					{s.story.map((c, n) => (
+						<section class="ch">
+							<p class="rs__label"><i>{String(n + 1).padStart(2, '0')}</i> {c.k}</p>
+							<h2>{c.t}</h2>
+							<p class="ch__d">{c.d}</p>
+							{c.img && <button type="button" class="ch__img" data-zoom={c.img}><img src={c.img} alt={c.t} loading="lazy" /></button>}
+						</section>
+					))}
+					{s.results && (
+						<section class="res">
+							<p class="rs__label">In testing</p>
+							<ul>{s.results.map((r) => <li><span class="res__from">{r.from}</span><span class="res__arrow">→</span><b>{r.to}</b><small>{r.l}</small></li>)}</ul>
+							{s.result && <p class="rs__result">After launch: {s.result}</p>}
+						</section>
+					)}
+					<section>
+						<p class="rs__label">What shipped</p>
+						<ul class="rs__list rs__list--done">{s.changed.map((c) => <li>{c}</li>)}</ul>
+					</section>
+					{s.takeaways && (
+						<section>
+							<p class="rs__label">Key takeaways</p>
+							<ul class="rs__list rs__list--take">{s.takeaways.map((c) => <li>{c}</li>)}</ul>
+						</section>
+					)}
+				</>
+			) : (
+				<>
+					<section class="rs__find">
+						<p class="rs__label">What we found</p>
+						<p class="rs__big">{s.finding}</p>
+					</section>
+					<section>
+						<p class="rs__label">What changed</p>
+						<ul class="rs__list rs__list--done">{s.changed.map((c) => <li>{c}</li>)}</ul>
+						{s.result && <p class="rs__result">{s.result}</p>}
+					</section>
+					{s.recs.length > 0 && (
+						<section>
+							<p class="rs__label">What the study recommended</p>
+							<ol class="rs__list rs__list--recs">{s.recs.map((c) => <li>{c}</li>)}</ol>
+						</section>
+					)}
+				</>
 			)}
 
 			<p class="rs__src">
@@ -56,7 +91,18 @@ const related = (s.related || []).map((r) => studies.find((x) => x.slug === r)).
 			</nav>
 		</div>
 	</article>
+	<dialog class="lb" aria-label="Slide"><button type="button" class="lb__x" aria-label="Close">×</button><img alt="" /></dialog>
 </Base>
+
+<script>
+	const lb = document.querySelector<HTMLDialogElement>('.lb');
+	document.querySelectorAll<HTMLElement>('[data-zoom]').forEach((b) => b.addEventListener('click', () => {
+		if (!lb) return;
+		lb.querySelector('img')!.src = b.dataset.zoom!;
+		lb.showModal();
+	}));
+	lb?.addEventListener('click', () => lb.close());
+</script>
 
 <style>
 	.rs { padding: clamp(2rem, 6vw, 4rem) 0 5rem; }
@@ -87,4 +133,29 @@ const related = (s.related || []).map((r) => studies.find((x) => x.slug === r)).
 	.rs__nav a:last-child { text-align: right; }
 	.rs__nav small { font-weight: 400; color: var(--muted); font-size: 0.78rem; }
 	.rs__nav a:hover { color: var(--accent); }
+
+	.rs__stats { list-style: none; margin: 1.75rem 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 1rem; overflow: hidden; }
+	.rs__stats li { background: var(--bg); padding: 0.9rem 1rem; display: flex; flex-direction: column; gap: 0.2rem; }
+	.rs__stats b { font-family: var(--display); font-size: 1.6rem; letter-spacing: -0.03em; line-height: 1; }
+	.rs__stats span { font-size: 0.8rem; color: var(--muted); line-height: 1.35; }
+	.rs__hero, .ch__img { display: block; width: 100%; padding: 0; border: 1px solid var(--line); border-radius: 1rem; overflow: hidden; background: #fff; cursor: zoom-in; }
+	.rs__hero { margin-top: 1.5rem; }
+	.rs__hero img, .ch__img img { display: block; width: 100%; height: auto; }
+	.ch { margin-top: 3.5rem !important; }
+	.ch h2 { margin: 0; font-size: clamp(1.4rem, 2.8vw, 1.8rem); line-height: 1.15; letter-spacing: -0.03em; }
+	.ch__d { margin: 0.6rem 0 1.25rem; color: var(--muted); line-height: 1.6; }
+	.rs__label i { font-style: normal; color: var(--accent); margin-right: 0.3rem; }
+	.res ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+	.res li { display: grid; grid-template-columns: auto auto 1fr; align-items: baseline; gap: 0.4rem; padding: 1rem; border: 1px solid var(--line); border-radius: 0.9rem; }
+	.res__from { color: var(--muted); text-decoration: line-through; text-decoration-color: color-mix(in srgb, var(--muted) 50%, transparent); }
+	.res__arrow { color: var(--muted); }
+	.res b { font-family: var(--display); font-size: 1.6rem; letter-spacing: -0.03em; color: var(--accent); }
+	.res small { grid-column: 1 / -1; color: var(--muted); font-size: 0.82rem; }
+	.rs__list--take li::before { content: '→'; position: absolute; left: 0; color: var(--accent); }
+	.lb { border: 0; padding: 0; background: transparent; max-width: 96vw; max-height: 94vh; }
+	.lb::backdrop { background: rgba(10, 12, 20, 0.88); }
+	.lb img { max-width: 96vw; max-height: 92vh; display: block; border-radius: 0.6rem; }
+	.lb__x { position: fixed; top: 1rem; right: 1rem; width: 2.5rem; height: 2.5rem; border-radius: 50%; border: 0; background: #fff; font-size: 1.4rem; cursor: pointer; }
+	@media (max-width: 600px) { .rs__stats, .res ul { grid-template-columns: 1fr; } }
 </style>
+
