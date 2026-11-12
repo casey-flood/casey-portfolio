@@ -80,10 +80,9 @@ export const chapters: Chapter[] = [
 	{
 		id: 'amwell', year: '2019', name: 'Amwell', role: 'UX Designer → Senior Product Designer', dates: 'Jan 2019 – Feb 2024', place: 'Boston and New York',
 		title: 'Research, then ownership, then leadership.',
-		text: 'Virtual urgent care used by millions: patient, provider and admin experiences on web and white-label mobile. I started by running research and grew into owning design direction and mentoring designers, and finished my degree, magna cum laude, along the way.',
-		ladder: [{ t: 'UX Designer', when: '2019' }, { t: 'Senior UX Designer', when: '2021' }, { t: 'Senior Product Designer', when: '2023' }],
-		nums: [{ v: '2', l: 'promotions' }, { v: '14', l: 'OKRs completed' }, { v: '45% → 82%', l: 'admin task completion' }],
-		media: { src: '/amwell/cs/hero.webp', alt: 'Amwell admin portal' },
+		text: 'Telehealth for patients, providers and admins. I started by running research and grew into owning design direction.',
+		nums: [{ v: '2', l: 'promotions' }, { v: '86%', l: 'of our research, led by me' }],
+		media: { src: '/amwell/admin-dashboard.webp', alt: 'The Amwell admin portal I redesigned' },
 		link: { href: '/work/amwell', label: 'See the Amwell work' },
 		moments: [
 			{ kicker: 'Conference', date: '2019', title: 'The Human Insight Summit.', text: 'UserTesting’s research conference in my first year, when research was most of my job.', media: { src: '/story/usertesting-this-2019.webp', alt: 'The stage at UserTesting’s Human Insight Summit, 2019' } },
