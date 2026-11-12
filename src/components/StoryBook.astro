@@ -22,7 +22,7 @@ type P = {
 };
 const pages: P[] = chapters.flatMap((c) => [
 	{ ch: c, cover: true, kicker: `${c.name} · ${c.role}`, head: c.place, date: c.dates, title: c.title, text: c.text, nums: c.nums, ladder: c.ladder, quote: c.quote, media: list(c.media), link: c.link, tip: c.name },
-	...c.moments.map((m) => ({ ch: c, cover: false, kicker: m.kicker, head: c.name, date: m.date, title: m.title, text: m.text, nums: m.num ? [m.num] : undefined, media: list(m.media), link: m.link, tip: m.kicker })),
+	...c.moments.map((m) => ({ ch: c, cover: false, kicker: m.kicker, head: c.name, date: m.date, title: m.title, text: m.text, nums: m.num ? [m.num] : undefined, media: list(m.media), link: m.link, quote: m.quote, tip: m.kicker })),
 ]);
 ---
 
@@ -99,6 +99,8 @@ const pages: P[] = chapters.flatMap((c) => [
 	.sb__page { flex: 0 0 var(--cw); scroll-snap-align: center; display: flex; flex-direction: column; min-height: clamp(18rem, 40vh, 24rem); padding: clamp(1.25rem, 2.6vw, 2rem) clamp(1.25rem, 3vw, 2.5rem); border-radius: 1.5rem; border: 1px solid var(--line);
 		background: color-mix(in srgb, var(--ink) 3.5%, var(--sb-bg, transparent)); box-shadow: 0 30px 60px -44px rgba(0, 0, 0, 0.5);
 		opacity: 0.3; filter: blur(2px) saturate(0.7); transform: scale(0.93); transition: opacity 0.5s, filter 0.5s, transform 0.55s cubic-bezier(0.2, 0.8, 0.2, 1); cursor: pointer; }
+	.sb__page:not(.has-media) { min-height: 0; align-self: center; }
+	.sb__page:not(.has-media) .sb__body { padding: clamp(1rem, 4vw, 2.5rem) 0; }
 	.sb__page.is-on { opacity: 1; filter: none; transform: none; cursor: auto; }
 	.sb__head { display: flex; flex-direction: column; align-items: center; gap: 0.1rem; margin-bottom: clamp(0.75rem, 2.5vw, 1.5rem); text-align: center; }
 	.sb__head b { font-size: 0.8rem; font-weight: 600; }
