@@ -1,6 +1,7 @@
 ---
 import Base from '../../../layouts/Base.astro';
 import { studies } from '../../../data/amwell-research';
+import StoryViz from '../../../components/StoryViz.astro';
 
 export function getStaticPaths() {
 	return studies.map((s, i) => ({ params: { slug: s.slug }, props: { i } }));
@@ -31,8 +32,9 @@ const related = (s.related || []).map((r) => studies.find((x) => x.slug === r)).
 						<section class="ch">
 							<p class="rs__label"><i>{String(n + 1).padStart(2, '0')}</i> {c.k}</p>
 							<h2>{c.t}</h2>
-							<p class="ch__d">{c.d}</p>
-							{c.img && <button type="button" class="ch__img" data-zoom={c.img}><img src={c.img} alt={c.t} loading="lazy" /></button>}
+							{c.d && <p class="ch__d">{c.d}</p>}
+							{c.quote && <blockquote class="ch__q">“{c.quote}”<span>Usability study participant</span></blockquote>}
+							{c.viz && <StoryViz viz={c.viz} />}
 						</section>
 					))}
 					{s.results && (
@@ -143,7 +145,9 @@ const related = (s.related || []).map((r) => studies.find((x) => x.slug === r)).
 	.rs__hero img, .ch__img img { display: block; width: 100%; height: auto; }
 	.ch { margin-top: 3.5rem !important; }
 	.ch h2 { margin: 0; font-size: clamp(1.4rem, 2.8vw, 1.8rem); line-height: 1.15; letter-spacing: -0.03em; }
-	.ch__d { margin: 0.6rem 0 1.25rem; color: var(--muted); line-height: 1.6; }
+	.ch__d { margin: 0.6rem 0 0; color: var(--muted); line-height: 1.6; }
+	.ch__q { margin: 1.25rem 0 0; padding: 0 0 0 1rem; border-left: 2px solid var(--accent); font-family: var(--display); font-size: 1.15rem; line-height: 1.4; }
+	.ch__q span { display: block; margin-top: 0.4rem; font-family: var(--sans); font-size: 0.78rem; color: var(--muted); }
 	.rs__label i { font-style: normal; color: var(--accent); margin-right: 0.3rem; }
 	.res ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
 	.res li { display: grid; grid-template-columns: auto auto 1fr; align-items: baseline; gap: 0.4rem; padding: 1rem; border: 1px solid var(--line); border-radius: 0.9rem; }
@@ -158,4 +162,5 @@ const related = (s.related || []).map((r) => studies.find((x) => x.slug === r)).
 	.lb__x { position: fixed; top: 1rem; right: 1rem; width: 2.5rem; height: 2.5rem; border-radius: 50%; border: 0; background: #fff; font-size: 1.4rem; cursor: pointer; }
 	@media (max-width: 600px) { .rs__stats, .res ul { grid-template-columns: 1fr; } }
 </style>
+
 

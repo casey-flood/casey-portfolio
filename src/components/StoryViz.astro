@@ -1,0 +1,157 @@
+---
+// Native, on-brand versions of research readout slides: charts, stats, cards, flows and phone screens.
+import type { Viz } from '../data/amwell-research';
+interface Props { viz: Viz }
+const { viz } = Astro.props;
+
+// trend chart geometry
+const W = 560, H = 220, P = 28;
+const max = viz.type === 'trend' ? Math.ceil(Math.max(...viz.series.flatMap((s) => s.v)) / 200) * 200 : 0;
+const x = (i: number, n: number) => P + (i * (W - P * 2)) / (n - 1);
+const y = (v: number) => H - P - (v / max) * (H - P * 2);
+---
+
+{viz.type === 'trend' && (
+	<figure class="v v--trend">
+		<svg viewBox={`0 0 ${W} ${H}`} role="img" aria-label={viz.series.map((s) => `${s.l}: ${s.v[0]} to ${s.v[s.v.length - 1]}`).join('; ')}>
+			{[0, 0.5, 1].map((f) => <line x1={P} x2={W - P} y1={y(max * f)} y2={y(max * f)} class="grid" />)}
+			{viz.series.map((s) => (
+				<g class={`s s--${s.tone}`}>
+					<polyline points={s.v.map((v, i) => `${x(i, s.v.length)},${y(v)}`).join(' ')} />
+					<circle cx={x(s.v.length - 1, s.v.length)} cy={y(s.v[s.v.length - 1])} r="4" />
+					<text x={x(s.v.length - 1, s.v.length) - 8} y={y(s.v[s.v.length - 1]) - 10} text-anchor="end">{s.l} · {s.v[s.v.length - 1].toLocaleString()}</text>
+				</g>
+			))}
+			{viz.months.map((m, i) => <text class="m" x={x(i, viz.months.length)} y={H - 6} text-anchor="middle">{m}</text>)}
+		</svg>
+		<figcaption>Visits per month, January to July</figcaption>
+	</figure>
+)}
+
+{viz.type === 'stats' && (
+	<ul class="v v--stats">{viz.items.map((s) => <li><b>{s.v}</b><span>{s.l}</span></li>)}</ul>
+)}
+
+{viz.type === 'cards' && (
+	<ul class="v v--cards">{viz.items.map((c, i) => <li><i>{String(i + 1).padStart(2, '0')}</i><b>{c.t}</b><span>{c.d}</span></li>)}</ul>
+)}
+
+{viz.type === 'tiers' && (
+	<ol class="v v--tiers">{viz.items.map((t, i) => <li class={`t${i}`}><b>{t.t}</b><ul>{t.d.map((d) => <li>{d}</li>)}</ul></li>)}</ol>
+)}
+
+{viz.type === 'flow' && (
+	<ol class="v v--flow">{viz.steps.map((s, i) => <li class={viz.hi.includes(i) ? 'hi' : ''}>{s}</li>)}</ol>
+)}
+
+{viz.type === 'steps' && (
+	<ol class="v v--steps">{viz.items.map((s, i) => <li><i>{i + 1}</i><span>{s}</span></li>)}</ol>
+)}
+
+{viz.type === 'pair' && (
+	<div class="v v--pair">{viz.items.map((c) => <div><b>{c.t}</b><ul>{c.d.map((d) => <li>{d}</li>)}</ul></div>)}</div>
+)}
+
+{viz.type === 'phones' && (
+	<div class:list={['v v--phones', { gray: viz.gray, arrows: viz.arrows }]} style={`--n:${viz.screens.length}`}>
+		{viz.screens.map((s) => (
+			<figure>
+				<button type="button" class="ph" data-zoom={s.src}><img src={s.src} alt={s.cap || ''} loading="lazy" />{s.tag && <em>{s.tag}</em>}</button>
+				{s.cap && <figcaption>{s.cap}</figcaption>}
+			</figure>
+		))}
+	</div>
+)}
+
+{viz.type === 'annot' && (
+	<figure class="v v--annot">
+		<button type="button" class="shot" data-zoom={viz.src}><img src={viz.src} alt="The original screen" loading="lazy" /></button>
+		<ol>{viz.notes.map((n, i) => <li><i>{i + 1}</i>{n}</li>)}</ol>
+	</figure>
+)}
+
+{viz.type === 'compare' && (
+	<div class="v v--compare">
+		<figure><button type="button" class="shot" data-zoom={viz.before.src}><img src={viz.before.src} alt={viz.before.cap} loading="lazy" /></button><figcaption><span class="bad">✕</span>{viz.before.cap}</figcaption></figure>
+		<figure><button type="button" class="shot" data-zoom={viz.after.src}><img src={viz.after.src} alt={viz.after.cap} loading="lazy" /></button><figcaption><span class="good">✓</span>{viz.after.cap}</figcaption></figure>
+	</div>
+)}
+
+<style>
+	.v { margin: 1.5rem 0 0; padding: 0; list-style: none; }
+	figure.v { margin: 1.5rem 0 0; }
+	figcaption { color: var(--muted); font-size: 0.8rem; margin-top: 0.6rem; }
+
+	.v--trend { padding: 1rem 1rem 0.75rem; border: 1px solid var(--line); border-radius: 1rem; }
+	.v--trend svg { width: 100%; height: auto; display: block; overflow: visible; }
+	.grid { stroke: var(--line); stroke-dasharray: 3 4; }
+	.s polyline { fill: none; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+	.s--good polyline, .s--good circle { stroke: var(--muted); fill: var(--muted); }
+	.s--good polyline { fill: none; opacity: 0.55; }
+	.s--bad polyline { stroke: #ff6b5c; }
+	.s--bad circle { fill: #ff6b5c; }
+	.s text { font-size: 12px; fill: var(--ink); font-weight: 600; }
+	.s--good text { fill: var(--muted); font-weight: 500; }
+	.m { font-size: 11px; fill: var(--muted); }
+
+	.v--stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr)); gap: 0.75rem; }
+	.v--stats li { padding: 1rem 1.1rem; border-radius: 1rem; background: var(--paper); border: 1px solid var(--line); display: flex; flex-direction: column; gap: 0.35rem; }
+	.v--stats b { font-family: var(--display); font-size: clamp(1.7rem, 3.5vw, 2.2rem); letter-spacing: -0.035em; line-height: 1; }
+	.v--stats span { font-size: 0.85rem; color: var(--muted); line-height: 1.4; }
+
+	.v--cards { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+	.v--cards li { padding: 1rem 1.1rem; border-radius: 1rem; border: 1px solid var(--line); display: flex; flex-direction: column; gap: 0.3rem; }
+	.v--cards i { font-style: normal; font-family: var(--mono); font-size: 0.7rem; color: var(--accent); }
+	.v--cards b { font-size: 1.02rem; }
+	.v--cards span { font-size: 0.88rem; color: var(--muted); line-height: 1.45; }
+
+	.v--tiers { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; align-items: end; }
+	.v--tiers > li { padding: 1rem 1.1rem; border-radius: 1rem; border: 1px solid var(--line); }
+	.v--tiers > li.t2 { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 8%, transparent); }
+	.v--tiers b { display: block; font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.6rem; color: var(--muted); }
+	.v--tiers .t2 b { color: var(--accent); }
+	.v--tiers ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 0.45rem; font-size: 0.86rem; line-height: 1.4; }
+
+	.v--flow { display: flex; flex-wrap: wrap; gap: 0.5rem 0; align-items: center; }
+	.v--flow li { padding: 0.55rem 0.8rem; border-radius: 0.6rem; border: 1px solid var(--line); font-size: 0.85rem; color: var(--muted); }
+	.v--flow li.hi { border-color: var(--accent); color: var(--ink); background: color-mix(in srgb, var(--accent) 12%, transparent); font-weight: 600; }
+	.v--flow li:not(:last-child) { margin-right: 1.4rem; position: relative; }
+	.v--flow li:not(:last-child)::after { content: '→'; position: absolute; right: -1.15rem; top: 50%; transform: translateY(-50%); color: var(--muted); }
+
+	.v--steps { counter-reset: s; display: grid; gap: 0; border-left: 2px solid var(--line); margin-left: 0.75rem; }
+	.v--steps li { position: relative; padding: 0 0 1.1rem 1.5rem; line-height: 1.5; }
+	.v--steps li:last-child { padding-bottom: 0; color: #ff6b5c; font-weight: 600; }
+	.v--steps i { position: absolute; left: -0.85rem; top: 0; width: 1.6rem; height: 1.6rem; border-radius: 50%; background: var(--bg); border: 2px solid var(--line-strong); display: grid; place-items: center; font-style: normal; font-size: 0.72rem; font-family: var(--mono); color: var(--ink); font-weight: 500; }
+	.v--steps li:last-child i { border-color: #ff6b5c; color: #ff6b5c; }
+
+	.v--pair { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+	.v--pair > div { padding: 1.1rem 1.2rem; border-radius: 1rem; background: var(--paper); border: 1px solid var(--line); }
+	.v--pair b { display: block; margin-bottom: 0.6rem; }
+	.v--pair ul { margin: 0; padding-left: 1.1rem; display: grid; gap: 0.4rem; color: var(--muted); font-size: 0.9rem; line-height: 1.45; }
+
+	.v--phones { display: grid; grid-template-columns: repeat(var(--n), minmax(0, 13rem)); gap: 1.5rem; justify-content: center; padding: 1.75rem 1rem; border-radius: 1.25rem; background: color-mix(in srgb, var(--accent) 7%, var(--paper)); border: 1px solid var(--line); }
+	.v--phones figure { margin: 0; position: relative; }
+	.v--phones.arrows figure:not(:last-child)::after { content: '→'; position: absolute; right: -1.15rem; top: 45%; color: var(--muted); }
+	.ph { position: relative; display: block; width: 100%; padding: 0.35rem; border-radius: 1.6rem; background: #111; border: 0; box-shadow: 0 18px 40px -18px rgba(0, 0, 0, 0.45); cursor: zoom-in; aspect-ratio: 9 / 19; overflow: hidden; }
+	.ph img { width: 100%; height: 100%; object-fit: cover; object-position: top; border-radius: 1.3rem; display: block; background: #fff; }
+	.ph em { position: absolute; top: 0.9rem; right: -0.2rem; transform: rotate(6deg); padding: 0.25rem 0.55rem; border-radius: 0.35rem; background: #ff6b5c; color: #fff; font-style: normal; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.02em; }
+	.v--phones figcaption { text-align: center; font-size: 0.78rem; }
+
+	.shot { display: block; width: 100%; padding: 0; border: 1px solid var(--line); border-radius: 0.9rem; overflow: hidden; background: #fff; cursor: zoom-in; }
+	.shot img { display: block; width: 100%; height: auto; }
+	.v--annot { display: grid; grid-template-columns: 1.6fr 1fr; gap: 1.25rem; align-items: center; }
+	.v--annot ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.9rem; }
+	.v--annot li { display: grid; grid-template-columns: 1.6rem 1fr; gap: 0.6rem; align-items: start; font-size: 0.92rem; line-height: 1.4; }
+	.v--annot i { width: 1.6rem; height: 1.6rem; border-radius: 50%; background: #ff6b5c; color: #fff; display: grid; place-items: center; font-style: normal; font-size: 0.75rem; font-weight: 700; }
+	.v--compare { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem; }
+	.v--compare figure { margin: 0; }
+	.v--compare figcaption { display: flex; gap: 0.5rem; align-items: center; color: var(--ink); font-size: 0.85rem; }
+	.bad, .good { width: 1.3rem; height: 1.3rem; border-radius: 50%; display: grid; place-items: center; color: #fff; font-size: 0.7rem; font-weight: 700; }
+	.bad { background: #ff6b5c; }
+	.good { background: #2fbf71; }
+
+	@media (max-width: 640px) {
+		.v--cards, .v--tiers, .v--pair, .v--compare, .v--annot { grid-template-columns: 1fr; }
+		.v--phones { grid-template-columns: repeat(var(--n), 9rem); justify-content: start; overflow-x: auto; }
+	}
+</style>

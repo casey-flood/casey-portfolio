@@ -1,6 +1,19 @@
 // Amwell research studies, from Casey's Notion research library.
 // `changed` = what actually shipped (the "Changes made" field). `recs` = the study's design action items.
 
+export type Viz =
+	| { type: 'trend'; months: string[]; series: { l: string; v: number[]; tone: 'good' | 'bad' }[] }
+	| { type: 'stats'; items: { v: string; l: string }[] }
+	| { type: 'cards'; items: { t: string; d: string }[] }
+	| { type: 'tiers'; items: { t: string; d: string[] }[] }
+	| { type: 'flow'; steps: string[]; hi: number[]; notes?: string[] }
+	| { type: 'phones'; screens: { src: string; cap?: string; tag?: string }[]; arrows?: boolean; gray?: boolean }
+	| { type: 'steps'; items: string[] }
+	| { type: 'pair'; items: { t: string; d: string[] }[] }
+	| { type: 'annot'; src: string; notes: string[] }
+	| { type: 'compare'; before: { src: string; cap: string }; after: { src: string; cap: string } };
+export type Chapter = { k: string; t: string; d?: string; quote?: string; viz?: Viz };
+
 export type Study = {
 	slug: string;
 	icon: string;
@@ -19,7 +32,7 @@ export type Study = {
 	hero?: string;
 	when?: string;
 	stats?: { v: string; l: string }[];
-	story?: { k: string; t: string; d: string; img?: string }[];
+	story?: Chapter[];
 	results?: { from: string; to: string; l: string }[];
 	takeaways?: string[];
 };
@@ -33,30 +46,29 @@ export const studies: Study[] = [
 		t: 'The experience of choosing care',
 		method: 'Needs assessment',
 		area: 'Selecting care',
-		goal: 'Understand how patients naturally browse and pick a service in telehealth, and where navigation and search get in the way.',
+		goal: 'I led the research and redesign of how patients choose care in Amwell’s app, from the first data pull to the final UI.',
 		finding: 'Most people overlooked the top navigation and search, and leaned on the back button instead, which made picking a service slow.',
 		changed: ['Re-architected service selection', 'A browse-before-login flow', 'Symptom-based search'],
 		result: '+12% patient satisfaction and −18% cancellations after the service selection redesign.',
 		recs: ['Make the top navigation more prominent', 'Make search obvious from the first screen', 'Clearer paths so people don’t rely on the back button', 'Bring in the browsing patterns people created in co-creation sessions'],
 		notion: N + 'The-Experience-of-Choosing-Care-1276f464642d8128a17acedc50af484a',
 		related: ['patient-search', 'in-person-vs-amwell', 'dependent-care'],
-		hero: '/amwell-research/choosing-care/hero.webp',
 		when: 'Senior Product Designer · 5 sprints',
-		stats: [{ v: '15.5%', l: 'of visits were being canceled' }, { v: '16', l: 'NPS in one end-to-end test, out of 100' }, { v: '30 / 30', l: 'testers never used the navigation' }],
+		stats: [{ v: '15.5%', l: 'of visits were canceled when I started' }, { v: '65% → 92%', l: 'task completion in testing' }, { v: '−18%', l: 'cancellations after launch' }],
 		story: [
-			{ k: 'The problem', t: 'Canceled visits were climbing every month.', d: 'On Amwell’s direct-to-consumer app, cancellations rose month over month. My job was to find out why, and make a plan to bring them down.', img: '/amwell-research/choosing-care/trend.webp' },
-			{ k: 'The numbers', t: 'Most visits were on-demand, on iOS, and NPS was alarming.', d: 'In Looker, Google Analytics and UserTesting I reviewed connection types, NPS, 30-day success rates, visit types and drop-off. The biggest drop-off was on the practice page.', img: '/amwell-research/choosing-care/quant.webp' },
-			{ k: 'The people', t: '30 people, one end-to-end study.', d: '30 of 30 never used the navigation or tabs. 28 of 30 were confused by the practice page: after picking urgent care they expected questions about their symptoms, not another menu. Nothing they’d entered earlier shaped their options.', img: '/amwell-research/choosing-care/qual.webp' },
-			{ k: 'Why it matters', t: 'One patient’s story.', d: 'A mother of two couldn’t reach her doctor to refill a medication she’d taken for years. She tapped “Urgent care” because it said fastest, and was matched with a family physician who couldn’t prescribe it. She never came back to Amwell.' },
-			{ k: 'Root causes', t: 'Four buckets behind canceled visits.', d: 'Dependents, the practice page, routing to the right care, and issues we legally can’t treat over telehealth. Separating them let us fix each one in phases while seeing the whole problem.', img: '/amwell-research/choosing-care/causes.webp' },
-			{ k: 'Strategy', t: 'Gold, silver, bronze.', d: 'With PMs and engineers I ideated without limits, then phased the ideas. I designed the gold version first; whatever was scoped down went to the backlog.', img: '/amwell-research/choosing-care/phasing.webp' },
-			{ k: 'Architecture', t: 'A new service selection flow.', d: 'A rough information architecture and user flow, starting with “Who is this visit for?”, then location, then care type. Notes along the way became the wireframes.', img: '/amwell-research/choosing-care/flows.webp' },
-			{ k: 'Concepts', t: 'Options, built fast from our design system.', d: 'Browsing by symptom, a reason-for-visit tagging system, one central call to action, and a separate “Who is this visit for?” step. Engineering flagged symptom browsing as too heavy for the first release, so I iterated.', img: '/amwell-research/choosing-care/concepts.webp' },
-			{ k: 'Iteration', t: 'One question per screen.', d: 'Who the visit is for, where you are, then clear care options with cost and timing up front.', img: '/amwell-research/choosing-care/wires.webp' },
-			{ k: 'Final UI', t: 'Clear choices, plain language.', d: 'Care options that separate physical and mental health, explain timing and show the maximum cost.', img: '/amwell-research/choosing-care/final.webp' },
+			{ k: 'The problem', t: 'Canceled visits kept climbing.', d: 'On Amwell’s consumer app, cancellations rose every month. I set out to find out why.', viz: { type: 'trend', months: ['Jan', 'Mar', 'Apr', 'May', 'Jun', 'Jul'], series: [{ l: 'Successful visits', v: [500, 600, 720, 850, 950, 1020], tone: 'good' }, { l: 'Canceled visits', v: [100, 120, 160, 210, 260, 310], tone: 'bad' }] } },
+			{ k: 'The data', t: 'I started with the numbers.', d: 'I pulled visit types, NPS and drop-off from Looker, Google Analytics and UserTesting.', viz: { type: 'stats', items: [{ v: '50%', l: 'of completed visits were on iOS' }, { v: '34 · 16', l: 'NPS in two end-to-end tests, out of 100' }, { v: '#1', l: 'drop-off point: the practice page' }] } },
+			{ k: 'The people', t: 'Then I watched 30 people choose care.', d: 'I ran an end-to-end usability study of the consumer app.', quote: 'If I selected urgent care, the next thing I would’ve thought would be a questionnaire to ask about my issue.', viz: { type: 'stats', items: [{ v: '30 / 30', l: 'never used the navigation or tabs' }, { v: '28 / 30', l: 'expected symptom questions, not another menu' }, { v: '0', l: 'options shaped by what they’d already told us' }] } },
+			{ k: 'Why it matters', t: 'One mother never came back.', d: 'She couldn’t reach her doctor to refill a medication she’d taken for years. She tapped “Urgent care” because it said fastest, and was matched with a physician who couldn’t prescribe it.' },
+			{ k: 'Root causes', t: 'I sorted every finding into four causes.', d: 'That let us fix each one in phases while still seeing the whole problem.', viz: { type: 'cards', items: [{ t: 'Dependents', d: 'No clear split between care for a child and for an adult.' }, { t: 'Practice page', d: 'An extra menu of brand names before any real choice.' }, { t: 'Routing', d: 'Nothing used what the patient told us to match them.' }, { t: 'Untreatable', d: 'Patients didn’t know what telehealth can’t treat.' }] } },
+			{ k: 'Strategy', t: 'I phased the fix with PMs and engineers.', d: 'I designed the gold version first. Anything scoped down went to the backlog.', viz: { type: 'tiers', items: [{ t: 'Bronze', d: ['Clearer copy', 'What we can’t treat, in onboarding', 'A separate “Who is this visit for?”'] }, { t: 'Silver', d: ['Everything in bronze', 'Tags for the reason for the visit'] }, { t: 'Gold', d: ['Everything in silver', 'Re-architected service selection', 'Browse before logging in', 'Choose a reason from a list'] }] } },
+			{ k: 'Architecture', t: 'I redrew the flow around three questions.', d: 'Who the visit is for decides adult or pediatric care. Location decides which providers are licensed. Then the right care options.', viz: { type: 'flow', steps: ['Sign up', 'Home', 'Who is this visit for?', 'Location', 'Care type', 'Intake', 'Review'], hi: [2, 3, 4] } },
+			{ k: 'Concepts', t: 'I explored options fast, from our design system.', d: 'Engineering flagged symptom browsing as too heavy for the first release, so I cut it and kept the rest.', viz: { type: 'phones', gray: true, screens: [{ src: '/amwell-research/choosing-care/screens/concept-welcome.webp', cap: 'Browse before signing up' }, { src: '/amwell-research/choosing-care/screens/concept-reason.webp', cap: 'Reason for visit' }, { src: '/amwell-research/choosing-care/screens/concept-browse.webp', cap: 'Browse by symptom', tag: 'Cut for MVP' }] } },
+			{ k: 'Iteration', t: 'One question per screen.', viz: { type: 'phones', gray: true, arrows: true, screens: [{ src: '/amwell-research/choosing-care/screens/wire-start.webp', cap: 'One way in' }, { src: '/amwell-research/choosing-care/screens/wire-who.webp', cap: 'Who it’s for' }, { src: '/amwell-research/choosing-care/screens/wire-location.webp', cap: 'Where you are' }, { src: '/amwell-research/choosing-care/screens/wire-care.webp', cap: 'Care options' }] } },
+			{ k: 'Final UI', t: 'Clear choices, with cost up front.', d: 'I separated physical and mental health, explained timing, and showed the maximum cost on every option.', viz: { type: 'phones', arrows: true, screens: [{ src: '/amwell-research/choosing-care/screens/final-home.webp' }, { src: '/amwell-research/choosing-care/screens/final-who.webp' }, { src: '/amwell-research/choosing-care/screens/final-care.webp' }] } },
 		],
 		results: [{ from: '65%', to: '92%', l: 'task completion' }, { from: '5 min', to: '2.5 min', l: 'time on task' }, { from: '20%', to: '5%', l: 'error rate' }, { from: '3.2', to: '4.6', l: 'satisfaction, out of 5' }],
-		takeaways: ['The root cause of canceled visits was service selection, not the visit itself.', 'The fix pushed us to a modular, flexible architecture.', 'I worked beyond design: research, roadmapping, requirements and prioritization.'],
+		takeaways: ['I traced canceled visits to how patients choose care, not the visit itself.', 'I pushed us toward a modular architecture that made the fix possible.', 'I owned more than design: research, roadmapping, requirements and prioritization.'],
 	},
 	{
 		slug: 'dependent-care',
@@ -64,25 +76,23 @@ export const studies: Study[] = [
 		t: 'Dependent care',
 		method: 'Interviews',
 		area: 'Selecting care',
-		goal: 'Find what was going wrong in visits for a child or other dependent, to reduce cancelled visits.',
+		goal: 'I found out why visits for children kept getting canceled, and proposed the fix.',
 		finding: 'Patients and providers both struggled. Confusion over who the visit was for, and where it should route, led to cancelled visits.',
 		changed: ['Onboarding content on what we do and don’t treat for children', 'Provider training for pre-visit questions', 'No more pre-selected “Myself” answer'],
 		recs: ['Make “Who is this visit for?” a required first question, with large buttons', 'Show only care options that fit that person', 'Separate dependent selection from other visit questions', 'Coach providers to confirm the patient before the visit'],
 		deck: 'Dependent Flow UX Research',
 		notion: N + 'Dependent-Care-1276f464642d81f58ea1d92b17ba5365',
 		related: ['choosing-care'],
-		hero: '/amwell-research/dependent-care/concept.webp',
 		when: 'UX Designer · August 2019',
-		stats: [{ v: '~40%', l: 'of providers’ canceled visits came from dependent issues' }, { v: '2,029', l: 'web visits canceled by one provider group in 3 months' }, { v: '14', l: 'interviews: 7 providers, 7 patients' }],
 		story: [
-			{ k: 'The numbers', t: 'Providers canceled more visits for children on web.', d: 'Over three months, providers canceled more web visits for minors than for adults. One provider group alone canceled 2,029 visits with patients on web.', img: '/amwell-research/dependent-care/cancels.webp' },
-			{ k: 'What really happened', t: 'A parent, a child, and a canceled visit.', d: 'A parent connects from their own account. The provider needs the child’s chart and asks them to cancel, log into the child’s account and start over. The parent thought they already had.', img: '/amwell-research/dependent-care/journey.webp' },
-			{ k: 'Both sides', t: 'Patients and providers were frustrated.', d: 'Patients didn’t understand how to pick a dependent or switch “accounts.” Providers lost time coaching them, weren’t paid for it, and weren’t sure the patient would come back.', img: '/amwell-research/dependent-care/frustrations.webp' },
-			{ k: 'The interface', t: '“Who is this visit for?” was easy to miss.', d: 'It sat among other questions, styled the same, with “Myself” pre-selected. Cognitive load and the laws of proximity and similarity explained why parents never changed it.', img: '/amwell-research/dependent-care/interface.webp' },
-			{ k: 'The pattern', t: 'One thing per page.', d: 'The next screen in the same flow asked a single question, and people did fine. So the fix was to give “Who is this visit for?” its own screen.', img: '/amwell-research/dependent-care/one-thing.webp' },
-			{ k: 'The concept', t: 'Who is in need of care today?', d: 'A single first question with large buttons for each person, and language that uses the dependent’s name from then on.', img: '/amwell-research/dependent-care/flow.webp' },
+			{ k: 'The data', t: 'Providers were canceling children’s visits.', d: 'Over three months, providers canceled more web visits for minors than for adults.', viz: { type: 'stats', items: [{ v: '2,029', l: 'web visits canceled by one provider group' }, { v: '1,200', l: 'by another' }, { v: '~40%', l: 'of canceled visits, providers said, were dependent issues' }] } },
+			{ k: 'What happened', t: 'I interviewed 7 providers and 7 parents.', d: 'All had canceled a visit in the past month. They described the same story.', viz: { type: 'steps', items: ['A parent logs in and connects with a provider.', 'The provider needs the child’s chart.', 'The parent thought they’d already chosen their child.', 'The provider asks them to cancel and start over.', 'The visit is canceled. Maybe they come back.'] } },
+			{ k: 'Both sides', t: 'Everyone lost time.', viz: { type: 'pair', items: [{ t: 'Parents', d: ['Didn’t understand how to choose their child', 'Couldn’t switch between “accounts”', 'Talked to providers who couldn’t treat their child'] }, { t: 'Providers', d: ['Spent visits coaching the setup', 'Weren’t paid for that time', 'Weren’t sure the patient would return'] }] } },
+			{ k: 'The cause', t: 'I found it on one screen.', d: 'Hick’s law, cognitive load and the laws of proximity and similarity explain why parents never changed the answer.', viz: { type: 'annot', src: '/amwell-research/dependent-care/form.webp', notes: ['“Myself” is already selected', 'It looks like every other question', 'Four decisions on one page'] } },
+			{ k: 'The pattern', t: 'The next screen already worked.', d: 'It asked one thing, and people did fine. So I gave “Who is this visit for?” its own screen.', viz: { type: 'compare', before: { src: '/amwell-research/dependent-care/before.webp', cap: 'Four questions, answers pre-selected' }, after: { src: '/amwell-research/dependent-care/after.webp', cap: 'One question' } } },
+			{ k: 'My proposal', t: 'Ask who the visit is for, first.', d: 'Large buttons for each person, then language that uses the child’s name from there on.', viz: { type: 'phones', screens: [{ src: '/amwell-research/dependent-care/scr-who.webp', cap: 'Who is in need of care today?' }, { src: '/amwell-research/dependent-care/scr-visit.webp', cap: 'What would they like to discuss?' }] } },
 		],
-		takeaways: ['Parents weren’t successfully choosing their dependent for the visit.', 'Amwell defined “dependent” only as a child, though it can mean an elderly parent or a sibling too.', 'The interface didn’t prioritize or distinguish “Who is this visit for?”'],
+		takeaways: ['I showed that parents weren’t choosing their child for the visit, and why.', 'I flagged that we defined “dependent” only as a child, not an aging parent or a sibling.', 'I turned it into one clear first question, which shipped with the service selection redesign.'],
 	},
 	{
 		slug: 'patient-search',
