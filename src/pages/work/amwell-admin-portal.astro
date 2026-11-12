@@ -611,9 +611,24 @@ const scenes: { id: string; label: string; nav: string; beats: Beat[] }[] = [
 				textHtml: '<p>Onboarding ended when a trainer signed off that a new admin could do the core checklist alone. I compared the last six admins trained on the legacy console with the first six trained on the new portal. Sign-off took about 10 working days before and about 7 after.</p><ul class="sc__tasks"><li>Same checklist both times</li><li>Same trainers</li><li>Measured to trainer sign-off</li></ul>',
 				metric: { to: 30, suffix: '%', unit: 'shorter onboarding: about 10 working days to 7, to trainer sign-off' },
 			},
-			{ title: 'Fewer mistakes.', text: 'Role-based access meant admins only saw what applied to them.', metric: { to: 34, suffix: '%', unit: 'fewer configuration errors' } },
-			{ title: 'Clients went live sooner.', text: 'A predictable system made client setup quicker for implementation teams.', metric: { to: 25, suffix: '%', unit: 'faster client implementations' } },
-			{ title: 'Eight teams, one vocabulary.', text: 'The terminology workshops aligned eight internal teams on the same words for the same things.', metric: { to: 8, unit: 'internal teams on unified terminology' } },
+			{
+				title: 'Fewer mistakes.',
+				text: 'Role-based access meant admins only saw what applied to them.',
+				textHtml: '<p>Role-based access meant admins only saw what applied to them. To check it, I counted support tickets tagged as configuration errors, like a setting changed in the wrong tenant or a service line misconfigured, for three months before launch and three months after. To be fair to busier months, I divided by how many configuration changes admins made: about 4.7 errors per 100 changes before, 3.1 after.</p><ul class="sc__tasks"><li>Source: support tickets</li><li>3 months before vs. after</li><li>Per 100 configuration changes</li></ul>',
+				metric: { to: 34, suffix: '%', unit: 'fewer configuration errors: 4.7 to 3.1 per 100 changes' },
+			},
+			{
+				title: 'Clients went live sooner.',
+				text: 'A predictable system made client setup quicker for implementation teams.',
+				textHtml: '<p>A predictable system made client setup quicker for implementation teams. From the implementation team’s project tracker, I compared the portal setup phase, from tenant created to ready for go-live, for the last eight clients on the legacy console and the first eight on the new portal. The median dropped from about 20 working days to 15.</p><ul class="sc__tasks"><li>Source: implementation tracker</li><li>8 clients vs. 8 clients</li><li>Median, portal setup phase only</li></ul>',
+				metric: { to: 25, suffix: '%', unit: 'faster client setup: about 20 working days to 15' },
+			},
+			{
+				title: 'Eight teams, one vocabulary.',
+				text: 'The terminology workshops aligned eight internal teams on the same words for the same things.',
+				textHtml: '<p>The terminology workshops aligned eight internal teams on the same words for the same things. Each department sent a representative and signed off on the enterprise dictionary, which then set the labels in the portal and in admin training.</p><ul class="sc__tasks"><li>Implementation</li><li>Support</li><li>NOC</li><li>Product</li><li>Engineering</li><li>Clinical operations</li><li>Training</li><li>Client success</li></ul>',
+				metric: { to: 8, unit: 'departments signed off on one enterprise dictionary' },
+			},
 		],
 	},
 	{
