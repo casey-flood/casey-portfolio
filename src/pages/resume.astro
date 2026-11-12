@@ -1,14 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
 
-// Placeholder content taken from LinkedIn until the 2026 resume is rewritten.
-const highlights = [
-	{ v: '~86%', l: 'of user research led at Amwell, on work behind a J.D. Power #1 patient satisfaction rating' },
-	{ v: '+18%', l: 'engagement from an improved onboarding flow' },
-	{ v: '5 yrs', l: 'designing white-label virtual urgent care used by millions' },
-	{ v: '30+', l: 'Jira tickets managed across parallel workstreams, while mentoring 2 designers' },
-];
-
 interface Role {
 	title: string;
 	when: string;
@@ -18,12 +10,14 @@ interface Role {
 interface Job {
 	company: string;
 	span?: string;
+	stats?: { v: string; l: string }[];
 	roles: Role[];
 }
 
 const jobs: Job[] = [
 	{
 		company: 'Dandy',
+		stats: [{ v: '−11.5%', l: 'designer time per order' }, { v: '5–10 min', l: 'per design change, was 30–45' }, { v: '+60%', l: 'feedback submissions' }],
 		roles: [
 			{
 				title: 'Senior Product Designer',
@@ -50,6 +44,7 @@ const jobs: Job[] = [
 	{
 		company: 'Amwell',
 		span: '5 yrs 2 mos',
+		stats: [{ v: '86%', l: 'of our research, led by me' }, { v: '#1', l: 'J.D. Power patient satisfaction, 2020' }, { v: '45% → 82%', l: 'admin task completion, in testing' }, { v: '+18%', l: 'engagement' }],
 		roles: [
 			{
 				title: 'Senior Product Designer',
@@ -93,6 +88,7 @@ const jobs: Job[] = [
 	},
 	{
 		company: 'Paper Airplane',
+		stats: [{ v: '41', l: 'survey responses' }, { v: '13', l: 'tested screens' }],
 		roles: [
 			{
 				title: 'User Experience Designer',
@@ -149,20 +145,6 @@ const values = [
 		</div>
 	</section>
 
-	<section class="section" style="padding-top: 1rem" aria-label="Highlights">
-		<div class="shell">
-			<ul class="proof">
-				{
-					highlights.map((p) => (
-						<li data-reveal>
-							<strong>{p.v}</strong>
-							<span>{p.l}</span>
-						</li>
-					))
-				}
-			</ul>
-		</div>
-	</section>
 
 	<section class="section" aria-labelledby="exp-heading" style="padding-top: 1.5rem">
 		<div class="shell">
@@ -175,6 +157,7 @@ const values = [
 								<h3>{j.company}</h3>
 								{j.span && <span>{j.span}</span>}
 							</header>
+							{j.stats && <ul class="rs__stats">{j.stats.map((x) => <li><b>{x.v}</b><span>{x.l}</span></li>)}</ul>}
 							{j.roles.map((r) => (
 								<article class="rs__role">
 									<p class="card__kicker">{r.when}</p>
@@ -234,3 +217,11 @@ const values = [
 		</div>
 	</section>
 </Base>
+
+<style>
+	.rs__stats { list-style: none; margin: 0.9rem 0 0.4rem; padding: 0; display: flex; flex-wrap: wrap; gap: 0.5rem 1.75rem; }
+	.rs__stats li { display: flex; align-items: baseline; gap: 0.45rem; }
+	.rs__stats b { font-family: var(--display); font-size: 1.05rem; letter-spacing: -0.02em; white-space: nowrap; }
+	.rs__stats span { color: var(--muted); font-size: 0.8rem; }
+	@media (max-width: 640px) { .rs__stats { gap: 0.4rem 1.2rem; } }
+</style>
