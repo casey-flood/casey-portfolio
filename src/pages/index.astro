@@ -2,38 +2,33 @@
 import Base from '../layouts/Base.astro';
 import { testimonials } from '../data/testimonials';
 
-const work = [
-	{ co: 'Dandy', name: 'Dandy Design Editor', line: 'Designed the in-house crown design tool, cutting hands-on designer time per order <b>11.5%</b> as crown volume grew 57%.', img: '/scan-to-smile/04-design.webp', pos: '50% 40%', alt: 'A dental designer and a teammate working on a 3D restoration', href: '/work/dandy-design-editor' },
-	{ co: 'Amwell', name: 'Amwell admin portal', line: 'Redesigned the admin portal around each role, lifting task completion from <b>45% to 82%</b>.', img: '/amwell/cs/hero.webp', pos: '0% 0%', alt: 'The redesigned Amwell admin dashboard', href: '/work/amwell-admin-portal' },
-	{ co: 'Dandy', name: 'Design Editor design system', line: 'Built its first design system, cutting each iteration from 30–45 to <b>5–10 minutes</b>.', img: '/work/behind/ds.jpg', pos: '50% 0%', alt: 'The Design Editor design system in Storybook', href: '/work/dandy-design-system' },
-	{ co: 'Dandy', name: 'Clickable prototypes', line: 'Prototyped real flows from production components for early feedback.', img: '/work/behind/proto.jpg', pos: '50% 30%', alt: 'A clickable prototype built from real components', href: '/work/dandy-prototype' },
+const featured = [
+	{ co: 'Dandy', name: 'Dandy Design Editor', line: 'The in-house tool where dental designers design every crown. Hands-on designer time per order down <b>11.5%</b> as crown volume grew 57%.', img: '/scan-to-smile/04-design.webp', pos: '50% 40%', alt: 'A dental designer and a teammate working on a 3D restoration', href: '/work/dandy-design-editor' },
+	{ co: 'Amwell', name: 'Amwell admin portal', line: 'One role-based portal in place of a fragmented one. Admin task completion up from <b>45% to 82%</b>.', img: '/amwell/cs/hero.webp', pos: '0% 0%', alt: 'The redesigned Amwell admin dashboard', href: '/work/amwell-admin-portal' },
 ];
 
-// How I work: icons per idea; visuals are placeholders for now.
-const icon = {
-	strategy: '<circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/>',
-	systems: '<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><path d="M14 17.5h7M17.5 14v7"/>',
-	code: '<path d="M8 7l-5 5 5 5M16 7l5 5-5 5M14 4l-4 16"/>',
-	users: '<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6M16 5a3.5 3.5 0 010 6.5M18.5 14.5c1.9.8 3 2.6 3 5.5"/>',
-	lead: '<circle cx="12" cy="5" r="2.5"/><circle cx="5" cy="19" r="2.5"/><circle cx="19" cy="19" r="2.5"/><path d="M12 7.5v4M12 11.5L6 17M12 11.5l6 5.5"/>',
-};
-const how = [
-	{ t: 'Think strategically', i: icon.strategy, ph: 'Visual: the “make it faster” brief reframed into a navigation problem', href: '/work/amwell-admin-portal', e: 'See it at Amwell' },
-	{ t: 'Design in systems', i: icon.systems, ph: 'Visual: component library growing from tokens to full screens', href: '/work/dandy-design-system', e: 'See the design system' },
-	{ t: 'Prototype in code', i: icon.code, ph: 'Visual: a looping clip of a prototype built from real components', href: '/work/dandy-prototype', e: 'See the prototypes' },
-	{ t: 'Validate with users', i: icon.users, ph: 'Visual: a test session with a clip of insights turning into changes', href: '/work/dandy-design-editor', e: 'See the testing' },
-	{ t: 'Lead across teams', i: icon.lead, ph: 'Visual: design, engineering, product, and ops converging on one plan', href: '/work/amwell-admin-portal', e: 'See it at Amwell' },
+const more = [
+	{ name: 'Design Editor design system', line: 'Built in code from production components', img: '/work/behind/ds.jpg', href: '/work/dandy-design-system' },
+	{ name: 'Clickable prototypes', line: 'Real flows, real components, early feedback', img: '/work/behind/proto.jpg', href: '/work/dandy-prototype' },
+	{ name: 'MyTrips', line: 'My first app, from my Pratt capstone', img: '/mytrips/hero-phones.webp', href: '/work/mytrips' },
+	{ name: 'Paper Airplane', line: 'First design job, early-stage startup', img: '/paper-airplane/story-trio.webp', href: '/work/paper-airplane' },
 ];
 
-// My story: one highlight per event, newest first.
+const beyond = [
+	{ k: 'Systems', t: 'Built the Design Editor’s design system in Storybook, from production components.', href: '/work/dandy-design-system' },
+	{ k: 'Field research', t: 'Sat with dental designers in Cairo and ran roundtables with their leads.', href: '/work/dandy-design-editor' },
+	{ k: 'Sharing', t: 'Presented how I prototype in code with AI to Dandy’s team in New York.', href: '/journey#dandy' },
+	{ k: 'Mentoring', t: 'Mentored two designers and led critiques at Amwell. Spoke on a General Assembly panel.', href: '/journey#amwell' },
+];
+
+// My story teaser: one highlight per chapter, newest first. Ids match /journey chapters.
 const years = [
-	{ y: '2025', l: 'Dandy', id: 'dandy', img: '/team/present.webp', alt: 'Casey presenting “From siloed UIs to one DDE shell”',  h: 'Sole product designer on the Design Editor.' },
-	{ y: '2023', l: 'Freelance', id: 'freelance', ph: 'Add a photo or screen from a freelance project',  h: 'Freelance across healthcare, finance, travel, and more.' },
-	{ y: '2019', l: 'Amwell', id: 'amwell', img: '/amwell/hero-platform.webp', alt: 'Amwell patient and provider products',  h: 'Grew from UX Designer to Senior Product Designer.' },
-	{ y: '2018', l: 'Pratt', id: 'pratt', img: '/journey/pratt-scrapbook.png', alt: 'A scrapbook from Pratt',  h: 'Learned the craft: a UX and UI mobile design certificate.' },
-	{ y: '2017', l: 'Paper Airplane', id: 'paper', img: '/paper-airplane/mvp.webp', alt: 'Paper Airplane app screens',  h: 'Did anything and everything at an early-stage startup.' },
-	{ y: '2016', l: 'JMU', id: 'jmu', ph: 'Add a campus photo or a school project',  h: 'Where design met code: interactive media plus information systems.' },
-	{ y: '1990s', l: 'Origins', id: 'start', ph: 'Add a childhood photo or a drawing',  h: 'Always making things.' },
+	{ y: '2025', l: 'Dandy', id: 'dandy', img: '/story/nyc-2026-presenting.webp', alt: 'Casey presenting the Design Editor work in New York', h: 'Sole product designer on the Design Editor.' },
+	{ y: '2019', l: 'Amwell', id: 'amwell', img: '/story/ga-panel.webp', alt: 'Casey speaking on a General Assembly panel', h: 'Five years and two promotions in telehealth.' },
+	{ y: '2018', l: 'Pratt', id: 'pratt', img: '/mytrips/empathy-wall.webp', alt: 'Building an empathy map at Pratt', h: 'Trained in UX on purpose, and built my first app.' },
+	{ y: '2017', l: 'Paper Airplane', id: 'paper', img: '/paper-airplane/story-trio.webp', alt: 'Paper Airplane app screens', h: 'My first design job confirmed it: UX was the work.' },
+	{ y: '2015', l: 'JMU', id: 'jmu', img: '/story/jmu-essay-2017.webp', alt: 'An excerpt of my 2017 design school essay', h: 'Design and code, from day one.' },
+	{ y: 'Early', l: 'Origins', id: 'origins', img: '/story/young-laughing.webp', alt: 'Casey as a toddler, laughing', h: 'I’ve always seen the world a little differently.' },
 ];
 
 const quotes = testimonials;
@@ -46,38 +41,22 @@ const quotes = testimonials;
 	<section class="hero" data-focus>
 		<div class="shell hero__grid">
 			<div>
-				<p class="eyebrow">Product leader · Design engineer</p>
+				<p class="eyebrow">Product designer · Design engineer · Healthcare</p>
 				<h1>I design in code, so great ideas <em>actually ship</em>.</h1>
 				<p class="hero__lede">
-					I'm Casey, a product designer who thinks in systems and prototypes in code. I lead design for
-					complex healthcare and dental products, connecting strategy, experimentation, and execution to
-					create experiences that work in the real world.
+					I'm Casey. At Dandy I'm the sole product designer on the Design Editor, the tool dental designers use to
+					design every crown. I research in the field, prototype in code, and build the design system with
+					engineering. Before that, five years on Amwell's telehealth platform.
 				</p>
 				<div class="actions">
 					<a class="button button--lg" href="/work">See my work →</a>
 					<a class="button button--ghost button--lg" href="/journey">My story</a>
 				</div>
 			</div>
-			<div class="hero__stage">
-				<span class="pointer" aria-hidden="true">
-					<svg viewBox="0 0 24 24" width="26" height="26"><path d="M4 2.5l15 8.4-6.6 1.6-2.9 6.5z" fill="currentColor" stroke="#fff" stroke-width="1.4" stroke-linejoin="round"></path></svg>
-					<b>Casey</b>
-				</span>
-				<figure class="portrait">
-					<span class="portrait__tape" aria-hidden="true"></span>
+			<div class="hero__stage hero__stage--calm">
+				<figure class="portrait portrait--calm">
 					<img src="/casey.jpg" alt="Portrait of Casey Flood" width="600" height="800" loading="eager" />
 				</figure>
-				<div class="term" aria-hidden="true">
-					<div class="term__bar"><i></i><i></i><i></i><span>design-workflow</span></div>
-					<div class="term__body">
-						<span class="term__line"><span class="p">$</span> storybook dev</span>
-						<span class="term__line"><span class="ok">✓</span> prototype built from real components</span>
-						<span class="term__line"><span class="p">$</span> cursor . <span class="c"># iterate with AI</span></span>
-						<span class="term__line"><span class="ok">✓</span> validated with real users</span>
-						<span class="term__line"><span class="p">$</span> ship <span class="c"># production UI</span></span>
-						<span class="term__line"><span class="ok">✓</span> design system lives in code<span class="cursor"></span></span>
-					</div>
-				</div>
 			</div>
 		</div>
 	</section>
@@ -89,43 +68,37 @@ const quotes = testimonials;
 				<a class="hp__all" href="/work">All work <span aria-hidden="true">→</span></a>
 			</header>
 			<ul class="hp__work">
-				{work.map((w) => (
+				{featured.map((w) => (
 					<li>
 						<a class="hp__card" href={w.href}>
 							<span class="hp__img"><img src={w.img} alt={w.alt} style={`object-position:${w.pos}`} loading="lazy" decoding="async" /><i class="hp__arrow" aria-hidden="true">↗</i></span>
 							<span class="hp__meta"><img class={`hp__logo hp__logo--${w.co.toLowerCase()}`} src={w.co === 'Dandy' ? '/brand/dandy-wordmark.svg' : '/brand/amwell-white.svg'} alt={w.co} height="18" /></span>
 							<span class="hp__name">{w.name}</span>
 							<span class="hp__sub" set:html={w.line}></span>
-							</a>
+						</a>
+					</li>
+				))}
+			</ul>
+			<ul class="hp__more" aria-label="More work">
+				{more.map((m) => (
+					<li>
+						<a href={m.href}>
+							<img src={m.img} alt="" loading="lazy" decoding="async" />
+							<span><b>{m.name}</b><small>{m.line}</small></span>
+							<i aria-hidden="true">→</i>
+						</a>
 					</li>
 				))}
 			</ul>
 		</div>
 	</section>
 
-	<section class="hp__sec hp__how" data-focus aria-labelledby="how-heading">
+	<section class="hp__sec" data-focus aria-labelledby="beyond-heading">
 		<div class="shell">
-			<header class="hp__head"><h2 id="how-heading">How I work</h2></header>
-			<div class="hw" data-hw>
-				<ul class="hw__tabs" role="tablist" aria-label="How I work">
-					{how.map((h, i) => (
-						<li role="presentation">
-							<button type="button" role="tab" id={`hw-t${i}`} aria-controls={`hw-p${i}`} aria-selected={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? 0 : -1}>
-								<svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={h.i}></svg>
-								<span>{h.t}</span>
-							</button>
-						</li>
-					))}
-				</ul>
-				<div class="hw__panes">
-					{how.map((h, i) => (
-						<div class="hw__pane" role="tabpanel" id={`hw-p${i}`} aria-labelledby={`hw-t${i}`} hidden={i !== 0}>
-							<div class="hw__ph" role="img" aria-label={`Placeholder. ${h.ph}`}><small>{h.ph}</small></div>
-							<a href={h.href}>{h.e} →</a>
-						</div>
-					))}
-				</div>
-			</div>
+			<header class="hp__head"><h2 id="beyond-heading">Beyond my own screens</h2></header>
+			<ul class="hp__beyond">
+				{beyond.map((x) => (<li><a href={x.href}><small>{x.k}</small><span>{x.t}</span></a></li>))}
+			</ul>
 		</div>
 	</section>
 
@@ -133,7 +106,7 @@ const quotes = testimonials;
 		<div class="shell">
 			<div class="hp__aboutgrid" data-story>
 				<div class="hp__abouttext">
-					<h2 id="about-heading" class="hp__h2">A little about me</h2>
+					<h2 id="about-heading" class="hp__h2">From research to design engineering</h2>
 					<ol class="rewind rewind--anim" aria-label="My story, newest first">
 						{years.map((e, i) => (
 							<li>
@@ -147,7 +120,7 @@ const quotes = testimonials;
 				<div class="hp__photo" data-photos>
 					{years.map((e, i) => (
 						<figure class:list={['hp__pic', { on: i === 0 }]} data-i={i}>
-							{e.img ? <img src={e.img} alt={e.alt} loading={i === 0 ? 'lazy' : 'eager'} decoding="async" /> : <span class="hp__picph" role="img" aria-label={`Placeholder. ${e.ph}`}>{e.ph}</span>}
+							<img src={e.img} alt={e.alt} loading="lazy" decoding="async" />
 						</figure>
 					))}
 				</div>
@@ -217,23 +190,4 @@ const quotes = testimonials;
 		addEventListener('resize', tick);
 		tick();
 	}
-	// How I work: hover, focus, or tap an idea to see the evidence behind it
-	document.querySelectorAll<HTMLElement>('[data-hw]').forEach((root) => {
-		const tabs = Array.from(root.querySelectorAll<HTMLButtonElement>('[role="tab"]'));
-		const panes = Array.from(root.querySelectorAll<HTMLElement>('[role="tabpanel"]'));
-		const show = (i: number, focus = false) => {
-			tabs.forEach((t, k) => { t.setAttribute('aria-selected', String(k === i)); t.tabIndex = k === i ? 0 : -1; });
-			panes.forEach((p, k) => { p.hidden = k !== i; });
-			if (focus) tabs[i].focus();
-		};
-		tabs.forEach((t, i) => {
-			t.addEventListener('click', () => show(i));
-			t.addEventListener('mouseenter', () => { if (matchMedia('(hover: hover)').matches) show(i); });
-			t.addEventListener('focus', () => show(i));
-			t.addEventListener('keydown', (e) => {
-				if (e.key === 'ArrowDown' || e.key === 'ArrowRight') { e.preventDefault(); show((i + 1) % tabs.length, true); }
-				if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') { e.preventDefault(); show((i + tabs.length - 1) % tabs.length, true); }
-			});
-		});
-	});
 </script>
