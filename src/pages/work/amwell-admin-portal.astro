@@ -602,8 +602,8 @@ const scenes: { id: string; label: string; nav: string; beats: Beat[] }[] = [
 			{
 				title: 'Admins finished their tasks.',
 				text: 'Task completion rose with role-based access controls and a navigation framework built for each admin.',
-				textHtml: '<p>I gave 20 admins the same five tasks in unmoderated testing, first in the legacy console, then in the new prototype. A task only counted if they finished it without help. Completed attempts rose from 45 of 100 to 82 of 100.</p><ul class="sc__tasks"><li>Find a tenant</li><li>Set up a service line</li><li>Change a tenant setting</li><li>Find a patient across tenants</li><li>Check recent activity</li></ul>',
-				metric: { text: '45% → 82%', unit: 'tasks completed without help · 20 admins × 5 tasks, before and after' },
+				textHtml: '<p>In unmoderated testing, 20 admins each tried the same five tasks, first in the legacy console, then in the new prototype. A task counted as complete if they reached the right end state without asking for help. In the old console they completed 45% of the tasks; in the new one, 82%.</p><ul class="sc__tasks"><li>Find a tenant</li><li>Set up a service line</li><li>Change a tenant setting</li><li>Find a patient across tenants</li><li>Check recent activity</li></ul>',
+				metric: { text: '45% → 82%', unit: 'of tasks completed without help, old console vs. new portal' },
 			},
 			{ title: 'Onboarding took 2+ weeks. Now 30% less.', text: 'Clear paths for common tasks shortened the training new admins needed.', metric: { to: 30, suffix: '%', unit: 'shorter admin onboarding, down from 2+ weeks' } },
 			{ title: 'Fewer mistakes.', text: 'Role-based access meant admins only saw what applied to them.', metric: { to: 34, suffix: '%', unit: 'fewer configuration errors' } },
