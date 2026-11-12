@@ -21,7 +21,7 @@ const scenes: { id: string; label: string; nav: string; beats: Beat[] }[] = [
 			},
 			{
 				title: 'My role: Senior Product Designer.',
-				text: 'I led design, with a couple of other designers, alongside PM, engineering, and architecture. Amwell was also moving to its modular Converge UI framework, so this was the moment to modernize the admin experience.',
+				text: 'I led design, with a couple of other designers, alongside PM, engineering, and architecture. In a design sprint, our goal was everything needed to plan, size, and build the first release of Converge Admin: MVP scope, a sitemap, the navigation system, and a prototype.',
 			},
 		],
 	},
@@ -48,6 +48,7 @@ const scenes: { id: string; label: string; nav: string; beats: Beat[] }[] = [
 			{
 				title: 'Three roles, three very different needs.',
 				text: 'Implementation managers configure everything across many clients. NOC specialists troubleshoot the whole platform. Health system admins only care about their own organization.',
+				quote: ['“When looking for something specific, I need to ask if someone else knows or search random words in the platform. There is no documentation.”', 'Senior implementation manager, interview'],
 				media: { kind: 'image', src: `${A}/persona1.webp`, alt: 'The implementation manager persona' },
 			},
 			{
@@ -136,6 +137,16 @@ const scenes: { id: string; label: string; nav: string; beats: Beat[] }[] = [
 				media: { kind: 'image', src: `${A}/framework.webp`, alt: 'The default view, the collapse-rator, and the scalable accordion menu' },
 			},
 			{
+				title: 'One tray for every outside tool.',
+				text: 'Admins were juggling Looker, Jira, Salesforce, the provisioning server and more. I designed a My Tools tray: their own quick links to deep pages, plus every external tool one click away.',
+				media: { kind: 'image', src: `${A}/fig-tools.webp`, alt: 'The My Tools tray with quick links and external tools' },
+			},
+			{
+				title: 'Leadership pushed back. The design got sharper.',
+				text: 'Reviews flagged the same items in the top and side navigation. So the tenant became a switcher at the top of every page, with one left nav beneath it. “Home” became “Dashboard,” and patient search never preloads results, so no one sees patient data they didn’t search for.',
+				media: { kind: 'image', src: `${A}/fig-tenant.webp`, alt: 'A tenant summary page with the tenant switcher at the top' },
+			},
+			{
 				title: 'Built to scale in code.',
 				text: 'Context management, dynamic component rendering, permission management, and feature flags, so one codebase serves every role.',
 				media: { kind: 'image', src: `${A}/tech.webp`, alt: 'The technical architecture for the contextual interface' },
@@ -152,6 +163,11 @@ const scenes: { id: string; label: string; nav: string; beats: Beat[] }[] = [
 		label: '06 · The final designs',
 		nav: 'Final designs',
 		beats: [
+			{
+				title: 'A dashboard that starts the day.',
+				text: 'Recent activity for me, my team, or everyone. Platform totals at a glance, with visit charts that open in Looker. Hide the menu for more room without losing your place.',
+				media: { kind: 'image', src: `${A}/fig-collapsed.webp`, alt: 'The All Tenants dashboard with the side menu collapsed' },
+			},
 			{
 				title: 'For the Amwell super admin: a global view.',
 				text: 'A tenant list with search and add. Global navigation to every tenant, patient, provider, and device.',
@@ -208,6 +224,10 @@ const scenes: { id: string; label: string; nav: string; beats: Beat[] }[] = [
 			{
 				title: 'One framework, many users.',
 				text: 'Thoughtful information architecture can serve very different needs while still scaling. The navigation framework proved it, from basic support views to complex multi-tenant configurations.',
+			},
+			{
+				title: 'What I recommended after the MVP.',
+				text: 'Smart search on every list instead of separate fields. One Practitioners area instead of two overlapping ones. Launch status and a point person in the tenant list. And testing the final prototype with a panel of admin stakeholders.',
 				links: [{ href: '/work/amwell', label: '← Amwell overview' }],
 			},
 		],
