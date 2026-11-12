@@ -194,6 +194,20 @@ const opt1 = `
 	</div>
 </div>`;
 
+const opt2 = `
+<div class="dk2">
+	<div class="dk2__deck" role="button" tabindex="0" aria-label="Option 2 wireframes. Click to flip to the next one.">
+		<figure class="dk2__fig" data-o="0" style="--o:0"><img src="/amwell/cs/o2-a.webp" alt="Wireframe: role management with permission toggles for user management, tenant access and support tools" /><figcaption><b>Wireframe 1</b>One interface; each role’s access is a set of toggles</figcaption></figure>
+		<figure class="dk2__fig" data-o="1" style="--o:1"><img src="/amwell/cs/o2-b.webp" alt="Wireframe: the same interface with eight permission toggles, location and region filters, and recent activity" /><figcaption><b>Wireframe 2</b>As roles grew, so did the toggles</figcaption></figure>
+		<button type="button" class="dk2__exp" aria-label="See it full size">⤢</button>
+	</div>
+	<p class="dk2__cap"><em>Click to flip · hover for details</em></p>
+	<div class="pcx"><span class="pcx__src">From user testing</span>
+		<div class="pcx__col pcx--good"><b>What worked</b><ul><li>Simpler maintenance</li><li>Consistent core experience</li><li>Engineering liked the single codebase</li></ul></div>
+		<div class="pcx__col pcx--bad"><b>What didn’t</b><ul><li>Switching contexts was confusing</li><li>High cognitive load managing permissions</li><li>Inefficient for super admins</li></ul></div>
+	</div>
+</div>`;
+
 const scenes: { id: string; label: string; nav: string; beats: Beat[] }[] = [
 	{
 		id: 'context',
@@ -295,8 +309,10 @@ const scenes: { id: string; label: string; nav: string; beats: Beat[] }[] = [
 				html: opt1,
 			},
 			{
-				title: 'Option 2: one interface, with permission toggles.',
-				text: 'One interface with switches. Simpler to maintain, but users found switching context confusing, and it was inefficient for super admins.',
+				title: 'Then I tried the opposite.',
+				text: 'One interface for everyone, with each role’s access set by toggles. I wireframed it and tested it with admins.',
+				textHtml: '<div class="sc__opt"><small>Option 2</small><b>Permission toggles</b><p>One interface for everyone, with each role’s access set by toggles. I wireframed it and tested it with admins.</p></div>',
+				html: opt2,
 			},
 			{
 				title: 'Option 3: a contextual interface. Selected.',
