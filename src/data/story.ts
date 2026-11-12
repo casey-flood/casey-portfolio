@@ -30,8 +30,8 @@ export const chapters: Chapter[] = [
 	{
 		id: 'jmu', year: '2015', name: 'JMU', role: 'Media Arts & Design + CIS', dates: 'Fall 2015 – Spring 2017', place: 'James Madison University, Virginia',
 		title: 'Design and code, from day one.',
-		text: 'I studied Media Arts and Design alongside Computer Information Systems in the business school, where I also joined Delta Sigma Pi, the professional business fraternity. I paid for school myself, so I paid close attention to what each class was buying me.',
-		quote: { q: 'Front-end coding would give me an understanding of the bigger picture, helping me become a better designer.', who: 'My application essay to JMU’s School of Media Arts & Design, January 2017' },
+		text: 'Plus Delta Sigma Pi, the business fraternity. I paid my own way, so every class had to earn it.',
+		quote: { q: 'Front-end coding would give me an understanding of the bigger picture, helping me become a better designer.', who: 'My design-school application essay, 2017' },
 		moments: [
 			{
 				kicker: 'The pivot', date: 'Spring 2017',
@@ -79,7 +79,7 @@ export const chapters: Chapter[] = [
 			{ kicker: 'Degree', date: 'Aug 2021', title: 'I finished my degree while working full time.', text: 'A B.S. in Information Technology from UMass Lowell, with a concentration in design and development, completed online while I was a designer at Amwell. Design and development: the combination I’d wanted from the start.', num: { v: 'Magna cum laude', l: 'Aug 31, 2021' }, media: { src: '/story/umass-lowell-pair.webp', alt: 'UMass Lowell diploma, Bachelor of Science in Information Technology, magna cum laude, with Casey in cap and gown', bare: true } },
 			{ kicker: 'Craft', date: '2023', title: 'One admin portal for every role.', text: 'A fragmented portal became one role-based system.', num: { v: '45% → 82%', l: 'task completion' }, media: { src: '/amwell/cs/sketches.webp', alt: 'Admin portal sketches' }, link: { href: '/work/amwell-admin-portal', label: 'Case study' } },
 			{ kicker: 'The team', date: '2019 – 2024', title: '“The first person I turn to when I’m seeking input on my designs.”', text: 'Kate Murdoch, Principal Product Designer at Amwell. I mentored two junior designers and led sprints and critiques.', num: { v: '2', l: 'designers mentored' }, media: { src: '/story/amwell-team.webp', alt: 'The Amwell team' } },
-			{ kicker: 'In their words', date: 'Amwell, 2023', title: '“She understands the bones of good design.”', text: 'Missy Roode, Amwell: “the research, user journeys, information architecture… the difference between a delightful user experience versus an aesthetically-pleasing mess.”', quote: { q: 'Casey is one of those people who make taking on challenging work look effortless… a fantastic mentor and leader.', who: 'Claudiane Philippe, Amwell product design' } },
+			{ kicker: 'In their words', date: 'Amwell, 2023', title: '“She understands the bones of good design.”', text: 'Missy Roode, Amwell', quote: { q: 'A fantastic mentor and leader.', who: 'Claudiane Philippe, Amwell' } },
 		],
 	},
 	{
