@@ -12,10 +12,11 @@ const projects: P[] = [
 	{ co: 'dandy', title: 'Clickable prototypes', line: 'Prototyped real flows from production components for early feedback.', d: 'Real components, full flows, early feedback.', note: 'Systems', tags: ['systems design', 'prototype', 'code'], img: '/work/behind/proto.jpg', href: '/work/dandy-prototype' },
 	{ co: 'dandy', title: 'Product Design Hub', line: 'A guided path that teaches the whole team to prototype in code.', d: 'A guided path that teaches the team to prototype in code.', note: 'Systems', tags: ['systems design', 'education', 'hub'], img: '/work/behind/hub.jpg', href: '/work/dandy-product-design-hub' },
 	{ co: 'amwell', title: 'Admin portal redesign', line: 'Redesigned the admin portal around each role, lifting task completion from <b>45% to 82%</b>.', d: 'One role-based system for a fragmented enterprise portal.', metric: { v: '45% → 82%', l: 'admin task completion' }, tags: ['admin', 'navigation', 'information architecture', 'healthcare', 'enterprise', 'design system'], img: '/amwell/cs/hero.webp', href: '/work/amwell-admin-portal' },
+	{ co: 'amwell', title: 'Research library', line: '15 studies I ran, and what each one changed.', d: 'Amwell user research library.', metric: { v: '86%', l: 'of the team’s research, led by me' }, tags: ['research', 'usability', 'interviews', 'healthcare'], img: '/amwell-research/choosing-care/screens/final-care.webp', href: '/work/amwell-research' },
 	{ co: 'amwell', title: 'AI While You Wait', line: 'ML-assisted pre-visit triage that cut perceived wait time by <b>45%</b>.', d: 'ML-assisted pre-visit triage for patients.', metric: { v: '45%', l: 'lower perceived wait time' }, tags: ['patient experience', 'triage', 'machine learning', 'healthcare'], img: '/amwell/triage.webp' },
 	{ co: 'amwell', title: 'Patient onboarding', line: 'Streamlined enrollment, lifting onboarding conversion by <b>20%</b>.', d: 'Enrollment and intake, reused across white-label clients.', metric: { v: '+20%', l: 'onboarding conversion' }, tags: ['patient experience', 'onboarding', 'mobile', 'healthcare'], img: '/amwell/onboarding.webp' },
-	{ co: 'earlier', title: 'Paper Airplane', line: 'Made in-person dating approachable, from first survey to a tested prototype.', d: 'A dating app for meeting in the same room.', metric: { v: '13', l: 'tested screens' }, tags: ['startup', 'mobile', 'dating', 'research'], img: '/paper-airplane/screen-01.webp', href: '/work/paper-airplane' },
-	{ co: 'earlier', title: 'My Trips', line: 'Cut the time to share a trip by <b>94%</b>.', d: 'An itinerary app built around sharing a trip fast.', metric: { v: '94%', l: 'less time to share a trip' }, tags: ['mobile', 'travel', 'freelance'], ph: 'Add a screen or short clip of the itinerary app' },
+	{ co: 'earlier', title: 'Paper Airplane', line: 'Made in-person dating approachable, from first survey to a tested prototype.', d: 'A dating app for meeting in the same room.', metric: { v: '13', l: 'tested screens' }, tags: ['startup', 'mobile', 'dating', 'research'], img: '/paper-airplane/story-trio.webp', href: '/work/paper-airplane' },
+	{ co: 'earlier', title: 'MyTrips', line: 'My first app, built from scratch at Pratt.', d: 'An itinerary app built around sharing a trip fast.', metric: { v: '−94%', l: 'time to share a trip, in testing' }, tags: ['mobile', 'travel', 'pratt', 'capstone'], img: '/mytrips/hero-phones.webp', href: '/work/mytrips' },
 ];
 
 const co = companies.map((c) => ({ ...c, items: projects.filter((p) => p.co === c.id) }));
@@ -53,20 +54,17 @@ const chips = [{ id: 'all', label: 'All' }, ...companies.map((c) => ({ id: c.id,
 							<p class="wk__meta">{c.role} · {c.when}</p>
 							{c.cta && <a class="wk__over" href={c.cta.href}>Overview <span aria-hidden="true">→</span></a>}
 						</div>
-						<ul class="hp__work wk__cards">
+						<ul class="wl">
 							{c.items.map((p) => {
 								const q = [p.title, p.d, c.name, p.metric?.v, p.metric?.l, p.note, ...p.tags].filter(Boolean).join(' ').toLowerCase();
 								const Tag = p.href ? 'a' : 'div';
 								return (
 									<li class="wk__item" data-q={q} data-has={p.href ? '1' : '0'}>
-										<Tag class:list={['hp__card', { 'hp__card--soon': !p.href }]} href={p.href}>
-											<span class="hp__img">
-												{p.img ? <img src={p.img} alt="" loading="lazy" decoding="async" /> : <span class="hp__ph">{p.ph}</span>}
-												{p.href && <i class="hp__arrow" aria-hidden="true">↗</i>}
-											</span>
-											<span class="hp__name">{p.title}</span>
-											<span class="hp__sub" set:html={p.line}></span>
-											{!p.href && <span class="hp__soon">Coming soon</span>}
+										<Tag class:list={['wl__row', { 'wl__row--soon': !p.href }]} href={p.href}>
+											<span class="wl__img">{p.img ? <img src={p.img} alt="" loading="lazy" decoding="async" /> : null}</span>
+											<span class="wl__main"><b>{p.title}</b><span>{p.d}</span></span>
+											{p.metric ? <span class="wl__num"><strong>{p.metric.v}</strong><small>{p.metric.l}</small></span> : <span class="wl__num"><small>{p.href ? '' : 'Coming soon'}</small></span>}
+											<i class="wl__go" aria-hidden="true">{p.href ? '→' : ''}</i>
 										</Tag>
 									</li>
 								);
@@ -112,3 +110,31 @@ const chips = [{ id: 'all', label: 'All' }, ...companies.map((c) => ({ id: c.id,
 		run();
 	}
 </script>
+
+<style>
+	.wk :global(.shell) { max-width: 56rem; }
+	.wk__cohead { border-bottom: 0 !important; margin-bottom: 0.4rem !important; padding-bottom: 0.4rem !important; }
+	.wk__co { margin-top: clamp(2.75rem, 6vw, 4rem) !important; }
+	.wl { list-style: none; margin: 0.5rem 0 0; padding: 0; border-top: 1px solid var(--line); }
+	.wl li { border-bottom: 1px solid var(--line); }
+	.wl li[hidden] { display: none; }
+	.wl__row { display: grid; grid-template-columns: 5.5rem 1fr 11rem 1.2rem; gap: 1.25rem; align-items: center; padding: 0.9rem 0.25rem; color: inherit; text-decoration: none; }
+	.wl__img { width: 5.5rem; aspect-ratio: 4 / 3; border-radius: 0.6rem; overflow: hidden; background: var(--line); }
+	.wl__img img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1); }
+	.wl__main { display: flex; flex-direction: column; gap: 0.2rem; }
+	.wl__main b { font-weight: 600; font-size: 1.02rem; }
+	.wl__main span { color: var(--muted); font-size: 0.88rem; line-height: 1.4; }
+	.wl__num { display: flex; flex-direction: column; gap: 0.1rem; }
+	.wl__num strong { font-family: var(--display); font-size: 1.25rem; letter-spacing: -0.02em; line-height: 1.1; white-space: nowrap; }
+	.wl__num small { color: var(--muted); font-size: 0.75rem; line-height: 1.3; }
+	.wl__go { font-style: normal; color: var(--muted); transition: transform 0.2s, color 0.2s; }
+	a.wl__row:hover b { color: var(--accent); }
+	a.wl__row:hover .wl__go { transform: translateX(3px); color: var(--accent); }
+	a.wl__row:hover .wl__img img { transform: scale(1.06); }
+	.wl__row--soon { opacity: 0.6; }
+	@media (max-width: 680px) {
+		.wl__row { grid-template-columns: 4.5rem 1fr 1rem; }
+		.wl__img { width: 4.5rem; }
+		.wl__num { display: none; }
+	}
+</style>

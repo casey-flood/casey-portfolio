@@ -15590,3 +15590,4 @@ video.cmp__img:not(.cmp__img--new){object-position:left center}
 @media(min-width:800px){.hp__work{grid-template-columns:1fr 1fr!important;gap:2rem 1.75rem}}
 .hp__work .hp__img{aspect-ratio:16/10}
 .hp__sec{padding:clamp(1.75rem,3.5vw,2.75rem) 0!important}
+.aw__art img[src*='admin-dashboard']{border-radius:1rem;border:1px solid rgba(255,255,255,.12);box-shadow:0 30px 70px -20px rgba(0,0,0,.6);filter:none}
