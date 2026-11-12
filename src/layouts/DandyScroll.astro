@@ -386,6 +386,16 @@ const slug = Astro.url.pathname.split('/').filter(Boolean).pop() ?? 'page';
 		const set = (k: string) => { w.dataset.k = k; btns.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.k === k))); };
 		btns.forEach((b) => { b.addEventListener('mouseenter', () => set(b.dataset.k!)); b.addEventListener('focus', () => set(b.dataset.k!)); b.addEventListener('click', () => set(b.dataset.k!)); });
 	});
+	// floating tools: one callout at a time, cycling until someone hovers or taps a tool
+	document.querySelectorAll<HTMLElement>('.fl').forEach((fl) => {
+		const row = fl.closest('.sc__row');
+		const btns = Array.from(fl.querySelectorAll<HTMLButtonElement>('button[data-k]'));
+		let timer = 0, manual = false;
+		const set = (k: number) => { fl.dataset.k = String(k); };
+		const loop = () => { clearInterval(timer); if (manual || reduceMo) return; timer = window.setInterval(() => set((Number(fl.dataset.k) + 1) % btns.length), 3000); };
+		btns.forEach((b) => { const pick = () => { manual = true; clearInterval(timer); set(Number(b.dataset.k)); }; b.addEventListener('mouseenter', pick); b.addEventListener('click', pick); b.addEventListener('focus', pick); });
+		if (row) new MutationObserver(() => { if (row.classList.contains('on')) { set(0); loop(); } else clearInterval(timer); }).observe(row, { attributes: true, attributeFilter: ['class'] });
+	});
 	// anything marked data-full opens that image full size
 	document.querySelectorAll<HTMLElement>('.sc__viz--html [data-full]').forEach((el) => {
 		const open = () => { const im = new Image(); im.src = el.dataset.full!; im.alt = el.getAttribute('aria-label') ?? ''; expand(im); };
