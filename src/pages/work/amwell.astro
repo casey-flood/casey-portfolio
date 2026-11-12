@@ -54,12 +54,17 @@ const hl = [
 const toc = [
 	{ id: 'aw-top', label: 'Overview' },
 	{ id: 'aw-what', label: 'The journey' },
-	{ id: 'aw-fit', label: 'Where I fit in' },
+	{ id: 'aw-fit', label: 'The climb' },
 	{ id: 'aw-projects', label: 'My projects' },
 	{ id: 'aw-impact', label: 'My impact' },
 	{ id: 'aw-highlights', label: 'Other highlights' },
 ];
 const more = companies.filter((c) => c.id !== 'amwell' && c.cta);
+const climb = [
+	{ when: 'Jan 2019', title: 'UX Designer', focus: 'Journeys', took: '', changed: 'I owned patient journeys end to end, and ran most of our research.', scope: 'Patient experience · mobile and web · onboarding, enrollment, payment, waiting room', nums: [{ v: '86%', l: 'of the team’s research, led by me' }, { v: '#1', l: 'J.D. Power satisfaction, as a team' }, { v: 'C-suite', l: 'readouts I presented' }] },
+	{ when: '2021', title: 'Senior UX Designer', focus: 'Systems', took: '~2 years', changed: 'I moved from single flows to patterns every client reused.', scope: 'UX strategy for patients · accessibility · AI While You Wait · IA standards across white-label clients', nums: [{ v: '+20%', l: 'onboarding conversion' }, { v: '−25%', l: 'inbound inquiries' }, { v: '+34%', l: 'satisfaction' }] },
+	{ when: '2023', title: 'Senior Product Designer', focus: 'Teams', took: '~2 years', changed: 'I owned direction across all three portals, and grew other designers.', scope: 'Patient, provider and admin · web and white-label mobile · mentored 2 designers · standardized components', nums: [{ v: '45% → 82%', l: 'admin task completion' }, { v: '+18%', l: 'bookings from a simpler intake' }, { v: '25%', l: 'less development time' }] },
+];
 ---
 
 <Base
@@ -128,19 +133,29 @@ const more = companies.filter((c) => c.id !== 'amwell' && c.cta);
 			<dialog class="jr__lb" aria-label="Enlarged screen"><button type="button" class="jr__x" aria-label="Close">×</button><img alt="" /></dialog>
 		</section>
 
-		<section class="aw__sec" id="aw-fit" aria-labelledby="aw-fit-h">
-			<h2 id="aw-fit-h" class="hv__big hv__big--md">Where I fit in.</h2>
-			<p class="hv__lede">{amwell.title}</p>
-			<ol class="aw__ranks">
-				{amwell.ranks.map((r) => (
-					<li class="aw__rank" data-fade>
-						<span class="aw__yr">{r.year}</span>
-						<h3>{r.title}</h3>
-						<p class="aw__scope">{r.scope}</p>
-						<p>{r.summary}</p>
-					</li>
+		<section class="aw__sec cl" id="aw-fit" aria-labelledby="aw-fit-h" data-climb>
+			<h2 id="aw-fit-h" class="hv__big hv__big--md">The climb.</h2>
+			<p class="cl__sub">Two promotions in five years, each with a bigger scope.</p>
+			<div class="cl__stairs" role="tablist" aria-label="My titles at Amwell">
+				{climb.map((c, i) => (
+					<button type="button" role="tab" class="cl__step" style={`--h:${(i + 1) * 30 + 10}%; --i:${i}`} aria-selected={i === climb.length - 1 ? 'true' : 'false'} data-i={i}>
+						<span class="cl__top"><small>{c.when}</small><b>{c.title}</b>{c.took && <em>{c.took}</em>}</span>
+						<span class="cl__block"><i>{c.focus}</i></span>
+					</button>
 				))}
-			</ol>
+			</div>
+			<div class="cl__panels">
+				{climb.map((c, i) => (
+					<div class="cl__panel" role="tabpanel" hidden={i !== climb.length - 1}>
+						<div class="cl__what">
+							<p class="cl__lbl">What changed</p>
+							<p class="cl__big">{c.changed}</p>
+							<p class="cl__scope">{c.scope}</p>
+						</div>
+						<ul class="cl__nums">{c.nums.map((n) => <li><b>{n.v}</b><span>{n.l}</span></li>)}</ul>
+					</div>
+				))}
+			</div>
 		</section>
 
 		<section class="hv__work hv__work--cards aw__sec" id="aw-projects" aria-labelledby="aw-proj-h">
@@ -287,6 +302,28 @@ const more = companies.filter((c) => c.id !== 'amwell' && c.cta);
 		lb.addEventListener('click', () => lb.close());
 	});
 
+	// The climb: steps rise one by one, then any step can be selected.
+	document.querySelectorAll<HTMLElement>('[data-climb]').forEach((cl) => {
+		const steps = Array.from(cl.querySelectorAll<HTMLButtonElement>('.cl__step'));
+		const panels = Array.from(cl.querySelectorAll<HTMLElement>('.cl__panel'));
+		const pick = (i: number) => {
+			steps.forEach((b, k) => { b.setAttribute('aria-selected', String(k === i)); b.classList.toggle('past', k < i); });
+			panels.forEach((p, k) => (p.hidden = k !== i));
+		};
+		steps.forEach((b, i) => { b.addEventListener('click', () => pick(i)); b.addEventListener('mouseenter', () => { if (matchMedia('(hover: hover)').matches) pick(i); }); });
+		const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+		if (reduce) { cl.classList.add('is-up'); return; }
+		const io = new IntersectionObserver(([e]) => {
+			if (!e.isIntersecting) return;
+			io.disconnect();
+			cl.classList.add('is-up');
+			pick(0);
+			setTimeout(() => pick(1), 700);
+			setTimeout(() => pick(2), 1400);
+		}, { threshold: 0.4 });
+		io.observe(cl);
+	});
+
 	const toc = document.querySelector<HTMLElement>('[data-toc]');
 	if (toc) {
 		const items = Array.from(toc.querySelectorAll<HTMLElement>('.toc__item'));
@@ -359,6 +396,37 @@ const more = companies.filter((c) => c.id !== 'amwell' && c.cta);
 	.jr__does svg { grid-row: 1 / 3; width: 2.4rem; height: 2.4rem; padding: 0.55rem; border-radius: 0.7rem; background: color-mix(in srgb, var(--accent) 22%, transparent); stroke: #fff; fill: none; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
 	.jr__does b { color: #fff; font-size: 0.95rem; }
 	.jr__does span { color: rgba(255, 255, 255, 0.65); font-size: 0.8rem; }
+
+	/* The climb */
+	.cl__sub { margin: 0.6rem 0 0; color: rgba(255, 255, 255, 0.7); font-size: 1.05rem; display: block !important; }
+	.cl__stairs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; align-items: end; height: clamp(16rem, 38svh, 22rem); margin-top: 2rem; }
+	.cl__step { display: flex; flex-direction: column; justify-content: flex-end; height: 100%; padding: 0; border: 0; background: none; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+	.cl__top { display: flex; flex-direction: column; gap: 0.15rem; padding: 0 0.25rem 0.75rem; transition: opacity 0.35s; opacity: 0.55; }
+	.cl__top small { font-family: var(--mono); font-size: 0.72rem; color: rgba(255, 255, 255, 0.6); }
+	.cl__top b { font-size: clamp(1rem, 1.8vw, 1.3rem); color: #fff; letter-spacing: -0.02em; }
+	.cl__top em { font-style: normal; font-size: 0.78rem; color: var(--accent); }
+	.cl__top em::before { content: '↑ '; }
+	.cl__block { position: relative; display: flex; align-items: flex-end; height: var(--h); border-radius: 0.9rem 0.9rem 0.3rem 0.3rem; background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.1); padding: 0.9rem; transform-origin: bottom; transition: background 0.35s, border-color 0.35s, transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1); }
+	.cl__block i { font-style: normal; font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255, 255, 255, 0.6); }
+	:global(.is-live) .cl:not(.is-up) .cl__block { transform: scaleY(0.05); }
+	.cl__step:nth-child(2) .cl__block { transition-delay: 0.1s; }
+	.cl__step:nth-child(3) .cl__block { transition-delay: 0.2s; }
+	.cl__step:global(.past) .cl__block { background: color-mix(in srgb, var(--accent) 22%, transparent); border-color: color-mix(in srgb, var(--accent) 40%, transparent); }
+	.cl__step[aria-selected='true'] .cl__block { background: var(--accent); border-color: var(--accent); }
+	.cl__step[aria-selected='true'] .cl__block i { color: #fff; }
+	.cl__step[aria-selected='true'] .cl__top, .cl__step:hover .cl__top { opacity: 1; }
+	.cl__panels { margin-top: 1.75rem; min-height: 9rem; }
+	.cl__panel { display: grid; grid-template-columns: 1.1fr 1fr; gap: 2rem; align-items: start; animation: clin 0.45s ease; }
+	.cl__panel[hidden] { display: none; }
+	@keyframes clin { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+	.cl__lbl { margin: 0 0 0.4rem; font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255, 255, 255, 0.55); }
+	.cl__big { margin: 0; font-size: clamp(1.15rem, 2vw, 1.4rem); line-height: 1.35; color: #fff; letter-spacing: -0.01em; }
+	.cl__scope { margin: 0.6rem 0 0; font-size: 0.85rem; color: rgba(255, 255, 255, 0.6); line-height: 1.5; }
+	.cl__nums { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+	.cl__nums li { display: flex; flex-direction: column; gap: 0.3rem; padding-top: 0.7rem; border-top: 1px solid rgba(255, 255, 255, 0.18); }
+	.cl__nums b { white-space: nowrap; font-family: var(--display); font-size: clamp(1.25rem, 2.2vw, 1.6rem); color: #fff; letter-spacing: -0.03em; line-height: 1; }
+	.cl__nums span { font-size: 0.8rem; color: rgba(255, 255, 255, 0.6); line-height: 1.35; }
+	@media (max-width: 760px) { .cl__panel { grid-template-columns: 1fr; } .cl__stairs { height: 15rem; } .cl__block i { display: none; } }
 
 	.jr__lb { border: 0; padding: 0; background: transparent; max-width: 96vw; max-height: 94vh; }
 	.jr__lb::backdrop { background: rgba(10, 12, 20, 0.88); }
