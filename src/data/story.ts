@@ -38,7 +38,7 @@ export const chapters: Chapter[] = [
 			{ src: '/story/young-dad.webp', alt: 'With my dad at an overlook', pos: '40% 40%' },
 		],
 		moments: [
-			{ kicker: 'High school', date: 'Wellesley High School', title: 'My first design project had real stakes.', text: 'I helped lead a class venture selling metal art by artisans in Cité Soleil, Haiti, to fund a local clinic. I designed pieces and ran the website.', media: { src: '/story/creative-haiti.webp', alt: 'Selling the artisans’ metal art at a local market', pos: '60% 50%' }, link: { href: 'https://www.bostonglobe.com/metro/regionals/west/2016/01/29/wellesley-retiree-opens-students-eyes-third-world-issues/qDJD3W20uGUKcmpWse7NMI/story.html', label: 'About the program', external: true } },
+			{ kicker: 'Project manager + webmaster', date: 'Wellesley High School', title: 'My first design project had real stakes.', text: 'A class venture selling metal art by artisans in Cité Soleil, Haiti, to fund a local clinic. I designed pieces and ran the website.', media: { src: '/story/creative-haiti.webp', alt: 'Selling the artisans’ metal art at a local market', pos: '60% 50%' }, link: { href: 'https://www.bostonglobe.com/metro/regionals/west/2016/01/29/wellesley-retiree-opens-students-eyes-third-world-issues/qDJD3W20uGUKcmpWse7NMI/story.html', label: 'About the program', external: true } },
 		],
 	},
 	{
