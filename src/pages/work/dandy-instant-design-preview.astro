@@ -37,6 +37,11 @@ const scenes: { id: string; label: string; nav: string; beats: Beat[] }[] = [
 				text: 'Dentists who care about the design reject the preview and leave notes, and the crown loops back to a designer. By then the patient is closed and the prep can’t be changed.',
 			},
 			{
+				title: 'Today, AI scan review checks the prep.',
+				text: 'Before this project, Dandy shipped AI scan review: while the patient is still in the chair, it checks the scan and flags problems like an overhanging margin, so the dentist can rescan. It’s the page dentists already stop on.',
+				media: { kind: 'image', src: `${I}/aisr-today.webp`, alt: 'AI scan review, from Dandy’s 2025 launch campaign: scanning, an issue detected on the margin, and the scan approved' },
+			},
+			{
 				title: 'The warnings we already show don’t change behavior.',
 				text: 'AI scan review flags issues on the review page. Most cases are clean, and when something is flagged, nearly every dentist orders anyway. A flag isn’t a crown. Dentists judge the prep off a warning instead of the result.',
 				media: { kind: 'image', src: `${I}/flags.webp`, alt: '84% of reviews find no issues, 16% are flagged, and about 95% of flagged cases still place the order' },
