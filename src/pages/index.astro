@@ -60,11 +60,11 @@ const quotes = testimonials;
 				<span class="i2__dim">Admin task completion 45% → 82%.</span>
 				Trained at <a class="lk" href="/work/mytrips" data-peek="/mytrips/hero-phones.webp" data-cap="MyTrips, my Pratt capstone">Pratt</a>, where I built my first app.
 			</p>
-			<ul class="i2__keys">
-				<li>Press <kbd>C</kbd> to copy my email or <a class="lk" href="mailto:caseylflood@gmail.com">say hi</a></li>
-				<li>Press <kbd>W</kbd> to see the work</li>
-				<li>Press <kbd>S</kbd> to read <a class="lk" href="/journey" data-peek="/story/young-laughing.webp" data-cap="It started early">my story</a></li>
-			</ul>
+			<p class="i2__keys" aria-label="Keyboard shortcuts">
+				<span><kbd>C</kbd> copy email</span>
+				<span><kbd>W</kbd> work</span>
+				<span><kbd>S</kbd> story</span>
+			</p>
 			<p class="i2__touch"><a class="button" href="#work-heading">See the work ↓</a> <a class="button button--ghost" href="/journey">My story</a></p>
 		</div></div>
 		<div class="peek" aria-hidden="true"><div class="peek__media"></div><span class="peek__cap"></span></div>
@@ -281,12 +281,13 @@ const quotes = testimonials;
 	.lk__logo { display: inline-block; height: 1.05em; width: auto; vertical-align: -0.12em; filter: brightness(0); }
 	.lk__logo--amwell { height: 0.95em; vertical-align: -0.08em; }
 	:global([data-theme='dark']) .lk__logo { filter: brightness(0) invert(1); }
-	.i2__keys { list-style: none; padding: 0; margin: 2rem 0 0; display: grid; gap: 0.8rem; color: var(--muted); font-size: 1.02rem; }
-	kbd { display: inline-grid; place-items: center; min-width: 1.9rem; height: 1.9rem; margin: 0 0.3rem; padding: 0 0.4rem; border-radius: 0.45rem; background: var(--paper); border: 1px solid var(--line-strong); box-shadow: 0 2px 0 var(--line-strong); font-family: var(--mono); font-size: 0.8rem; color: var(--ink); transition: transform 0.12s, box-shadow 0.12s; }
-	kbd:global(.down) { transform: translateY(2px); box-shadow: 0 0 0 var(--line-strong); }
+	.i2 .i2__keys { display: flex; flex-wrap: wrap; gap: 0.4rem 1.25rem; margin: 1.75rem 0 0; font-size: 0.8rem; color: var(--muted); opacity: 0.7; transition: opacity 0.2s; }
+	.i2 .i2__keys:hover { opacity: 1; }
+	kbd { display: inline-grid; place-items: center; min-width: 1.15rem; height: 1.15rem; margin-right: 0.35rem; padding: 0 0.25rem; border-radius: 0.3rem; border: 1px solid var(--line-strong); font-family: var(--mono); font-size: 0.66rem; color: var(--ink); transition: background 0.12s, color 0.12s; }
+	kbd:global(.down) { background: var(--ink); color: var(--bg); }
 	.i2__touch { display: none; }
 	@media (hover: none), (max-width: 760px) {
-		.i2__keys { display: none; }
+		.i2 .i2__keys { display: none; }
 		.i2__touch { display: flex; gap: 0.6rem; margin-top: 1.75rem; }
 	}
 	.peek { position: absolute; z-index: 20; width: 18rem; pointer-events: none; transform: translateY(calc(-100% - 0.6rem)) scale(0.94); transform-origin: 50% 100%; opacity: 0; filter: blur(6px); transition: opacity 0.22s ease, transform 0.3s cubic-bezier(0.2, 0.9, 0.3, 1.2), filter 0.22s; }
