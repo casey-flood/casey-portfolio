@@ -179,6 +179,20 @@ const inv = `
 	<li><small>3 · New sitemap</small><ul class="inv__nav"><li class="on">Tenant overview</li><li>Service selection</li><li>Patients</li><li>Practitioners</li><li>Carepoint devices</li><li>Payors</li><li>Application configurations</li><li>Integrations and access</li><li>Branding and copy</li></ul><p>Tenant first, then what’s inside it</p></li>
 </ol>`;
 
+const opt1 = `
+<div class="swc" data-i="0">
+	<div class="swc__track" tabindex="0" aria-label="Option 1 sketches and wireframe, swipe to see more">
+		<figure class="swc__card"><img src="/amwell/cs/o1-sk1.webp" alt="Paper sketch: a separate portal home for one admin type" data-zoom /><figcaption>Sketch 1 · a separate home per admin type</figcaption></figure>
+		<figure class="swc__card"><img src="/amwell/cs/o1-sk2.webp" alt="Paper sketch: tenant list and global search for another admin type" data-zoom /><figcaption>Sketch 2 · tenants and search for super admins</figcaption></figure>
+		<figure class="swc__card"><img src="/amwell/cs/o1-wf.webp" alt="Wireframe of a tenant page in the separate-interface approach" data-zoom /><figcaption>Wireframe · a tenant admin’s own interface</figcaption></figure>
+	</div>
+	<div class="swc__ctl"><button type="button" class="swc__prev" aria-label="Previous">‹</button><ol class="swc__dots"><li></li><li></li><li></li></ol><button type="button" class="swc__next" aria-label="Next">›</button></div>
+	<div class="pcx"><span class="pcx__src">From user testing</span>
+		<div class="pcx__col pcx--good"><b>What worked</b><ul><li>Clear separation of concerns</li><li>Highly specialized interfaces</li></ul></div>
+		<div class="pcx__col pcx--bad"><b>What didn’t</b><ul><li>Multi-role admins need multiple logins</li><li>Multiple codebases to maintain</li><li>Poor scalability</li></ul></div>
+	</div>
+</div>`;
+
 const scenes: { id: string; label: string; nav: string; beats: Beat[] }[] = [
 	{
 		id: 'context',
@@ -275,8 +289,8 @@ const scenes: { id: string; label: string; nav: string; beats: Beat[] }[] = [
 			},
 			{
 				title: 'Then: how should each tier see it?',
-				text: 'With one sitemap in place, I explored three ways to give each tier its own view. Option 1, separate interfaces: different entry points per admin type. Clear separation of concerns, but users with multiple roles would need multiple logins, and engineering would maintain multiple codebases.',
-				media: { kind: 'image', src: `${A}/sketches.webp`, alt: 'Sketches and trade-offs for the separate interface approach' },
+				text: 'With one sitemap in place, I explored three ways to give each tier its own view. Option 1: separate interfaces, a different entry point for each admin type. I sketched it, wireframed it, and put it in front of admins.',
+				html: opt1,
 			},
 			{
 				title: 'Option 2: one interface, with permission toggles.',

@@ -16334,3 +16334,30 @@ video.cmp__img:not(.cmp__img--new){object-position:left center}
 	.cx.cx--mob .sc .sc__row .sc__viz.sc__viz--html > .inv { position: relative !important; transform: none !important; }
 	.inv { gap: 0.4rem; } .inv small { font-size: 0.5rem; } .inv > li > p { font-size: 0.58rem; } .inv__sort b { font-size: 0.5rem; } .inv__sort i { font-size: 0.48rem; } .inv__nav li { font-size: 0.5rem; padding: 0.2rem 0.3rem; }
 }
+
+/* swipeable cards (option sketches), with what-worked / what-didn't underneath */
+.swc { color: #eef3fb; }
+.swc__track { display: flex; gap: 0.8rem; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; padding-bottom: 0.2rem; outline: none; }
+.swc__track::-webkit-scrollbar { display: none; }
+.swc__card { flex: 0 0 82%; margin: 0; scroll-snap-align: start; }
+.swc__card img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; display: block; border-radius: 0.8rem; background: #fff; cursor: zoom-in; box-shadow: 0 14px 30px rgba(0, 0, 0, 0.4); }
+.swc__card figcaption { margin-top: 0.5rem; color: #b4c6e4; font-size: 0.8rem; }
+.swc__ctl { display: flex; align-items: center; gap: 0.6rem; margin-top: 0.6rem; }
+.swc__ctl button { width: 1.9rem; height: 1.9rem; border-radius: 50%; border: 1px solid rgba(255, 255, 255, 0.2); background: transparent; color: #cfe0f7; font-size: 1.1rem; line-height: 1; cursor: pointer; }
+.swc__ctl button:hover { background: rgba(255, 255, 255, 0.08); }
+.swc__dots { list-style: none; display: flex; gap: 0.35rem; margin: 0; padding: 0; }
+.swc__dots li { width: 0.45rem; height: 0.45rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); transition: background 0.3s, width 0.3s; }
+.swc[data-i='0'] .swc__dots li:nth-child(1), .swc[data-i='1'] .swc__dots li:nth-child(2), .swc[data-i='2'] .swc__dots li:nth-child(3) { background: #8cc8ff; width: 1.2rem; border-radius: 99px; }
+.pcx { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; margin-top: 1rem; }
+.pcx__src { grid-column: 1 / -1; justify-self: start; padding: 0.2rem 0.6rem; border-radius: 99px; border: 1px solid rgba(255, 255, 255, 0.2); color: #b4c6e4; font-size: 0.68rem; }
+.pcx__col { padding: 0.7rem 0.85rem; border-radius: 0.7rem; }
+.pcx__col b { display: block; margin-bottom: 0.35rem; font-size: 0.74rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; }
+.pcx__col ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.25rem; }
+.pcx__col li { font-size: 0.82rem; line-height: 1.35; color: #e3eefc; padding-left: 1.1rem; position: relative; }
+.pcx--good { background: rgba(127, 224, 168, 0.1); border: 1px solid rgba(127, 224, 168, 0.35); } .pcx--good b { color: #7fe0a8; } .pcx--good li::before { content: '✓'; position: absolute; left: 0; color: #7fe0a8; font-weight: 700; }
+.pcx--bad { background: rgba(255, 143, 143, 0.09); border: 1px solid rgba(255, 143, 143, 0.35); } .pcx--bad b { color: #ff9a9a; } .pcx--bad li::before { content: '✕'; position: absolute; left: 0; color: #ff9a9a; font-weight: 700; }
+@media (max-width: 899px) {
+	.cx.cx--mob .sc .sc__row .sc__viz.sc__viz--html > .swc { position: relative !important; transform: none !important; }
+	.swc__card figcaption { font-size: 0.64rem; } .pcx { gap: 0.4rem; margin-top: 0.6rem; } .pcx__col { padding: 0.45rem 0.55rem; } .pcx__col li { font-size: 0.62rem; } .pcx__col b { font-size: 0.56rem; }
+}
+.swc__card img { aspect-ratio: 16 / 10; } .swc__card { flex-basis: 78%; }

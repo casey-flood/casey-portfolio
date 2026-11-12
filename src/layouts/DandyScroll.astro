@@ -397,6 +397,17 @@ const slug = Astro.url.pathname.split('/').filter(Boolean).pop() ?? 'page';
 		if (row) new MutationObserver(() => { if (row.classList.contains('on')) { set(0); loop(); } else clearInterval(timer); }).observe(row, { attributes: true, attributeFilter: ['class'] });
 	});
 	document.querySelectorAll<HTMLImageElement>('.sc__viz--html img[data-zoom]').forEach((im) => im.addEventListener('click', () => expand(im)));
+	// swipeable cards: arrows, dots follow the scroll position
+	document.querySelectorAll<HTMLElement>('.swc').forEach((w) => {
+		const tr = w.querySelector<HTMLElement>('.swc__track')!;
+		const cards = Array.from(tr.children) as HTMLElement[];
+		const cur = () => Math.round(tr.scrollLeft / Math.max(1, (cards[1]?.offsetLeft ?? 1) - cards[0].offsetLeft));
+		const go = (k: number) => { const c = cards[Math.max(0, Math.min(cards.length - 1, k))]; tr.scrollTo({ left: c.offsetLeft - cards[0].offsetLeft, behavior: 'smooth' }); };
+		tr.addEventListener('scroll', () => { w.dataset.i = String(Math.min(cards.length - 1, cur())); }, { passive: true });
+		w.querySelector('.swc__prev')?.addEventListener('click', () => go(cur() - 1));
+		w.querySelector('.swc__next')?.addEventListener('click', () => go(cur() + 1));
+		w.querySelectorAll<HTMLElement>('.swc__dots li').forEach((d, k) => { d.style.cursor = 'pointer'; d.addEventListener('click', () => go(k)); });
+	});
 	// anything marked data-full opens that image full size
 	document.querySelectorAll<HTMLElement>('.sc__viz--html [data-full]').forEach((el) => {
 		const open = () => { const im = new Image(); im.src = el.dataset.full!; im.alt = el.getAttribute('aria-label') ?? ''; expand(im); };
