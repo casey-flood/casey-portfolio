@@ -68,7 +68,7 @@ export const chapters: Chapter[] = [
 	{
 		id: 'pratt', year: '2018', name: 'Pratt', role: 'UX/UI certificate', dates: '2018', place: 'Pratt Institute, New York',
 		title: 'Then I trained for it, on purpose.',
-		text: 'Instead of a broad degree, I chose a UX/UI mobile design certificate at Pratt: research methods, interface design, and testing with real people. The same year I started freelancing, which I’ve kept up alongside every role since.',
+		text: 'Instead of a broad degree, I chose a UX/UI mobile design certificate at Pratt. It’s where I first learned user testing, like card sorts and task analysis, and the craft: Figma, components and design systems. The same year I started freelancing, which I’ve kept up alongside every role since.',
 		nums: [{ v: 'All A’s', l: 'across the 4 certificate courses' }],
 		media: [{ src: '/story/pratt-entrance.webp', alt: 'Me outside Pratt Institute in Manhattan', pos: '50% 22%' }, { src: '/story/pratt-sketches.webp', alt: 'Early sketches for my capstone app' }, { src: '/story/pratt-class.webp', alt: 'My Pratt UX/UI certificate class' }, { src: '/story/pratt-transcript.webp', alt: 'Pratt official transcript: four courses, all A’s', fit: 'contain' }],
 		moments: [
