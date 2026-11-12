@@ -30,7 +30,7 @@ const takeaways = s.takeaways ?? [s.finding];
 	<article class="rs">
 		<div class="shell rs__in">
 			<header>
-				<p class="rs__k">{s.area} · {s.method}{s.when && <> · {s.when}</>}</p>
+				<p class="rs__k">{s.method}</p>
 				<h1>{s.t}</h1>
 				<p class="rs__goal">{s.goal}</p>
 			</header>
@@ -53,10 +53,9 @@ const takeaways = s.takeaways ?? [s.finding];
 
 			{s.story ? (
 				<>
-					<p class="lbl lbl--story">The story</p>
-					{s.story.map((c, n) => (
+										{s.story.map((c, n) => (
 						<section class="ch">
-							<p class="ch__k"><i>{String(n + 1).padStart(2, '0')}</i> {c.k}</p>
+							<p class="ch__k">{c.k}</p>
 							<h2>{c.t}</h2>
 							{c.d && <p class="ch__d">{c.d}</p>}
 							{c.quote && <blockquote class="ch__q">“{c.quote}”<span>Usability study participant</span></blockquote>}
@@ -65,7 +64,7 @@ const takeaways = s.takeaways ?? [s.finding];
 					))}
 					{s.results && (
 						<section class="ch">
-							<p class="ch__k"><i>{String(s.story.length + 1).padStart(2, '0')}</i> Results</p>
+							<p class="ch__k">Results</p>
 							<h2>I tested it with the same people, and more.</h2>
 							<ul class="res">{s.results.map((r) => <li><span class="res__from">{r.from}</span><span aria-hidden="true">→</span><b>{r.to}</b><small>{r.l}</small></li>)}</ul>
 						</section>
@@ -129,42 +128,38 @@ const takeaways = s.takeaways ?? [s.finding];
 	.bar__arrows a { width: 2rem; height: 2rem; display: grid; place-items: center; border-radius: 50%; border: 1px solid var(--line-strong); color: var(--ink); text-decoration: none; }
 	.bar__arrows a:hover { border-color: var(--accent); color: var(--accent); }
 
-	.rs { padding: 2.5rem 0 5rem; }
-	.rs__in { max-width: 46rem; }
-	.rs__k { margin: 0 0 0.75rem; font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); }
-	.rs h1 { font-size: clamp(2.1rem, 5vw, 3.2rem); line-height: 1.04; letter-spacing: -0.035em; margin: 0; max-width: 18ch; }
-	.rs__goal { margin: 1rem 0 0; font-size: 1.12rem; line-height: 1.55; color: var(--muted); max-width: 36rem; }
+	.rs { padding: 3.5rem 0 6rem; }
+	.rs__in { max-width: 42rem; }
+	.rs__k { margin: 0 0 0.9rem; font-size: 0.85rem; color: var(--muted); }
+	.rs h1 { font-size: clamp(2.2rem, 5vw, 3.2rem); line-height: 1.04; letter-spacing: -0.035em; margin: 0; max-width: 16ch; }
+	.rs__goal { margin: 1.1rem 0 0; font-size: 1.15rem; line-height: 1.6; color: var(--muted); }
 
-	.tldr { margin-top: 2rem; padding: 1.4rem; border-radius: 1.25rem; background: var(--paper); border: 1px solid var(--line); }
-	.tldr__nums { list-style: none; margin: 0 0 1.4rem; padding: 0 0 1.4rem; border-bottom: 1px solid var(--line); display: grid; grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr)); gap: 1rem; }
-	.tldr__nums li { display: flex; flex-direction: column; gap: 0.3rem; }
-	.tldr__nums b { font-family: var(--display); font-size: clamp(1.6rem, 3.4vw, 2.1rem); letter-spacing: -0.035em; line-height: 1; color: var(--accent); }
-	.tldr__nums span { font-size: 0.85rem; color: var(--muted); line-height: 1.35; }
-	.tldr__grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 1.5rem; }
-	.lbl { margin: 0 0 0.7rem; font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
-	.ticks { margin: 0; padding: 0; list-style: none; display: grid; gap: 0.55rem; font-size: 0.95rem; line-height: 1.45; }
-	.ticks li { position: relative; padding-left: 1.3rem; }
-	.ticks li::before { content: '→'; position: absolute; left: 0; color: var(--accent); }
-	.ticks--done li::before { content: '✓'; font-weight: 700; }
+	.tldr { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--line); }
+	.tldr__nums { list-style: none; margin: 0 0 2.5rem; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr)); gap: 1.5rem; }
+	.tldr__nums li { display: flex; flex-direction: column; gap: 0.4rem; }
+	.tldr__nums b { font-family: var(--display); font-size: clamp(1.8rem, 3.6vw, 2.3rem); letter-spacing: -0.035em; line-height: 1; }
+	.tldr__nums span { font-size: 0.85rem; color: var(--muted); line-height: 1.4; }
+	.tldr__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; }
+	.lbl { margin: 0 0 0.9rem; font-size: 0.85rem; font-weight: 600; color: var(--ink); }
+	.ticks { margin: 0; padding: 0; list-style: none; display: grid; gap: 0.8rem; font-size: 0.95rem; line-height: 1.5; color: var(--muted); }
 
-	.lbl--story { margin-top: 4rem; padding-top: 1.5rem; border-top: 1px solid var(--line); }
-	.ch { margin-top: 3rem; }
-	.lbl--story + .ch { margin-top: 1.5rem; }
-	.ch__k { margin: 0 0 0.5rem; font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
-	.ch__k i { font-style: normal; color: var(--accent); margin-right: 0.3rem; }
-	.ch h2 { margin: 0; font-size: clamp(1.35rem, 2.6vw, 1.7rem); line-height: 1.2; letter-spacing: -0.03em; }
-	.ch__d { margin: 0.6rem 0 0; color: var(--muted); line-height: 1.6; max-width: 38rem; }
-	.ch__q { margin: 1.25rem 0 0; padding: 0 0 0 1rem; border-left: 2px solid var(--accent); font-family: var(--display); font-size: 1.15rem; line-height: 1.4; }
-	.ch__q span { display: block; margin-top: 0.4rem; font-family: var(--sans); font-size: 0.78rem; color: var(--muted); }
-	.recs { margin: 0; padding-left: 1.2rem; display: grid; gap: 0.5rem; color: var(--muted); line-height: 1.5; }
+	.ch { margin-top: 6rem; }
+	.tldr + .ch { margin-top: 6rem; padding-top: 3rem; border-top: 1px solid var(--line); }
+	.ch__k { margin: 0 0 0.6rem; font-size: 0.85rem; color: var(--accent); font-weight: 500; }
+	.ch h2 { margin: 0; font-size: clamp(1.5rem, 3vw, 1.9rem); line-height: 1.2; letter-spacing: -0.03em; }
+	.ch__d { margin: 0.8rem 0 0; color: var(--muted); line-height: 1.65; font-size: 1.02rem; }
+	.ch__q { margin: 1.75rem 0 0; padding: 0 0 0 1.1rem; border-left: 2px solid var(--line-strong); font-family: var(--display); font-size: 1.2rem; line-height: 1.45; }
+	.ch__q span { display: block; margin-top: 0.5rem; font-family: var(--sans); font-size: 0.8rem; color: var(--muted); }
+	.recs { margin: 0; padding-left: 1.2rem; display: grid; gap: 0.7rem; color: var(--muted); line-height: 1.55; }
 
-	.res { list-style: none; margin: 1.5rem 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr)); gap: 0.75rem; }
-	.res li { display: grid; grid-template-columns: auto auto 1fr; align-items: baseline; gap: 0.4rem; padding: 1rem; border: 1px solid var(--line); border-radius: 0.9rem; color: var(--muted); }
-	.res__from { text-decoration: line-through; }
-	.res b { font-family: var(--display); font-size: 1.6rem; letter-spacing: -0.03em; color: var(--accent); }
-	.res small { grid-column: 1 / -1; font-size: 0.82rem; }
+	.res { list-style: none; margin: 2rem 0 0; padding: 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem 1.5rem; }
+	.res li { display: flex; flex-direction: column; gap: 0.35rem; }
+	.res__from { font-size: 0.85rem; color: var(--muted); text-decoration: line-through; }
+	.res li > span[aria-hidden] { display: none; }
+	.res b { font-family: var(--display); font-size: 2.2rem; letter-spacing: -0.035em; line-height: 1; }
+	.res small { font-size: 0.85rem; color: var(--muted); }
 
-	.rel { margin-top: 4.5rem; padding-top: 1.5rem; border-top: 1px solid var(--line); }
+	.rel { margin-top: 7rem; padding-top: 1.5rem; border-top: 1px solid var(--line); }
 	.rel__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr)); gap: 0.75rem; }
 	.rel__grid a { display: flex; flex-direction: column; gap: 0.3rem; padding: 1rem; border-radius: 1rem; border: 1px solid var(--line); color: inherit; text-decoration: none; transition: border-color 0.2s; }
 	.rel__grid a:hover { border-color: var(--accent); }
