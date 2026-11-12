@@ -16377,3 +16377,10 @@ video.cmp__img:not(.cmp__img--new){object-position:left center}
 .dk2 .pcx { margin-top: 0.9rem; }
 @media (max-width: 899px) { .cx.cx--mob .sc .sc__row .sc__viz.sc__viz--html > .dk2 { position: relative !important; transform: none !important; } .dk2__cap { font-size: 0.64rem; margin-top: 0.9rem; } }
 .dk2__cap { margin-top: 2rem !important; } .dk2__deck { width: 84%; margin-left: 1.2rem; }
+/* deck: whole image visible; title + description appear on the front card on hover */
+.dk2__fig img { object-fit: contain !important; background: #fff; }
+.dk2__fig figcaption { display: flex !important; flex-direction: column; gap: 0.1rem; position: absolute; left: 0; right: 0; bottom: 0; padding: 1.4rem 0.9rem 0.7rem; background: linear-gradient(transparent, rgba(11, 26, 54, 0.92) 45%); color: #c3d3ea; font-size: 0.8rem; line-height: 1.35; opacity: 0; transform: translateY(6px); transition: opacity 0.25s, transform 0.25s; pointer-events: none; }
+.dk2__fig figcaption b { color: #fff; font-size: 0.88rem; }
+.dk2__deck:hover .dk2__fig[data-o='0'] figcaption, .dk2__deck:focus-visible .dk2__fig[data-o='0'] figcaption { opacity: 1; transform: none; }
+@media (hover: none) { .dk2__fig[data-o='0'] figcaption { opacity: 1; transform: none; } }
+.dk2__cap { justify-content: flex-end; }

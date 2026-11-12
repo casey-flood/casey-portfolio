@@ -417,7 +417,7 @@ const slug = Astro.url.pathname.split('/').filter(Boolean).pop() ?? 'page';
 		const show = (k: number) => {
 			front = (k + figs.length) % figs.length;
 			figs.forEach((f, i) => { const o = String((i - front + figs.length) % figs.length); f.style.setProperty('--o', o); f.dataset.o = o; });
-			if (cap) cap.textContent = figs[front].querySelector('figcaption')?.textContent ?? '';
+			
 		};
 		deck.addEventListener('click', (e) => { if ((e.target as HTMLElement).closest('.dk2__exp')) return; show(front + 1); });
 		deck.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); show(front + 1); } });
