@@ -265,21 +265,21 @@ const scenes: { id: string; label: string; nav: string; beats: Beat[] }[] = [
 	},
 	{
 		id: 'options',
-		label: '04 · The options',
-		nav: 'The options',
+		label: '04 · Bet 1: the framework',
+		nav: 'The framework',
 		beats: [
 			{
-				title: 'Inventory, card sort, then a new sitemap.',
-				text: 'I inventoried every screen of the legacy portal, then ran a card sort with admins to see how they would group the settings themselves. Their groups, named with the new enterprise dictionary, became the sitemap: the tenant first, then everything you configure inside it.',
+				title: 'First, one sitemap for everyone.',
+				text: 'The framework started with structure. I inventoried every screen of the legacy portal, then ran a card sort with admins to see how they would group the settings themselves. Their groups, named with the new enterprise dictionary, became the sitemap: the tenant first, then everything you configure inside it.',
 				html: inv,
 			},
 			{
-				title: 'Option 1: separate interfaces.',
-				text: 'Different entry points per admin type. Clear separation of concerns, but users with multiple roles would need multiple logins, and engineering would maintain multiple codebases.',
+				title: 'Then: how should each tier see it?',
+				text: 'With one sitemap in place, I explored three ways to give each tier its own view. Option 1, separate interfaces: different entry points per admin type. Clear separation of concerns, but users with multiple roles would need multiple logins, and engineering would maintain multiple codebases.',
 				media: { kind: 'image', src: `${A}/sketches.webp`, alt: 'Sketches and trade-offs for the separate interface approach' },
 			},
 			{
-				title: 'Option 2: permission toggles.',
+				title: 'Option 2: one interface, with permission toggles.',
 				text: 'One interface with switches. Simpler to maintain, but users found switching context confusing, and it was inefficient for super admins.',
 			},
 			{
