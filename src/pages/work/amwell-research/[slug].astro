@@ -10,27 +10,53 @@ const { i } = Astro.props;
 const s = studies[i];
 const prev = studies[(i - 1 + studies.length) % studies.length];
 const next = studies[(i + 1) % studies.length];
-const related = (s.related || []).map((r) => studies.find((x) => x.slug === r)).filter(Boolean);
+const related = (s.related || []).map((r) => studies.find((x) => x.slug === r)!).filter(Boolean).slice(0, 3);
+const impact = s.stats ?? (s.result ? [{ v: s.result.split(' ')[0], l: s.result.split(' ').slice(1).join(' ') }] : null);
+const takeaways = s.takeaways ?? [s.finding];
 ---
 
 <Base title={`${s.t} · Amwell research`} description={s.goal}>
+	<nav class="bar" aria-label="Study navigation">
+		<div class="shell bar__in">
+			<a class="bar__back" href="/work/amwell-research" data-back>← All research</a>
+			<span class="bar__pos">{i + 1} / {studies.length}</span>
+			<span class="bar__arrows">
+				<a href={`/work/amwell-research/${prev.slug}`} aria-label={`Previous: ${prev.t}`}>←</a>
+				<a href={`/work/amwell-research/${next.slug}`} aria-label={`Next: ${next.t}`}>→</a>
+			</span>
+		</div>
+	</nav>
+
 	<article class="rs">
 		<div class="shell rs__in">
-			<a class="rs__back" href="/work/amwell-research">← Amwell research <span>{i + 1} of {studies.length}</span></a>
-			<p class="rs__k">{s.area} · {s.method}{s.when && <> · {s.when}</>}</p>
-			<h1>{s.t}</h1>
-			<p class="rs__goal">{s.goal}</p>
+			<header>
+				<p class="rs__k">{s.area} · {s.method}{s.when && <> · {s.when}</>}</p>
+				<h1>{s.t}</h1>
+				<p class="rs__goal">{s.goal}</p>
+			</header>
 
-			{s.stats && (
-				<ul class="rs__stats">{s.stats.map((x) => <li><b>{x.v}</b><span>{x.l}</span></li>)}</ul>
-			)}
-			{s.hero && <button type="button" class="rs__hero" data-zoom={s.hero}><img src={s.hero} alt={`${s.t}, from the readout`} /></button>}
+			<section class="tldr" aria-label="Summary">
+				{impact && (
+					<ul class="tldr__nums">{impact.map((x) => <li><b>{x.v}</b><span>{x.l}</span></li>)}</ul>
+				)}
+				<div class="tldr__grid">
+					<div>
+						<p class="lbl">{s.takeaways ? 'Key takeaways' : 'What I found'}</p>
+						<ul class="ticks">{takeaways.map((t) => <li>{t}</li>)}</ul>
+					</div>
+					<div>
+						<p class="lbl">What shipped</p>
+						<ul class="ticks ticks--done">{s.changed.map((c) => <li>{c}</li>)}</ul>
+					</div>
+				</div>
+			</section>
 
 			{s.story ? (
 				<>
+					<p class="lbl lbl--story">The story</p>
 					{s.story.map((c, n) => (
 						<section class="ch">
-							<p class="rs__label"><i>{String(n + 1).padStart(2, '0')}</i> {c.k}</p>
+							<p class="ch__k"><i>{String(n + 1).padStart(2, '0')}</i> {c.k}</p>
 							<h2>{c.t}</h2>
 							{c.d && <p class="ch__d">{c.d}</p>}
 							{c.quote && <blockquote class="ch__q">“{c.quote}”<span>Usability study participant</span></blockquote>}
@@ -38,65 +64,52 @@ const related = (s.related || []).map((r) => studies.find((x) => x.slug === r)).
 						</section>
 					))}
 					{s.results && (
-						<section class="res">
-							<p class="rs__label">In testing</p>
-							<ul>{s.results.map((r) => <li><span class="res__from">{r.from}</span><span class="res__arrow">→</span><b>{r.to}</b><small>{r.l}</small></li>)}</ul>
-							{s.result && <p class="rs__result">After launch: {s.result}</p>}
-						</section>
-					)}
-					<section>
-						<p class="rs__label">What shipped</p>
-						<ul class="rs__list rs__list--done">{s.changed.map((c) => <li>{c}</li>)}</ul>
-					</section>
-					{s.takeaways && (
-						<section>
-							<p class="rs__label">Key takeaways</p>
-							<ul class="rs__list rs__list--take">{s.takeaways.map((c) => <li>{c}</li>)}</ul>
+						<section class="ch">
+							<p class="ch__k"><i>{String(s.story.length + 1).padStart(2, '0')}</i> Results</p>
+							<h2>I tested it with the same people, and more.</h2>
+							<ul class="res">{s.results.map((r) => <li><span class="res__from">{r.from}</span><span aria-hidden="true">→</span><b>{r.to}</b><small>{r.l}</small></li>)}</ul>
 						</section>
 					)}
 				</>
 			) : (
-				<>
-					<section class="rs__find">
-						<p class="rs__label">What we found</p>
-						<p class="rs__big">{s.finding}</p>
+				s.recs.length > 0 && (
+					<section class="ch">
+						<p class="ch__k">What I recommended</p>
+						<ol class="recs">{s.recs.map((c) => <li>{c}</li>)}</ol>
 					</section>
-					<section>
-						<p class="rs__label">What changed</p>
-						<ul class="rs__list rs__list--done">{s.changed.map((c) => <li>{c}</li>)}</ul>
-						{s.result && <p class="rs__result">{s.result}</p>}
-					</section>
-					{s.recs.length > 0 && (
-						<section>
-							<p class="rs__label">What the study recommended</p>
-							<ol class="rs__list rs__list--recs">{s.recs.map((c) => <li>{c}</li>)}</ol>
-						</section>
-					)}
-				</>
+				)
 			)}
 
-			<p class="rs__src">
-				{s.deck ? <>The full readout deck, “{s.deck}”, and research clips live in my </> : <>The flow map and notes live in my </>}
-				<a href={s.notion} target="_blank" rel="noopener">research library ↗</a>.
-			</p>
-
 			{related.length > 0 && (
-				<section class="rs__rel">
-					<p class="rs__label">Related studies</p>
-					<ul>{related.map((r) => <li><a href={`/work/amwell-research/${r!.slug}`}>{r!.t} →</a></li>)}</ul>
+				<section class="rel">
+					<p class="lbl">Related studies</p>
+					<div class="rel__grid">
+						{related.map((r) => (
+							<a href={`/work/amwell-research/${r.slug}`}><small>{r.method}</small><b>{r.t}</b><span>{r.result ?? r.changed[0]}</span></a>
+						))}
+					</div>
 				</section>
 			)}
 
-			<nav class="rs__nav" aria-label="More studies">
-				<a href={`/work/amwell-research/${prev.slug}`}><small>Previous</small>{prev.t}</a>
-				<a href={`/work/amwell-research/${next.slug}`}><small>Next</small>{next.t}</a>
-			</nav>
+			<a class="nx" href={`/work/amwell-research/${next.slug}`}><small>Next study</small><b>{next.t} →</b></a>
+			<p class="src">{s.deck ? <>Full readout deck and research clips: </> : <>Notes and flow maps: </>}<a href={s.notion} target="_blank" rel="noopener">my research library ↗</a></p>
 		</div>
 	</article>
-	<dialog class="lb" aria-label="Slide"><button type="button" class="lb__x" aria-label="Close">×</button><img alt="" /></dialog>
+	<dialog class="lb" aria-label="Enlarged image"><button type="button" class="lb__x" aria-label="Close">×</button><img alt="" /></dialog>
 </Base>
 
 <script>
+	// Back goes to the list you came from (keeping its filter and scroll), otherwise to the list.
+	const back = document.querySelector<HTMLAnchorElement>('[data-back]');
+	back?.addEventListener('click', (e) => {
+		if (document.referrer && new URL(document.referrer).pathname.replace(/\/$/, '') === '/work/amwell-research') { e.preventDefault(); history.back(); }
+	});
+	addEventListener('keydown', (e) => {
+		if ((e.target as HTMLElement).closest('input, textarea')) return;
+		const a = document.querySelectorAll<HTMLAnchorElement>('.bar__arrows a');
+		if (e.key === 'ArrowLeft') a[0]?.click();
+		if (e.key === 'ArrowRight') a[1]?.click();
+	});
 	const lb = document.querySelector<HTMLDialogElement>('.lb');
 	document.querySelectorAll<HTMLElement>('[data-zoom]').forEach((b) => b.addEventListener('click', () => {
 		if (!lb) return;
@@ -107,60 +120,65 @@ const related = (s.related || []).map((r) => studies.find((x) => x.slug === r)).
 </script>
 
 <style>
-	.rs { padding: clamp(2rem, 6vw, 4rem) 0 5rem; }
-	.rs__in { max-width: 40rem; }
-	.rs__back { display: inline-flex; gap: 0.6rem; color: var(--muted); text-decoration: none; font-size: 0.88rem; }
-	.rs__back span { opacity: 0.6; }
-	.rs__back:hover { color: var(--ink); }
-	.rs__k { margin: 2.5rem 0 0.75rem; font-family: var(--mono); font-size: 0.74rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); }
-	.rs h1 { font-size: clamp(2.1rem, 5vw, 3.2rem); line-height: 1.04; letter-spacing: -0.035em; margin: 0; max-width: 18ch; }
-	.rs__goal { margin: 1rem 0 0; font-size: 1.1rem; line-height: 1.6; color: var(--muted); }
-	.rs section { margin-top: 2.75rem; }
-	.rs__label { margin: 0 0 0.8rem; font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
-	.rs__find { padding: 1.4rem 1.5rem; border-radius: 1rem; background: var(--paper); border: 1px solid var(--line); }
-	.rs__big { margin: 0; font-family: var(--display); font-size: clamp(1.3rem, 2.6vw, 1.65rem); font-weight: 600; line-height: 1.3; letter-spacing: -0.02em; }
-	.rs__list { margin: 0; padding: 0; list-style: none; display: grid; gap: 0.6rem; }
-	.rs__list li { position: relative; padding-left: 1.6rem; line-height: 1.5; }
-	.rs__list--done li::before { content: '✓'; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
-	.rs__list--recs { counter-reset: r; color: var(--muted); }
-	.rs__list--recs li::before { counter-increment: r; content: counter(r); position: absolute; left: 0; font-family: var(--mono); font-size: 0.75rem; top: 0.2rem; color: var(--muted); }
-	.rs__result { margin: 1rem 0 0; padding-left: 1rem; border-left: 2px solid var(--accent); font-weight: 600; }
-	.rs__src { margin-top: 2.75rem; font-size: 0.9rem; color: var(--muted); }
-	.rs__src a { color: var(--ink); }
-	.rs__rel ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.4rem; }
-	.rs__rel a { color: var(--ink); text-decoration: none; }
-	.rs__rel a:hover { color: var(--accent); }
-	.rs__nav { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 3.5rem; padding-top: 1.5rem; border-top: 1px solid var(--line); }
-	.rs__nav a { display: flex; flex-direction: column; gap: 0.2rem; color: var(--ink); text-decoration: none; font-weight: 600; font-size: 0.95rem; }
-	.rs__nav a:last-child { text-align: right; }
-	.rs__nav small { font-weight: 400; color: var(--muted); font-size: 0.78rem; }
-	.rs__nav a:hover { color: var(--accent); }
+	.bar { position: sticky; top: var(--header, 4.5rem); z-index: 5; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+	.bar__in { display: flex; align-items: center; gap: 1rem; height: 3rem; max-width: 46rem; }
+	.bar__back { color: var(--ink); text-decoration: none; font-weight: 600; font-size: 0.88rem; }
+	.bar__back:hover { color: var(--accent); }
+	.bar__pos { margin-left: auto; font-family: var(--mono); font-size: 0.75rem; color: var(--muted); }
+	.bar__arrows { display: flex; gap: 0.35rem; }
+	.bar__arrows a { width: 2rem; height: 2rem; display: grid; place-items: center; border-radius: 50%; border: 1px solid var(--line-strong); color: var(--ink); text-decoration: none; }
+	.bar__arrows a:hover { border-color: var(--accent); color: var(--accent); }
 
-	.rs__stats { list-style: none; margin: 1.75rem 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 1rem; overflow: hidden; }
-	.rs__stats li { background: var(--bg); padding: 0.9rem 1rem; display: flex; flex-direction: column; gap: 0.2rem; }
-	.rs__stats b { font-family: var(--display); font-size: 1.6rem; letter-spacing: -0.03em; line-height: 1; }
-	.rs__stats span { font-size: 0.8rem; color: var(--muted); line-height: 1.35; }
-	.rs__hero, .ch__img { display: block; width: 100%; padding: 0; border: 1px solid var(--line); border-radius: 1rem; overflow: hidden; background: #fff; cursor: zoom-in; }
-	.rs__hero { margin-top: 1.5rem; }
-	.rs__hero img, .ch__img img { display: block; width: 100%; height: auto; }
-	.ch { margin-top: 3.5rem !important; }
-	.ch h2 { margin: 0; font-size: clamp(1.4rem, 2.8vw, 1.8rem); line-height: 1.15; letter-spacing: -0.03em; }
-	.ch__d { margin: 0.6rem 0 0; color: var(--muted); line-height: 1.6; }
+	.rs { padding: 2.5rem 0 5rem; }
+	.rs__in { max-width: 46rem; }
+	.rs__k { margin: 0 0 0.75rem; font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); }
+	.rs h1 { font-size: clamp(2.1rem, 5vw, 3.2rem); line-height: 1.04; letter-spacing: -0.035em; margin: 0; max-width: 18ch; }
+	.rs__goal { margin: 1rem 0 0; font-size: 1.12rem; line-height: 1.55; color: var(--muted); max-width: 36rem; }
+
+	.tldr { margin-top: 2rem; padding: 1.4rem; border-radius: 1.25rem; background: var(--paper); border: 1px solid var(--line); }
+	.tldr__nums { list-style: none; margin: 0 0 1.4rem; padding: 0 0 1.4rem; border-bottom: 1px solid var(--line); display: grid; grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr)); gap: 1rem; }
+	.tldr__nums li { display: flex; flex-direction: column; gap: 0.3rem; }
+	.tldr__nums b { font-family: var(--display); font-size: clamp(1.6rem, 3.4vw, 2.1rem); letter-spacing: -0.035em; line-height: 1; color: var(--accent); }
+	.tldr__nums span { font-size: 0.85rem; color: var(--muted); line-height: 1.35; }
+	.tldr__grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 1.5rem; }
+	.lbl { margin: 0 0 0.7rem; font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+	.ticks { margin: 0; padding: 0; list-style: none; display: grid; gap: 0.55rem; font-size: 0.95rem; line-height: 1.45; }
+	.ticks li { position: relative; padding-left: 1.3rem; }
+	.ticks li::before { content: '→'; position: absolute; left: 0; color: var(--accent); }
+	.ticks--done li::before { content: '✓'; font-weight: 700; }
+
+	.lbl--story { margin-top: 4rem; padding-top: 1.5rem; border-top: 1px solid var(--line); }
+	.ch { margin-top: 3rem; }
+	.lbl--story + .ch { margin-top: 1.5rem; }
+	.ch__k { margin: 0 0 0.5rem; font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+	.ch__k i { font-style: normal; color: var(--accent); margin-right: 0.3rem; }
+	.ch h2 { margin: 0; font-size: clamp(1.35rem, 2.6vw, 1.7rem); line-height: 1.2; letter-spacing: -0.03em; }
+	.ch__d { margin: 0.6rem 0 0; color: var(--muted); line-height: 1.6; max-width: 38rem; }
 	.ch__q { margin: 1.25rem 0 0; padding: 0 0 0 1rem; border-left: 2px solid var(--accent); font-family: var(--display); font-size: 1.15rem; line-height: 1.4; }
 	.ch__q span { display: block; margin-top: 0.4rem; font-family: var(--sans); font-size: 0.78rem; color: var(--muted); }
-	.rs__label i { font-style: normal; color: var(--accent); margin-right: 0.3rem; }
-	.res ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
-	.res li { display: grid; grid-template-columns: auto auto 1fr; align-items: baseline; gap: 0.4rem; padding: 1rem; border: 1px solid var(--line); border-radius: 0.9rem; }
-	.res__from { color: var(--muted); text-decoration: line-through; text-decoration-color: color-mix(in srgb, var(--muted) 50%, transparent); }
-	.res__arrow { color: var(--muted); }
+	.recs { margin: 0; padding-left: 1.2rem; display: grid; gap: 0.5rem; color: var(--muted); line-height: 1.5; }
+
+	.res { list-style: none; margin: 1.5rem 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr)); gap: 0.75rem; }
+	.res li { display: grid; grid-template-columns: auto auto 1fr; align-items: baseline; gap: 0.4rem; padding: 1rem; border: 1px solid var(--line); border-radius: 0.9rem; color: var(--muted); }
+	.res__from { text-decoration: line-through; }
 	.res b { font-family: var(--display); font-size: 1.6rem; letter-spacing: -0.03em; color: var(--accent); }
-	.res small { grid-column: 1 / -1; color: var(--muted); font-size: 0.82rem; }
-	.rs__list--take li::before { content: '→'; position: absolute; left: 0; color: var(--accent); }
+	.res small { grid-column: 1 / -1; font-size: 0.82rem; }
+
+	.rel { margin-top: 4.5rem; padding-top: 1.5rem; border-top: 1px solid var(--line); }
+	.rel__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr)); gap: 0.75rem; }
+	.rel__grid a { display: flex; flex-direction: column; gap: 0.3rem; padding: 1rem; border-radius: 1rem; border: 1px solid var(--line); color: inherit; text-decoration: none; transition: border-color 0.2s; }
+	.rel__grid a:hover { border-color: var(--accent); }
+	.rel__grid small { font-family: var(--mono); font-size: 0.64rem; letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted); }
+	.rel__grid span { font-size: 0.85rem; color: var(--muted); line-height: 1.4; }
+	.nx { display: flex; flex-direction: column; gap: 0.2rem; margin-top: 2.5rem; padding: 1.25rem 1.4rem; border-radius: 1rem; background: var(--ink); color: var(--bg); text-decoration: none; }
+	.nx small { opacity: 0.7; font-size: 0.78rem; }
+	.nx b { font-size: 1.1rem; }
+	.src { margin-top: 1.5rem; font-size: 0.82rem; color: var(--muted); }
+	.src a { color: var(--ink); }
+
 	.lb { border: 0; padding: 0; background: transparent; max-width: 96vw; max-height: 94vh; }
 	.lb::backdrop { background: rgba(10, 12, 20, 0.88); }
 	.lb img { max-width: 96vw; max-height: 92vh; display: block; border-radius: 0.6rem; }
 	.lb__x { position: fixed; top: 1rem; right: 1rem; width: 2.5rem; height: 2.5rem; border-radius: 50%; border: 0; background: #fff; font-size: 1.4rem; cursor: pointer; }
-	@media (max-width: 600px) { .rs__stats, .res ul { grid-template-columns: 1fr; } }
+	@media (max-width: 640px) { .tldr__grid { grid-template-columns: 1fr; } }
 </style>
-
-
