@@ -1,0 +1,252 @@
+---
+// My story as a storybook: one page at a time, neighbors peeking, a tick scrubber below and a slim
+// career map above (roles as bars on a year axis). Swipe on phones, drag/scroll or arrow keys on desktop.
+import { chapters, NOW } from '../data/story';
+
+const first = Math.floor(Math.min(...chapters.map((c) => c.start)));
+const last = Math.ceil(NOW);
+const span = last - first;
+const years = Array.from({ length: span + 1 }, (_, i) => first + i);
+const pct = (y: number) => ((y - first) / span) * 100;
+const lanes = [
+	{ id: 'school', label: 'School' },
+	{ id: 'work', label: 'Full-time' },
+	{ id: 'side', label: 'Independent' },
+];
+const pages = chapters.flatMap((c) => c.pages.map((p, k) => ({ ...p, ch: c, first: k === 0 })));
+const firstIndex = Object.fromEntries(chapters.map((c) => [c.id, pages.findIndex((p) => p.ch.id === c.id)]));
+---
+
+<section class="sb" data-sb aria-roledescription="carousel" aria-label="My story, oldest to newest">
+	<div class="sb__map" aria-label="Career at a glance">
+		<ol class="sb__years" aria-hidden="true">{years.map((y) => <li style={`--x:${pct(y)}%`}>{`’${String(y).slice(2)}`}</li>)}</ol>
+		{lanes.map((l) => (
+			<div class="sb__lane">
+				<span class="sb__lname">{l.label}</span>
+				<div class="sb__ltrack">
+					{chapters.filter((c) => c.lane === l.id).map((c) => (
+						<button type="button" class:list={['sb__bar', `sb__bar--${c.lane}`, { 'is-now': c.now }]} data-go={firstIndex[c.id]} data-ch={c.id}
+							style={`--l:${pct(c.start)}%;--w:${pct(c.end) - pct(c.start)}%`} aria-label={`${c.name}: ${c.role}`} title={`${c.name} · ${c.role}`}>
+							<span>{c.name}</span>
+						</button>
+					))}
+				</div>
+			</div>
+		))}
+	</div>
+
+	<div class="sb__track" tabindex="0" aria-label="Story pages. Use the arrow keys to move.">
+		{pages.map((p, i) => (
+			<article class:list={['sb__page', `sb__page--${p.kind}`, { 'has-media': p.media?.length }]} data-i={i} data-ch={p.ch.id} aria-roledescription="slide" aria-label={`${i + 1} of ${pages.length}: ${p.title}`}>
+				<header class="sb__head">
+					<b>{p.place}</b>
+					<span>{p.date}</span>
+				</header>
+				<div class="sb__body">
+					<div class="sb__txt">
+						<p class="sb__kick">{p.kind === 'chapter' ? `${p.ch.name} · ${p.ch.role}` : p.kicker}</p>
+						<h2>{p.title}</h2>
+						<p class="sb__text">{p.text}</p>
+						{p.ladder && (
+							<ol class="sb__ladder">{p.ladder.map((s) => <li><b>{s.t}</b><span>{s.when}</span></li>)}</ol>
+						)}
+						{p.nums && (
+							<ul class="sb__nums">{p.nums.map((n) => <li><b>{n.v}</b><span>{n.l}</span></li>)}</ul>
+						)}
+						{p.quote && (
+							<blockquote class="sb__quote"><p>“{p.quote.q}”</p><cite>{p.quote.who}</cite></blockquote>
+						)}
+						{p.link && (
+							<a class="sb__link" href={p.link.href} target={p.link.external ? '_blank' : undefined} rel={p.link.external ? 'noopener' : undefined}>{p.link.label} {p.link.external ? '↗' : '→'}</a>
+						)}
+					</div>
+					{p.media && p.media.length > 0 && (
+						<div class="sb__media" data-count={p.media.length}>
+							{p.media.slice(0, 3).map((m, k) => (
+								<figure class:list={['sb__fig', { 'is-contain': m.fit === 'contain' }]} style={`--k:${k}`}>
+									{m.video ? (
+										<video src={m.src} poster={m.poster} muted loop playsinline preload="none" aria-label={m.alt}></video>
+									) : (
+										<img src={m.src} alt={m.alt} loading="lazy" decoding="async" />
+									)}
+								</figure>
+							))}
+							{p.media.length > 1 && <span class="sb__more" aria-hidden="true">Tap to flip</span>}
+						</div>
+					)}
+				</div>
+			</article>
+		))}
+	</div>
+
+	<div class="sb__nav">
+		<button type="button" class="sb__arrow" data-step="-1" aria-label="Previous page">←</button>
+		<ol class="sb__ticks" aria-label="Jump to a page">
+			{pages.map((p, i) => (
+				<li class:list={{ 'is-ch': p.first }}>
+					<button type="button" data-go={i} aria-label={`${p.ch.name}: ${p.title}`}><i></i></button>
+				</li>
+			))}
+		</ol>
+		<button type="button" class="sb__arrow" data-step="1" aria-label="Next page">→</button>
+		<span class="sb__count" aria-live="polite"><b data-count>1</b> / {pages.length}</span>
+	</div>
+</section>
+
+<style>
+	.sb { --acc: var(--accent, #3b5bff); --cw: min(60rem, calc(100vw - 6rem)); color: var(--ink); }
+
+	/* Career map */
+	.sb__map { max-width: 72rem; margin: 0 auto 1.75rem; padding: 0 1rem; }
+	.sb__years { list-style: none; margin: 0 0 0.4rem 6.5rem; padding: 0; position: relative; height: 1rem; }
+	.sb__years li { position: absolute; left: var(--x); transform: translateX(-50%); font-family: var(--mono, monospace); font-size: 0.65rem; color: var(--muted); }
+	.sb__lane { display: grid; grid-template-columns: 6.5rem 1fr; align-items: center; height: 1.9rem; }
+	.sb__lname { font-family: var(--mono, monospace); font-size: 0.62rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+	.sb__ltrack { position: relative; height: 100%; border-top: 1px solid var(--line); }
+	.sb__bar { position: absolute; top: 0.3rem; height: 1.3rem; left: var(--l); width: var(--w); min-width: 1.6rem; padding: 0 0.45rem; border: 0; border-radius: 0.4rem; cursor: pointer; font: inherit; font-size: 0.7rem; font-weight: 600; color: var(--ink); text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+		background: color-mix(in srgb, var(--ink) 9%, transparent); transition: background 0.25s, color 0.25s, box-shadow 0.25s; }
+	.sb__bar--side { top: 0.55rem; height: 0.8rem; font-size: 0; background: color-mix(in srgb, var(--ink) 6%, transparent); }
+	.sb__bar.is-now { border-top-right-radius: 0; border-bottom-right-radius: 0; }
+	.sb__bar:hover { background: color-mix(in srgb, var(--acc) 22%, transparent); }
+	.sb__bar.is-on { background: var(--acc); color: #fff; box-shadow: 0 6px 18px -8px var(--acc); }
+	.sb__bar:focus-visible { outline: 2px solid var(--acc); outline-offset: 2px; }
+
+	/* Stage */
+	.sb__track { display: flex; gap: clamp(1rem, 3vw, 2.5rem); overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; padding: 0.5rem calc((100% - var(--cw)) / 2) 1.5rem; outline: none; overscroll-behavior-x: contain; }
+	.sb__track::-webkit-scrollbar { display: none; }
+	.sb__page { flex: 0 0 var(--cw); scroll-snap-align: center; display: flex; flex-direction: column; min-height: clamp(26rem, 58vh, 34rem); padding: clamp(1.25rem, 3vw, 2.25rem); border-radius: 1.5rem; border: 1px solid var(--line);
+		background: color-mix(in srgb, var(--ink) 3.5%, var(--sb-bg, transparent)); box-shadow: 0 30px 60px -40px rgba(0, 0, 0, 0.45);
+		opacity: 0.35; filter: blur(1.5px) saturate(0.8); transform: scale(0.94); transition: opacity 0.5s, filter 0.5s, transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1); cursor: pointer; }
+	.sb__page.is-on { opacity: 1; filter: none; transform: none; cursor: auto; }
+	.sb__head { display: flex; flex-direction: column; align-items: center; gap: 0.15rem; margin-bottom: clamp(1rem, 3vw, 2rem); text-align: center; }
+	.sb__head b { font-size: 0.82rem; font-weight: 600; }
+	.sb__head span { font-size: 0.75rem; color: var(--muted); }
+	.sb__body { flex: 1; display: grid; gap: clamp(1.25rem, 4vw, 3rem); align-items: center; }
+	.sb__page.has-media .sb__body { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+	.sb__page:not(.has-media) .sb__txt { max-width: 38rem; margin: 0 auto; text-align: center; }
+	.sb__page:not(.has-media) .sb__ladder, .sb__page:not(.has-media) .sb__nums { justify-content: center; }
+	.sb__kick { margin: 0 0 0.5rem; font-family: var(--mono, monospace); font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--acc); }
+	.sb__txt h2 { font-family: var(--display); font-size: clamp(1.45rem, 2.8vw, 2.2rem); letter-spacing: -0.025em; line-height: 1.08; margin: 0; text-wrap: balance; }
+	.sb__text { margin: 0.75rem 0 0; color: var(--muted); line-height: 1.55; text-wrap: pretty; }
+	.sb__ladder { list-style: none; display: flex; flex-wrap: wrap; gap: 0.35rem; margin: 1rem 0 0; padding: 0; }
+	.sb__ladder li { display: flex; gap: 0.45rem; align-items: baseline; padding: 0.3rem 0.65rem; border-radius: 999px; border: 1px solid var(--line); font-size: 0.78rem; }
+	.sb__ladder li span { font-family: var(--mono, monospace); font-size: 0.68rem; color: var(--muted); }
+	.sb__nums { list-style: none; display: flex; flex-wrap: wrap; gap: 1.25rem 1.75rem; margin: 1.25rem 0 0; padding: 0; }
+	.sb__nums li { max-width: 11rem; }
+	.sb__nums b { display: block; font-family: var(--display); font-size: clamp(1.3rem, 2.3vw, 1.75rem); letter-spacing: -0.02em; line-height: 1; }
+	.sb__nums span { display: block; margin-top: 0.3rem; font-size: 0.76rem; line-height: 1.3; color: var(--muted); }
+	.sb__quote { margin: 1.25rem 0 0; padding-left: 0.9rem; border-left: 2px solid var(--acc); }
+	.sb__quote p { margin: 0; font-size: 0.92rem; }
+	.sb__quote cite { display: block; margin-top: 0.3rem; font-style: normal; font-size: 0.72rem; color: var(--muted); }
+	.sb__link { display: inline-block; margin-top: 1.1rem; color: var(--acc); font-weight: 600; font-size: 0.9rem; text-decoration: none; }
+	.sb__link:hover { text-decoration: underline; }
+
+	/* Media: one frame, or a small stack you can flip through */
+	.sb__media { position: relative; aspect-ratio: 4 / 3; cursor: pointer; }
+	.sb__fig { position: absolute; inset: 0; margin: 0; border-radius: 1rem; overflow: hidden; border: 1px solid var(--line); background: color-mix(in srgb, var(--ink) 6%, #fff 0%); box-shadow: 0 20px 40px -24px rgba(0, 0, 0, 0.5);
+		transform: rotate(calc(var(--o, var(--k)) * 3deg)) translate(calc(var(--o, var(--k)) * 4%), calc(var(--o, var(--k)) * -3%)); z-index: calc(5 - var(--o, var(--k))); transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1); }
+	.sb__media[data-count='1'] .sb__fig { transform: none; }
+	.sb__fig img, .sb__fig video { width: 100%; height: 100%; object-fit: cover; display: block; }
+	.sb__fig.is-contain { background: #fff; }
+	.sb__fig.is-contain img { object-fit: contain; }
+	.sb__more { position: absolute; right: 0.6rem; bottom: -1.5rem; font-family: var(--mono, monospace); font-size: 0.62rem; color: var(--muted); }
+
+	/* Scrubber */
+	.sb__nav { display: flex; align-items: center; justify-content: center; gap: 0.75rem; max-width: 46rem; margin: 0.25rem auto 0; padding: 0 1rem; }
+	.sb__arrow { flex: none; width: 2.4rem; height: 2.4rem; border-radius: 999px; border: 1px solid var(--line); background: transparent; color: var(--ink); font-size: 1rem; cursor: pointer; transition: background 0.2s; }
+	.sb__arrow:hover { background: color-mix(in srgb, var(--ink) 8%, transparent); }
+	.sb__arrow:disabled { opacity: 0.3; cursor: default; }
+	.sb__ticks { list-style: none; display: flex; align-items: flex-end; gap: 0; margin: 0; padding: 0; flex: 1; min-width: 0; justify-content: space-between; }
+	.sb__ticks li { flex: 1; display: flex; justify-content: center; }
+	.sb__ticks button { position: relative; display: flex; justify-content: center; width: 100%; height: 1.6rem; padding: 0; border: 0; background: none; cursor: pointer; align-items: flex-end; }
+	.sb__ticks i { display: block; width: 1.5px; height: 0.7rem; border-radius: 1px; background: color-mix(in srgb, var(--ink) 28%, transparent); transition: height 0.3s, background 0.3s, width 0.3s; }
+	.sb__ticks .is-ch i { height: 1.05rem; background: color-mix(in srgb, var(--ink) 45%, transparent); }
+	.sb__ticks button:hover i { background: var(--ink); }
+	.sb__ticks button.is-on i { height: 1.5rem; width: 2px; background: var(--ink); }
+	.sb__ticks span { position: absolute; top: 1.85rem; left: 50%; transform: translateX(-50%); font-family: var(--mono, monospace); font-size: 0.6rem; color: var(--muted); white-space: nowrap; }
+	.sb__ticks button.in-ch span { color: var(--ink); }
+	.sb__count { flex: none; font-family: var(--mono, monospace); font-size: 0.72rem; color: var(--muted); min-width: 3.2rem; text-align: right; }
+	.sb__count b { color: var(--ink); font-weight: 500; }
+
+	@media (max-width: 760px) {
+		.sb { --cw: calc(100vw - 2.5rem); }
+		.sb__track { gap: 0.75rem; }
+		.sb__page { min-height: auto; opacity: 0.5; filter: none; transform: scale(0.97); }
+		.sb__page.has-media .sb__body { grid-template-columns: 1fr; }
+		.sb__media { order: -1; margin-bottom: 0.75rem; }
+		.sb__page:not(.has-media) .sb__txt { text-align: left; }
+		.sb__page:not(.has-media) .sb__ladder, .sb__page:not(.has-media) .sb__nums { justify-content: flex-start; }
+		.sb__map { overflow-x: auto; }
+		.sb__map > * { min-width: 34rem; }
+		.sb__lane { grid-template-columns: 5rem 1fr; }
+		.sb__years { margin-left: 5rem; }
+		.sb__ticks span { display: none; }
+		.sb__arrow { display: none; }
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.sb__page, .sb__fig, .sb__bar, .sb__ticks i { transition: none; }
+	}
+</style>
+
+<script>
+	document.querySelectorAll<HTMLElement>('[data-sb]').forEach((root) => {
+		const track = root.querySelector<HTMLElement>('.sb__track')!;
+		const pages = Array.from(root.querySelectorAll<HTMLElement>('.sb__page'));
+		const ticks = Array.from(root.querySelectorAll<HTMLButtonElement>('.sb__ticks button'));
+		const bars = Array.from(root.querySelectorAll<HTMLButtonElement>('.sb__bar'));
+		const count = root.querySelector<HTMLElement>('[data-count]')!;
+		const [prev, next] = Array.from(root.querySelectorAll<HTMLButtonElement>('.sb__arrow'));
+		const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+		let cur = -1;
+
+		const go = (i: number) => {
+			const p = pages[Math.max(0, Math.min(pages.length - 1, i))];
+			track.scrollTo({ left: p.offsetLeft - (track.clientWidth - p.offsetWidth) / 2, behavior: reduce ? 'auto' : 'smooth' });
+		};
+		const set = (i: number) => {
+			if (i === cur) return;
+			cur = i;
+			const ch = pages[i].dataset.ch;
+			pages.forEach((p, k) => {
+				p.classList.toggle('is-on', k === i);
+				p.querySelectorAll('video').forEach((v) => (k === i ? v.play().catch(() => {}) : v.pause()));
+			});
+			ticks.forEach((t, k) => { t.classList.toggle('is-on', k === i); t.classList.toggle('in-ch', pages[k].dataset.ch === ch); });
+			bars.forEach((b) => b.classList.toggle('is-on', b.dataset.ch === ch));
+			const map = root.querySelector<HTMLElement>('.sb__map')!;
+			const bar = bars.find((b) => b.dataset.ch === ch);
+			if (bar && map.scrollWidth > map.clientWidth) {
+				const r = bar.getBoundingClientRect(), m = map.getBoundingClientRect();
+				map.scrollTo({ left: map.scrollLeft + r.left - m.left - m.width / 2 + Math.min(r.width, m.width / 2) / 2, behavior: reduce ? 'auto' : 'smooth' });
+			}
+			count.textContent = String(i + 1);
+			prev.disabled = i === 0;
+			next.disabled = i === pages.length - 1;
+		};
+
+		const io = new IntersectionObserver((es) => {
+			es.forEach((e) => { if (e.isIntersecting) set(pages.indexOf(e.target as HTMLElement)); });
+		}, { root: track, threshold: 0.6 });
+		pages.forEach((p) => io.observe(p));
+		set(0);
+
+		root.querySelectorAll<HTMLElement>('[data-go]').forEach((b) => b.addEventListener('click', () => go(Number(b.dataset.go))));
+		root.querySelectorAll<HTMLElement>('[data-step]').forEach((b) => b.addEventListener('click', () => go(cur + Number(b.dataset.step))));
+		pages.forEach((p, k) => p.addEventListener('click', (e) => {
+			if (k !== cur) { e.preventDefault(); go(k); return; }
+			const media = (e.target as HTMLElement).closest<HTMLElement>('.sb__media');
+			if (!media) return;
+			const figs = Array.from(media.querySelectorAll<HTMLElement>('.sb__fig'));
+			if (figs.length < 2) return;
+			figs.forEach((f) => {
+				const o = Number(f.style.getPropertyValue('--o') || f.style.getPropertyValue('--k'));
+				f.style.setProperty('--o', String((o - 1 + figs.length) % figs.length));
+			});
+		}));
+		track.addEventListener('keydown', (e) => {
+			if (e.key === 'ArrowRight') { e.preventDefault(); go(cur + 1); }
+			if (e.key === 'ArrowLeft') { e.preventDefault(); go(cur - 1); }
+		});
+		// A vertical wheel over the stage still scrolls the page; a horizontal swipe on a trackpad moves the book.
+	});
+</script>
