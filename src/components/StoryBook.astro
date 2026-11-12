@@ -50,6 +50,7 @@ const pages: P[] = chapters.flatMap((c) => [
 										{m.video ? <video src={m.src} poster={m.poster} muted loop playsinline preload="none" aria-label={m.alt}></video> : <img src={m.src} alt={m.alt} loading="lazy" decoding="async" style={m.pos ? `object-position:${m.pos}` : undefined} />}
 									</figure>
 								))}
+								<button type="button" class="sb__expand" aria-label="View larger"><svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M9.5 2H14v4.5M6.5 14H2V9.5M14 2 9 7M2 14l5-5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
 								{p.media.length > 1 && (
 									<div class="sb__dots">
 										{p.media.map((m, k) => <button type="button" data-k={k} aria-label={`Show photo ${k + 1}: ${m.alt}`} class:list={{ 'is-on': k === 0 }}></button>)}
@@ -80,6 +81,12 @@ const pages: P[] = chapters.flatMap((c) => [
 		</div>
 		<p class="sb__now" aria-live="polite"><span data-now-date></span><b data-now-title></b><em><span data-counter>1</span> / {pages.length}</em></p>
 	</nav>
+	<dialog class="sb__lb" aria-label="Photo viewer">
+		<button type="button" class="sb__lbx" data-lb="close" aria-label="Close">×</button>
+		<button type="button" class="sb__lbnav sb__lbnav--l" data-lb="-1" aria-label="Previous photo">←</button>
+		<figure class="sb__lbfig"><div class="sb__lbmedia"></div><figcaption><span class="sb__lbcap"></span><span class="sb__lbcount"></span></figcaption></figure>
+		<button type="button" class="sb__lbnav sb__lbnav--r" data-lb="1" aria-label="Next photo">→</button>
+	</dialog>
 </section>
 
 <style>
@@ -135,6 +142,28 @@ const pages: P[] = chapters.flatMap((c) => [
 	.sb__dots button { width: 0.45rem; height: 0.45rem; padding: 0; border-radius: 999px; border: 0; background: color-mix(in srgb, var(--ink) 25%, transparent); cursor: pointer; transition: width 0.25s, background 0.25s; }
 	.sb__dots button.is-on { width: 1.2rem; background: var(--acc); }
 	.sb__dots span { margin-left: 0.4rem; font-family: var(--mono, monospace); font-size: 0.6rem; color: var(--muted); }
+
+	/* Expand + lightbox */
+	.sb__expand { position: absolute; top: 0.6rem; right: 0.6rem; z-index: 20; display: grid; place-items: center; width: 2rem; height: 2rem; border-radius: 999px; border: 0; background: rgba(0, 0, 0, 0.55); color: #fff; cursor: zoom-in; opacity: 0; transform: scale(0.9); transition: opacity 0.2s, transform 0.2s; backdrop-filter: blur(6px); }
+	.sb__page.is-on .sb__deck:hover .sb__expand, .sb__expand:focus-visible { opacity: 1; transform: none; }
+	@media (hover: none) { .sb__page.is-on .sb__expand { opacity: 1; transform: none; } }
+	.sb__deck:not(.is-multi) { cursor: zoom-in; }
+	.sb__lb { width: 100vw; height: 100dvh; max-width: none; max-height: none; margin: 0; padding: 0; border: 0; background: transparent; color: #fff; }
+	.sb__lb[open] { display: grid; grid-template-columns: auto 1fr auto; align-items: center; animation: sb-fade 0.25s ease both; }
+	.sb__lb::backdrop { background: rgba(8, 8, 12, 0.88); backdrop-filter: blur(6px); }
+	.sb__lbfig { grid-column: 2; margin: 0; display: flex; flex-direction: column; align-items: center; gap: 0.75rem; min-width: 0; padding: 3.5rem 0 2rem; height: 100%; justify-content: center; }
+	.sb__lbmedia { display: flex; align-items: center; justify-content: center; max-width: 100%; max-height: calc(100dvh - 8rem); }
+	.sb__lbmedia :global(img), .sb__lbmedia :global(video) { max-width: min(92vw, 1400px); max-height: calc(100dvh - 8rem); object-fit: contain; border-radius: 0.75rem; box-shadow: 0 30px 80px -30px rgba(0, 0, 0, 0.8); animation: sb-zoom 0.3s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+	.sb__lbfig figcaption { display: flex; gap: 0.75rem; align-items: baseline; font-size: 0.85rem; color: rgba(255, 255, 255, 0.85); text-align: center; padding: 0 1rem; }
+	.sb__lbcount { font-family: var(--mono, monospace); font-size: 0.72rem; color: rgba(255, 255, 255, 0.5); }
+	.sb__lbx { position: fixed; top: 1rem; right: 1rem; width: 2.5rem; height: 2.5rem; border-radius: 999px; border: 1px solid rgba(255, 255, 255, 0.25); background: rgba(255, 255, 255, 0.08); color: #fff; font-size: 1.4rem; line-height: 1; cursor: pointer; }
+	.sb__lbnav { margin: 0 1rem; width: 2.75rem; height: 2.75rem; border-radius: 999px; border: 1px solid rgba(255, 255, 255, 0.25); background: rgba(255, 255, 255, 0.08); color: #fff; font-size: 1.1rem; cursor: pointer; }
+	.sb__lbnav--l { grid-column: 1; } .sb__lbnav--r { grid-column: 3; }
+	.sb__lbnav[hidden] { display: block; visibility: hidden; }
+	.sb__lbx:hover, .sb__lbnav:hover { background: rgba(255, 255, 255, 0.18); }
+	@keyframes sb-fade { from { opacity: 0; } }
+	@keyframes sb-zoom { from { opacity: 0; transform: scale(0.96); } }
+	@media (max-width: 760px) { .sb__lb[open] { grid-template-columns: 1fr; } .sb__lbnav { position: fixed; bottom: 1.25rem; margin: 0; } .sb__lbnav--l { left: calc(50% - 3.5rem); } .sb__lbnav--r { left: calc(50% + 0.75rem); } .sb__lbfig { grid-column: 1; padding-bottom: 5rem; } }
 	.sb__side { position: absolute; top: calc(50% - 1.25rem); z-index: 2; width: 2.75rem; height: 2.75rem; border-radius: 999px; border: 1px solid var(--line); background: var(--sb-bg, #fff); color: var(--ink); font-size: 1.05rem; cursor: pointer; box-shadow: 0 8px 20px -12px rgba(0, 0, 0, 0.4); transition: opacity 0.2s, background 0.2s, transform 0.2s; }
 	.sb__side--l { left: calc((100% - var(--cw)) / 2 - 1.375rem); }
 	.sb__side--r { right: calc((100% - var(--cw)) / 2 - 1.375rem); }
@@ -233,6 +262,7 @@ const pages: P[] = chapters.flatMap((c) => [
 			let front = 0;
 			const show = (k: number) => {
 				front = (k + n) % n;
+				deck.dataset.front = String(front);
 				figs.forEach((f, i) => { const o = String((i - front + n) % n); f.style.setProperty('--o', o); f.dataset.o = o; });
 				dots.forEach((d, i) => d.classList.toggle('is-on', i === front));
 				figs.forEach((f, i) => f.querySelectorAll('video').forEach((v) => (i === front ? v.play().catch(() => {}) : v.pause())));
@@ -240,10 +270,57 @@ const pages: P[] = chapters.flatMap((c) => [
 			deck.addEventListener('click', (e) => {
 				if (!deck.closest('.sb__page')?.classList.contains('is-on')) return;
 				e.stopPropagation();
+				if ((e.target as HTMLElement).closest('.sb__expand')) return;
 				const dot = (e.target as HTMLElement).closest<HTMLButtonElement>('.sb__dots button');
 				show(dot ? Number(dot.dataset.k) : front + 1);
 			});
 		});
+		// Lightbox: the expand button (or a tap on a single photo) opens the deck full size.
+		const lb = root.querySelector<HTMLDialogElement>('.sb__lb')!;
+		const lbMedia = lb.querySelector<HTMLElement>('.sb__lbmedia')!;
+		const lbCap = lb.querySelector<HTMLElement>('.sb__lbcap')!;
+		const lbCount = lb.querySelector<HTMLElement>('.sb__lbcount')!;
+		const [lbPrev, lbNext] = Array.from(lb.querySelectorAll<HTMLButtonElement>('.sb__lbnav'));
+		let items: { src: string; alt: string; poster?: string; video: boolean }[] = [];
+		let at = 0;
+		const render = () => {
+			const it = items[at];
+			lbMedia.innerHTML = '';
+			const el = it.video ? Object.assign(document.createElement('video'), { src: it.src, poster: it.poster ?? '', muted: true, loop: true, autoplay: true, playsInline: true, controls: true }) : Object.assign(document.createElement('img'), { src: it.src, alt: it.alt });
+			lbMedia.append(el);
+			lbCap.textContent = it.alt;
+			lbCount.textContent = items.length > 1 ? `${at + 1} / ${items.length}` : '';
+			lbPrev.hidden = lbNext.hidden = items.length < 2;
+		};
+		const open = (deck: HTMLElement) => {
+			items = Array.from(deck.querySelectorAll<HTMLElement>('.sb__fig')).map((f) => {
+				const v = f.querySelector('video');
+				const i = f.querySelector('img');
+				return v ? { src: v.getAttribute('src')!, poster: v.getAttribute('poster') ?? undefined, alt: v.getAttribute('aria-label') ?? '', video: true } : { src: i!.getAttribute('src')!, alt: i!.alt, video: false };
+			});
+			at = Number(deck.dataset.front ?? 0);
+			render();
+			lb.showModal();
+		};
+		const step = (d: number) => { if (items.length > 1) { at = (at + d + items.length) % items.length; render(); } };
+		root.querySelectorAll<HTMLElement>('.sb__deck').forEach((deck) => {
+			deck.querySelector('.sb__expand')?.addEventListener('click', (e) => { e.stopPropagation(); open(deck); });
+			if (!deck.classList.contains('is-multi')) deck.addEventListener('click', (e) => {
+				if (!deck.closest('.sb__page')?.classList.contains('is-on')) return;
+				e.stopPropagation(); open(deck);
+			});
+		});
+		lb.addEventListener('click', (e) => {
+			const t = e.target as HTMLElement;
+			const b = t.closest<HTMLElement>('[data-lb]');
+			if (b) { b.dataset.lb === 'close' ? lb.close() : step(Number(b.dataset.lb)); return; }
+			if (t === lb || t.classList.contains('sb__lbfig') || t.classList.contains('sb__lbmedia')) lb.close();
+		});
+		lb.addEventListener('keydown', (e) => { if (e.key === 'ArrowRight') step(1); if (e.key === 'ArrowLeft') step(-1); });
+		lb.addEventListener('close', () => { lbMedia.innerHTML = ''; });
+		let tx = 0;
+		lb.addEventListener('touchstart', (e) => { tx = e.touches[0].clientX; }, { passive: true });
+		lb.addEventListener('touchend', (e) => { const d = e.changedTouches[0].clientX - tx; if (Math.abs(d) > 50) step(d < 0 ? 1 : -1); });
 		track.addEventListener('keydown', (e) => {
 			if (e.key === 'ArrowRight') { e.preventDefault(); go(cur + 1); }
 			if (e.key === 'ArrowLeft') { e.preventDefault(); go(cur - 1); }
