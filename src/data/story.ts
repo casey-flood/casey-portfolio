@@ -6,7 +6,7 @@
 // Videos: { src: '/story/clip.mp4', poster: '/story/clip.jpg', alt: '...', video: true }
 // A moment without media shows as a text card (no empty boxes).
 
-export type Media = { src: string; alt: string; poster?: string; video?: boolean; fit?: 'contain'; pos?: string };
+export type Media = { src: string; alt: string; poster?: string; video?: boolean; fit?: 'contain'; pos?: string; bare?: boolean };
 export type Num = { v: string; l: string };
 export type Moment = { kicker: string; date: string; title: string; text: string; num?: Num; media?: Media; link?: { href: string; label: string; external?: boolean } };
 export type Chapter = {
@@ -66,7 +66,7 @@ export const chapters: Chapter[] = [
 	{
 		id: 'amwell', year: '2019', name: 'Amwell', role: 'UX Designer → Senior Product Designer', dates: 'Jan 2019 – Feb 2024', place: 'Boston and New York',
 		title: 'Research, then ownership, then leadership.',
-		text: 'Virtual urgent care used by millions: patient, provider and admin experiences on web and white-label mobile. I started by running research and grew into owning design direction and mentoring designers, and finished my degree along the way.',
+		text: 'Virtual urgent care used by millions: patient, provider and admin experiences on web and white-label mobile. I started by running research and grew into owning design direction and mentoring designers, and finished my degree, magna cum laude, along the way.',
 		ladder: [{ t: 'UX Designer', when: '2019' }, { t: 'Senior UX Designer', when: '2021' }, { t: 'Senior Product Designer', when: '2023' }],
 		nums: [{ v: '2', l: 'promotions' }, { v: '14', l: 'OKRs completed' }, { v: '45% → 82%', l: 'admin task completion' }],
 		media: { src: '/amwell/cs/hero.webp', alt: 'Amwell admin portal' },
@@ -75,7 +75,7 @@ export const chapters: Chapter[] = [
 			{ kicker: 'Conference', date: '2019', title: 'The Human Insight Summit.', text: 'UserTesting’s research conference in my first year, when research was most of my job.', media: { src: '/story/usertesting-this-2019.webp', alt: 'The stage at UserTesting’s Human Insight Summit, 2019' } },
 			{ kicker: 'Research', date: '2019 – 2020', title: 'My research fed a #1 J.D. Power ranking.', text: 'I led most of the team’s user research (interviews, usability tests, surveys) and presented it to the C-suite.', num: { v: '~86%', l: 'of the team’s research, led by me' } },
 			{ kicker: 'Speaking', date: 'Boston', title: 'On a General Assembly panel.', text: 'A panel on design and career development, speaking as a UX designer at Amwell.', media: { src: '/story/ga-panel.webp', alt: 'Casey speaking on a General Assembly panel in Boston', pos: '30% 40%' }, link: { href: 'https://www.generalassemb.ly/instructors/casey-flood/22082', label: 'GA profile', external: true } },
-			{ kicker: 'Degree', date: 'While at Amwell', title: 'I finished my degree while working full time.', text: 'A B.S. in Information Technology from UMass Lowell, with a concentration in design and development, completed online. Design and development: the combination I’d wanted from the start.', media: { src: '/story/umass-lowell-grad.webp', alt: 'Casey in cap and gown in Central Park', pos: '50% 30%' } },
+			{ kicker: 'Degree', date: 'Aug 2021', title: 'I finished my degree while working full time.', text: 'A B.S. in Information Technology from UMass Lowell, with a concentration in design and development, completed online while I was a designer at Amwell. Design and development: the combination I’d wanted from the start.', num: { v: 'Magna cum laude', l: 'Aug 31, 2021' }, media: { src: '/story/umass-lowell-pair.webp', alt: 'UMass Lowell diploma, Bachelor of Science in Information Technology, magna cum laude, with Casey in cap and gown', bare: true } },
 			{ kicker: 'Craft', date: '2023', title: 'One admin portal for every role.', text: 'A fragmented portal became one role-based system.', num: { v: '45% → 82%', l: 'task completion' }, media: { src: '/amwell/cs/sketches.webp', alt: 'Admin portal sketches' }, link: { href: '/work/amwell-admin-portal', label: 'Case study' } },
 			{ kicker: 'The team', date: '2019 – 2024', title: '“The first person I turn to when I’m seeking input on my designs.”', text: 'Kate Murdoch, Principal Product Designer at Amwell. I mentored two junior designers and led sprints and critiques.', num: { v: '2', l: 'designers mentored' }, media: { src: '/story/amwell-team.webp', alt: 'The Amwell team' } },
 		],

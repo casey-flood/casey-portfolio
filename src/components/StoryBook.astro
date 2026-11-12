@@ -14,7 +14,7 @@ type P = {
 	nums?: { v: string; l: string }[];
 	ladder?: { t: string; when: string }[];
 	quote?: { q: string; who: string };
-	media?: { src: string; alt: string; poster?: string; video?: boolean; fit?: 'contain'; pos?: string };
+	media?: { src: string; alt: string; poster?: string; video?: boolean; fit?: 'contain'; pos?: string; bare?: boolean };
 	link?: { href: string; label: string; external?: boolean };
 	tip: string;
 };
@@ -42,7 +42,7 @@ const pages: P[] = chapters.flatMap((c) => [
 							{p.link && <a class="sb__link" href={p.link.href} target={p.link.external ? '_blank' : undefined} rel={p.link.external ? 'noopener' : undefined}>{p.link.label} {p.link.external ? '↗' : '→'}</a>}
 						</div>
 						{p.media && (
-							<figure class:list={['sb__fig', { 'is-contain': p.media.fit === 'contain' }]}>
+							<figure class:list={['sb__fig', { 'is-contain': p.media.fit === 'contain', 'is-bare': p.media.bare }]}>
 								{p.media.video ? <video src={p.media.src} poster={p.media.poster} muted loop playsinline preload="none" aria-label={p.media.alt}></video> : <img src={p.media.src} alt={p.media.alt} loading="lazy" decoding="async" style={p.media.pos ? `object-position:${p.media.pos}` : undefined} />}
 							</figure>
 						)}
@@ -107,6 +107,8 @@ const pages: P[] = chapters.flatMap((c) => [
 	.sb__page.is-on .sb__fig { transform: rotate(0.6deg); }
 	.sb__fig img, .sb__fig video { width: 100%; height: 100%; object-fit: cover; display: block; }
 	.sb__fig.is-contain { background: #fff; }
+	.sb__fig.is-bare { background: none; border: 0; box-shadow: none; border-radius: 0; overflow: visible; transform: none !important; }
+	.sb__fig.is-bare img { object-fit: contain; filter: drop-shadow(0 18px 30px rgba(0, 0, 0, 0.35)); }
 	.sb__fig.is-contain img { object-fit: contain; }
 
 	.sb__side { position: absolute; top: calc(50% - 1.25rem); z-index: 2; width: 2.75rem; height: 2.75rem; border-radius: 999px; border: 1px solid var(--line); background: var(--sb-bg, #fff); color: var(--ink); font-size: 1.05rem; cursor: pointer; box-shadow: 0 8px 20px -12px rgba(0, 0, 0, 0.4); transition: opacity 0.2s, background 0.2s, transform 0.2s; }
