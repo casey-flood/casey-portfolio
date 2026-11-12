@@ -370,7 +370,7 @@ const scenes: { id: string; label: string; nav: string; beats: Beat[] }[] = [
 			},
 			{
 				title: 'My role: Senior Product Designer.',
-				text: 'I led design, with four other designers, alongside PM, engineering, and architecture. In a design sprint in spring 2023, I set out to deliver everything needed to plan, size, and build the first release of Converge Admin: MVP scope, a sitemap, the navigation system, and a prototype.',
+				text: 'I led design, with four other designers, alongside PM, engineering, and architecture. In a design sprint in spring 2023, I set out to deliver everything needed to plan, size, and build the first release of Converge Admin: MVP scope, a sitemap, the navigation system, and a prototype. The first release shipped in fall 2023, and I tracked how it performed until I left Amwell in February 2024.',
 			},
 		],
 	},
@@ -478,7 +478,7 @@ const scenes: { id: string; label: string; nav: string; beats: Beat[] }[] = [
 			},
 			{
 				title: 'Wireframes first, then I cut what didn’t matter.',
-				text: 'I wireframed the busiest home first, the Amwell super admin’s, to test the framework. It started as a customizable dashboard. As I iterated, I learned admins don’t ordinarily open that data, so I made the home lighter and sent the deep charts to Looker.',
+				text: 'Bet 2 started here: I wireframed the busiest home first, the Amwell super admin’s dashboard. It started heavy with data. As I iterated, I learned admins don’t ordinarily open that data, so I made the default light and sent the deep charts to Looker. Admins still wanted control over what they see, so I kept it customizable.',
 				html: wire,
 			},
 			{
@@ -544,7 +544,7 @@ const scenes: { id: string; label: string; nav: string; beats: Beat[] }[] = [
 				media: { kind: 'clip', src: '/amwell/cs/prototype.mp4', poster: '/amwell/cs/prototype.jpg', alt: 'A walkthrough of the admin portal prototype' },
 			},
 			{
-				title: 'A dashboard that starts the day.',
+				title: 'Bet 2, delivered: a dashboard that starts the day.',
 				text: 'Recent activity for me, my team, or everyone. Platform totals at a glance, with visit charts that open in Looker. Hide the menu for more room without losing your place.',
 				media: { kind: 'image', src: `${A}/fig-collapsed.webp`, alt: 'The All Tenants dashboard with the side menu collapsed' },
 			},
@@ -576,8 +576,8 @@ const scenes: { id: string; label: string; nav: string; beats: Beat[] }[] = [
 		nav: 'Craft decisions',
 		beats: [
 			{
-				title: 'Three ways to navigate. One fits how admins think.',
-				text: 'I explored separate apps per role, a top nav plus a side nav, and a tenant switcher above one left nav. Admins always start with “which organization am I in?”, so the switcher won: the organization is the first thing on every page, and the left nav only shows what that admin can touch.',
+				title: 'Then, the layout: one fits how admins think.',
+				text: 'The contextual interface settled who sees what. The next question was where things sit on the page. I explored separate apps per role, a top nav plus a side nav, and a tenant switcher above one left nav. Admins always start with “which organization am I in?”, so the switcher won: the organization is the first thing on every page, and the left nav only shows what that admin can touch.',
 				media: { kind: 'clip', src: `${A}/prototype.mp4`, poster: `${A}/prototype.jpg`, start: 28, end: 36, alt: 'In the prototype: opening the tenant switcher and jumping from one organization to all tenants' },
 			},
 			{
@@ -587,7 +587,7 @@ const scenes: { id: string; label: string; nav: string; beats: Beat[] }[] = [
 			},
 			{
 				title: 'Color and type: calm, so the data can speak.',
-				text: 'Admins sit in this tool all day, so I chose a dark, low-glare theme where status colors and blue actions stand out. Amwell’s gradient became a thin brand bar instead of a background, so it never competes with the work. Type follows a tight scale: a large page title for orientation, clear section heads, and small, even table text, with contrast checked for accessibility.',
+				text: 'On the dark default, status colors and blue actions are the only bright things on the page. Amwell’s gradient became a thin brand bar instead of a background, so it never competes with the work. Type follows a tight scale: a large page title for orientation, clear section heads, and small, even table text, with contrast checked for accessibility.',
 				html: spec,
 			},
 			{
@@ -609,7 +609,7 @@ const scenes: { id: string; label: string; nav: string; beats: Beat[] }[] = [
 			{
 				title: 'Admins finished their tasks.',
 				text: 'Task completion rose with role-based access controls and a navigation framework built for each admin.',
-				textHtml: '<p>In unmoderated testing, 20 admins each tried the same five tasks, first in the legacy console, then in the new prototype. A task counted as complete if they reached the right end state without asking for help. In the old console they completed 45% of the tasks; in the new one, 82%.</p><ul class="sc__tasks"><li>Find a tenant</li><li>Set up a service line</li><li>Change a tenant setting</li><li>Find a patient across tenants</li><li>Check recent activity</li></ul>',
+				textHtml: '<p>Leadership asked for speed. It came from fewer dead ends: more tasks finished, faster onboarding, quicker client setup, and Urgent Care in three clicks.</p><p>In unmoderated testing, 20 admins each tried the same five tasks, first in the legacy console, then in the new prototype. A task counted as complete if they reached the right end state without asking for help. In the old console they completed 45% of the tasks; in the new one, 82%.</p><ul class="sc__tasks"><li>Find a tenant</li><li>Set up a service line</li><li>Change a tenant setting</li><li>Find a patient across tenants</li><li>Check recent activity</li></ul>',
 				metric: { text: '45% → 82%', unit: 'of tasks completed without help, old console vs. new portal' },
 			},
 			{
@@ -653,7 +653,7 @@ const scenes: { id: string; label: string; nav: string; beats: Beat[] }[] = [
 			},
 			{
 				title: 'What I recommended after the MVP.',
-				text: 'Once the portal shipped, I recommended three changes for the next release.',
+				text: 'After the first release shipped in fall 2023, I recommended three changes for the next one.',
 				html: recs,
 			},
 		],
