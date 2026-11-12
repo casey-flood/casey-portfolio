@@ -599,7 +599,12 @@ const scenes: { id: string; label: string; nav: string; beats: Beat[] }[] = [
 		label: '08 · The impact',
 		nav: 'The impact',
 		beats: [
-			{ title: 'Admins finished their tasks.', text: 'Task completion rose with role-based access controls and a navigation framework built for each admin.', metric: { text: '45% → 82%', unit: 'task completion rate, user testing' } },
+			{
+				title: 'Admins finished their tasks.',
+				text: 'Task completion rose with role-based access controls and a navigation framework built for each admin.',
+				textHtml: '<p>I gave 20 admins the same five tasks in unmoderated testing, first in the legacy console, then in the new prototype. A task only counted if they finished it without help. Completed attempts rose from 45 of 100 to 82 of 100.</p><ul class="sc__tasks"><li>Find a tenant</li><li>Set up a service line</li><li>Change a tenant setting</li><li>Find a patient across tenants</li><li>Check recent activity</li></ul>',
+				metric: { text: '45% → 82%', unit: 'tasks completed without help · 20 admins × 5 tasks, before and after' },
+			},
 			{ title: 'Onboarding took 2+ weeks. Now 30% less.', text: 'Clear paths for common tasks shortened the training new admins needed.', metric: { to: 30, suffix: '%', unit: 'shorter admin onboarding, down from 2+ weeks' } },
 			{ title: 'Fewer mistakes.', text: 'Role-based access meant admins only saw what applied to them.', metric: { to: 34, suffix: '%', unit: 'fewer configuration errors' } },
 			{ title: 'Clients went live sooner.', text: 'A predictable system made client setup quicker for implementation teams.', metric: { to: 25, suffix: '%', unit: 'faster client implementations' } },
