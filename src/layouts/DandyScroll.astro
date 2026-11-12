@@ -448,6 +448,14 @@ const slug = Astro.url.pathname.split('/').filter(Boolean).pop() ?? 'page';
 		const imgs = figs.map((f) => f.querySelector('img')!).filter(Boolean);
 		w.querySelector('.dk2__exp')?.addEventListener('click', (e) => { e.stopPropagation(); const im = figs[front].querySelector('img'); if (im) expand(im, imgs); });
 	});
+	// feedback channels: hover or click a tab to see that evidence; images open as a group
+	document.querySelectorAll<HTMLElement>('.fbk').forEach((w) => {
+		const btns = Array.from(w.querySelectorAll<HTMLButtonElement>('.fbk__tabs button'));
+		const imgs = Array.from(w.querySelectorAll<HTMLImageElement>('.fbk__stage img'));
+		const set = (k: string) => { w.dataset.k = k; btns.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.k === k))); };
+		btns.forEach((b) => { b.addEventListener('click', () => set(b.dataset.k!)); b.addEventListener('mouseenter', () => set(b.dataset.k!)); });
+		imgs.forEach((im) => im.addEventListener('click', () => expand(im, imgs)));
+	});
 	// anything marked data-full opens that image full size
 	document.querySelectorAll<HTMLElement>('.sc__viz--html [data-full]').forEach((el) => {
 		const open = () => { const im = new Image(); im.src = el.dataset.full!; im.alt = el.getAttribute('aria-label') ?? ''; expand(im); };

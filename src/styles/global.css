@@ -16403,3 +16403,20 @@ video.cmp__img:not(.cmp__img--new){object-position:left center}
 .mx__nav button { width: 2.4rem; height: 2.4rem; border-radius: 50%; border: 1px solid rgba(255, 255, 255, 0.3); background: rgba(11, 26, 54, 0.85); color: #fff; font-size: 1.4rem; line-height: 1; cursor: pointer; }
 .mx__nav button:hover { background: rgba(140, 200, 255, 0.25); }
 .mx__ct { font-family: var(--mono, monospace); font-size: 0.8rem; color: #c3d3ea; min-width: 3rem; text-align: center; }
+
+/* feedback channels: pick one, see the evidence */
+.fbk { color: #eef3fb; }
+.fbk__tabs { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 0.9rem; }
+.fbk__tabs button { padding: 0.45rem 0.85rem; border-radius: 99px; border: 1px solid rgba(255, 255, 255, 0.16); background: transparent; color: #b4c6e4; font: inherit; font-size: 0.8rem; cursor: pointer; transition: background 0.25s, color 0.25s, border-color 0.25s; }
+.fbk__tabs button:hover { color: #fff; border-color: rgba(140, 200, 255, 0.5); }
+.fbk__tabs button[aria-pressed='true'] { background: #8cc8ff; border-color: #8cc8ff; color: #0b1a36; font-weight: 600; }
+.fbk__stage { display: grid; }
+.fbk__stage figure { grid-area: 1 / 1; margin: 0; opacity: 0; transform: translateY(8px); transition: opacity 0.35s, transform 0.35s; pointer-events: none; }
+.fbk[data-k='0'] [data-for='0'], .fbk[data-k='1'] [data-for='1'], .fbk[data-k='2'] [data-for='2'], .fbk[data-k='3'] [data-for='3'] { opacity: 1; transform: none; pointer-events: auto; }
+.fbk__stage img { width: 100%; height: 17rem; object-fit: contain; object-position: left top; display: block; border-radius: 0.8rem; background: #fff; box-shadow: 0 18px 36px rgba(0, 0, 0, 0.45); cursor: zoom-in; }
+.fbk__stage figcaption { margin-top: 0.7rem; color: #c3d3ea; font-size: 0.88rem; line-height: 1.45; }
+@media (max-width: 899px) {
+	.cx.cx--mob .sc .sc__row .sc__viz.sc__viz--html > .fbk { position: relative !important; transform: none !important; }
+	.fbk__tabs button { font-size: 0.6rem; padding: 0.3rem 0.55rem; } .fbk__stage img { height: 9rem; } .fbk__stage figcaption { font-size: 0.7rem; }
+}
+.fbk__stage img { width: auto !important; max-width: 100%; height: auto !important; max-height: 17rem; background: none !important; } .fbk__stage { min-height: 20rem; align-items: start; } @media (max-width: 899px) { .fbk__stage img { max-height: 9rem; } .fbk__stage { min-height: 11.5rem; } }
