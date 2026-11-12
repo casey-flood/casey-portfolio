@@ -11,7 +11,7 @@ const projects: P[] = [
 	{ co: 'dandy', title: 'Design Editor design system', line: 'Built its first design system, cutting each iteration from 30–45 to <b>5–10 minutes</b>.', d: 'Built from scratch in Storybook, on real production code.', metric: { v: '5–10 min', l: 'per iteration, down from 30–45' }, tags: ['systems design', 'design system', 'storybook', 'cursor'], img: '/journey/storybook-ds-cover.jpg', href: '/work/dandy-design-system' },
 	{ co: 'dandy', title: 'Clickable prototypes', line: 'Prototyped real flows from production components for early feedback.', d: 'Real components, full flows, early feedback.', note: 'Systems', tags: ['systems design', 'prototype', 'code'], img: '/work/behind/proto.jpg', href: '/work/dandy-prototype' },
 	{ co: 'dandy', title: 'Product Design Hub', line: 'A guided path that teaches the whole team to prototype in code.', d: 'A guided path that teaches the team to prototype in code.', note: 'Systems', tags: ['systems design', 'education', 'hub'], img: '/work/behind/hub.jpg', href: '/work/dandy-product-design-hub' },
-	{ co: 'amwell', title: 'Admin portal redesign', line: 'Redesigned the admin portal around each role, lifting task completion from <b>45% to 82%</b>.', d: 'One role-based system for a fragmented enterprise portal.', metric: { v: '45% → 82%', l: 'admin task completion' }, tags: ['admin', 'navigation', 'information architecture', 'healthcare', 'enterprise', 'design system'], img: '/amwell/cs/hero.webp', href: '/work/amwell-admin-portal' },
+	{ co: 'amwell', title: 'Admin portal redesign', line: 'Redesigned the admin portal around each role, lifting task completion from <b>45% to 82%</b>.', d: 'One role-based system for a fragmented enterprise portal.', metric: { v: '45% → 82%', l: 'admin task completion' }, tags: ['admin', 'navigation', 'information architecture', 'healthcare', 'enterprise', 'design system'], img: '/amwell/admin-dashboard.webp', href: '/work/amwell-admin-portal' },
 	{ co: 'amwell', title: 'Research library', line: '15 studies I ran, and what each one changed.', d: 'Amwell user research library.', metric: { v: '86%', l: 'of the team’s research, led by me' }, tags: ['research', 'usability', 'interviews', 'healthcare'], img: '/amwell-research/choosing-care/screens/final-care.webp', href: '/work/amwell-research' },
 	{ co: 'amwell', title: 'AI While You Wait', line: 'ML-assisted pre-visit triage that cut perceived wait time by <b>45%</b>.', d: 'ML-assisted pre-visit triage for patients.', metric: { v: '45%', l: 'lower perceived wait time' }, tags: ['patient experience', 'triage', 'machine learning', 'healthcare'], img: '/amwell/triage.webp' },
 	{ co: 'amwell', title: 'Patient onboarding', line: 'Streamlined enrollment, lifting onboarding conversion by <b>20%</b>.', d: 'Enrollment and intake, reused across white-label clients.', metric: { v: '+20%', l: 'onboarding conversion' }, tags: ['patient experience', 'onboarding', 'mobile', 'healthcare'], img: '/amwell/onboarding.webp' },
@@ -40,12 +40,45 @@ const co = companies.map((c) => ({
 	title="Work"
 	description="Product design work by Casey Flood, grouped by company: Dandy, Amwell, and earlier projects."
 >
-	<div class="wk2">
+	<div class="wk2" data-view="list">
 		<div class="shell wk2__in">
 			<header class="wk2__head">
-				<h1>Work.</h1>
+				<div class="wk2__top">
+					<h1>Work.</h1>
+					<div class="wk2__view" role="group" aria-label="View">
+						<button type="button" data-set="list" aria-pressed="true"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 4h12M2 8h12M2 12h12" /></svg>List</button>
+						<button type="button" data-set="grid" aria-pressed="false"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="2" y="2" width="5" height="5" rx="1" /><rect x="9" y="2" width="5" height="5" rx="1" /><rect x="2" y="9" width="5" height="5" rx="1" /><rect x="9" y="9" width="5" height="5" rx="1" /></svg>Grid</button>
+					</div>
+				</div>
 				<p>Healthcare products I researched, designed and shipped, from dentists and lab designers to patients, providers and admins.</p>
 			</header>
+
+			<div class="gv" aria-label="Work, grouped by company">
+				{co.map((c) => (
+					<div class="gv__deck" style={`--n:${c.live.length + (c.cta ? 1 : 0)}`}>
+						<div class="gv__stage">
+							{c.cta && (
+								<a class={`gv__card gv__card--co gv__card--${c.id}`} href={c.cta.href} style="--i:0">
+									{c.id === 'earlier' ? <span class="gv__coword">Earlier work</span> : <img class="gv__colog" src={c.id === 'dandy' ? '/brand/dandy-wordmark.svg' : '/brand/amwell-white.svg'} alt="" />}
+									<span class="gv__cap gv__cap--co"><b>Company overview →</b><small>{c.role} · {c.when}</small></span>
+								</a>
+							)}
+							{c.live.map((p, i) => (
+								<a class="gv__card" href={p.href} style={`--i:${i + (c.cta ? 1 : 0)}`}>
+									<img src={p.img} alt="" loading="lazy" />
+									<span class="gv__cap"><b>{p.title}</b>{p.metric && <small>{p.metric.v} {short[p.title] ?? p.metric.l}</small>}</span>
+								</a>
+							))}
+						</div>
+						<p class="gv__label">
+							{c.id === 'dandy' && <img class="wk2__logo" src="/brand/dandy-wordmark.svg" alt="Dandy" />}
+							{c.id === 'amwell' && <img class="wk2__logo" src="/brand/amwell-white.svg" alt="Amwell" />}
+							{c.id === 'earlier' && <b>Earlier</b>}
+							<span>{c.cta ? `Overview + ${c.live.length} projects` : `${c.live.length} projects`}</span>
+						</p>
+					</div>
+				))}
+			</div>
 
 			{co.map((c) => (
 				<section class="wk2__co" aria-labelledby={`wk-${c.id}`}>
@@ -75,6 +108,25 @@ const co = companies.map((c) => ({
 </Base>
 
 <script>
+	// List or grid, remembered per visitor.
+	const wk = document.querySelector<HTMLElement>('.wk2')!;
+	const setView = (v: string) => {
+		wk.dataset.view = v;
+		wk.querySelectorAll<HTMLButtonElement>('[data-set]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.set === v)));
+		try { localStorage.setItem('work-view', v); } catch {}
+	};
+	wk.querySelectorAll<HTMLButtonElement>('[data-set]').forEach((b) => b.addEventListener('click', () => setView(b.dataset.set!)));
+	try { const v = localStorage.getItem('work-view'); if (v === 'grid' || v === 'list') setView(v); } catch {}
+	// Grid: a deck fans out on hover or focus; on touch, the first tap opens it.
+	document.querySelectorAll<HTMLElement>('.gv__deck').forEach((d) => {
+		d.addEventListener('click', (e) => {
+			if (matchMedia('(hover: hover)').matches || matchMedia('(max-width: 720px)').matches || d.classList.contains('open')) return;
+			e.preventDefault();
+			document.querySelectorAll('.gv__deck.open').forEach((o) => o.classList.remove('open'));
+			d.classList.add('open');
+		});
+	});
+
 	// Desktop only: a small preview follows the cursor over a row, so the list stays clean.
 	const peek = document.querySelector<HTMLElement>('.wk2__peek');
 	const img = peek?.querySelector('img');
@@ -91,6 +143,46 @@ const co = companies.map((c) => ({
 <style>
 	.wk2 { padding: clamp(3rem, 9vw, 6rem) 0 6rem; }
 	.wk2__in { max-width: 46rem; }
+	.wk2__top { display: flex; align-items: flex-end; justify-content: space-between; gap: 1rem; }
+	.wk2__view { display: inline-flex; padding: 0.2rem; border: 1px solid var(--line); border-radius: 99px; flex: none; }
+	.wk2__view button { display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.35rem 0.75rem; border: 0; border-radius: 99px; background: none; color: var(--muted); font: inherit; font-size: 0.8rem; cursor: pointer; transition: background 0.2s, color 0.2s; }
+	.wk2__view svg { width: 0.85rem; height: 0.85rem; fill: none; stroke: currentColor; stroke-width: 1.5; }
+	.wk2__view button[aria-pressed='true'] { background: var(--ink); color: var(--bg); }
+	.wk2[data-view='list'] .gv, .wk2[data-view='grid'] .wk2__co { display: none; }
+	.wk2[data-view='grid'] .wk2__in { max-width: 74rem; }
+	.wk2[data-view='grid'] .wk2__peek { display: none; }
+
+	/* Grid: one stacked deck per company. Hover a deck and it widens while its cards spread into a row. */
+	.gv { display: flex; gap: 1.5rem; height: clamp(18rem, 32vw, 24rem); margin-top: clamp(3rem, 7vw, 4.5rem); }
+	.gv__deck { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; outline: none; transition: flex-grow 0.55s cubic-bezier(0.2, 0.8, 0.2, 1); }
+	.gv:hover .gv__deck, .gv:focus-within .gv__deck { flex-grow: 0.7; }
+	.gv .gv__deck:hover, .gv .gv__deck:focus-within, .gv .gv__deck.open { flex-grow: 3.2; }
+	.gv__stage { position: relative; flex: 1; }
+	.gv__card { --w: 78%; --gap: 0.75rem; position: absolute; top: 8%; left: calc((100% - var(--w)) / 2); width: var(--w); height: 80%; border-radius: 1rem; overflow: hidden; background: var(--paper); border: 1px solid var(--line); box-shadow: 0 18px 40px -22px rgba(0, 0, 0, 0.5); z-index: calc(10 - var(--i)); transform: rotate(calc((var(--i) - 0.5) * 3.5deg)) translateY(calc(var(--i) * 6px)); transition: left 0.55s cubic-bezier(0.2, 0.8, 0.2, 1), width 0.55s cubic-bezier(0.2, 0.8, 0.2, 1), top 0.55s, height 0.55s, transform 0.55s cubic-bezier(0.2, 0.8, 0.2, 1); color: inherit; text-decoration: none; }
+	.gv__card img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
+	.gv__cap { position: absolute; inset: auto 0 0 0; padding: 2.5rem 0.9rem 0.8rem; display: flex; flex-direction: column; gap: 0.15rem; background: linear-gradient(to top, rgba(0, 0, 0, 0.78), transparent); color: #fff; opacity: 0; transform: translateY(6px); transition: opacity 0.3s, transform 0.3s; }
+	.gv__cap b { font-size: 0.9rem; line-height: 1.25; }
+	.gv__cap small { font-size: 0.72rem; opacity: 0.8; }
+	.gv__deck:is(:hover, :focus-within, .open) .gv__card { --w: calc((100% - (var(--n) - 1) * var(--gap)) / var(--n)); left: calc(var(--i) * (var(--w) + var(--gap))); top: 0; height: 100%; transform: none; }
+	.gv__deck:is(:hover, :focus-within, .open) .gv__cap { opacity: 1; transform: none; transition-delay: 0.25s; }
+	.gv__deck:is(:hover, :focus-within, .open) .gv__card { pointer-events: auto; }
+	.gv__card:hover { border-color: var(--accent); }
+	.gv__card--co { display: grid; place-items: center; border-color: transparent; }
+	.gv__card--dandy { background: #17372a; }
+	.gv__card--amwell { background: #1d2f6f; }
+	.gv__colog { width: auto !important; height: 2.1rem !important; max-width: 70%; object-fit: contain !important; filter: brightness(0) invert(1); transition: transform 0.55s cubic-bezier(0.2, 0.8, 0.2, 1); }
+	.gv__deck:is(:hover, :focus-within, .open) .gv__colog { transform: translateY(-0.9rem) scale(0.8); }
+	.gv__cap--co { background: none; }
+	.gv__card--earlier { background: #2b2622; }
+	.gv__coword { white-space: nowrap; font-family: var(--display); font-size: clamp(1rem, 2vw, 1.6rem); letter-spacing: -0.03em; color: #fff; transition: transform 0.55s cubic-bezier(0.2, 0.8, 0.2, 1); }
+	.gv__deck:is(:hover, :focus-within, .open) .gv__coword { transform: translateY(-0.9rem) scale(0.8); }
+	.gv__label { display: flex; align-items: center; justify-content: center; gap: 0.6rem; margin: 1rem 0 0; color: var(--muted); font-size: 0.82rem; white-space: nowrap; }
+	.gv__label b { color: var(--ink); font-size: 1rem; }
+	.gv__deck { min-width: 8.5rem; }
+	.gv:is(:hover, :focus-within) .gv__deck:not(:hover, :focus-within) .gv__label span { display: none; }
+	.gv__card { container-type: inline-size; }
+	@container (max-width: 150px) { .gv__cap small { display: none; } .gv__cap b { font-size: 0.8rem; } }
+
 	.wk2__head h1 { margin: 0; font-size: clamp(2.6rem, 7vw, 4rem); letter-spacing: -0.04em; line-height: 1; }
 	.wk2__head p { margin: 1rem 0 0; max-width: 34rem; color: var(--muted); font-size: 1.05rem; line-height: 1.55; }
 
@@ -119,6 +211,13 @@ const co = companies.map((c) => ({
 	.wk2__peek.on { opacity: 1; }
 	.wk2__peek img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
+	@media (max-width: 720px) {
+		.gv { flex-direction: column; height: auto; gap: 2.5rem; }
+		.gv__stage { display: flex; gap: 0.75rem; overflow-x: auto; scroll-snap-type: x mandatory; margin: 0 -1rem; padding: 0 1rem 0.25rem; }
+		.gv__card { position: relative; flex: 0 0 72%; left: auto !important; top: auto !important; width: auto !important; height: auto !important; aspect-ratio: 4 / 3; transform: none !important; scroll-snap-align: start; }
+		.gv__cap { opacity: 1; transform: none; }
+		.gv__label { justify-content: flex-start; margin-top: 0.75rem; }
+	}
 	@media (max-width: 640px) {
 		.wk2__cohead { display: grid; grid-template-columns: auto 1fr; row-gap: 0.4rem; }
 		.wk2__meta { grid-column: 1 / -1; grid-row: 2; font-size: 0.8rem; }
@@ -129,5 +228,5 @@ const co = companies.map((c) => ({
 		.wk2__m { flex-direction: row; align-items: baseline; gap: 0.4rem; text-align: left; }
 		.wk2__m strong { font-size: 0.95rem; color: var(--accent); }
 	}
-	@media (prefers-reduced-motion: reduce) { .wk2__peek { display: none; } }
+	@media (prefers-reduced-motion: reduce) { .wk2__peek { display: none; } .gv__deck, .gv__card, .gv__cap { transition: none; } }
 </style>
