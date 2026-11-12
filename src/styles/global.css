@@ -16199,3 +16199,12 @@ video.cmp__img:not(.cmp__img--new){object-position:left center}
 .sc__bul--sync li { cursor: pointer; }
 .sc__bul--sync li:hover { opacity: 1; }
 .tmx .tm td, .tmx .tm tbody th { cursor: pointer; }
+/* persona avatars on the tier columns */
+.tm thead th .tm__avs { display: flex !important; margin: 0 0 0.45rem !important; }
+.tm__av { width: 1.7rem; height: 1.7rem; border-radius: 50%; object-fit: cover; box-shadow: 0 0 0 2px #0b1a36, 0 0 0 3px rgba(140, 200, 255, 0.6); }
+.tm__avs .tm__av + .tm__av { margin-left: -0.45rem; }
+.tm--ten .tm__av { box-shadow: 0 0 0 2px #0b1a36, 0 0 0 3px rgba(240, 140, 160, 0.7); }
+.tm__av--gen { display: grid; place-items: center; background: rgba(214, 221, 232, 0.14); box-shadow: 0 0 0 2px #0b1a36, 0 0 0 3px rgba(214, 221, 232, 0.5); }
+.tm__av--gen svg { width: 1rem; height: 1rem; fill: none; stroke: #d6dde8; stroke-width: 1.8; stroke-linecap: round; }
+@media (max-width: 899px) { .tm__av { width: 1.2rem; height: 1.2rem; } .tm__av--gen svg { width: 0.7rem; height: 0.7rem; } .tm thead th .tm__avs { margin-bottom: 0.25rem !important; } }
+.tm thead th .tm__avs .tm__av { width: 1.7rem; height: 1.7rem; } @media (max-width: 899px) { .tm thead th .tm__avs .tm__av { width: 1.2rem; height: 1.2rem; } }
