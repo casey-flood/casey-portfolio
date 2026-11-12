@@ -79,7 +79,7 @@ const pages: P[] = chapters.flatMap((c) => [
 				</div>
 			))}
 		</div>
-		<p class="sb__now" aria-live="polite"><span data-now-date></span><b data-now-title></b><em><span data-counter>1</span> / {pages.length}</em></p>
+		<p class="sb__now" aria-live="polite"><span data-now-date></span><b data-now-title></b><em><span data-counter>1</span> / {pages.length}</em><button type="button" class="sb__jump" data-jump>Jump to today →</button></p>
 	</nav>
 	<dialog class="sb__lb" aria-label="Photo viewer">
 		<button type="button" class="sb__lbx" data-lb="close" aria-label="Close">×</button>
@@ -193,6 +193,8 @@ const pages: P[] = chapters.flatMap((c) => [
 	.sb__now { display: flex; align-items: baseline; justify-content: center; gap: 0.6rem; margin: 1.1rem 0 0; font-size: 0.82rem; text-align: center; }
 	.sb__now span { font-family: var(--mono, monospace); font-size: 0.7rem; color: var(--acc); }
 	.sb__now b { font-weight: 600; }
+	.sb__jump { margin-left: 0.4rem; padding: 0.3rem 0.7rem; border-radius: 99px; border: 1px solid var(--line); background: none; color: var(--muted); font: inherit; font-size: 0.75rem; cursor: pointer; transition: color 0.2s, border-color 0.2s; white-space: nowrap; }
+	.sb__jump:hover { color: var(--ink); border-color: var(--acc); }
 	.sb__now em { font-style: normal; font-family: var(--mono, monospace); font-size: 0.7rem; color: var(--muted); }
 
 	@media (max-width: 760px) {
@@ -246,6 +248,8 @@ const pages: P[] = chapters.flatMap((c) => [
 		paintBg();
 		new MutationObserver(paintBg).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme', 'class'] });
 		let cur = -1;
+		const jump = root.querySelector<HTMLButtonElement>('[data-jump]')!;
+		const today = pages.map((p, k) => (p.classList.contains('is-cover') ? k : -1)).filter((k) => k >= 0).pop() ?? pages.length - 1;
 
 		const go = (i: number, smooth = !reduce) => {
 			const p = pages[Math.max(0, Math.min(pages.length - 1, i))];
@@ -263,6 +267,7 @@ const pages: P[] = chapters.flatMap((c) => [
 			ticks.forEach((t, k) => t.classList.toggle('is-on', k === i));
 			groups.forEach((g) => g.classList.toggle('is-on', g.dataset.ch === ch));
 			counter.textContent = String(i + 1);
+			jump.textContent = i < today ? 'Jump to today →' : '↺ Start from the beginning';
 			nowDate.textContent = p.querySelector('.sb__head span')?.textContent ?? '';
 			nowTitle.textContent = p.querySelector('h2')?.textContent ?? '';
 			left.disabled = i === 0;
@@ -272,6 +277,7 @@ const pages: P[] = chapters.flatMap((c) => [
 			if (ch) history.replaceState(null, '', `#${ch}`);
 		};
 
+		jump.addEventListener('click', () => go(cur < today ? today : 0));
 		const io = new IntersectionObserver((es) => es.forEach((e) => e.isIntersecting && set(pages.indexOf(e.target as HTMLElement))), { root: track, threshold: 0.6 });
 
 		root.querySelectorAll<HTMLElement>('[data-go]').forEach((b) => b.addEventListener('click', () => go(Number(b.dataset.go))));
