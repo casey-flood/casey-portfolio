@@ -2,6 +2,7 @@
 import Base from '../layouts/Base.astro';
 import Frame from '../components/Frame.astro';
 import MiFig from '../components/MiFig.astro';
+import CareerGantt from '../components/CareerGantt.astro';
 import { paper, pratt, newyork, testing, mytrips, amwell, freelance, dandy } from '../data/journey';
 
 const slots: Record<number, number[][]> = {
@@ -135,6 +136,9 @@ const events = [
 				<p class="lede">Starting today and going back in time. Scroll to rewind.</p>
 			</div>
 		</section>
+
+		<!-- CAREER AT A GLANCE: the Gantt timeline (Career Deep Dive) -->
+		<CareerGantt />
 
 		<!-- STORY: year pills + event stage with a media gallery -->
 		<div class="scrolly" id="st" style={`--n:${events.length}`}>
