@@ -79,7 +79,7 @@ const slug = Astro.url.pathname.split('/').filter(Boolean).pop() ?? 'page';
 								<article class:list={['sc__row', { 'sc__row--solo': !b.media && !b.viz && !b.metric && !b.cards && !b.html }]} data-i={i}>
 									<div class="sc__text">
 										<h3>{b.title}</h3>
-										<p>{b.text}</p>
+										{b.textHtml ? <div class="sc__split" set:html={b.textHtml} /> : <p>{b.text}</p>}
 										{b.quote && (
 											<blockquote class="sc__quote"><p>{b.quote[0]}</p><footer>{b.quote[1]}</footer></blockquote>
 										)}
@@ -354,6 +354,12 @@ const slug = Astro.url.pathname.split('/').filter(Boolean).pop() ?? 'page';
 		btns.forEach((b) => b.addEventListener('click', () => { manual = true; clearInterval(timer); set(b.dataset.set!); }));
 		cz.querySelectorAll<HTMLImageElement>('.crz__img').forEach((im) => { im.style.cursor = 'zoom-in'; im.addEventListener('click', () => expand(im)); });
 		if (row) new MutationObserver(() => { if (row.classList.contains('on')) { set('open'); loop(); } else clearInterval(timer); }).observe(row, { attributes: true, attributeFilter: ['class'] });
+	});
+	// anything marked data-full opens that image full size
+	document.querySelectorAll<HTMLElement>('.sc__viz--html [data-full]').forEach((el) => {
+		const open = () => { const im = new Image(); im.src = el.dataset.full!; im.alt = el.getAttribute('aria-label') ?? ''; expand(im); };
+		el.addEventListener('click', open);
+		if (el.tagName !== 'BUTTON') el.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); } });
 	});
 	// zoomable screenshots inside other visuals (IA map)
 	document.querySelectorAll<HTMLElement>('.res').forEach((r) => {

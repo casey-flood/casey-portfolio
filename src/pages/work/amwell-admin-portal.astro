@@ -74,9 +74,9 @@ const res = `
 
 const pains = `
 <ol class="pains" aria-label="Three pain points">
-	<li><figure><img src="/amwell/cs/pp-nav.webp" alt="One branch of the legacy sitemap, nested several levels deep" /></figure><b><i>1</i>Navigation confusion</b><span>Settings buried several levels deep, with no organization context to steer by.</span></li>
-	<li><figure><img src="/amwell/cs/pp-roles.webp" alt="A matrix of what each admin tier can do" /></figure><b><i>2</i>Unclear role-based access</b><span>Every tier saw the same sprawling system, so admins ran into things they couldn’t, or shouldn’t, change.</span></li>
-	<li><figure><img src="/amwell/cs/pp-task.webp" alt="The legacy System Admin page stuck on Loading" /></figure><b><i>3</i>Task completion barriers</b><span>Lost sessions, near-duplicate org names, and numeric IDs turned small tasks into long ones.</span></li>
+	<li data-full="/amwell/cs/sitemaps.webp" tabindex="0" role="button" aria-label="Navigation confusion: see the full legacy sitemap"><figure><img src="/amwell/cs/pp-nav.webp" alt="One branch of the legacy sitemap, nested several levels deep" /></figure><b><i>1</i>Navigation confusion</b><span>Settings buried several levels deep, with no organization context to steer by.</span></li>
+	<li data-full="/amwell/cs/matrix.webp" tabindex="0" role="button" aria-label="Unclear role-based access: see the full permissions matrix"><figure><img src="/amwell/cs/pp-roles.webp" alt="A matrix of what each admin tier can do" /></figure><b><i>2</i>Unclear role-based access</b><span>Every tier saw the same sprawling system, so admins ran into things they couldn’t, or shouldn’t, change.</span></li>
+	<li data-full="/amwell/cs/before.jpg" tabindex="0" role="button" aria-label="Task completion barriers: see the full screen"><figure><img src="/amwell/cs/pp-task.webp" alt="The legacy System Admin page stuck on Loading" /></figure><b><i>3</i>Task completion barriers</b><span>Lost sessions, near-duplicate org names, and numeric IDs turned small tasks into long ones.</span></li>
 </ol>`;
 
 const deck = `
@@ -137,6 +137,14 @@ const wire = `
 	<figure><img src="/amwell/cs/wires.webp" alt="Early wireframes of the global nav and dashboard" /><figcaption>Then wireframes</figcaption></figure>
 </div>`;
 
+const tiers = `
+<div class="tiers">
+	<article class="tier tier--amw"><p class="tier__k"><img src="/brand/amwell-white.svg" alt="Amwell" /> Super Admin</p><b>Every organization</b><small>Sr. implementation managers, NOC agents</small><ul><li>Create and remove tenants</li><li>Manage other admin accounts</li><li>All configuration rights</li></ul></article>
+	<article class="tier tier--ten"><p class="tier__k">Tenant Super Admin</p><b>One organization</b><small>Chief digital officers, IT directors</small><ul><li>Service lines and provider groups</li><li>Org branding and settings</li><li>Manage other admin accounts</li></ul></article>
+	<article class="tier tier--basic"><p class="tier__k">Tenant Basic Admin</p><b>One department</b><small>Department managers, service line directors</small><ul><li>Specific service lines</li><li>Department settings</li><li>Sees org settings, can’t change them</li></ul></article>
+	<p class="tiers__more"><button type="button" data-full="/amwell/cs/tiers.webp">The full tier chart ⤢</button><button type="button" data-full="/amwell/cs/matrix.webp">The permissions matrix ⤢</button></p>
+</div>`;
+
 const scenes: { id: string; label: string; nav: string; beats: Beat[] }[] = [
 	{
 		id: 'context',
@@ -187,8 +195,14 @@ const scenes: { id: string; label: string; nav: string; beats: Beat[] }[] = [
 			},
 			{
 				title: 'Four roles, very different needs.',
-				text: 'Inside Amwell, implementation managers configure everything across many clients and NOC specialists troubleshoot the whole platform. On the client side, health system admins only care about their own organization, and IT teams connect Amwell to the systems they already run. Access splits three ways too: Amwell super admin, tenant super admin and tenant basic admin.',
+				text: 'Inside Amwell, implementation managers configure everything across many clients and NOC specialists troubleshoot the whole platform. On the client side, health system admins only care about their own organization, and IT teams connect Amwell to the systems they already run.',
+				textHtml: '<p><span class="ptag ptag--in"><img src="/brand/amwell-white.svg" alt="Amwell" />Internal users</span>Implementation managers configure everything across many clients. NOC specialists troubleshoot the whole platform.</p><p><span class="ptag ptag--out">Clients</span>Health system admins only care about their own organization. IT teams connect Amwell to the systems they already run.</p>',
 				html: deck,
+			},
+			{
+				title: 'Three tiers of access, one system.',
+				text: 'I defined three admin tiers, each a narrower slice of the same portal: Amwell super admins across every organization, tenant super admins across one, and tenant basic admins within a department. Every screen shows only what that tier can touch.',
+				html: tiers,
 			},
 		],
 	},
