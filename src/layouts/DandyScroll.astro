@@ -451,9 +451,9 @@ const slug = Astro.url.pathname.split('/').filter(Boolean).pop() ?? 'page';
 	// feedback channels: hover or click a tab to see that evidence; images open as a group
 	document.querySelectorAll<HTMLElement>('.fbk').forEach((w) => {
 		const btns = Array.from(w.querySelectorAll<HTMLButtonElement>('.fbk__tabs button'));
-		const imgs = Array.from(w.querySelectorAll<HTMLImageElement>('.fbk__stage img'));
+		const imgs = Array.from(w.querySelectorAll<HTMLImageElement>('.fbk__stage img.fbk__shot, .fbk__stage > figure > img'));
 		const set = (k: string) => { w.dataset.k = k; btns.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.k === k))); };
-		btns.forEach((b) => { b.addEventListener('click', () => set(b.dataset.k!)); b.addEventListener('mouseenter', () => set(b.dataset.k!)); });
+		btns.forEach((b) => { b.addEventListener('click', () => set(b.dataset.k!)); });
 		imgs.forEach((im) => im.addEventListener('click', () => expand(im, imgs)));
 	});
 	// anything marked data-full opens that image full size
