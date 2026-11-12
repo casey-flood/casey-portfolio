@@ -16361,3 +16361,19 @@ video.cmp__img:not(.cmp__img--new){object-position:left center}
 	.swc__card figcaption { font-size: 0.64rem; } .pcx { gap: 0.4rem; margin-top: 0.6rem; } .pcx__col { padding: 0.45rem 0.55rem; } .pcx__col li { font-size: 0.62rem; } .pcx__col b { font-size: 0.56rem; }
 }
 .swc__card img { aspect-ratio: 16 / 10; } .swc__card { flex-basis: 78%; }
+
+/* overlapping card deck (like My story): click to flip, ⤢ to open full size */
+.dk2 { color: #eef3fb; }
+.dk2__deck { position: relative; width: 88%; aspect-ratio: 16 / 10; margin: 0.4rem 0 0 0.6rem; cursor: pointer; outline: none; }
+.dk2__fig { position: absolute; inset: 0; margin: 0; border-radius: 0.9rem; overflow: hidden; background: #fff; box-shadow: 0 20px 40px -18px rgba(0, 0, 0, 0.7); transform: rotate(calc(0.6deg + var(--o) * -3.5deg)) translate(calc(var(--o) * -3.5%), calc(var(--o) * 2.5%)) scale(calc(1 - var(--o) * 0.035)); z-index: calc(10 - var(--o)); transition: transform 0.55s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.4s; }
+.dk2__fig img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.dk2__fig figcaption { display: none; }
+.dk2__deck:hover .dk2__fig[data-o='0'], .dk2__deck:focus-visible .dk2__fig[data-o='0'] { transform: rotate(0deg) translateY(-4px); }
+.dk2__exp { position: absolute; top: 0.6rem; right: 0.6rem; z-index: 20; display: grid; place-items: center; width: 2rem; height: 2rem; border-radius: 50%; border: 0; background: rgba(0, 0, 0, 0.55); color: #fff; cursor: zoom-in; opacity: 0; transition: opacity 0.2s; }
+.dk2__deck:hover .dk2__exp, .dk2__exp:focus-visible { opacity: 1; }
+@media (hover: none) { .dk2__exp { opacity: 1; } }
+.dk2__cap { display: flex; justify-content: space-between; gap: 1rem; margin: 1.3rem 0 0; font-size: 0.8rem; color: #b4c6e4; }
+.dk2__cap em { font-style: normal; font-family: var(--mono, monospace); font-size: 0.66rem; color: #9db6dc; white-space: nowrap; }
+.dk2 .pcx { margin-top: 0.9rem; }
+@media (max-width: 899px) { .cx.cx--mob .sc .sc__row .sc__viz.sc__viz--html > .dk2 { position: relative !important; transform: none !important; } .dk2__cap { font-size: 0.64rem; margin-top: 0.9rem; } }
+.dk2__cap { margin-top: 2rem !important; } .dk2__deck { width: 84%; margin-left: 1.2rem; }
