@@ -154,7 +154,7 @@ const jargon = `
 <div class="jg" role="img" aria-label="Floating platform terms and their definitions, with doctor, provider, clinician and practitioner all meaning the same thing">
 	<span class="jg__t" style="left:4%;top:3%;--d:8.0s;--k:0"><b>Tenant</b><small>A Converge client, like CVS</small></span><span class="jg__t" style="left:56%;top:1%;--d:9.7s;--k:1"><b>Service line</b><small>A clinical offering patients can book</small></span><span class="jg__t" style="left:22%;top:21%;--d:11.4s;--k:2"><b>Classifications</b><small>How services show up for patients</small></span><span class="jg__t" style="left:66%;top:22%;--d:13.1s;--k:3"><b>Tiering</b><small>Lets providers see patients across tenants</small></span><span class="jg__t" style="left:1%;top:41%;--d:8.0s;--k:4"><b>Exclusivity timer</b><small>Gives a client’s own providers first look</small></span><span class="jg__t" style="left:38%;top:43%;--d:9.7s;--k:5"><b>Patient requeue</b><small>Sends a patient back to the queue</small></span><span class="jg__t" style="left:68%;top:50%;--d:11.4s;--k:6"><b>Practitioner tag</b><small>A label attached to a provider</small></span><span class="jg__t" style="left:12%;top:63%;--d:13.1s;--k:7"><b>Provider group</b><small>Providers grouped by a tenant</small></span>
 	<span class="jg__same" style="left:30%;top:84%"><b>Doctor</b><b>Provider</b><b>Clinician</b><b>Practitioner</b><small>Same thing, four words</small></span>
-	<p class="jg__how">Interviews <i>→</i> card sort <i>→</i> admins define each term together</p>
+	<p class="jg__how">Interviews <i>→</i> card sort <i>→</i> workshop with 8 departments <i>→</i> one enterprise dictionary</p>
 </div>`;
 
 const sw = `
@@ -171,6 +171,13 @@ const bets = `
 		<article class="bt__c"><i class="bt__ic"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2.5"/><path d="M3 9h18M8 13h3M8 16h6M15 13h2"/></svg></i><small>Bet 2</small><b>A dashboard that starts the day</b><p>The few things each role checks first, so admins stop hunting across tools.</p><span class="bt__m">Measured by time lost switching tools</span></article>
 	</div>
 </div>`;
+
+const inv = `
+<ol class="inv">
+	<li><small>1 · Inventory</small><figure><img src="/amwell/cs/sitemaps.webp" alt="Every screen of the legacy portal, mapped" data-zoom /></figure><p>Every legacy screen, mapped</p></li>
+	<li><small>2 · Card sort</small><div class="inv__sort" aria-hidden="true"><div><b>The organization</b><i>Overview</i><i>Branding</i><i>Payors</i></div><div><b>People</b><i>Patients</i><i>Practitioners</i></div><div><b>What it offers</b><i>Service lines</i><i>Intake</i><i>Visit settings</i></div></div><p>Admins grouped the settings themselves</p></li>
+	<li><small>3 · New sitemap</small><ul class="inv__nav"><li class="on">Tenant overview</li><li>Service selection</li><li>Patients</li><li>Practitioners</li><li>Carepoint devices</li><li>Payors</li><li>Application configurations</li><li>Integrations and access</li><li>Branding and copy</li></ul><p>Tenant first, then what’s inside it</p></li>
+</ol>`;
 
 const scenes: { id: string; label: string; nav: string; beats: Beat[] }[] = [
 	{
@@ -246,7 +253,7 @@ const scenes: { id: string; label: string; nav: string; beats: Beat[] }[] = [
 			},
 			{
 				title: 'High cognitive load meant 2+ weeks of training.',
-				text: 'Deep menus and unclear access were part of it. So were the words. In interviews, admins used doctor, provider, clinician and practitioner for the same person, and tenant, instance and client for the same organization. So I ran a card sort, then brought admins together to define each term once.',
+				text: 'Deep menus and unclear access were part of it. So were the words. In interviews, admins used doctor, provider, clinician and practitioner for the same person, and tenant, instance and client for the same organization. So I ran a card sort, then a terminology workshop across eight departments that produced one standard enterprise dictionary.',
 				html: jargon,
 			},
 			{
@@ -262,9 +269,9 @@ const scenes: { id: string; label: string; nav: string; beats: Beat[] }[] = [
 		nav: 'The options',
 		beats: [
 			{
-				title: 'Align on language first.',
-				text: 'UX audit and terminology workshops across 8 departments produced a standard enterprise dictionary, then a refined sitemap.',
-				media: { kind: 'image', src: `${A}/sitemaps.webp`, alt: 'Sitemaps for the redesigned admin portal' },
+				title: 'Inventory, card sort, then a new sitemap.',
+				text: 'I inventoried every screen of the legacy portal, then ran a card sort with admins to see how they would group the settings themselves. Their groups, named with the new enterprise dictionary, became the sitemap: the tenant first, then everything you configure inside it.',
+				html: inv,
 			},
 			{
 				title: 'Option 1: separate interfaces.',
