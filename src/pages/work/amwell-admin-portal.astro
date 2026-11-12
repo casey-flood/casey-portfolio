@@ -132,9 +132,111 @@ const spec = `
 </div>`;
 
 const wire = `
-<div class="wire">
-	<figure><img src="/amwell/cs/sk-paper.webp" alt="My paper sketches of the tenant home and global search" /><figcaption>Paper first</figcaption></figure>
-	<figure><img src="/amwell/cs/wires.webp" alt="Early wireframes of the global nav and dashboard" /><figcaption>Then wireframes</figcaption></figure>
+<div class="wf">
+	<p class="wf__call wf__call--1"><b>1</b><span>A global nav for Amwell super admins, searching every patient, provider and device across all tenants. Each tier gets its own version.</span></p>
+	<div class="wf__frames">
+		<figure class="wf__a"><img src="/amwell/cs/wf-a.webp" alt="Wireframe: super admin home with recent activity, totals and a tenant table" /></figure>
+		<figure class="wf__b"><img src="/amwell/cs/wf-b.webp" alt="Wireframe: the same home as a dashboard with tenant charts" /><i class="wf__pin wf__pin--1" style="--x:70%;--y:5.4%"><b>1</b></i><i class="wf__pin wf__pin--2" style="--x:79%;--y:71%"><b>2</b></i></figure>
+	</div>
+	<p class="wf__call wf__call--2"><b>2</b><span>I built this as a customizable dashboard. As I iterated, I learned admins don’t ordinarily open this data, so I cut it back.</span></p>
+	<p class="wf__note">Made fast in brainstorming sessions, without existing components or a design system. Click a frame to expand.</p>
+</div>`;
+
+const dsx = `
+<div class="dsb">
+	<figure class="dsb__main"><img src="/amwell/cs/ds-comp.webp" alt="A sliding panel built from existing components: a header, a list of items and a content area" /><figcaption>Built from existing components</figcaption></figure>
+	<figure><img src="/amwell/cs/ds-grid.webp" alt="The same panels with 24px spacing marked in pink" /><figcaption>Spaced on a 24px grid</figcaption></figure>
+	<figure><img src="/amwell/cs/ds-modes.webp" alt="The panel at 1600px and 992px widths" /><figcaption>Checked at 1600 and 992 px</figcaption></figure>
+</div>`;
+
+const fws = `
+<div class="fws" data-k="0">
+	<div class="fws__stage">
+		<figure data-i="0"><span class="fws__img"><img src="/amwell/cs/fw-1.webp" alt="The default page: a header and one content area" /><i class="fws__pin" style="--x:50%;--y:52%"></i></span></figure>
+		<figure data-i="1"><span class="fws__img"><img src="/amwell/cs/fw-2.webp" alt="The collapse-rator expanded beside a tenant page" /><i class="fws__pin" style="--x:14%;--y:55%"></i></span></figure>
+		<figure data-i="2"><span class="fws__img"><img src="/amwell/cs/fw-3.webp" alt="Three states of the menu with accordion sub-pages open" /><i class="fws__pin" style="--x:14%;--y:36%"></i></span></figure>
+	</div>
+	<div class="fws__tabs" role="tablist" aria-label="How the menu scales">
+		<button type="button" data-k="0" aria-pressed="true"><b>1</b>Default page</button>
+		<button type="button" data-k="1" aria-pressed="false"><b>2</b>The collapse-rator</button>
+		<button type="button" data-k="2" aria-pressed="false"><b>3</b>Sub-pages</button>
+	</div>
+	<div class="fws__txt">
+		<p data-i="0">I started from existing design system parts: one default page every admin screen is built on.</p>
+		<p data-i="1">Then a side menu that expands and collapses. 65% of admins found the old static sidebar overwhelming.</p>
+		<p data-i="2">Accordion sub-pages hold multi-step setup. Sections collapse to cut cognitive load and give data-heavy tasks the room.</p>
+	</div>
+</div>`;
+
+const dkm = `
+<div class="dkm">
+	<div class="dkm__deck">
+		<figure style="--i:0"><img src="/amwell/cs/dk-1.webp" alt="Dark mode: a tenant’s service lines" /></figure>
+		<figure style="--i:1"><img src="/amwell/cs/dk-2.webp" alt="Dark mode: the tenant list across all tenants" /></figure>
+		<figure style="--i:2"><img src="/amwell/cs/dk-3.webp" alt="Dark mode: the carepoint device list, with battery status in green, amber and red" /></figure>
+	</div>
+	<p class="dkm__set" aria-label="Appearance setting: dark by default, light available"><span>Appearance</span><b class="on">Dark · default</b><b>Light</b></p>
+</div>`;
+
+const gnv = `
+<div class="gnv" data-s="1">
+	<p class="gnv__who"><span aria-hidden="true">→</span>Amwell super admin · signed in with access to every tenant</p>
+	<div class="gnv__slot gnv__slot--top">
+		<p class="gnv__call gnv__call--1" data-s="1"><b>1</b><span><strong>Global nav, for this tier only.</strong> One bar to every tenant’s patients, practitioners and devices, so supporting a client never means switching tools.</span></p>
+		<p class="gnv__call gnv__call--4" data-s="2"><b>4</b><span><strong>Switch clients without backing out.</strong> Search for another tenant from inside this one.</span></p>
+	</div>
+	<div class="gnv__frame">
+		<figure data-s="1"><img src="/amwell/cs/gn-screen.webp" alt="All Tenants: the global nav across the top and a searchable tenant list" /><i class="gnv__hl" style="left:34%;top:0.6%;width:56%;height:6.6%"></i><i class="gnv__hl" style="left:3.5%;top:21.5%;width:59%;height:10%"></i><i class="gnv__pin gnv__pin--1" style="--x:62%;--y:3.5%"><b>1</b></i><i class="gnv__pin gnv__pin--2" style="--x:27%;--y:27%"><b>2</b></i></figure>
+		<figure data-s="2"><img src="/amwell/cs/gn-tenant.webp" alt="Inside Abundant Health: breadcrumbs back to Tenants and a Search to Change Tenant box" /><i class="gnv__hl" style="left:2.5%;top:8.4%;width:18.5%;height:5%"></i><i class="gnv__hl" style="left:74.5%;top:13.6%;width:23%;height:6.6%"></i><i class="gnv__pin gnv__pin--3" style="--x:11.5%;--y:10.8%"><b>3</b></i><i class="gnv__pin gnv__pin--4" style="--x:86%;--y:17%"><b>4</b></i></figure>
+	</div>
+	<div class="gnv__slot gnv__slot--bot">
+		<p class="gnv__call gnv__call--2" data-s="1"><b>2</b><span><strong>Every client in one list.</strong> Search tenants by name or ID, then open one to work inside it.</span></p>
+		<p class="gnv__call gnv__call--3" data-s="2"><b>3</b><span><strong>Always know where you are.</strong> Breadcrumbs show the path back to every tenant.</span></p>
+	</div>
+	<div class="gnv__tabs" role="group" aria-label="Where the super admin is">
+		<button type="button" data-s="1" aria-pressed="true">All tenants</button>
+		<button type="button" data-s="2" aria-pressed="false">Inside a tenant</button>
+	</div>
+</div>`;
+
+const gcl = `
+<div class="gnv gnv--cl" data-s="1">
+	<p class="gnv__who gnv__who--av"><img src="/amwell/cs/av-client.webp" alt="" />Client super admin · Abundant Health telehealth program director</p>
+	<div class="gnv__slot gnv__slot--top">
+		<p class="gnv__call gnv__call--5" data-s="1"><b>1</b><span><strong>No global nav.</strong> Just Home, their own tenant, admin management and products. They only work in one organization, so that’s all they see.</span></p>
+	</div>
+	<div class="gnv__frame">
+		<figure data-s="1"><img src="/amwell/cs/cl-screen.webp" alt="Abundant Health’s portal: a short client nav, the tenant menu, and Tenant Information with a last-updated date" /><i class="gnv__hl" style="left:64.5%;top:0.5%;width:24%;height:6.6%"></i><i class="gnv__hl" style="left:42%;top:28%;width:17%;height:6%"></i><i class="gnv__pin gnv__pin--5" style="--x:76%;--y:3.6%"><b>1</b></i><i class="gnv__pin gnv__pin--6" style="--x:50.5%;--y:31.2%"><b>2</b></i></figure>
+	</div>
+	<div class="gnv__slot gnv__slot--bot">
+		<p class="gnv__call gnv__call--6" data-s="1"><b>2</b><span><strong>An audit trail.</strong> Tenant information shows when it last changed, so a program director can tell if it’s current.</span></p>
+	</div>
+</div>`;
+
+const gsl = `
+<div class="gnv gnv--sl" data-s="1">
+	<p class="gnv__who gnv__who--av"><img src="/amwell/cs/av-client.webp" alt="" />Super admins only · shown here inside Abundant Health</p>
+	<div class="gnv__slot gnv__slot--top">
+		<p class="gnv__call gnv__call--7" data-s="1"><b>1</b><span><strong>Add a service line.</strong> Only super admins can create new service lines in their organization.</span></p>
+	</div>
+	<div class="gnv__frame">
+		<figure data-s="1"><img src="/amwell/cs/sl-screen.webp" alt="Abundant Health’s service lines: a table of lines with status and type, an Add Service Line button and a menu on each row" /><i class="gnv__hl" style="left:81%;top:29%;width:16.5%;height:7.5%"></i><i class="gnv__hl" style="left:91.5%;top:53.5%;width:5.5%;height:42%"></i><i class="gnv__pin gnv__pin--7" style="--x:79%;--y:32.6%"><b>1</b></i><i class="gnv__pin gnv__pin--8" style="--x:94.2%;--y:57.9%"><b>2</b></i></figure>
+	</div>
+	<div class="gnv__slot gnv__slot--bot">
+		<p class="gnv__call gnv__call--8" data-s="1"><b>2</b><span><strong>Change how each line works.</strong> The menu on every row opens that line’s configuration.</span></p>
+	</div>
+</div>`;
+
+const uxm = `
+<div class="uxm">
+	<div class="uxm__rows">
+		<ul class="uxm__row"><li><img src="/amwell/cs/ux-1.webp" alt="All Tenants: the tenant list" loading="lazy" /></li><li><img src="/amwell/cs/ux-5.webp" alt="A dashboard with recent activity and totals" loading="lazy" /></li><li><img src="/amwell/cs/ux-3.webp" alt="A service line’s overview" loading="lazy" /></li><li><img src="/amwell/cs/ux-8.webp" alt="The practitioner list" loading="lazy" /></li><li><img src="/amwell/cs/ux-6.webp" alt="A tenant’s service lines" loading="lazy" /></li><li aria-hidden="true"><img src="/amwell/cs/ux-1.webp" alt="" loading="lazy" /></li><li aria-hidden="true"><img src="/amwell/cs/ux-5.webp" alt="" loading="lazy" /></li><li aria-hidden="true"><img src="/amwell/cs/ux-3.webp" alt="" loading="lazy" /></li><li aria-hidden="true"><img src="/amwell/cs/ux-8.webp" alt="" loading="lazy" /></li><li aria-hidden="true"><img src="/amwell/cs/ux-6.webp" alt="" loading="lazy" /></li></ul>
+		<ul class="uxm__row uxm__row--rev"><li><img src="/amwell/cs/ux-4.webp" alt="The All Tenants dashboard with usage rings" loading="lazy" /></li><li><img src="/amwell/cs/ux-10.webp" alt="A tenant’s overview" loading="lazy" /></li><li><img src="/amwell/cs/ux-2.webp" alt="Menu explorations: four accordion states" loading="lazy" /></li><li><img src="/amwell/cs/ux-9.webp" alt="Urgent Care service line details" loading="lazy" /></li><li><img src="/amwell/cs/ux-7.webp" alt="Four more menu states" loading="lazy" /></li><li aria-hidden="true"><img src="/amwell/cs/ux-4.webp" alt="" loading="lazy" /></li><li aria-hidden="true"><img src="/amwell/cs/ux-10.webp" alt="" loading="lazy" /></li><li aria-hidden="true"><img src="/amwell/cs/ux-2.webp" alt="" loading="lazy" /></li><li aria-hidden="true"><img src="/amwell/cs/ux-9.webp" alt="" loading="lazy" /></li><li aria-hidden="true"><img src="/amwell/cs/ux-7.webp" alt="" loading="lazy" /></li></ul>
+	</div>
+	<ul class="uxm__stats">
+		<li><b>113</b><span>high-fidelity screens, across a team of five designers</span></li>
+		<li><b>~40</b><span>designed by me: the framework, dashboard and tenant pages</span></li>
+	</ul>
 </div>`;
 
 const tiers = `
@@ -354,19 +456,19 @@ const scenes: { id: string; label: string; nav: string; beats: Beat[] }[] = [
 				html: fbk,
 			},
 			{
-				title: 'Paper, then wireframes, then cut what didn’t matter.',
-				text: 'I sketched on paper, then wireframed. The first dashboard was a customizable home for super admins. Testing showed admins don’t ordinarily open that data, so I made the dashboard lighter.',
+				title: 'Wireframes first, then I cut what didn’t matter.',
+				text: 'I wireframed the busiest home first, the Amwell super admin’s, to test the framework. It started as a customizable dashboard. As I iterated, I learned admins don’t ordinarily open that data, so I made the home lighter.',
 				html: wire,
 			},
 			{
 				title: 'Built on the existing design system.',
 				text: 'I moved from rough wireframes to Amwell’s provider and patient components for consistency. Desktop first, since 99.8% of admins use desktop.',
-				media: { kind: 'image', src: `${A}/dsys.webp`, alt: 'Layout explorations using the Amwell design system' },
+				html: dsx,
 			},
 			{
-				title: '113 screens, explored in high fidelity.',
-				text: 'I pushed the navigation, dashboard, tenant and service line pages through 113 UI designs, testing layouts, menu states and data views before committing to one direction.',
-				media: { kind: 'image', src: `${A}/ui-explore.webp`, alt: 'A grid of admin portal UI explorations' },
+				title: '113 screens, explored as a team.',
+				text: 'Five designers pushed the portal through 113 high-fidelity screens. I designed about 40 of them, covering the navigation framework, dashboard, tenant and service line pages, testing layouts, menu states and data views before we committed to one direction.',
+				html: uxm,
 			},
 			{
 				title: 'Admins needed deep menus and wide tables on the same screen.',
@@ -386,7 +488,7 @@ const scenes: { id: string; label: string; nav: string; beats: Beat[] }[] = [
 			{
 				title: 'One menu that scales with every role.',
 				text: 'The same component serves a super admin with every section and a basic admin with a few. It remembers whether you collapsed it, so a page refresh never undoes your choice.',
-				media: { kind: 'image', src: `${A}/framework.webp`, alt: 'The default view, the collapse-rator, and the scalable accordion menu' },
+				html: fws,
 			},
 			{
 				title: 'One tray for every outside tool.',
@@ -404,9 +506,9 @@ const scenes: { id: string; label: string; nav: string; beats: Beat[] }[] = [
 				media: { kind: 'image', src: `${A}/tech.webp`, alt: 'The technical architecture for the contextual interface' },
 			},
 			{
-				title: 'A dark mode for long sessions.',
-				text: 'Admins live in this tool all day. The final system shipped with a dark mode designed to the same standards.',
-				media: { kind: 'image', src: `${A}/dark.webp`, alt: 'Dark mode screens' },
+				title: 'Dark by default, built for long sessions.',
+				text: 'Many admins keep this portal open all shift, like NOC agents watching device status around the clock. I made dark the default to cut glare over long sessions and let status colors and actions stand out. Anyone who prefers light can switch it in settings.',
+				html: dkm,
 			},
 		],
 	},
@@ -427,23 +529,18 @@ const scenes: { id: string; label: string; nav: string; beats: Beat[] }[] = [
 			},
 			{
 				title: 'For the Amwell super admin: a global view.',
-				text: 'A tenant list with search and add. Global navigation to every tenant, patient, provider, and device.',
-				media: { kind: 'image', src: `${A}/hifi1.webp`, alt: 'The global nav and tenant list for Amwell super admins' },
-			},
-			{
-				title: 'Never lose your place.',
-				text: 'Global search stays available inside a tenant, and breadcrumbs show how you got there.',
-				media: { kind: 'image', src: `${A}/hifi2.webp`, alt: 'Global search and breadcrumbs inside a tenant' },
+				text: 'Amwell’s own super admins support every client, so they have to move across tenants fast. Only this tier gets the global nav. Inside a tenant, breadcrumbs show the way back and a search switches clients without backing out. Every other tier sees just their own organization.',
+				html: gnv,
 			},
 			{
 				title: 'For the client super admin: just their tenant.',
-				text: 'No global nav, because they don’t need it. Client-specific navigation and an audit trail show when information last changed.',
-				media: { kind: 'image', src: `${A}/client.webp`, alt: 'The client-specific navigation and audit trail' },
+				text: 'A client’s super admin, like a telehealth program director, runs one organization. I gave them a short client nav instead of the global one, plus an audit trail that shows when information last changed.',
+				html: gcl,
 			},
 			{
-				title: 'Add and configure service lines.',
-				text: 'Super admins add service lines within their organization and change their configuration.',
-				media: { kind: 'image', src: `${A}/addsl.webp`, alt: 'Adding a service line and configuration access' },
+				title: 'For super admins: add and configure service lines.',
+				text: 'Service lines are the care a client offers, like urgent care. Super admins can add them and change how each one is set up. Tenant admins below them can manage lines but not add them.',
+				html: gsl,
 			},
 			{
 				title: 'The same system, more screens.',
@@ -528,13 +625,13 @@ const scenes: { id: string; label: string; nav: string; beats: Beat[] }[] = [
 	description="Redesigning Amwell's admin portal into one scalable, role-based platform. Task completion rose from 45% to 82% in usability testing."
 	eyebrow="Amwell · Senior Product Designer · Spring 2023"
 	heroTitle="From “make it faster” to a platform that scales."
-	lede="Amwell’s admin portal was fragmented and hard to navigate. I explored 113 screens by hand and redesigned it as one role-based system. In usability testing, task completion rose from 45% to 82%."
+	lede="Amwell’s admin portal was fragmented and hard to navigate. I led its redesign into one role-based system, designing about 40 of the team’s 113 screens by hand. In usability testing, task completion rose from 45% to 82%."
 	tools="Figma · User testing · Converge design system · No AI tools"
 	short={{
 		title: 'One admin portal for every role, from Amwell’s own team to clients like CVS Health.',
 		rows: [
 			{ k: 'The problem', v: 'Leadership asked to “make it faster.” The tickets pointed at navigation: 30% of them, across 400+ admins.' },
-			{ k: 'What I owned', v: 'The research, the information architecture, the navigation framework and 113 high-fidelity screens.' },
+			{ k: 'What I owned', v: 'The research, the information architecture, the navigation framework and about 40 of the team’s 113 high-fidelity screens.' },
 			{ k: 'Craft highlights', v: 'The organization first on every page, a menu that steps aside for wide tables, a calm dark theme. All by hand.' },
 		],
 		compare: {
@@ -545,7 +642,7 @@ const scenes: { id: string; label: string; nav: string; beats: Beat[] }[] = [
 		},
 		stats: [
 			{ v: '45% → 82%', l: 'task completion, in usability testing' },
-			{ v: '113', l: 'screens explored' },
+			{ v: '~40 of 113', l: 'screens designed by me, across a team of five' },
 			{ v: '4', l: 'roles, one system' },
 		],
 	}}

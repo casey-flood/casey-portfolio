@@ -456,6 +456,54 @@ const slug = Astro.url.pathname.split('/').filter(Boolean).pop() ?? 'page';
 		btns.forEach((b) => { b.addEventListener('click', () => set(b.dataset.k!)); });
 		imgs.forEach((im) => im.addEventListener('click', () => expand(im, imgs)));
 	});
+	// wireframes: either frame opens both as a group
+	document.querySelectorAll<HTMLElement>('.wf').forEach((w) => {
+		const imgs = Array.from(w.querySelectorAll<HTMLImageElement>('.wf__frames img'));
+		imgs.forEach((im) => im.closest('figure')!.addEventListener('click', () => expand(im, imgs)));
+	});
+	document.querySelectorAll<HTMLElement>('.dsb').forEach((w) => {
+		const imgs = Array.from(w.querySelectorAll<HTMLImageElement>('img'));
+		imgs.forEach((im) => im.addEventListener('click', () => expand(im, imgs)));
+	});
+	document.querySelectorAll<HTMLElement>('.insp, .spec__type').forEach((w) => {
+		const imgs = Array.from(w.querySelectorAll<HTMLImageElement>('img'));
+		imgs.forEach((im) => im.addEventListener('click', () => expand(im, imgs)));
+	});
+	// framework stepper: auto-advances, hover or click a step to hold it
+	document.querySelectorAll<HTMLElement>('.fws').forEach((w) => {
+		const row = w.closest('.sc__row');
+		const btns = Array.from(w.querySelectorAll<HTMLButtonElement>('.fws__tabs button'));
+		const imgs = Array.from(w.querySelectorAll<HTMLImageElement>('.fws__stage img'));
+		let timer = 0, manual = false;
+		const set = (k: number) => { w.dataset.k = String(k); btns.forEach((b, i) => b.setAttribute('aria-pressed', String(i === k))); };
+		const loop = () => { clearInterval(timer); if (manual || reduceMo) return; timer = window.setInterval(() => set((Number(w.dataset.k) + 1) % btns.length), 4500); };
+		btns.forEach((b, i) => { const pick = () => { manual = true; clearInterval(timer); set(i); }; b.addEventListener('click', pick); b.addEventListener('mouseenter', pick); });
+		imgs.forEach((im) => im.addEventListener('click', () => expand(im, imgs)));
+		if (row) new MutationObserver(() => { if (row.classList.contains('on')) { if (!manual) { set(0); loop(); } } else clearInterval(timer); }).observe(row, { attributes: true, attributeFilter: ['class'] });
+	});
+	// dark mode deck: hover a screen to lift it, click to open all three
+	document.querySelectorAll<HTMLElement>('.dkm').forEach((w) => {
+		const figs = Array.from(w.querySelectorAll<HTMLElement>('.dkm__deck figure'));
+		const imgs = figs.map((f) => f.querySelector('img')!);
+		figs.forEach((f, i) => { f.addEventListener('mouseenter', () => { figs.forEach((g) => g.classList.toggle('is-up', g === f)); }); f.addEventListener('click', () => expand(imgs[i], imgs)); });
+		w.querySelector('.dkm__deck')?.addEventListener('mouseleave', () => figs.forEach((g) => g.classList.remove('is-up')));
+	});
+	// global nav: All Tenants, then inside a tenant; tabs hold a view
+	document.querySelectorAll<HTMLElement>('.gnv').forEach((w) => {
+		const row = w.closest('.sc__row');
+		const btns = Array.from(w.querySelectorAll<HTMLButtonElement>('.gnv__tabs button'));
+		const imgs = Array.from(w.querySelectorAll<HTMLImageElement>('.gnv__frame img'));
+		let timer = 0, manual = false;
+		const set = (k: string) => { w.dataset.s = k; btns.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.s === k))); };
+		const loop = () => { clearInterval(timer); if (manual || reduceMo || btns.length < 2) return; timer = window.setInterval(() => set(w.dataset.s === '1' ? '2' : '1'), 7000); };
+		btns.forEach((b) => b.addEventListener('click', () => { manual = true; clearInterval(timer); set(b.dataset.s!); }));
+		imgs.forEach((im) => im.addEventListener('click', () => expand(im, imgs)));
+		if (row) new MutationObserver(() => { if (row.classList.contains('on')) { if (!manual) { set('1'); loop(); } } else clearInterval(timer); }).observe(row, { attributes: true, attributeFilter: ['class'] });
+	});
+	document.querySelectorAll<HTMLElement>('.uxm').forEach((w) => {
+		const imgs = Array.from(w.querySelectorAll<HTMLImageElement>('.uxm__row li:not([aria-hidden]) img'));
+		w.querySelectorAll<HTMLImageElement>('.uxm__row img').forEach((im) => im.addEventListener('click', () => { const k = imgs.findIndex((x) => x.src === im.src); expand(imgs[Math.max(0, k)], imgs); }));
+	});
 	// anything marked data-full opens that image full size
 	document.querySelectorAll<HTMLElement>('.sc__viz--html [data-full]').forEach((el) => {
 		const open = () => { const im = new Image(); im.src = el.dataset.full!; im.alt = el.getAttribute('aria-label') ?? ''; expand(im); };

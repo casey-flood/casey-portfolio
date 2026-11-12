@@ -39,7 +39,7 @@ const pages: P[] = chapters.flatMap((c) => [
 							<h2>{p.title}</h2>
 							<p class="sb__text">{p.text}</p>
 							{p.ladder && <ol class="sb__ladder">{p.ladder.map((s) => <li><b>{s.t}</b><span>{s.when}</span></li>)}</ol>}
-							{p.nums && <ul class="sb__nums">{p.nums.map((n) => <li><b>{n.v}</b><span>{n.l}</span></li>)}</ul>}
+							{p.nums && <ul class="sb__nums">{p.nums.map((n) => <li class:list={[{ "is-long": n.v.length > 8 }]}><b>{n.v}</b><span>{n.l}</span></li>)}</ul>}
 							{p.quote && <blockquote class="sb__quote"><p>“{p.quote.q}”</p><cite>{p.quote.who}</cite></blockquote>}
 							{p.link && <a class="sb__link" href={p.link.href} target={p.link.external ? '_blank' : undefined} rel={p.link.external ? 'noopener' : undefined}>{p.link.label} {p.link.external ? '↗\uFE0E' : '→'}</a>}
 						</div>
@@ -119,6 +119,8 @@ const pages: P[] = chapters.flatMap((c) => [
 	.sb__nums li { max-width: 10rem; }
 	.sb__nums b { display: block; white-space: nowrap; font-family: var(--display); font-size: clamp(1.35rem, 2.3vw, 1.8rem); letter-spacing: -0.03em; line-height: 1; }
 	.sb__nums span { display: block; margin-top: 0.3rem; font-size: 0.74rem; line-height: 1.3; color: var(--muted); }
+	.sb__nums li.is-long { max-width: 13rem; }
+	.sb__nums li.is-long b { white-space: normal; font-size: clamp(1.05rem, 1.6vw, 1.3rem); line-height: 1.15; padding-top: 0.35rem; }
 	.sb__quote { margin: 1rem 0 0; padding-left: 0.85rem; border-left: 2px solid var(--acc); text-align: left; }
 	.sb__quote p { margin: 0; font-size: 0.88rem; }
 	.sb__quote cite { display: block; margin-top: 0.25rem; font-style: normal; font-size: 0.7rem; color: var(--muted); }
@@ -215,6 +217,7 @@ const pages: P[] = chapters.flatMap((c) => [
 		.sb__kick { margin-bottom: 0.35rem; font-size: 0.62rem; }
 		.sb__nums { margin-top: 0.8rem; gap: 0.75rem 1.25rem; }
 		.sb__nums b { font-size: 1.3rem; }
+		.sb__nums li.is-long b { font-size: 1.05rem; padding-top: 0.2rem; }
 		.sb__nums span { font-size: 0.7rem; }
 		.sb__quote { margin-top: 0.7rem; }
 		.sb__link { margin-top: 0.7rem; font-size: 0.85rem; }

@@ -26,3 +26,6 @@ pnpm-debug.log*
 # private source material
 Professional Review/
 *.mov
+
+# local sync bundles
+.bundles/
