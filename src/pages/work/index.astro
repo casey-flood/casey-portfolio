@@ -19,122 +19,115 @@ const projects: P[] = [
 	{ co: 'earlier', title: 'MyTrips', line: 'My first app, built from scratch at Pratt.', d: 'An itinerary app built around sharing a trip fast.', metric: { v: '−94%', l: 'time to share a trip, in testing' }, tags: ['mobile', 'travel', 'pratt', 'capstone'], img: '/mytrips/hero-phones.webp', href: '/work/mytrips' },
 ];
 
-const co = companies.map((c) => ({ ...c, items: projects.filter((p) => p.co === c.id) }));
-const chips = [{ id: 'all', label: 'All' }, ...companies.map((c) => ({ id: c.id, label: c.name.replace(' and independent', '') }))];
+const short: Record<string, string> = {
+	'Dandy Design Editor': 'designer time per order',
+	'Design Editor design system': 'per iteration, was 30–45',
+	'Admin portal redesign': 'task completion',
+	'Research library': 'of research, led by me',
+	'AI While You Wait': 'lower perceived wait',
+	'Patient onboarding': 'onboarding conversion',
+	'Paper Airplane': 'tested screens',
+	'MyTrips': 'time to share a trip',
+};
+const co = companies.map((c) => ({
+	...c,
+	live: projects.filter((p) => p.co === c.id && p.href),
+	soon: projects.filter((p) => p.co === c.id && !p.href),
+}));
 ---
 
 <Base
 	title="Work"
 	description="Product design work by Casey Flood, grouped by company: Dandy, Amwell, and earlier projects."
 >
-	<div class="wk" data-wk>
-		<div class="shell">
-			<header class="wk__head">
-				<h1>All work, by company.</h1>
-				<div class="wk__tools" role="search">
-					<label class="wk__search">
-						<span class="sr-only">Search projects</span>
-						<svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true"><circle cx="9" cy="9" r="6" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M14 14l4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-						<input type="search" placeholder="Search work" data-q autocomplete="off" />
-					</label>
-					<div class="wk__chips" role="group" aria-label="Filter by company">
-						{chips.map((c, i) => <button type="button" class="wk__chip" data-chip={c.id} aria-pressed={i === 0 ? 'true' : 'false'}>{c.label}</button>)}
-					</div>
-					<label class="wk__only"><input type="checkbox" data-cs /> <span>Case studies</span></label>
-				</div>
+	<div class="wk2">
+		<div class="shell wk2__in">
+			<header class="wk2__head">
+				<h1>Work.</h1>
+				<p>Healthcare products I researched, designed and shipped, from dentists and lab designers to patients, providers and admins.</p>
 			</header>
 
-			{
-				co.map((c) => (
-					<section class={`wk__co wk__co--${c.id}`} data-co={c.id} aria-labelledby={`wk-${c.id}`}>
-						<div class="wk__cohead">
-							{c.id === 'dandy' && <img class="wk__logo" src="/brand/dandy-wordmark.svg" alt="" />}
-							{c.id === 'amwell' && <img class="wk__logo" src="/brand/amwell-white.svg" alt="" />}
-							<h2 id={`wk-${c.id}`} class:list={['wk__coh', { 'sr-only': c.id !== 'earlier' }]}>{c.name}</h2>
-							<p class="wk__meta">{c.role} · {c.when}</p>
-							{c.cta && <a class="wk__over" href={c.cta.href}>Overview <span aria-hidden="true">→</span></a>}
-						</div>
-						<ul class="wl">
-							{c.items.map((p) => {
-								const q = [p.title, p.d, c.name, p.metric?.v, p.metric?.l, p.note, ...p.tags].filter(Boolean).join(' ').toLowerCase();
-								const Tag = p.href ? 'a' : 'div';
-								return (
-									<li class="wk__item" data-q={q} data-has={p.href ? '1' : '0'}>
-										<Tag class:list={['wl__row', { 'wl__row--soon': !p.href }]} href={p.href}>
-											<span class="wl__img">{p.img ? <img src={p.img} alt="" loading="lazy" decoding="async" /> : null}</span>
-											<span class="wl__main"><b>{p.title}</b><span>{p.d}</span></span>
-											{p.metric ? <span class="wl__num"><strong>{p.metric.v}</strong><small>{p.metric.l}</small></span> : <span class="wl__num"><small>{p.href ? '' : 'Coming soon'}</small></span>}
-											<i class="wl__go" aria-hidden="true">{p.href ? '→' : ''}</i>
-										</Tag>
-									</li>
-								);
-							})}
-						</ul>
-					</section>
-				))
-			}
-			<p class="wk__none" hidden data-none>No projects match.</p>
+			{co.map((c) => (
+				<section class="wk2__co" aria-labelledby={`wk-${c.id}`}>
+					<div class="wk2__cohead">
+						{c.id === 'dandy' && <img class="wk2__logo" src="/brand/dandy-wordmark.svg" alt="" />}
+						{c.id === 'amwell' && <img class="wk2__logo" src="/brand/amwell-white.svg" alt="" />}
+						<h2 id={`wk-${c.id}`} class:list={['wk2__coh', { 'sr-only': c.id !== 'earlier' }]}>{c.id === 'earlier' ? 'Earlier' : c.name}</h2>
+						<p class="wk2__meta">{c.role}<span> · {c.when}</span></p>
+						{c.cta && <a class="wk2__over" href={c.cta.href}>Overview<span aria-hidden="true"> →</span></a>}
+					</div>
+					<ul class="wk2__list">
+						{c.live.map((p) => (
+							<li>
+								<a class="wk2__row" href={p.href} data-img={p.img}>
+									<span class="wk2__t"><b>{p.title}</b><span>{p.d}</span></span>
+									{p.metric && <span class="wk2__m"><strong>{p.metric.v}</strong><small>{short[p.title] ?? p.metric.l}</small></span>}
+								</a>
+							</li>
+						))}
+					</ul>
+					{c.soon.length > 0 && <p class="wk2__soon">Coming soon: {c.soon.map((p) => p.title).join(' · ')}</p>}
+				</section>
+			))}
 		</div>
+		<div class="wk2__peek" aria-hidden="true"><img alt="" /></div>
 	</div>
 </Base>
 
 <script>
-	const root = document.querySelector<HTMLElement>('[data-wk]');
-	if (root) {
-		const input = root.querySelector<HTMLInputElement>('[data-q]')!;
-		const only = root.querySelector<HTMLInputElement>('[data-cs]')!;
-		const chips = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-chip]'));
-		const items = Array.from(root.querySelectorAll<HTMLElement>('.wk__item'));
-		const secs = Array.from(root.querySelectorAll<HTMLElement>('[data-co]'));
-			const none = root.querySelector<HTMLElement>('[data-none]')!;
-		let co = 'all';
-		const run = () => {
-			const terms = input.value.toLowerCase().split(/\s+/).filter(Boolean);
-			let n = 0;
-			items.forEach((it) => {
-				const sec = it.closest<HTMLElement>('[data-co]')!.dataset.co;
-				const ok = (co === 'all' || co === sec) && (!only.checked || it.dataset.has === '1') && terms.every((t) => it.dataset.q!.includes(t));
-				it.hidden = !ok;
-				if (ok) n++;
-			});
-			secs.forEach((s) => { s.hidden = !s.querySelector('.wk__item:not([hidden])'); });
-			none.hidden = n > 0;
-		};
-		input.addEventListener('input', run);
-		only.addEventListener('change', run);
-		chips.forEach((b) => b.addEventListener('click', () => {
-			co = b.dataset.chip!;
-			chips.forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
-			run();
-		}));
-		run();
+	// Desktop only: a small preview follows the cursor over a row, so the list stays clean.
+	const peek = document.querySelector<HTMLElement>('.wk2__peek');
+	const img = peek?.querySelector('img');
+	if (peek && img && matchMedia('(hover: hover) and (min-width: 900px)').matches) {
+		document.querySelectorAll<HTMLElement>('.wk2__row[data-img]').forEach((r) => {
+			r.addEventListener('pointerenter', () => { img.src = r.dataset.img!; peek.classList.add('on'); });
+			r.addEventListener('pointerleave', () => peek.classList.remove('on'));
+			r.addEventListener('pointermove', (e) => { peek.style.transform = `translate(${e.clientX + 24}px, ${e.clientY - 70}px)`; });
+		});
+		addEventListener('scroll', () => peek.classList.remove('on'), { passive: true });
 	}
 </script>
 
 <style>
-	.wk :global(.shell) { max-width: 56rem; }
-	.wk__cohead { border-bottom: 0 !important; margin-bottom: 0.4rem !important; padding-bottom: 0.4rem !important; }
-	.wk__co { margin-top: clamp(2.75rem, 6vw, 4rem) !important; }
-	.wl { list-style: none; margin: 0.5rem 0 0; padding: 0; border-top: 1px solid var(--line); }
-	.wl li { border-bottom: 1px solid var(--line); }
-	.wl li[hidden] { display: none; }
-	.wl__row { display: grid; grid-template-columns: 5.5rem 1fr 11rem 1.2rem; gap: 1.25rem; align-items: center; padding: 0.9rem 0.25rem; color: inherit; text-decoration: none; }
-	.wl__img { width: 5.5rem; aspect-ratio: 4 / 3; border-radius: 0.6rem; overflow: hidden; background: var(--line); }
-	.wl__img img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1); }
-	.wl__main { display: flex; flex-direction: column; gap: 0.2rem; }
-	.wl__main b { font-weight: 600; font-size: 1.02rem; }
-	.wl__main span { color: var(--muted); font-size: 0.88rem; line-height: 1.4; }
-	.wl__num { display: flex; flex-direction: column; gap: 0.1rem; }
-	.wl__num strong { font-family: var(--display); font-size: 1.25rem; letter-spacing: -0.02em; line-height: 1.1; white-space: nowrap; }
-	.wl__num small { color: var(--muted); font-size: 0.75rem; line-height: 1.3; }
-	.wl__go { font-style: normal; color: var(--muted); transition: transform 0.2s, color 0.2s; }
-	a.wl__row:hover b { color: var(--accent); }
-	a.wl__row:hover .wl__go { transform: translateX(3px); color: var(--accent); }
-	a.wl__row:hover .wl__img img { transform: scale(1.06); }
-	.wl__row--soon { opacity: 0.6; }
-	@media (max-width: 680px) {
-		.wl__row { grid-template-columns: 4.5rem 1fr 1rem; }
-		.wl__img { width: 4.5rem; }
-		.wl__num { display: none; }
+	.wk2 { padding: clamp(3rem, 9vw, 6rem) 0 6rem; }
+	.wk2__in { max-width: 46rem; }
+	.wk2__head h1 { margin: 0; font-size: clamp(2.6rem, 7vw, 4rem); letter-spacing: -0.04em; line-height: 1; }
+	.wk2__head p { margin: 1rem 0 0; max-width: 34rem; color: var(--muted); font-size: 1.05rem; line-height: 1.55; }
+
+	.wk2__co { margin-top: clamp(3.5rem, 9vw, 5.5rem); }
+	.wk2__cohead { display: flex; align-items: baseline; gap: 0.75rem; flex-wrap: wrap; padding-bottom: 0.9rem; }
+	.wk2__logo { height: 1.15rem; width: auto; align-self: center; filter: brightness(0); opacity: 0.85; }
+	:global([data-theme='dark']) .wk2__logo { filter: brightness(0) invert(1); }
+	.wk2__coh { margin: 0; font-size: 1.15rem; letter-spacing: -0.02em; }
+	.wk2__meta { margin: 0; color: var(--muted); font-size: 0.85rem; }
+	.wk2__over { margin-left: auto; color: var(--muted); font-size: 0.85rem; text-decoration: none; }
+	.wk2__over:hover { color: var(--accent); }
+
+	.wk2__list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+	.wk2__list li { border-bottom: 1px solid var(--line); }
+	.wk2__row { display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; padding: 1.05rem 0; color: inherit; text-decoration: none; }
+	.wk2__t { display: flex; flex-direction: column; gap: 0.2rem; min-width: 0; }
+	.wk2__t b { font-weight: 600; font-size: 1.02rem; transition: color 0.2s; }
+	.wk2__t span { color: var(--muted); font-size: 0.88rem; line-height: 1.4; }
+	.wk2__m { display: flex; flex-direction: column; align-items: flex-end; text-align: right; flex: none; }
+	.wk2__m strong { font-family: var(--display); font-size: 1.15rem; letter-spacing: -0.02em; line-height: 1.1; white-space: nowrap; }
+	.wk2__m small { color: var(--muted); font-size: 0.74rem; white-space: nowrap; }
+	.wk2__row:hover b { color: var(--accent); }
+	.wk2__soon { margin: 0.9rem 0 0; color: var(--muted); font-size: 0.82rem; opacity: 0.8; }
+
+	.wk2__peek { position: fixed; left: 0; top: 0; z-index: 30; width: 13rem; aspect-ratio: 4 / 3; border-radius: 0.75rem; overflow: hidden; pointer-events: none; opacity: 0; transition: opacity 0.18s; box-shadow: 0 24px 50px -20px rgba(0, 0, 0, 0.6); background: var(--paper); }
+	.wk2__peek.on { opacity: 1; }
+	.wk2__peek img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+	@media (max-width: 640px) {
+		.wk2__cohead { display: grid; grid-template-columns: auto 1fr; row-gap: 0.4rem; }
+		.wk2__meta { grid-column: 1 / -1; grid-row: 2; font-size: 0.8rem; }
+		.wk2__over { grid-column: 2; grid-row: 1; justify-self: end; }
+		.wk2__coh:not(.sr-only) { grid-column: 1; grid-row: 1; }
+		.wk2__row { flex-direction: column; align-items: flex-start; gap: 0.45rem; padding: 1rem 0; }
+		.wk2__t span { display: none; }
+		.wk2__m { flex-direction: row; align-items: baseline; gap: 0.4rem; text-align: left; }
+		.wk2__m strong { font-size: 0.95rem; color: var(--accent); }
 	}
+	@media (prefers-reduced-motion: reduce) { .wk2__peek { display: none; } }
 </style>
