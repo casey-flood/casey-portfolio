@@ -332,6 +332,12 @@ const slug = Astro.url.pathname.split('/').filter(Boolean).pop() ?? 'page';
 		}));
 		if (!isEco) viz.querySelector<HTMLImageElement>('.who__portal .eco__ui')?.addEventListener('click', (e) => { if (viz.classList.contains('is-done')) expand(e.currentTarget as HTMLImageElement); });
 	});
+	// Amwell hero: the screen runs off the right edge of the window
+	const bleed = document.querySelector<HTMLElement>('.amw .dsx__vid');
+	if (bleed) {
+		const setBleed = () => { bleed.style.setProperty('--bleed', '0px'); const r = bleed.getBoundingClientRect(); bleed.style.setProperty('--bleed', `${Math.max(0, document.documentElement.clientWidth - r.right)}px`); };
+		setBleed(); addEventListener('resize', setBleed);
+	}
 	// zoomable screenshots inside other visuals (IA map)
 	document.querySelectorAll<HTMLElement>('.res').forEach((r) => {
 		const im = r.querySelector<HTMLImageElement>('.eco__ui');

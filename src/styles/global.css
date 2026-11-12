@@ -15877,3 +15877,9 @@ video.cmp__img:not(.cmp__img--new){object-position:left center}
 .pdeck__card--lite[data-slot='0'] { cursor: default; }
 @media (max-width: 899px) { .pdeck__lite { padding: 0.8rem; gap: 0.2rem; } .pdeck__lite img { width: 2.8rem !important; height: 2.8rem; } .pdeck__lite b { font-size: 0.8rem; } .pdeck__lite small { font-size: 0.62rem; } .pdeck__lite p { font-size: 0.62rem; } }
 @media (prefers-reduced-motion: reduce) { .pdeck__card[data-slot='3'] { transform: translate(42%, -24%) scale(0.7) !important; } .pdeck[data-focus='3'] .pdeck__call[data-for='3'] { opacity: 1; transform: none; } }
+
+/* Amwell hero: no backdrop — the live screen slides in and runs off the right edge */
+.amw .dsx__vid { background: none !important; overflow: visible !important; border-radius: 0 !important; box-shadow: none !important; margin-right: calc(-1 * var(--bleed, 0px)); }
+.amw .dsx__vid > img { display: block; width: 100%; height: auto; border-radius: 0.9rem 0 0 0.9rem; box-shadow: 0 40px 80px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.1); animation: amw-hero-in 1s 0.15s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+@keyframes amw-hero-in { from { opacity: 0; transform: translateX(22%); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .amw .dsx__vid > img { animation: none; } }
