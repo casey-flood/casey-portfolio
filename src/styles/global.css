@@ -16278,3 +16278,9 @@ video.cmp__img:not(.cmp__img--new){object-position:left center}
 	.fl__pop { width: 9rem; font-size: 0.66rem; padding: 0.5rem 0.6rem; } .fl__src { font-size: 0.56rem; }
 }
 .fl__src { margin: 2.2rem 0 0 !important; color: rgba(180, 198, 228, 0.78) !important; font-size: 0.74rem !important; font-weight: 400; } @media (max-width: 899px) { .fl__src { margin-top: 1.2rem !important; font-size: 0.62rem !important; } }
+.jg { margin-bottom: 2.4rem; }
+.jg__how { position: absolute; left: 0; right: 0; top: calc(100% + 0.9rem); margin: 0; color: rgba(180, 198, 228, 0.8); font-size: 0.78rem; text-align: center; opacity: 0; }
+.jg__how i { font-style: normal; color: #8cc8ff; margin: 0 0.25rem; }
+.sc__row.on .jg__how { animation: eco-fade 0.6s 1.6s forwards; }
+@media (max-width: 899px) { .jg { margin-bottom: 1.6rem; } .jg__how { font-size: 0.62rem; top: calc(100% + 0.4rem); } }
+@media (prefers-reduced-motion: reduce) { .jg__how { opacity: 1 !important; animation: none !important; } }

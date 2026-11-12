@@ -154,6 +154,7 @@ const jargon = `
 <div class="jg" role="img" aria-label="Floating platform terms and their definitions, with doctor, provider, clinician and practitioner all meaning the same thing">
 	<span class="jg__t" style="left:4%;top:3%;--d:8.0s;--k:0"><b>Tenant</b><small>A Converge client, like CVS</small></span><span class="jg__t" style="left:56%;top:1%;--d:9.7s;--k:1"><b>Service line</b><small>A clinical offering patients can book</small></span><span class="jg__t" style="left:22%;top:21%;--d:11.4s;--k:2"><b>Classifications</b><small>How services show up for patients</small></span><span class="jg__t" style="left:66%;top:22%;--d:13.1s;--k:3"><b>Tiering</b><small>Lets providers see patients across tenants</small></span><span class="jg__t" style="left:1%;top:41%;--d:8.0s;--k:4"><b>Exclusivity timer</b><small>Gives a client’s own providers first look</small></span><span class="jg__t" style="left:38%;top:43%;--d:9.7s;--k:5"><b>Patient requeue</b><small>Sends a patient back to the queue</small></span><span class="jg__t" style="left:68%;top:50%;--d:11.4s;--k:6"><b>Practitioner tag</b><small>A label attached to a provider</small></span><span class="jg__t" style="left:12%;top:63%;--d:13.1s;--k:7"><b>Provider group</b><small>Providers grouped by a tenant</small></span>
 	<span class="jg__same" style="left:30%;top:84%"><b>Doctor</b><b>Provider</b><b>Clinician</b><b>Practitioner</b><small>Same thing, four words</small></span>
+	<p class="jg__how">Interviews <i>→</i> card sort <i>→</i> admins define each term together</p>
 </div>`;
 
 const sw = `
@@ -235,8 +236,8 @@ const scenes: { id: string; label: string; nav: string; beats: Beat[] }[] = [
 				html: sw,
 			},
 			{
-				title: 'No clear paths meant 2+ weeks of training.',
-				text: 'And the jargon was inconsistent: doctor, provider, and clinician; tenant, instance, and client. Same thing, different words.',
+				title: 'High cognitive load meant 2+ weeks of training.',
+				text: 'Deep menus and unclear access were part of it. So were the words. In interviews, admins used doctor, provider, clinician and practitioner for the same person, and tenant, instance and client for the same organization. So I ran a card sort, then brought admins together to define each term once.',
 				html: jargon,
 			},
 			{
