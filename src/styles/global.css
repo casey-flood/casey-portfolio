@@ -15604,3 +15604,4 @@ video.cmp__img:not(.cmp__img--new){object-position:left center}
 .dsx__cards .lc__card:nth-child(1) img { object-position: 85% 50%; }
 .dsx__cards .lc__card:nth-child(2) img { object-position: 55% 40%; }
 .dsx__cards .lc__card:nth-child(3) img { object-position: 75% 50%; }
+.sc__row .dsx__cards { grid-column: auto; grid-row: auto; align-self: center; }
