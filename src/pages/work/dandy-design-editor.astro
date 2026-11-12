@@ -15,9 +15,9 @@ const stillName = ['dde-editor.webp', 'dde-editor.png', 'dde-editor.jpg'].find((
 const still = stillName ? `/work/${stillName}` : null;
 
 const heroCards: { dir: 'up' | 'down'; lead: string; word: string; note?: string }[] = [
-	{ dir: 'up', lead: 'Crown orders finished in Dandy’s own editor', word: '70% → 88%' },
-	{ dir: 'down', lead: 'Order turnaround', word: '−20%', note: '7.4 to 5.9 days, while crown volume grew 57%.' },
-	{ dir: 'down', lead: 'Crown orders finished in competitor software (3Shape)', word: '29% → 12%' },
+	{ dir: 'up', lead: 'Share of crown orders designed in Dandy’s editor', word: '70% → 88%' },
+	{ dir: 'down', lead: 'Order turnaround', word: '−20%', note: '7.4 to 5.9 days, Q1 2025 to Q2 2026, while crown volume grew 57%.' },
+	{ dir: 'down', lead: 'Share of crown orders designed in 3Shape', word: '29% → 12%' },
 	{ dir: 'up', lead: 'Orders with an ML-generated crown', word: '0% → 80%' },
 ];
 const heroTitle = 'Reimagining how dental designers design restorations.';
@@ -67,9 +67,9 @@ const mtexts: Record<string, string> = {
 	feedback: 'I built interactive prototypes from the system, from single components to full workflows. Dental designers tested them weekly, and I measured success with user testing and task analysis.',
 	northstar: 'With no scope limits, I pulled the best ideas from that feedback into one flow: automated prep, ML crowns and navigation. The team measured every feature against it.',
 	release: 'With no scope limits, I designed the ideal flow as the benchmark. Then, with PMs and engineers, I sliced it into releases: a coded prototype per sprint, every change tied to a Jira ticket.',
-	goal1: 'Dental designer time per order fell 11.5% as volume grew 57%. Orders ship about 20% faster, and refab held at 6.3–6.5%. Quality held; I can’t yet show it improved.',
-	adoption: 'The old editor was retired by Q4 2025. 3Shape fell from about 29% to about 12% of crown orders, and what’s left is mostly model design, which the editor doesn’t cover.',
-	speed: 'Most of it is less waiting: design process time, including waits between steps, fell from 14.5 to 11.8 minutes.',
+	goal1: 'From Q1 2025 to Q2 2026, hands-on designer time per order fell 11.5% while crown volume grew 57%. Order to shipped fell 20%, and refab held at 6.3–6.5%. Quality held; I can’t yet show it improved.',
+	adoption: 'Share of crown orders designed in Dandy’s editor: 70% to 88% (+18 pts). 3Shape: 29% to 12%. What’s left in 3Shape is mostly model design, which the editor doesn’t cover.',
+	speed: 'Most of it is less waiting: design process time per order (hands-on plus waits) fell from 14.5 to 11.8 minutes.',
 	scale: 'Crown volume grew 57%, but total dental designer hours rose only about 39%.',
 	quality: 'Refab held at 6.3–6.5% every quarter. Crowns that started from the ML crown: 5.8%, against 6.6% for the rest. Quality held; I can’t yet show it improved.',
 	m1result: 'The model touched about 80% of crown orders by Q2 2026. Model-started crowns had a 5.8% refab rate, against 6.6% for the rest, which isn’t a controlled comparison.',
@@ -87,9 +87,9 @@ const scenes = [
 		id: 'before',
 		label: '02 · The problem and the reframe',
 		beats: [
-			{ id: 'handoff', title: 'Passing each crown between people and programs made design take longer.', text: 'Prep, design and audit were done by different people, each in a different program, and the file had to be downloaded, uploaded and wait for the next person every time. The waste wasn’t the tools. It was the forced transfers between them.', metric: { text: '14.5 min', unit: 'average crown design time, including waits between steps (Q1 2025)' } },
-			{ id: 'baseline', title: 'Designers rated it below 3Shape, and fewer than half used it.', text: 'Dental designers scored our editor 6.9 out of 10, against 9.1 for 3Shape. About 46% did their crown design in it (43% in Q4 2024, 49% in Q1 2025). The goal was 100%.',
-				imp: { big: '46%', sub: 'of dental designers used our editor (goal: 100%)', rows: [{ label: 'Satisfaction, Dandy’s editor', vals: '6.9 / 10', v: 6.9, w: 6.9, max: 10 }, { label: 'Satisfaction, 3Shape', vals: '9.1 / 10', v: 9.1, w: 9.1, max: 10, hi: true }] } },
+			{ id: 'handoff', title: 'Passing each crown between people and programs made design take longer.', text: 'Prep, design and audit were done by different people, each in a different program, and the file had to be downloaded, uploaded and wait for the next person every time. The waste wasn’t the tools. It was the forced transfers between them.', metric: { text: '14.5 min', unit: 'design process time per crown order, hands-on plus waits between steps (Q1 2025)', src: 'Hex' } },
+			{ id: 'baseline', title: 'Designers rated it below 3Shape, and fewer than half of them used it.', text: 'Dental designers scored our editor 6.9 out of 10, against 9.1 for 3Shape. About 46% of dental designers did their crown design in it (43% in Q4 2024, 49% in Q1 2025). The goal was every designer.',
+				imp: { src: 'Amplitude (adoption) · designer survey (satisfaction)', big: '46%', sub: 'of dental designers used our editor, Q4 2024 to Q1 2025 (goal: 100%)', rows: [{ label: 'Satisfaction, Dandy’s editor', vals: '6.9 / 10', v: 6.9, w: 6.9, max: 10 }, { label: 'Satisfaction, 3Shape', vals: '9.1 / 10', v: 9.1, w: 9.1, max: 10, hi: true }] } },
 		],
 	},
 	{
@@ -108,8 +108,8 @@ const scenes = [
 			{ id: 'focus', title: 'I framed three hypotheses to bring design time down and quality up.', titleHtml: 'I framed three hypotheses to bring design time <span class="hl hl--dn">down</span> and quality <span class="hl hl--up">up</span>.', text: 'Each is testable, and I proposed how to measure it. First: how a dental designer starts a crown.' },
 			{ id: 'crown', title: 'If ML generates a bio-mimetic starting crown, time drops and quality rises.', titleHtml: '<small class="hyp">Moment 1 · Starting a crown</small>If ML generates a bio-mimetic starting crown, time drops and quality rises.', text: 'The bet: a head start on every crown.', measures: ['Design time', 'Refab rate', 'Review rejections'], mnote: 'ML-touched vs. untouched crowns' },
 			{ id: 'choosecrown', title: 'Designers wanted control, and didn’t always trust the shape.', text: 'So I designed three ways to start (the ML crown, the tooth library, or a mimic tooth) and a way to regenerate from a different reference tooth.' },
-			{ id: 'm1result', title: 'The model is in most orders, and trust is still being earned.', titleHtml: '<small class="hyp">Moment 1 · Result and friction</small>The model is in most orders, and trust is still being earned.', text: 'The ML crown went from about 2% of orders in Q3 2025 to about 80% in Q2 2026.', friction: 'Designers kept it about 35% of the time and redid it about 45%.',
-				imp: { big: '~80%', sub: 'of crown orders touched by the ML crown, Q2 2026', rows: [{ label: 'Started from the ML crown (refab rate)', vals: '5.8%', v: 5.8, w: 5.8, max: 8, hi: true }, { label: 'Everything else (refab rate)', vals: '6.6%', v: 6.6, w: 6.6, max: 8 }], chips: ['Kept ~35%', 'Redone ~45%', 'Not a controlled comparison'] } },
+			{ id: 'm1result', title: 'The model is in most orders, and trust is still being earned.', titleHtml: '<small class="hyp">Moment 1 · Result and friction</small>The model is in most orders, and trust is still being earned.', text: 'The share of crown orders started from the ML crown went from about 2% in Q3 2025 to about 80% in Q2 2026.', friction: 'Of those crowns, designers kept the ML shape about 35% of the time and redid it about 45%.',
+				imp: { src: 'Amplitude (usage) · TextQL (refab cohorts)', big: '~80%', sub: 'of crown orders started from the ML crown, Q2 2026 (from ~2% in Q3 2025)', rows: [{ label: 'Started from the ML crown (refab rate)', vals: '5.8%', v: 5.8, w: 5.8, max: 8, hi: true }, { label: 'Everything else (refab rate)', vals: '6.6%', v: 6.6, w: 6.6, max: 8 }], chips: ['Kept ~35%', 'Redone ~45%', 'Not a controlled comparison'] } },
 		],
 	},
 	{
@@ -119,8 +119,8 @@ const scenes = [
 			{ id: 'm2flow', title: 'If prep lives in the editor and runs itself, transfers and waits drop.', titleHtml: '<small class="hyp">Moment 2 · One flow, not three tools</small>If prep lives in the editor and runs itself, transfers and waits drop.', text: 'I moved prep into the editor so Dandy could automate it and designers could audit instead. One ecosystem, fewer transfers.',
 				imp: { swim: { beforeLabel: 'Before · 3 people, 3 programs', afterLabel: 'After · 1 designer, 1 software', before: [{ t: 'Prep', tool: 'Browser', img: '/work/dde/persona-prep.webp' }, { t: 'Design', tool: '3Shape or exocad', img: '/work/dde/persona-design.webp' }, { t: 'Audit', tool: 'Separate portal', img: '/work/dde/persona-audit.webp' }], gap: 'download · upload · wait', after: { t: 'Designer', tool: 'Dandy Design Editor', img: '/work/dde/persona-design.webp', steps: [{ t: 'Prep', note: 'automated' }, { t: 'Design' }, { t: 'Audit', note: 'built in' }] } } } },
 			{ id: 'autoprep', title: 'I made automated prep visible, and overridable.', text: 'Trim, bite, margin and path of insertion run on their own. I designed each step to show what Dandy’s model did and why, and to let dental designers revert or edit it themselves.', measures: ['Scan-to-submit time', 'Programs and people per case'] },
-			{ id: 'm2result', title: 'Automated prep is growing fast.', titleHtml: '<small class="hyp">Moment 2 · Result and friction</small>Automated prep is growing fast.', text: 'About 4% of crown orders at launch in Q2 2026, about 34% by Q3.', friction: 'Designers had to trust prep they didn’t do, so every step explains itself. The build was big, so I worked with engineers to slice it into releases.',
-				imp: { big: '~34%', sub: 'of crown orders used automated prep', rows: [{ label: 'Q2 2026, at launch', vals: '~4%', v: 4, w: 4, max: 100 }, { label: 'Q3 2026', vals: '~34%', v: 34, w: 34, max: 100, hi: true }] } },
+			{ id: 'm2result', title: 'Automated prep is growing fast.', titleHtml: '<small class="hyp">Moment 2 · Result and friction</small>Automated prep is growing fast.', text: 'The share of crown orders using automated prep went from about 4% at launch in Q2 2026 to about 34% in Q3 2026.', friction: 'Designers had to trust prep they didn’t do, so every step explains itself. The build was big, so I worked with engineers to slice it into releases.',
+				imp: { src: 'Amplitude', big: '~34%', sub: 'of crown orders used automated prep, Q3 2026', rows: [{ label: 'Q2 2026, at launch', vals: '~4%', v: 4, w: 4, max: 100 }, { label: 'Q3 2026', vals: '~34%', v: 34, w: 34, max: 100, hi: true }] } },
 		],
 	},
 	{
@@ -148,10 +148,10 @@ const scenes = [
 		id: 'impact',
 		label: '08 · The impact',
 		beats: [
-			{ id: 'goal1', title: 'Less dental designer time, and quality held.', titleHtml: '<small class="hyp">Goal 1 · Less design time, same quality</small>Less dental designer time, and quality held.', text: 'Hands-on design time per order fell 11.5% while crown volume grew 57%. Orders ship about 20% faster, and the refab rate stayed at 6.3–6.5% every quarter. I can show quality held, not yet that it improved.',
-				imp: { big: '−11.5%', sub: 'dental designer time per order, as volume grew 57%', rows: [{ label: 'Designer time per order', vals: '6.4 → 5.6 min', v: 5.6, w: 6.4, max: 7, hi: true }, { label: 'Order to shipped', vals: '7.4 → 5.9 days', v: 5.9, w: 7.4, max: 8, hi: true }, { label: 'Design process time, incl. waits', vals: '14.5 → 11.8 min', v: 11.8, w: 14.5, max: 16, hi: true }], chips: ['Refab steady at 6.3–6.5%'] } },
-			{ id: 'adoption', title: 'Dental designers chose our editor over 3Shape.', titleHtml: '<small class="hyp">Goal 2 · Designers choose our editor over 3Shape</small>Dental designers chose our editor over 3Shape.', text: 'Dandy’s editor went from 70% to 88% of crown orders (+26%) as the old one was retired by Q4 2025. 3Shape fell from about 29% to about 12%, and what’s left is model design, which the editor doesn’t cover.',
-				imp: { big: '+26%', sub: 'crown orders designed in Dandy’s editor', rows: [{ label: 'Dandy’s editor', vals: '70% → 88%', v: 88, w: 70, max: 100, hi: true }, { label: '3Shape', vals: '29% → 12%', v: 12, w: 29, max: 100, bad: true }] } },
+			{ id: 'goal1', title: 'Less dental designer time, and quality held.', titleHtml: '<small class="hyp">Goal 1 · Less design time, same quality</small>Less dental designer time, and quality held.', text: 'From Q1 2025 to Q2 2026, hands-on designer time per order fell 11.5% while crown volume grew 57%. Design process time per order, including waits, fell 19%, and order to shipped fell 20%. The refab rate stayed at 6.3–6.5% every quarter, so I can show quality held, not yet that it improved.',
+				imp: { src: 'Hex', big: '−11.5%', sub: 'hands-on designer time per order, Q1 2025 → Q2 2026, as crown volume grew 57%', rows: [{ label: 'Hands-on designer time per order', vals: '6.4 → 5.6 min', v: 5.6, w: 6.4, max: 7, hi: true }, { label: 'Order to shipped', vals: '7.4 → 5.9 days', v: 5.9, w: 7.4, max: 8, hi: true }, { label: 'Design process time per order, incl. waits', vals: '14.5 → 11.8 min', v: 11.8, w: 14.5, max: 16, hi: true }], chips: ['Refab steady at 6.3–6.5%', 'Crown volume +57%'] } },
+			{ id: 'adoption', title: 'Dental designers chose our editor over 3Shape.', titleHtml: '<small class="hyp">Goal 2 · Designers choose our editor over 3Shape</small>Dental designers chose our editor over 3Shape.', text: 'From Q1 2025 to Q2 2026, the share of crown orders designed in Dandy’s editor went from 70% to 88% (+18 pts), and 3Shape’s share fell from 29% to 12%. This counts orders, not people, and the old editor was retired by Q4 2025. What’s left in 3Shape is model design, which the editor doesn’t cover.',
+				imp: { src: 'Amplitude', big: '+18 pts', sub: 'share of crown orders designed in Dandy’s editor, Q1 2025 → Q2 2026', rows: [{ label: 'Dandy’s editor', vals: '70% → 88%', v: 88, w: 70, max: 100, hi: true }, { label: '3Shape', vals: '29% → 12%', v: 12, w: 29, max: 100, bad: true }] } },
 		],
 	},
 	{
@@ -192,7 +192,7 @@ const toc: { id: string; label: string; subs?: { label: string; from: number; to
 ];
 // Short names shown when hovering a progress dash under each scene.
 const shortNames: Record<string, string> = {
-	handoff: 'The handoff', scatter: 'The old editor', survey: 'Survey', usage: 'Usage',
+	handoff: 'The transfers', scatter: 'The old editor', survey: 'Survey', usage: 'Usage',
 	miles: 'Cairo', leads: 'Team leads', shadow: 'Shadowing', reviews: 'Design reviews', competitors: 'Competitors', finding: 'Navigation',
 	focus: 'Focus', crown: 'ML crown', autoprep: 'Automated prep', stages: 'Stages',
 	system: 'Design system', feedback: 'Prototype and test', northstar: 'Ideal version', tagging: 'Tagging', release: 'Releases', hub: 'Design hub',
@@ -274,7 +274,7 @@ const vizFor: Record<string, string> = {
 				<div class="cx__shortcol">
 					<h2 id="cx-short-h" class="cx__shorth">Turning a slow, siloed crown design process into one intelligent editor.</h2>
 					<dl class="cx__story">
-						<div><dt>The problem</dt><dd><span class="tx-d">The original editor was built fast, by devs. A crown passed through 3+ people and tools, so dental designers spent more time moving files than designing the tooth. They rated it 6.9 out of 10 (3Shape: 9.1), and fewer than half used it.</span><div class="tx-m tx-mb mprob">
+						<div><dt>The problem</dt><dd><span class="tx-d">The original editor was built fast, by devs. A crown passed through 3+ people and tools, so dental designers spent more time moving files than designing the tooth. They rated it 6.9 out of 10 (3Shape: 9.1), and fewer than half of them used it.</span><div class="tx-m tx-mb mprob">
 								<p class="mlead">Dandy’s first Design Editor was built fast, by devs. Dental designers spent more time moving files than designing the tooth.</p>
 								<ul class="mstats">
 									<li><b>3+</b><div><strong>Programs per crown</strong><p>The prepper, designer and auditor each used a different one. Downloading, uploading and waiting <span class="mem">added design time.</span></p></div></li>
@@ -296,7 +296,7 @@ const vizFor: Record<string, string> = {
 									<li><span class="mic"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 7L3.5 12l5 5M15.5 7l5 5-5 5M13.5 5l-3 14"/></svg></span><span>Prototyped in code</span></li>
 									<li><span class="mic"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg></span><span>Tested weekly with dental designers</span></li>
 									<li><span class="mic"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l2.4 5.6L20 11l-5.6 2.4L12 19l-2.4-5.6L4 11l5.6-2.4z"/></svg></span><span>Designed the ideal version</span></li>
-									<li><span class="mic"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h14M14 4l4 4-4 4M20 16H6M10 12l-4 4 4 4"/></svg></span><span>Led design-to-dev handoff</span></li>
+									<li><span class="mic"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h14M14 4l4 4-4 4M20 16H6M10 12l-4 4 4 4"/></svg></span><span>Partnered with engineering to ship</span></li>
 									<li><span class="mic"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 20V11M12 20V4M19 20v-6"/></svg></span><span>Tracked the metrics</span></li>
 								</ul>
 							</div></dd></div>
@@ -308,11 +308,12 @@ const vizFor: Record<string, string> = {
 				<div class="cx__shortviz">
 					<DdeViz kind="compare" />
 					<ul class="cx__glass" aria-label="Impact, Q1 2025 to Q2 2026">
-							<li><b>−11.5%</b><span>Dental designer time per order</span></li>
+							<li><b>−11.5%</b><span>Hands-on designer time per order <small>6.4 → 5.6 min</small></span></li>
 								<li><b>−20%</b><span>Order to shipped <small>7.4 → 5.9 days</small></span></li>
-								<li><b>+26%</b><span>Crown orders in our editor, not 3Shape <small>70% → 88%</small></span></li>
+								<li><b>+18 pts</b><span>Share of crown orders in our editor <small>70% → 88%</small></span></li>
 								<li><b>6.3–6.5%</b><span>Refab rate, steady as volume grew</span></li>
 							</ul>
+					<p class="imp__src cx__src">Q1 2025 → Q2 2026 · Source: Hex and Amplitude</p>
 				</div>
 			</div>
 			<ol class="cx__sdots" aria-hidden="true"><li></li><li></li><li></li><li></li></ol>
@@ -513,11 +514,11 @@ const vizFor: Record<string, string> = {
 														<div class="imp__people">
 															<p class="imp__cap">{b.imp.swim.beforeLabel}</p>
 															<div class="imp__brow">{b.imp.swim.before.map((g: any, n: number) => (
-																<><div class="imp__card"><img src={g.img} alt="" loading="lazy" /><div><b>{g.t}</b><span>{g.tool}</span></div></div>{n < b.imp.swim.before.length - 1 && <div class="imp__gap" role="img" aria-label={b.imp.swim.gap}><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path class="imp__hand" d="M12 12V6.5"/><path class="imp__hand imp__hand--s" d="M12 12h4"/></svg></div>}</>
+																<><div class="imp__card"><span class="imp__ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d={ICONS[g.t]} /></svg></span><div><b>{g.t}</b><span>{g.tool}</span></div></div>{n < b.imp.swim.before.length - 1 && <div class="imp__gap" role="img" aria-label={b.imp.swim.gap}><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path class="imp__hand" d="M12 12V6.5"/><path class="imp__hand imp__hand--s" d="M12 12h4"/></svg></div>}</>
 															))}</div>
 															<p class="imp__cap is-after">{b.imp.swim.afterLabel}</p>
 															<div class="imp__arow">
-																<div class="imp__card"><img src={b.imp.swim.after.img} alt="" loading="lazy" /><div><b>{b.imp.swim.after.t}</b><span>{b.imp.swim.after.tool}</span></div></div>
+																<div class="imp__card"><span class="imp__ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d={ICONS.Design} /></svg></span><div><b>{b.imp.swim.after.t}</b><span>{b.imp.swim.after.tool}</span></div></div>
 																<ol class="imp__steps">{b.imp.swim.after.steps.map((g: any) => <li><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={ICONS[g.t]} /></svg>{g.t}{g.note && <small>{g.note}</small>}</li>)}</ol>
 															</div>
 														</div>
@@ -532,6 +533,7 @@ const vizFor: Record<string, string> = {
 															</li>
 														))}</ul>}
 														{b.imp.chips && <ul class="imp__chips">{b.imp.chips.map((c: string) => <li>{c}</li>)}</ul>}
+														{b.imp.src && <p class="imp__src">Source: {b.imp.src}</p>}
 													</div>
 												)}
 												{b.metric && (
@@ -542,6 +544,7 @@ const vizFor: Record<string, string> = {
 															data-suffix={b.metric.suffix ?? ''}
 														>{b.metric.text ?? `${b.metric.prefix ?? ''}${(b.metric.to as number).toLocaleString('en-US')}${b.metric.suffix ?? ''}`}</b>
 														<span>{b.metric.unit}</span>
+														{b.metric.src && <small class="imp__src">Source: {b.metric.src}</small>}
 													</div>
 												)}
 											</div>
