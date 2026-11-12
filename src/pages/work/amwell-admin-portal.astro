@@ -81,12 +81,12 @@ const pains = `
 
 const deck = `
 <div class="pdeck" data-focus="0">
-	<figure class="pdeck__card" data-part="0" tabindex="0" role="button" aria-label="Sarah, senior implementation manager"><img src="/amwell/cs/pc1.webp" alt="Persona: Sarah, senior implementation manager, super admin" /></figure>
-	<figure class="pdeck__card" data-part="1" tabindex="0" role="button" aria-label="David, NOC specialist"><img src="/amwell/cs/pc2.webp" alt="Persona: David, NOC specialist, tenant admin" /></figure>
-	<figure class="pdeck__card" data-part="2" tabindex="0" role="button" aria-label="Jennifer, health system admin"><img src="/amwell/cs/pc3.webp" alt="Persona: Jennifer, health system admin" /></figure>
-	<p class="pdeck__call" data-for="0"><small>Implementation manager</small>Builds and configures client instances across many tenants. Needs every configuration, and teaches clients the platform.</p>
-	<p class="pdeck__call" data-for="1"><small>NOC specialist</small>Supports the whole platform across clients. Troubleshoots anything, so needs broad access and the full architecture.</p>
-	<p class="pdeck__call" data-for="2"><small>Health system admin</small>Runs one organization: its service lines, provider network, and patient workflows. Only cares about hers.</p>
+	<figure class="pdeck__card" data-part="0" data-tag="internal" tabindex="0" role="button" aria-label="Sarah, senior implementation manager, internal Amwell user"><img src="/amwell/cs/pc1.webp" alt="Persona: Sarah, senior implementation manager, super admin" /></figure>
+	<figure class="pdeck__card" data-part="1" data-tag="internal" tabindex="0" role="button" aria-label="David, NOC specialist, internal Amwell user"><img src="/amwell/cs/pc2.webp" alt="Persona: David, NOC specialist, tenant admin" /></figure>
+	<figure class="pdeck__card" data-part="2" data-tag="client" tabindex="0" role="button" aria-label="Jennifer, health system admin, client"><img src="/amwell/cs/pc3.webp" alt="Persona: Jennifer, health system admin" /></figure>
+	<p class="pdeck__call" data-for="0"><span class="ptag ptag--in"><img src="/brand/amwell-white.svg" alt="Amwell" />Internal user</span><small>Implementation manager</small>Builds and configures client instances across many tenants. Needs every configuration, and teaches clients the platform.</p>
+	<p class="pdeck__call" data-for="1"><span class="ptag ptag--in"><img src="/brand/amwell-white.svg" alt="Amwell" />Internal user</span><small>NOC specialist</small>Supports the whole platform across clients. Troubleshoots anything, so needs broad access and the full architecture.</p>
+	<p class="pdeck__call" data-for="2"><span class="ptag ptag--out">Client</span><small>Health system admin</small>Runs one organization: its service lines, provider network, and patient workflows. Only cares about hers.</p>
 	<p class="eco__hint">Click a card to bring it forward.</p>
 </div>`;
 

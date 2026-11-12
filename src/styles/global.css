@@ -15853,3 +15853,14 @@ video.cmp__img:not(.cmp__img--new){object-position:left center}
 	.pdeck__call { font-size: 0.7rem; width: 54%; padding: 0.7em 0.8em; }
 	.pdeck .eco__hint { display: none; }
 }
+
+/* persona deck: internal (Amwell) vs client tag, on the callout and on every card's corner */
+.ptag { display: inline-flex; align-items: center; gap: 0.4em; margin-bottom: 0.55em; padding: 0.25em 0.65em; border-radius: 99px; font-size: 0.78em; font-weight: 600; letter-spacing: 0.02em; line-height: 1; }
+.ptag img { height: 0.95em; width: auto; display: block; }
+.ptag--in { background: rgba(140, 200, 255, 0.14); border: 1px solid rgba(140, 200, 255, 0.55); color: #cfe6ff; }
+.ptag--out { background: rgba(240, 140, 160, 0.14); border: 1px solid rgba(240, 140, 160, 0.6); color: #ffd0da; }
+.pdeck__call .ptag { display: flex; width: max-content; }
+.pdeck__card::after { position: absolute; top: 0.6em; right: 0.6em; padding: 0.3em 0.7em; border-radius: 99px; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.03em; color: #fff; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25); }
+.pdeck__card[data-tag='internal']::after { content: 'Internal · Amwell'; background: #1d4ed8; }
+.pdeck__card[data-tag='client']::after { content: 'Client'; background: #be3a5c; }
+@media (max-width: 899px) { .pdeck__card::after { font-size: 0.55rem; } }
