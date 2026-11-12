@@ -4,9 +4,9 @@ import ToolsScene from '../components/ToolsScene.astro';
 
 import type { Beat, ScrollProps } from '../data/dandy-scroll-types';
 interface Props extends ScrollProps {}
-const { toolsScene, title, description, eyebrow, heroTitle, lede, tools, hero, scenes, endTitle, endText, endLinks = [{ href: '/work/dandy', label: '← Dandy overview' }, { href: '/work', label: 'All work', ghost: true }], brand = { logo: '/brand/dandy-wordmark.svg', alt: 'Dandy', backHref: '/work/dandy', backLabel: '← Dandy overview', cls: '' } } = Astro.props;
+const { short, toolsScene, title, description, eyebrow, heroTitle, lede, tools, hero, scenes, endTitle, endText, endLinks = [{ href: '/work/dandy', label: '← Dandy overview' }, { href: '/work', label: 'All work', ghost: true }], brand = { logo: '/brand/dandy-wordmark.svg', alt: 'Dandy', backHref: '/work/dandy', backLabel: '← Dandy overview', cls: '' } } = Astro.props;
 
-const toc = [{ id: 'dsx-top', label: 'Overview' }, ...scenes.flatMap((s) => [{ id: `sc-${s.id}`, label: s.nav }, ...(toolsScene && toolsScene.after === s.id ? [{ id: 'dsx-tools', label: 'Tools I use' }] : [])]), { id: 'end', label: 'Closing' }];
+const toc = [{ id: 'dsx-top', label: 'Overview' }, ...(short ? [{ id: 'dsx-short', label: 'The short version' }] : []), ...scenes.flatMap((s) => [{ id: `sc-${s.id}`, label: s.nav }, ...(toolsScene && toolsScene.after === s.id ? [{ id: 'dsx-tools', label: 'Tools I use' }] : [])]), { id: 'end', label: 'Closing' }];
 const users = [
 	{ who: 'Engineers', what: 'Copy-ready code and handoff docs', i: '</>' },
 	{ who: 'Product managers', what: 'One place to see what exists and what is new', i: '◎' },
@@ -46,6 +46,26 @@ const slug = Astro.url.pathname.split('/').filter(Boolean).pop() ?? 'page';
 				</figure>
 			</div>
 		</header>
+
+		{short && (
+			<section class="cx__short dsx__short" id="dsx-short" aria-labelledby="dsx-short-h">
+				<p class="hv__eyebrow">The short version</p>
+				<div class="cx__shortgrid">
+					<div class="cx__shortcol">
+						<h2 id="dsx-short-h" class="cx__shorth">{short.title}</h2>
+						<dl class="cx__story">
+							{short.rows.map((r) => (<div><dt>{r.k}</dt><dd>{r.v}</dd></div>))}
+						</dl>
+						{short.more && <a class="cx__more" href={short.more.href}>{short.more.label} <span aria-hidden="true">↓</span></a>}
+					</div>
+					<div class="cx__shortviz">
+						{short.img && <img class="dsx__shortimg" src={short.img.src} alt={short.img.alt} loading="lazy" />}
+						{short.stats && <ul class="cx__glass">{short.stats.map((x) => (<li><b>{x.v}</b><span>{x.l}{x.s && <small>{x.s}</small>}</span></li>))}</ul>}
+						{short.src && <p class="imp__src cx__src">{short.src}</p>}
+					</div>
+				</div>
+			</section>
+		)}
 
 		{
 			scenes.map((sc) => (

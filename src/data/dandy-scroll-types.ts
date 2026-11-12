@@ -8,6 +8,7 @@ export type Beat = {
 	links?: { href: string; label: string }[];
 };
 export interface ScrollProps {
+	short?: { title: string; rows: { k: string; v: string }[]; img?: { src: string; alt: string }; stats?: { v: string; l: string; s?: string }[]; src?: string; more?: { href: string; label: string } };
 	toolsScene?: { after: string; tools: import('./tools').Tool[]; title: string; lede?: string };
 	title: string;
 	description: string;

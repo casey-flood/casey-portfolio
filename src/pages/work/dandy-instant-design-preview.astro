@@ -305,6 +305,22 @@ const scenes: { id: string; label: string; nav: string; beats: Beat[] }[] = [
 	tools="Claude Design · Figma · FigJam · Hex and Amplitude data"
 	hero={{ src: '/work/behind/proto.mp4', poster: '/work/behind/proto.jpg' }}
 	brand={{ logo: '/brand/dandy-wordmark.svg', alt: 'Dandy', backHref: '/work/dandy', backLabel: '← Dandy overview', cls: 'idp' }}
+	short={{
+		title: 'Showing dentists the ML crown while the patient is still in the chair.',
+		rows: [
+			{ k: 'The problem', v: 'A crown is designed after the patient leaves. The dentist first sees it days later, at seating. About 60% get adjusted in the mouth and about 6 in 100 are remade, yet the prep can only change while the patient is in the chair.' },
+			{ k: 'What I proposed', v: 'For eligible orders, show the ML-generated crown on the review page right after the prep scan, so the dentist can approve it, re-prep or leave a note before it’s made, instead of rejecting it later.' },
+			{ k: 'What I owned', v: 'Lead designer, with a PM, a clinical lead and chairside and ML engineers. I set the direction, mapped the tradeoffs with engineering, designed every state, planned the research, and built the prototype that became the spec.' },
+		],
+		img: { src: '/work/idp/ready.webp', alt: 'The review page with the generated crown, a clearance heatmap and approve, request a change, or send to lab' },
+		stats: [
+			{ v: '60 → 70%', l: 'Q4 goal: crowns going straight to the lab' },
+			{ v: '3 clicks', l: 'to approve a crown', s: ' · about 2.5 min' },
+			{ v: '~20', l: 'practices in the pilot, next' },
+		],
+		src: 'Status: in build, November 2026. Pilot results to come.',
+		more: { href: '#sc-context', label: 'Read how I did it' },
+	}}
 	scenes={scenes}
 	endTitle="Decide the crown in the chair."
 	endText="The bet is simple: show the result while it can still change, and fewer crowns loop back through a designer."
@@ -317,4 +333,6 @@ const scenes: { id: string; label: string; nav: string; beats: Beat[] }[] = [
 	.idp .sc__viz--shots > img { object-fit: contain !important; background: #13251d !important; }
 	/* Photos fill the frame edge to edge. */
 	.idp .sc__viz--shots > img:is([src$='scan-to-seat.webp'], [src$='team.webp']) { object-fit: cover !important; }
+	.dsx__short { padding-inline: inherit; }
+	.dsx__shortimg { width: 100%; border-radius: 1rem; display: block; }
 </style>
