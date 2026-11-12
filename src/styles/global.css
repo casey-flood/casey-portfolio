@@ -15605,3 +15605,7 @@ video.cmp__img:not(.cmp__img--new){object-position:left center}
 .dsx__cards .lc__card:nth-child(2) img { object-position: 55% 40%; }
 .dsx__cards .lc__card:nth-child(3) img { object-position: 75% 50%; }
 .sc__row .dsx__cards { grid-column: auto; grid-row: auto; align-self: center; }
+
+/* One back-link style everywhere: a quiet pill that says where it goes */
+.nav-back { display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.45rem 0.95rem; border: 1px solid color-mix(in srgb, currentColor 32%, transparent); border-radius: 99px; font-size: 0.85rem; line-height: 1.1; text-decoration: none !important; white-space: nowrap; transition: background 0.2s, border-color 0.2s; }
+.nav-back:hover { background: color-mix(in srgb, currentColor 10%, transparent); border-color: color-mix(in srgb, currentColor 55%, transparent); }

@@ -54,6 +54,53 @@ const pageTitle = title === 'Casey Flood' ? title : `${title} — Casey Flood`;
 			<slot />
 		</main>
 		<Footer />
+		<script is:inline>
+			// Back links follow the visitor: remember where they came from, and send "back" there (with its scroll spot).
+			(function () {
+				var NAMES = { '/': 'Home', '/work': 'All work', '/journey': 'My story', '/resume': 'Resume', '/about': 'About', '/work/dandy': 'Dandy overview', '/work/amwell': 'Amwell overview', '/work/earlier': 'Earlier work', '/work/amwell-research': 'All research' };
+				var norm = function (p) { return (p.replace(/\/index\.html$/, '').replace(/\/+$/, '') || '/'); };
+				var here = norm(location.pathname);
+				var trail = [];
+				try { trail = JSON.parse(sessionStorage.getItem('cf-trail') || '[]'); } catch (e) {}
+				var last = trail[trail.length - 1];
+				if (last && last.p === here) trail.pop();
+				var prev = trail[trail.length - 1];
+				var name = function (e) { return NAMES[e.p] || e.t || 'Back'; };
+				var title = document.title.replace(/\s+—\s+Casey Flood$/, '').split(' · ')[0];
+				var save = function () {
+					var t = trail.filter(function (e) { return e.p !== here; }).slice(-12);
+					t.push({ p: here, t: title, y: Math.round(scrollY) });
+					try { sessionStorage.setItem('cf-trail', JSON.stringify(t)); } catch (e) {}
+				};
+				save();
+				addEventListener('pagehide', save);
+				document.addEventListener('click', function (e) { if (e.target.closest && e.target.closest('a[href]')) save(); }, true);
+				var sel = '.cx__back, a.back, .bar__back, .ar__back, .ds__back';
+				document.querySelectorAll(sel).forEach(function (a) { a.classList.add('nav-back'); });
+				if (!prev || prev.p === here) return;
+				document.querySelectorAll(sel).forEach(function (a) {
+					a.textContent = '← ' + name(prev);
+					a.setAttribute('href', prev.p);
+					a.classList.add('nav-back');
+					a.addEventListener('click', function (ev) {
+						var ref = '';
+						try { ref = norm(new URL(document.referrer).pathname); } catch (x) {}
+						ev.preventDefault();
+						if (ref === prev.p && history.length > 1) { history.back(); return; }
+						try { sessionStorage.setItem('cf-restore', JSON.stringify(prev)); } catch (x) {}
+						location.href = prev.p;
+					});
+				});
+			})();
+			(function () {
+				try {
+					var r = JSON.parse(sessionStorage.getItem('cf-restore') || 'null');
+					sessionStorage.removeItem('cf-restore');
+					var here = (location.pathname.replace(/\/+$/, '') || '/');
+					if (r && r.p === here && r.y) addEventListener('load', function () { scrollTo(0, r.y); });
+				} catch (e) {}
+			})();
+		</script>
 	</body>
 </html>
 

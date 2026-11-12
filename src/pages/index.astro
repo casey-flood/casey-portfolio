@@ -141,11 +141,18 @@ const quotes = [
 					{groups.map((g, i) => (
 						<ul class="pj__list" data-g={g.id} hidden={i !== 0}>
 							{g.items.map((x) => (
-								<li>
-									<a href={x.href} target={x.href.startsWith('http') ? '_blank' : undefined} rel={x.href.startsWith('http') ? 'noopener' : undefined}>
-										<span class="pj__row"><b>{x.t}</b><small>{x.tag}</small><i aria-hidden="true">{x.href.startsWith('http') ? '↗' : '→'}</i></span>
-										<span class="pj__more"><span>{x.d}{x.c && <em> {x.c}</em>}</span></span>
-									</a>
+								<li class:list={{ 'pj__soonli': x.href.startsWith('http') }}>
+									{x.href.startsWith('http') ? (
+										<div class="pj__soon" aria-disabled="true">
+											<span class="pj__row"><b>{x.t}<em class="pj__chip">Coming soon</em></b><small>{x.tag}</small><i aria-hidden="true"></i></span>
+											<span class="pj__more"><span>{x.d}</span></span>
+										</div>
+									) : (
+										<a href={x.href}>
+											<span class="pj__row"><b>{x.t}</b><small>{x.tag}</small><i aria-hidden="true">→</i></span>
+											<span class="pj__more"><span>{x.d}{x.c && <em> {x.c}</em>}</span></span>
+										</a>
+									)}
 								</li>
 							))}
 							{g.all && <li class="pj__alli"><a href={g.all}><span class="pj__row"><b>See all {g.items.length} studies on one page</b><small></small><i aria-hidden="true">→</i></span></a></li>}
@@ -432,7 +439,10 @@ const quotes = [
 	.pj__list[hidden] { display: none; }
 	.pj__alli .pj__row b { color: var(--accent) !important; }
 	.pj__list li { border-bottom: 1px solid var(--line); }
-	.pj__list a { display: block; padding: 0.8rem 0.25rem; color: inherit; text-decoration: none; }
+	.pj__list a, .pj__soon { display: block; padding: 0.8rem 0.25rem; color: inherit; text-decoration: none; }
+	.pj__soon { cursor: default; }
+	.pj__soonli .pj__row b { opacity: 0.6; }
+	.pj__chip { display: inline-block; margin-left: 0.5rem; padding: 0.1rem 0.45rem; border-radius: 99px; border: 1px dashed currentColor; font-style: normal; font-family: var(--mono); font-size: 0.6rem; font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; vertical-align: 0.15em; white-space: nowrap; }
 	.pj__row { display: grid; grid-template-columns: 1fr auto 1.2rem; align-items: baseline; gap: 1rem; }
 	.pj__row b { font-weight: 500; font-size: 1rem; color: var(--muted); transition: color 0.2s; }
 	.pj__row small { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted); opacity: 0.7; }
