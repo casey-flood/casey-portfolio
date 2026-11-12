@@ -92,6 +92,51 @@ const deck = `
 	<p class="eco__hint">Click a card to bring it forward.</p>
 </div>`;
 
+const inspo = `
+<div class="insp">
+	<figure><img src="/amwell/cs/in-shortcut.webp" alt="Shortcut’s side menu, expanded and then collapsed to an icon rail" /><figcaption><b>Shortcut</b>Collapses to an icon rail, so the work gets the room.</figcaption></figure>
+	<figure><img src="/amwell/cs/in-bitbucket.webp" alt="Bitbucket’s side menu, a rail of icons with labels beside it" /><figcaption><b>Bitbucket</b>A slim rail stays put while the labeled menu opens beside it.</figcaption></figure>
+	<figure><img src="/amwell/cs/in-sidebars.webp" alt="Side menu patterns in light and dark themes" /><figcaption><b>Light and dark sidebars</b>How grouping and active states hold up in both themes.</figcaption></figure>
+</div>`;
+
+const crz = `
+<div class="crz" data-state="open">
+	<div class="crz__stage">
+		<img class="crz__img crz__img--open" src="/amwell/cs/cr-open.webp" alt="Expanded: the left menu with Tenants, Patients, Practitioners and Carepoint Devices beside the page" />
+		<img class="crz__img crz__img--closed" src="/amwell/cs/cr-closed.webp" alt="Collapsed: the menu tucked into one tab, and the practitioner table gets the full width" />
+		<span class="crz__note crz__note--open">Accordion sub-pages for multi-step setup</span>
+		<span class="crz__note crz__note--closed">One tab stays behind. The table gets the width.</span>
+	</div>
+	<div class="crz__ctl" role="group" aria-label="Menu state">
+		<button type="button" data-set="open" aria-pressed="true">Expanded</button>
+		<button type="button" data-set="closed" aria-pressed="false">Collapsed</button>
+	</div>
+</div>`;
+
+const spec = `
+<div class="spec">
+	<ul class="spec__sw">
+		<li style="--c:#141414"><i></i><b>Header</b><span>#141414</span></li>
+		<li style="--c:#1b1f23"><i></i><b>Page</b><span>#1B1F23</span></li>
+		<li style="--c:#232a34"><i></i><b>Panel</b><span>#232A34</span></li>
+		<li style="--c:#1b74d2"><i></i><b>Action</b><span>#1B74D2</span></li>
+		<li style="--c:#b0d6ff"><i></i><b>Focus</b><span>#B0D6FF</span></li>
+	</ul>
+	<div class="spec__bar" aria-hidden="true"></div>
+	<p class="spec__cap">The brand gradient, kept to one thin bar</p>
+	<div class="spec__type">
+		<img src="/amwell/cs/ty-title.webp" alt="Page title: Abundant Health (ABHL), large and semibold" />
+		<img src="/amwell/cs/ty-table.webp" alt="Table text: medium headers, regular rows, zebra striping" />
+		<p class="spec__cap">Open Sans: a large semibold title for orientation, small even table text for scanning</p>
+	</div>
+</div>`;
+
+const wire = `
+<div class="wire">
+	<figure><img src="/amwell/cs/sk-paper.webp" alt="My paper sketches of the tenant home and global search" /><figcaption>Paper first</figcaption></figure>
+	<figure><img src="/amwell/cs/wires.webp" alt="Early wireframes of the global nav and dashboard" /><figcaption>Then wireframes</figcaption></figure>
+</div>`;
+
 const scenes: { id: string; label: string; nav: string; beats: Beat[] }[] = [
 	{
 		id: 'context',
@@ -110,7 +155,7 @@ const scenes: { id: string; label: string; nav: string; beats: Beat[] }[] = [
 			},
 			{
 				title: 'My role: Senior Product Designer.',
-				text: 'I led design, with a couple of other designers, alongside PM, engineering, and architecture. In a design sprint, our goal was everything needed to plan, size, and build the first release of Converge Admin: MVP scope, a sitemap, the navigation system, and a prototype.',
+				text: 'I led design, with a couple of other designers, alongside PM, engineering, and architecture. In a design sprint in spring 2023, our goal was everything needed to plan, size, and build the first release of Converge Admin: MVP scope, a sitemap, the navigation system, and a prototype.',
 			},
 		],
 	},
@@ -131,7 +176,7 @@ const scenes: { id: string; label: string; nav: string; beats: Beat[] }[] = [
 			},
 			{
 				title: 'Tickets, shadowing, and interviews.',
-				text: 'I wanted to see the work, not just hear about it. We read through the support queue, sat with admins while they worked, interviewed them in context, and mapped every screen of the legacy portal.',
+				text: 'I led the research because I wanted to see the work, not just hear about it. We read three months of the support queue, then I sat with admins while they worked, interviewed them in context, and mapped every screen of the legacy portal.',
 				html: res,
 			},
 			{
@@ -142,13 +187,8 @@ const scenes: { id: string; label: string; nav: string; beats: Beat[] }[] = [
 			},
 			{
 				title: 'Four roles, very different needs.',
-				text: 'Inside Amwell, implementation managers configure everything across many clients and NOC specialists troubleshoot the whole platform. On the client side, health system admins only care about their own organization, and IT teams connect Amwell to the systems they already run.',
+				text: 'Inside Amwell, implementation managers configure everything across many clients and NOC specialists troubleshoot the whole platform. On the client side, health system admins only care about their own organization, and IT teams connect Amwell to the systems they already run. Access splits three ways too: Amwell super admin, tenant super admin and tenant basic admin.',
 				html: deck,
-			},
-			{
-				title: 'Three tiers of access.',
-				text: 'Amwell super admins, tenant super admins, and tenant basic admins each need a different slice of the same system.',
-				media: { kind: 'image', src: `${A}/tiers.webp`, alt: 'Access, role, responsibilities and configurations for each admin tier' },
 			},
 		],
 	},
@@ -216,13 +256,13 @@ const scenes: { id: string; label: string; nav: string; beats: Beat[] }[] = [
 				media: { kind: 'image', src: `${A}/feedback.webp`, alt: 'Feedback threads and review meetings' },
 			},
 			{
-				title: 'Wireframes first, then cut what didn’t matter.',
-				text: 'The first dashboard was a customizable home for super admins. As we iterated, we learned admins don’t ordinarily open that data, so the dashboard got lighter.',
-				media: { kind: 'image', src: `${A}/wires.webp`, alt: 'Early wireframes of the global nav and dashboard' },
+				title: 'Paper, then wireframes, then cut what didn’t matter.',
+				text: 'I sketched on paper, then wireframed. The first dashboard was a customizable home for super admins. Testing showed admins don’t ordinarily open that data, so I made the dashboard lighter.',
+				html: wire,
 			},
 			{
 				title: 'Built on the existing design system.',
-				text: 'We moved from rough wireframes to Amwell’s provider and patient components for consistency. Desktop first, since 99.8% of admins use desktop.',
+				text: 'I moved from rough wireframes to Amwell’s provider and patient components for consistency. Desktop first, since 99.8% of admins use desktop.',
 				media: { kind: 'image', src: `${A}/dsys.webp`, alt: 'Layout explorations using the Amwell design system' },
 			},
 			{
@@ -231,8 +271,23 @@ const scenes: { id: string; label: string; nav: string; beats: Beat[] }[] = [
 				media: { kind: 'image', src: `${A}/ui-explore.webp`, alt: 'A grid of admin portal UI explorations' },
 			},
 			{
+				title: 'Admins needed deep menus and wide tables on the same screen.',
+				text: 'Setting up a service line takes several steps, nested pages deep, but the practitioner and patient lists are wide tables. A fixed sidebar fought the tables for room, and 65% of admins found the old one overwhelming.',
+				media: { kind: 'image', src: `${A}/cr-open.webp`, alt: 'The expanded menu next to a tenant page' },
+			},
+			{
+				title: 'First, how the best tools handle it.',
+				text: 'I studied side menus in developer tools that live with deep hierarchies every day. The pattern that held up: a menu that steps aside on demand, with one small handle that never moves.',
+				html: inspo,
+			},
+			{
 				title: 'Introducing the “collapse-rator.”',
-				text: 'A scalable side menu that expands and collapses with accordion sub-pages for multi-step processes. 65% of admins found the old static sidebar overwhelming.',
+				text: 'I designed one menu with two states. Expanded, it shows accordion sub-pages for multi-step setup. Collapsed, it tucks into a single tab at the edge, and the table takes the full width. Try both.',
+				html: crz,
+			},
+			{
+				title: 'One menu that scales with every role.',
+				text: 'The same component serves a super admin with every section and a basic admin with a few. It remembers whether you collapsed it, so a page refresh never undoes your choice.',
 				media: { kind: 'image', src: `${A}/framework.webp`, alt: 'The default view, the collapse-rator, and the scalable accordion menu' },
 			},
 			{
@@ -312,7 +367,7 @@ const scenes: { id: string; label: string; nav: string; beats: Beat[] }[] = [
 			{
 				title: 'Three ways to navigate. One fits how admins think.',
 				text: 'I explored separate apps per role, a top nav plus a side nav, and a tenant switcher above one left nav. Admins always start with “which organization am I in?”, so the switcher won: the organization is the first thing on every page, and the left nav only shows what that admin can touch.',
-				media: { kind: 'image', src: `${A}/fig-tenant.webp`, alt: 'The tenant switcher at the top of a tenant summary page' },
+				media: { kind: 'clip', src: `${A}/prototype.mp4`, poster: `${A}/prototype.jpg`, start: 28, end: 36, alt: 'In the prototype: opening the tenant switcher and jumping from one organization to all tenants' },
 			},
 			{
 				title: 'The details I obsessed over.',
@@ -322,7 +377,7 @@ const scenes: { id: string; label: string; nav: string; beats: Beat[] }[] = [
 			{
 				title: 'Color and type: calm, so the data can speak.',
 				text: 'Admins sit in this tool all day, so I chose a dark, low-glare theme where status colors and blue actions stand out. Amwell’s gradient became a thin brand bar instead of a background, so it never competes with the work. Type follows a tight scale: a large page title for orientation, clear section heads, and small, even table text, with contrast checked for accessibility.',
-				media: { kind: 'image', src: `${A}/hifi1.webp`, alt: 'The dark admin UI with a thin gradient brand bar and blue actions' },
+				html: spec,
 			},
 			{
 				title: 'Motion that explains, never decorates.',
@@ -341,7 +396,7 @@ const scenes: { id: string; label: string; nav: string; beats: Beat[] }[] = [
 		nav: 'The impact',
 		beats: [
 			{ title: 'Admins finished their tasks.', text: 'Task completion rose with role-based access controls and a navigation framework built for each admin.', metric: { text: '45% → 82%', unit: 'task completion rate, user testing' } },
-			{ title: 'New admins ramped faster.', text: 'Clear pathways for common tasks cut the onboarding time for new admins.', metric: { to: 30, suffix: '%', unit: 'faster admin onboarding' } },
+			{ title: 'Onboarding took 2+ weeks. Now 30% less.', text: 'Clear paths for common tasks shortened the training new admins needed.', metric: { to: 30, suffix: '%', unit: 'shorter admin onboarding, down from 2+ weeks' } },
 			{ title: 'Fewer mistakes.', text: 'Role-based access meant admins only saw what applied to them.', metric: { to: 34, suffix: '%', unit: 'fewer configuration errors' } },
 			{ title: 'Clients went live sooner.', text: 'A predictable system made client setup quicker for implementation teams.', metric: { to: 25, suffix: '%', unit: 'faster client implementations' } },
 			{ title: 'Eight teams, one vocabulary.', text: 'The terminology workshops aligned eight internal teams on the same words for the same things.', metric: { to: 8, unit: 'internal teams on unified terminology' } },
@@ -373,10 +428,24 @@ const scenes: { id: string; label: string; nav: string; beats: Beat[] }[] = [
 <DandyScroll
 	title="Amwell Admin Portal"
 	description="Redesigning Amwell's admin portal into one scalable, role-based platform. Task completion rose from 45% to 82% in usability testing."
-	eyebrow="Amwell · Senior Product Designer"
+	eyebrow="Amwell · Senior Product Designer · Spring 2023"
 	heroTitle="From “make it faster” to a platform that scales."
 	lede="Amwell’s admin portal was fragmented and hard to navigate. I explored 113 screens by hand and redesigned it as one role-based system. In usability testing, task completion rose from 45% to 82%."
 	tools="Figma · User testing · Converge design system · No AI tools"
+	short={{
+		title: 'One admin portal that fits every role, from Amwell’s own team to clients like CVS Health.',
+		rows: [
+			{ k: 'The problem', v: 'Leadership asked to “make it faster.” The tickets said otherwise: 30% traced back to navigation in a fragmented portal shared by 400+ admins across four roles.' },
+			{ k: 'What I owned', v: 'I led the research and owned the information architecture, the navigation framework (including the collapse-rator) and 113 high-fidelity screens, working with PM, engineering and architecture.' },
+			{ k: 'Craft highlights', v: 'A tenant switcher, so the organization comes first on every page. A menu that steps aside for wide tables. A calm dark theme where status and actions stand out. All by hand, no AI tools.' },
+		],
+		img: { src: '/amwell/cs/hero-screen.webp', alt: 'The redesigned admin dashboard' },
+		stats: [
+			{ v: '45% → 82%', l: 'task completion, in usability testing' },
+			{ v: '113', l: 'screens explored' },
+			{ v: '4', l: 'roles, one system' },
+		],
+	}}
 	hero={{ src: '/amwell/cs/hero-screen.webp', image: true, alt: 'The redesigned Amwell admin dashboard' }}
 	scenes={scenes}
 	endTitle="One platform for every kind of admin."

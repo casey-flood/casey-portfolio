@@ -338,6 +338,17 @@ const slug = Astro.url.pathname.split('/').filter(Boolean).pop() ?? 'page';
 		const setBleed = () => { bleed.style.setProperty('--bleed', '0px'); const r = bleed.getBoundingClientRect(); bleed.style.setProperty('--bleed', `${Math.max(0, document.documentElement.clientWidth - r.right)}px`); };
 		setBleed(); addEventListener('resize', setBleed);
 	}
+	// collapse-rator: flip between expanded and collapsed; plays on its own until someone picks a state
+	document.querySelectorAll<HTMLElement>('.crz').forEach((cz) => {
+		const row = cz.closest('.sc__row');
+		const btns = Array.from(cz.querySelectorAll<HTMLButtonElement>('[data-set]'));
+		let timer = 0, manual = false;
+		const set = (st: string) => { cz.dataset.state = st; btns.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.set === st))); };
+		const loop = () => { clearInterval(timer); if (manual || reduceMo) return; timer = window.setInterval(() => set(cz.dataset.state === 'open' ? 'closed' : 'open'), 2800); };
+		btns.forEach((b) => b.addEventListener('click', () => { manual = true; clearInterval(timer); set(b.dataset.set!); }));
+		cz.querySelectorAll<HTMLImageElement>('.crz__img').forEach((im) => { im.style.cursor = 'zoom-in'; im.addEventListener('click', () => expand(im)); });
+		if (row) new MutationObserver(() => { if (row.classList.contains('on')) { set('open'); loop(); } else clearInterval(timer); }).observe(row, { attributes: true, attributeFilter: ['class'] });
+	});
 	// zoomable screenshots inside other visuals (IA map)
 	document.querySelectorAll<HTMLElement>('.res').forEach((r) => {
 		const im = r.querySelector<HTMLImageElement>('.eco__ui');
