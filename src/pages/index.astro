@@ -28,6 +28,53 @@ const chapters = [
 		cta: 'Read the admin portal story',
 	},
 ];
+// 03 All other projects: grouped, one row opens at a time.
+const N = 'https://caseyflood.notion.site/';
+const groups = [
+	{ id: 'dandy', label: 'Dandy', items: [
+		{ t: 'Design Editor design system', tag: 'Design engineering', d: 'A design system built in code from production components, in Storybook.', c: 'Each design iteration went from 30–45 to 5–10 minutes.', href: '/work/dandy-design-system' },
+		{ t: 'Clickable prototypes', tag: 'Prototyping', d: 'Real flows built from production components, so people react to the real thing early.', c: 'Feedback before engineering time is spent.', href: '/work/dandy-prototype' },
+		{ t: 'Product design hub', tag: 'Team systems', d: 'One home for how the design team works: files, process and standards.', href: '/work/dandy-product-design-hub' },
+	] },
+	{ id: 'research', label: 'Amwell research', items: [
+		{ t: 'The experience of choosing care', tag: 'Needs assessment', d: 'How patients browse and pick a service in telehealth.', c: 'Led to a re-architected service selection: +12% patient satisfaction, −18% cancellations.', href: N + 'The-Experience-of-Choosing-Care-1276f464642d8128a17acedc50af484a' },
+		{ t: 'Dependent care', tag: 'Interviews', d: 'Why visits for children were getting cancelled.', c: 'Pediatric onboarding content, provider pre-visit training, no pre-selected answers.', href: N + 'Dependent-Care-1276f464642d81f58ea1d92b17ba5365' },
+		{ t: 'How patients search for care', tag: 'Needs assessment', d: '90% of patients look for coverage first.', c: 'Coverage shown during onboarding, simpler insurance checks.', href: N + 'How-Patients-Search-for-Care-1276f464642d81a7a17dde011ee329b8' },
+		{ t: 'In person vs. Amwell', tag: 'Interviews', d: 'An in-person doctor visit, mapped against our service selection.', c: 'Dependent selection moved earlier, a shorter scheduled-visit flow.', href: N + 'Selecting-Care-In-Person-vs-Amwell-1276f464642d81ee968dd9f7b222b431' },
+		{ t: 'AI While You Wait chatbot', tag: 'Usability study', d: 'Three groups of patients testing a chatbot in the virtual waiting room.', c: 'Better question logic, free-text answers, clearer provider messages.', href: N + 'AI-While-You-Wait-Chatbot-1276f464642d81f5af00d7018ec3f722' },
+		{ t: 'AI While You Wait: COVID-19 script', tag: 'Usability study', d: 'How the COVID-19 chatbot script made patients feel.', c: 'More waiting room content, faster responses, editable answers.', href: N + 'AI-While-You-Wait-Covid-19-Script-1276f464642d81728625c6813673ffd8' },
+		{ t: 'Symptom checker', tag: 'Usability study', d: 'A chatbot-style symptom checker inside the intake flow.', c: 'Replaced with a symptom-focused, multi-page intake.', href: N + 'Symptom-Checker-1276f464642d81bcb0aef268c1ced066' },
+		{ t: 'Top usability issues', tag: 'Usability study', d: 'The top three issues in the white-label patient app.', c: 'A new care-selection IA and no defaulted answers.', href: N + 'Amwell-s-Top-Usability-Issues-1276f464642d8193b323d494a3055b8d' },
+		{ t: 'iOS onboarding', tag: 'Usability study', d: 'Pain points in sync and intake on iOS.', c: 'Sync removed, answers auto-saved.', href: N + 'iOS-App-Consumer-Onboarding-Usability-Test-1276f464642d8176aa45cf8d6d4954c8' },
+		{ t: 'iOS enrollment', tag: 'Competitor analysis', d: 'What people expect when they sign up for a health app.', c: 'A stepper, reasons for each question, the confusing “service key” field removed.', href: N + 'Mobile-iOS-Enrollment-1276f464642d81ada5c2ecb7bc294f2d' },
+		{ t: 'Gender and sex fields', tag: 'Usability study', d: 'Documenting gender and sex for non-binary patients.', c: 'Editable by patient and provider, with an explanation on each field.', href: N + 'Multiple-Genders-vs-Biological-Sex-Fields-Non-Binary-1276f464642d810db95ae94feb576de6' },
+		{ t: 'Virtual primary care: location', tag: 'Usability study', d: 'Whether patients understood why we asked for their location.', c: 'More accurate geolocation and clearer copy.', href: N + 'VPC-Usability-Study-w-focus-on-Patient-s-Location-1276f464642d8191b52ed04f7bedafbd' },
+		{ t: 'Password reset', tag: 'Competitor analysis', d: 'Friction in resetting a password on web and mobile.', c: 'Visible requirements, then a move to Auth0.', href: N + 'Password-Reset-Flow-1276f464642d818c8094dc704bc17853' },
+		{ t: 'Phone number field', tag: 'Competitor analysis', d: 'Why people mistyped and abandoned one field.', c: 'Prefilled country code and auto-formatting.', href: N + 'Phone-Number-Field-1276f464642d8185b2d7c790453d95ba' },
+		{ t: 'Sound effects', tag: 'Usability study', d: 'Notification sounds that get noticed without startling anyone.', c: 'A new provider notification sound. (It’s why this site clicks softly.)', href: N + 'Sound-Effects-1276f464642d81d2b91fe662c9e49559' },
+	] },
+	{ id: 'lead', label: 'Leadership', items: [
+		{ t: 'Admin portal', tag: 'Amwell', d: 'The craft case study: one role-based portal.', c: 'Task completion 45% → 82%.', href: '/work/amwell-admin-portal' },
+		{ t: 'Presenting to the C-suite', tag: 'Amwell', d: 'Research readouts for executives.', href: N + 'Presenting-to-CEOs-1276f464642d81669afbc26a61b5a438' },
+		{ t: 'Design-a-thon lead', tag: 'Amwell', d: 'Ran a design-a-thon on longitudinal, automated care.', href: N + 'Design-a-Thon-Leader-1276f464642d8199aa7adf483d30baa2' },
+		{ t: 'Team lead and mentor', tag: 'Amwell', d: 'Mentored two designers, led sprints and critiques.', href: N + 'Team-Lead-Mentor-1276f464642d81fba475c9cd6f024c49' },
+		{ t: 'Design system upkeep', tag: 'Amwell', d: 'Kept the Figma and Zeroheight design system current.', href: N + 'Design-System-Maintenance-1276f464642d812490addc3242a2695a' },
+	] },
+	{ id: 'earlier', label: 'Earlier', items: [
+		{ t: 'MyTrips', tag: 'Pratt, 2018', d: 'My first app, built from scratch as my capstone, later redesigned.', c: '−94% time to share a trip, in testing.', href: '/work/mytrips' },
+		{ t: 'Paper Airplane', tag: 'Startup, 2017', d: 'My first design job: a dating app for meeting in person.', c: 'From 41 survey responses to a tested 13-screen prototype.', href: '/work/paper-airplane' },
+	] },
+];
+
+const quotes = [
+	{ q: 'Exceeding expectations for this stage in her tenure, with a strong trajectory toward broader leadership.', who: 'Mid-year review', where: 'Dandy, 2025' },
+	{ q: 'I saw her create an entire design system using Cursor that she basically taught herself. She was an inspiration to the design team.', who: 'Liz', where: 'Senior Product Designer, Dandy' },
+	{ q: 'She’s thinking ahead about scalable systems … a bias for action and strategic thinking.', who: 'Performance review', where: 'Dandy' },
+	{ q: 'You’re doing great work … Thank you for making us better.', who: 'Tom', where: 'VP, Operations, Dandy' },
+	{ q: 'The first person I turn to when I’m seeking input on my designs.', who: 'Kate Murdoch', where: 'Principal Product Designer, Amwell' },
+	{ q: 'She understands the bones of good design.', who: 'Missy Roode', where: 'Amwell' },
+	{ q: 'A fantastic mentor and leader.', who: 'Claudiane Philippe', where: 'Amwell' },
+];
 ---
 
 <Base
@@ -66,15 +113,43 @@ const chapters = [
 						<img src={c.img} alt={c.alt} style={`object-position:${c.pos}`} loading="lazy" decoding="async" />
 					</a>
 					<p class="rv"><a class="go" href={c.href}>{c.cta} <span aria-hidden="true">→</span></a></p>
-					<a class="next rv" href={i === 0 ? '#craft' : '#how'}><span>{i === 0 ? 'Next: the craft' : 'Next: how I work'}</span><i aria-hidden="true">↓</i></a>
+					<a class="next rv" href={i === 0 ? '#craft' : '#more'}><span>{i === 0 ? 'Next: the craft' : 'Next: everything else'}</span><i aria-hidden="true">↓</i></a>
 				</div>
 			</section>
 		))}
 
-		<!-- 3. How I work -->
+		<!-- 3. Everything else -->
+		<section class="ch" id="more" aria-labelledby="k-more">
+			<div class="shell ch__in">
+				<p class="label rv" id="k-more"><i>03</i> Everything else</p>
+				<p class="big big--sm rv">All other projects.</p>
+				<div class="pj rv" data-pj>
+					<div class="pj__tabs" role="tablist" aria-label="Project groups">
+						{groups.map((g, i) => (
+							<button type="button" role="tab" aria-selected={i === 0 ? 'true' : 'false'} data-g={g.id}>{g.label} <small>{g.items.length}</small></button>
+						))}
+					</div>
+					{groups.map((g, i) => (
+						<ul class="pj__list" data-g={g.id} hidden={i !== 0}>
+							{g.items.map((x) => (
+								<li>
+									<a href={x.href} target={x.href.startsWith('http') ? '_blank' : undefined} rel={x.href.startsWith('http') ? 'noopener' : undefined}>
+										<span class="pj__row"><b>{x.t}</b><small>{x.tag}</small><i aria-hidden="true">{x.href.startsWith('http') ? '↗' : '→'}</i></span>
+										<span class="pj__more"><span>{x.d}{x.c && <em> {x.c}</em>}</span></span>
+									</a>
+								</li>
+							))}
+						</ul>
+					))}
+				</div>
+				<a class="next rv" href="#how"><span>Next: how I work</span><i aria-hidden="true">↓</i></a>
+			</div>
+		</section>
+
+		<!-- 4. How I work -->
 		<section class="ch" id="how" aria-labelledby="k-how">
 			<div class="shell ch__in">
-				<p class="label rv" id="k-how"><i>03</i> How I work</p>
+				<p class="label rv" id="k-how"><i>04</i> How I work</p>
 				<p class="trio rv">
 					<a class="lk" href="/work/dandy-design-editor" data-peek="/work/dde/cairo-team.webp" data-cap="Field research with dental designers in Cairo">Research in the field.</a>
 					<a class="lk" href="/work/dandy-design-system" data-peek="/journey/storybook-ds-preview.mp4" data-poster="/journey/storybook-ds-cover.jpg" data-cap="The design system, built in Storybook">Prototype in code.</a>
@@ -88,7 +163,7 @@ const chapters = [
 		<!-- 4. How I got here -->
 		<section class="ch" id="story" aria-labelledby="k-story">
 			<div class="shell ch__in">
-				<p class="label rv" id="k-story"><i>04</i> How I got here</p>
+				<p class="label rv" id="k-story"><i>05</i> How I got here</p>
 				<p class="big big--sm rv">From user research to design engineering.</p>
 				<ol class="path rv" aria-label="Career path">
 					<li><b>2017</b>Paper Airplane</li>
@@ -103,8 +178,20 @@ const chapters = [
 		<!-- 5. In their words, then say hi -->
 		<section class="ch ch--end" id="contact" aria-label="In their words and contact">
 			<div class="shell ch__in">
-				<blockquote class="quote rv">“Exceeding expectations for this stage in her tenure, with a strong trajectory toward broader leadership.”</blockquote>
-				<p class="cite rv">Mid-year review, Dandy, 2025</p>
+				<p class="label rv">In their words</p>
+				<div class="qs rv" data-qs>
+					{quotes.map((x, i) => (
+						<figure class="qs__item" hidden={i !== 0}>
+							<blockquote class="quote">“{x.q}”</blockquote>
+							<figcaption class="cite"><b>{x.who}</b> · {x.where}</figcaption>
+						</figure>
+					))}
+					<div class="qs__nav">
+						<button type="button" class="qs__btn" data-dir="-1" aria-label="Previous quote">←</button>
+						<span class="qs__dots">{quotes.map((_, i) => <i class={i === 0 ? 'on' : ''}></i>)}</span>
+						<button type="button" class="qs__btn" data-dir="1" aria-label="Next quote">→</button>
+					</div>
+				</div>
 				<p class="rv end-actions">
 					<a class="button" href="mailto:caseylflood@gmail.com">Say hi</a>
 					<a class="button button--ghost" href="/work">All work</a>
@@ -172,6 +259,37 @@ const chapters = [
 			});
 			addEventListener('scroll', hide, { passive: true });
 		}
+
+		// 03: tabs, and one project row open at a time
+		root.querySelectorAll<HTMLElement>('[data-pj]').forEach((pj) => {
+			const tabs = Array.from(pj.querySelectorAll<HTMLButtonElement>('[role="tab"]'));
+			tabs.forEach((t) => t.addEventListener('click', () => {
+				tabs.forEach((x) => x.setAttribute('aria-selected', String(x === t)));
+				pj.querySelectorAll<HTMLElement>('.pj__list').forEach((l) => (l.hidden = l.dataset.g !== t.dataset.g));
+				tick(600);
+			}));
+			pj.querySelectorAll<HTMLElement>('.pj__list li').forEach((li) => {
+				const open = () => { li.parentElement!.querySelectorAll('li').forEach((x) => x.classList.toggle('open', x === li)); };
+				li.addEventListener('mouseenter', open);
+				li.addEventListener('focusin', open);
+			});
+			pj.querySelectorAll('.pj__list').forEach((l) => l.querySelector('li')?.classList.add('open'));
+		});
+
+		// In their words: one quote at a time
+		root.querySelectorAll<HTMLElement>('[data-qs]').forEach((qs) => {
+			const items = Array.from(qs.querySelectorAll<HTMLElement>('.qs__item'));
+			const dots = Array.from(qs.querySelectorAll<HTMLElement>('.qs__dots i'));
+			let k = 0, timer: number | undefined;
+			const go = (n: number) => {
+				k = (n + items.length) % items.length;
+				items.forEach((it, j) => (it.hidden = j !== k));
+				dots.forEach((d, j) => d.classList.toggle('on', j === k));
+			};
+			qs.querySelectorAll<HTMLButtonElement>('.qs__btn').forEach((b) => b.addEventListener('click', () => { go(k + Number(b.dataset.dir)); tick(640); clearInterval(timer); }));
+			if (!calm) timer = window.setInterval(() => go(k + 1), 6500);
+			qs.addEventListener('mouseenter', () => clearInterval(timer));
+		});
 		const say = (t: string) => {
 			toast.textContent = t; toast.classList.add('on');
 			clearTimeout((toast as any)._t); (toast as any)._t = setTimeout(() => toast.classList.remove('on'), 1600);
@@ -240,9 +358,44 @@ const chapters = [
 	.path li:last-child::after { background: var(--accent); }
 	.path b { display: block; color: var(--ink); font-family: var(--mono); font-size: 0.78rem; font-weight: 500; }
 
-	.quote { margin: 0; font-family: var(--display); font-size: clamp(1.5rem, 3.2vw, 2.2rem); font-weight: 600; letter-spacing: -0.03em; line-height: 1.2; }
+	.quote { border: 0; padding: 0; background: none; box-shadow: none; margin: 0; font-family: var(--display); font-size: clamp(1.5rem, 3.2vw, 2.2rem); font-weight: 600; letter-spacing: -0.03em; line-height: 1.2; }
 	.cite { margin: 1rem 0 0; color: var(--muted); font-size: 0.9rem; }
 	.end-actions { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 2.5rem; }
+
+	/* 03: all other projects */
+	.pj { margin-top: 1.75rem; }
+	.pj__tabs { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 1rem; }
+	.pj__tabs button { padding: 0.4rem 0.8rem; border-radius: 99px; border: 1px solid var(--line); background: none; color: var(--muted); font: inherit; font-size: 0.85rem; cursor: pointer; transition: color 0.2s, border-color 0.2s, background 0.2s; }
+	.pj__tabs button small { opacity: 0.6; margin-left: 0.2rem; }
+	.pj__tabs button:hover { color: var(--ink); }
+	.pj__tabs button[aria-selected='true'] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+	.pj__list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); max-height: 26rem; overflow-y: auto; scrollbar-width: thin; }
+	.pj__list[hidden] { display: none; }
+	.pj__list li { border-bottom: 1px solid var(--line); }
+	.pj__list a { display: block; padding: 0.8rem 0.25rem; color: inherit; text-decoration: none; }
+	.pj__row { display: grid; grid-template-columns: 1fr auto 1.2rem; align-items: baseline; gap: 1rem; }
+	.pj__row b { font-weight: 500; font-size: 1rem; color: var(--muted); transition: color 0.2s; }
+	.pj__row small { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted); opacity: 0.7; }
+	.pj__row i { font-style: normal; color: var(--muted); opacity: 0; transition: opacity 0.2s, transform 0.2s; }
+	.pj__more { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.35s cubic-bezier(0.2, 0.7, 0.2, 1); }
+	.pj__more > span { overflow: hidden; color: var(--muted); font-size: 0.92rem; line-height: 1.5; max-width: 32rem; }
+	.pj__more em { font-style: normal; color: var(--ink); }
+	.pj__list li:global(.open) .pj__more { grid-template-rows: 1fr; }
+	.pj__list li:global(.open) .pj__more > span { padding-top: 0.4rem; }
+	.pj__list li:global(.open) .pj__row b { color: var(--ink); }
+	.pj__list li:global(.open) .pj__row i { opacity: 1; transform: translateX(2px); color: var(--accent); }
+
+	/* In their words */
+	.qs__item[hidden] { display: none; }
+	.qs__item { margin: 0; animation: qin 0.5s ease; min-height: 9rem; }
+	@keyframes qin { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+	.qs__nav { display: flex; align-items: center; gap: 0.9rem; margin-top: 1.5rem; }
+	.qs__btn { width: 2rem; height: 2rem; border-radius: 50%; border: 1px solid var(--line-strong); background: none; color: var(--ink); cursor: pointer; }
+	.qs__btn:hover { border-color: var(--accent); color: var(--accent); }
+	.qs__dots { display: flex; gap: 0.35rem; }
+	.qs__dots i { width: 0.4rem; height: 0.4rem; border-radius: 50%; background: var(--line-strong); transition: background 0.2s, width 0.2s; }
+	.qs__dots i:global(.on) { background: var(--accent); width: 1.1rem; border-radius: 99px; }
+	.cite b { color: var(--ink); font-weight: 600; }
 
 	/* Inline links with a dotted underline */
 	.lk { color: var(--ink); text-decoration: none; background-image: linear-gradient(90deg, currentColor 40%, transparent 0); background-size: 5px 1.5px; background-repeat: repeat-x; background-position: 0 100%; padding-bottom: 2px; transition: color 0.2s; }
