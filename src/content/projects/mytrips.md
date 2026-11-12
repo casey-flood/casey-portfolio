@@ -1,5 +1,5 @@
 ---
-title: My Trips
+title: MyTrips
 outcome: A shareable travel timeline built from photos and location data, so a spontaneous trip can be passed along in minutes instead of hours.
 summary: The itinerary creator for spontaneous travelers. Photos and location data become a timeline friends can actually use.
 metrics:
@@ -16,9 +16,10 @@ tags:
   - UI/UX
 featured: true
 status: published
+custom: true
 order: 2
 accent: mint
-role: Senior Product Designer
+role: Solo designer
 timeline: 3 months
 industry: Travel
 ---

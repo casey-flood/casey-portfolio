@@ -60,7 +60,7 @@ export const chapters: Chapter[] = [
 		title: 'The field confirmed it: UX was the work.',
 		text: 'At an early-stage app for meeting people in person, I did a bit of everything: brand and guerrilla marketing, research and UI for the product, and working with developers on the APIs.',
 		nums: [{ v: '41', l: 'survey responses' }, { v: '13', l: 'final screens' }],
-		media: { src: '/paper-airplane/screen-01.webp', alt: 'Paper Airplane app screen', fit: 'contain' },
+		media: { src: '/paper-airplane/story-trio.webp', alt: 'Three Paper Airplane screens: the venue map, a venue with matches, and chat' },
 		link: { href: '/work/paper-airplane', label: 'Read the case study' },
 		moments: [
 			{ kicker: 'Brand', date: '2017', title: 'Guerrilla marketing around Boston.', text: 'I helped shape the brand and got the app in front of people on the street.', media: { src: '/paper-airplane/brand-1.webp', alt: 'Paper Airplane brand material' } },
@@ -71,10 +71,10 @@ export const chapters: Chapter[] = [
 		id: 'pratt', year: '2018', name: 'Pratt', role: 'UX/UI certificate', dates: '2018', place: 'Pratt Institute, New York',
 		title: 'Then I trained for it, on purpose.',
 		text: 'Instead of a broad degree, I chose a UX/UI mobile design certificate at Pratt: research methods, interface design, and testing with real people. The same year I started freelancing, which I’ve kept up alongside every role since.',
-		nums: [{ v: 'All A’s', l: 'across the 4 certificate courses' }, { v: '−94%', l: 'time to share a trip in My Trips' }],
+		nums: [{ v: 'All A’s', l: 'across the 4 certificate courses' }],
 		media: [{ src: '/story/pratt-transcript.webp', alt: 'Pratt official transcript: four courses, all A’s', fit: 'contain' }, { src: '/journey/pratt-scrapbook.png', alt: 'My Pratt scrapbook', fit: 'contain' }],
 		moments: [
-			{ kicker: 'Testing', date: 'Summer 2018', title: 'People dropped off when asked to review everything at once.', text: 'So I added daily review prompts. My first lesson in designing for how people actually behave.', media: { src: '/journey/usertesting.mp4', poster: '/journey/usertesting-poster.jpg', alt: 'In-person testing sessions', video: true } },
+			{ kicker: 'Capstone', date: 'Summer 2018', title: 'My first app, built from scratch: MyTrips.', text: 'An itinerary maker for spontaneous travelers, from empty Figma file to tested prototype. Testers dropped off when asked to review a whole trip, so I made it a short daily prompt.', num: { v: '−94%', l: 'time to share a trip, in testing' }, media: [{ src: '/mytrips/empathy-wall.webp', alt: 'Building the MyTrips empathy map at Pratt' }, { src: '/journey/usertesting.mp4', poster: '/journey/usertesting-poster.jpg', alt: 'Card sorts and prototype testing sessions', video: true }, { src: '/mytrips/card-sort.webp', alt: 'A moderated open card sort for MyTrips' }], link: { href: '/work/mytrips', label: 'MyTrips case study' } },
 			{ kicker: 'New York', date: '2018', title: 'New York made me obsessed with design.', text: 'Living in one of the biggest design communities in the world, with the Cooper Hewitt as my favorite museum.', media: [{ src: '/story/nyc-2018.webp', alt: 'On the Met rooftop above Central Park' }, { src: '/journey/cooper-hewitt-scrapbook.png', alt: 'My Cooper Hewitt scrapbook', fit: 'contain' }] },
 			{ kicker: 'Art school', date: 'Fall 2018 · Boston', title: 'I tried art school, then chose the work.', text: 'A semester at MassArt, with A’s. But the BFA meant four more years of studio classes before any interaction design. So I freelanced, applied for UX roles, and joined Amwell that January.', media: [{ src: '/story/massart-drawings-detail.webp', alt: 'Drawings from my time at MassArt' }, { src: '/story/massart-transcript.webp', alt: 'MassArt transcript, Fall 2018: two A’s, with my Pratt work transferred in as design credit', fit: 'contain' }, { src: '/story/massart-campus.webp', alt: 'Outside MassArt, September 2018', pos: '35% 40%' }] },
 		],

@@ -114,16 +114,16 @@ export const companies: Company[] = [
 		},
 		tiles: [
 			{
-				title: 'My Trips',
+				title: 'MyTrips',
 				href: '/work/mytrips',
 				metric: { value: '94%', label: 'less time to share a trip' },
-				visual: { alt: 'The My Trips itinerary app', label: 'My Trips', hint: 'Screen or GIF' },
+				visual: { src: '/mytrips/hero-phones.webp', alt: 'MyTrips screens', label: 'MyTrips', hint: 'Screens' },
 			},
 			{
 				title: 'Paper Airplane',
 				href: '/work/paper-airplane',
 				metric: { value: '13', label: 'tested screens' },
-				visual: { src: '/paper-airplane/screen-01.webp', alt: 'A Paper Airplane app screen', label: 'Paper Airplane', hint: 'Screen' },
+				visual: { src: '/paper-airplane/story-trio.webp', alt: 'Paper Airplane screens: map, venue and chat', label: 'Paper Airplane', hint: 'Screens' },
 			},
 		],
 	},
