@@ -16420,3 +16420,13 @@ video.cmp__img:not(.cmp__img--new){object-position:left center}
 	.fbk__tabs button { font-size: 0.6rem; padding: 0.3rem 0.55rem; } .fbk__stage img { height: 9rem; } .fbk__stage figcaption { font-size: 0.7rem; }
 }
 .fbk__stage img { width: auto !important; max-width: 100%; height: auto !important; max-height: 17rem; background: none !important; } .fbk__stage { min-height: 20rem; align-items: start; } @media (max-width: 899px) { .fbk__stage img { max-height: 9rem; } .fbk__stage { min-height: 11.5rem; } }
+/* task analysis: the task, then the admin's words */
+.tk { display: grid; gap: 0.6rem; }
+.tk__head { margin: 0; display: flex; flex-direction: column; gap: 0.15rem; }
+.tk__head span { color: #8cc8ff; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+.tk__head em { font-style: normal; color: #9db6dc; font-size: 0.8rem; }
+.tk__c { position: relative; padding: 0.9rem 1rem 0.9rem 1.1rem; border-radius: 0.8rem; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.14); border-left: 3px solid #8cc8ff; }
+.tk__c small { display: block; margin-bottom: 0.35rem; color: #cfe6ff; font-size: 0.74rem; font-weight: 700; }
+.tk__c blockquote { margin: 0; color: #fff; font-size: 0.95rem; line-height: 1.45; }
+.tk__ok { position: absolute; top: 0.8rem; right: 0.9rem; color: #7fe0a8; font-size: 0.7rem; font-weight: 600; }
+@media (max-width: 899px) { .tk__c blockquote { font-size: 0.72rem; } .tk__c { padding: 0.55rem 0.7rem; } .tk__head em { display: none; } }
