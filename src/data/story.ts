@@ -31,7 +31,7 @@ export const chapters: Chapter[] = [
 		id: 'jmu', year: '2015', name: 'JMU', role: 'Media Arts & Design + CIS', dates: 'Fall 2015 – Spring 2017', place: 'James Madison University, Virginia',
 		title: 'Design and code, from day one.',
 		text: 'Plus Delta Sigma Pi, the business fraternity. I paid my own way, so every class had to earn it.',
-		quote: { q: 'Front-end coding would give me an understanding of the bigger picture, helping me become a better designer.', who: 'My design-school application essay, 2017' },
+		media: { src: '/story/jmu-essay-2017.webp', alt: 'From my 2017 application essay to JMU’s School of Media Arts & Design', bare: true },
 		moments: [
 			{
 				kicker: 'The pivot', date: 'Spring 2017',
