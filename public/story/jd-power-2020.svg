@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 520" font-family="Inter, -apple-system, Segoe UI, sans-serif">
+  <rect width="800" height="520" fill="#ffffff"/>
+  <text x="48" y="70" font-size="26" font-weight="700" fill="#111">Patient satisfaction with telehealth, 2020</text>
+  <text x="48" y="102" font-size="17" fill="#6b6f76">Direct-to-consumer, J.D. Power index (out of 1,000)</text>
+  <g font-size="19">
+    <text x="48" y="168" font-weight="700" fill="#111">Amwell</text>
+    <rect x="250" y="146" width="420" height="34" rx="6" fill="#4f5fe8"/>
+    <text x="684" y="170" font-weight="700" fill="#111">885</text>
+    <text x="684" y="170" dx="46" font-size="15" font-weight="700" fill="#4f5fe8">#1</text>
+
+    <text x="48" y="234" fill="#3a3d42">Doctor on Demand</text>
+    <rect x="250" y="212" width="406" height="34" rx="6" fill="#d5d8de"/>
+    <text x="670" y="236" fill="#3a3d42">879</text>
+
+    <text x="48" y="300" fill="#8a8e95">Segment average</text>
+    <rect x="250" y="278" width="354" height="34" rx="6" fill="#eceef1"/>
+    <text x="618" y="302" fill="#8a8e95">856</text>
+
+    <text x="48" y="366" fill="#3a3d42">Teladoc</text>
+    <rect x="250" y="344" width="350" height="34" rx="6" fill="#d5d8de"/>
+    <text x="614" y="368" fill="#3a3d42">854</text>
+
+    <text x="48" y="432" fill="#3a3d42">MDLIVE</text>
+    <rect x="250" y="410" width="325" height="34" rx="6" fill="#d5d8de"/>
+    <text x="589" y="434" fill="#3a3d42">843</text>
+  </g>
+  <text x="48" y="490" font-size="14" fill="#8a8e95">Source: J.D. Power 2020 U.S. Telehealth Satisfaction Study</text>
+</svg>
