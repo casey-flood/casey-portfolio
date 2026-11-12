@@ -10,7 +10,7 @@ export type Beat = {
 	links?: { href: string; label: string }[];
 };
 export interface ScrollProps {
-	short?: { title: string; rows: { k: string; v: string }[]; img?: { src: string; alt: string }; stats?: { v: string; l: string; s?: string }[]; src?: string; more?: { href: string; label: string } };
+	short?: { title: string; rows: { k: string; v: string }[]; img?: { src: string; alt: string }; compare?: { before: { mp4: string; poster: string; label: string; alt: string }; after: { mp4: string; poster: string; label: string; alt: string }; ratio?: string; label?: string }; stats?: { v: string; l: string; s?: string }[]; src?: string; more?: { href: string; label: string } };
 	toolsScene?: { after: string; tools: import('./tools').Tool[]; title: string; lede?: string };
 	title: string;
 	description: string;

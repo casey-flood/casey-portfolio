@@ -2,6 +2,7 @@
 import Base from './Base.astro';
 import ToolsScene from '../components/ToolsScene.astro';
 
+import DdeViz from '../components/DdeViz.astro';
 import type { Beat, ScrollProps } from '../data/dandy-scroll-types';
 interface Props extends ScrollProps {}
 const { short, toolsScene, title, description, eyebrow, heroTitle, lede, tools, hero, scenes, endTitle, endText, endLinks = [{ href: '/work/dandy', label: '← Dandy overview' }, { href: '/work', label: 'All work', ghost: true }], brand = { logo: '/brand/dandy-wordmark.svg', alt: 'Dandy', backHref: '/work/dandy', backLabel: '← Dandy overview', cls: '' } } = Astro.props;
@@ -59,7 +60,7 @@ const slug = Astro.url.pathname.split('/').filter(Boolean).pop() ?? 'page';
 						{short.more && <a class="cx__more" href={short.more.href}>{short.more.label} <span aria-hidden="true">↓</span></a>}
 					</div>
 					<div class="cx__shortviz">
-						{short.img && <img class="dsx__shortimg" src={short.img.src} alt={short.img.alt} loading="lazy" />}
+						{short.compare ? <DdeViz kind="compare" cmp={short.compare} /> : short.img && <img class="dsx__shortimg" src={short.img.src} alt={short.img.alt} loading="lazy" />}
 						{short.stats && <ul class="cx__glass">{short.stats.map((x) => (<li><b>{x.v}</b><span>{x.l}{x.s && <small>{x.s}</small>}</span></li>))}</ul>}
 						{short.src && <p class="imp__src cx__src">{short.src}</p>}
 					</div>
@@ -198,6 +199,11 @@ const slug = Astro.url.pathname.split('/').filter(Boolean).pop() ?? 'page';
 			const tick = () => {
 				for (const s of scenes) {
 					const r = s.el.getBoundingClientRect();
+					// a scene's beats only play once the scene is actually on screen, so its animations aren't spent off-screen
+					if (r.top > innerHeight * 0.55 || r.bottom < innerHeight * 0.45) {
+						if (s.last !== -1) { s.last = -1; s.rows.forEach((row) => { row.classList.remove('on'); row.querySelector('video')?.pause(); }); s.dots.forEach((d) => d.classList.remove('on')); }
+						continue;
+					}
 					const pinH = mob ? (s.el.querySelector<HTMLElement>('.sc__pin')?.offsetHeight ?? innerHeight) : innerHeight;
 					const p = Math.max(0, Math.min(0.9999, -r.top / Math.max(1, r.height - pinH)));
 					const i = Math.min(s.rows.length - 1, Math.floor(p * s.rows.length));
@@ -303,9 +309,9 @@ const slug = Astro.url.pathname.split('/').filter(Boolean).pop() ?? 'page';
 			viz.classList.add('is-done');
 			if (isEco) viz.dataset.focus = 'admin';
 		};
-		const arm = () => { clearTimeout(timer); timer = window.setTimeout(finish, reduceMo ? 0 : isEco ? 4600 : 2400); };
+		const arm = () => { clearTimeout(timer); timer = window.setTimeout(finish, reduceMo ? 0 : isEco ? 6400 : 2400); };
 		if (row) {
-			new MutationObserver(() => { if (row.classList.contains('on')) arm(); else clearTimeout(timer); }).observe(row, { attributes: true, attributeFilter: ['class'] });
+			new MutationObserver(() => { if (row.classList.contains('on')) arm(); else { clearTimeout(timer); viz.classList.remove('is-done'); delete viz.dataset.focus; } }).observe(row, { attributes: true, attributeFilter: ['class'] });
 			if (row.classList.contains('on')) arm();
 		}
 		const focus = (p: HTMLElement) => {

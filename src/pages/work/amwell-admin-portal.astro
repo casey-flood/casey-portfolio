@@ -25,10 +25,10 @@ const eco = `
 		<div class="eco__ahead"><img class="eco__face" src="/amwell/cs/admin-persona.webp" alt="" /><span><b>Health system admin</b><small>Admin portal · configures both sides</small></span></div>
 		<span class="eco__shot"><img class="eco__ui" src="/amwell/cs/admin-portal.webp" alt="Admin portal" /><button type="button" class="eco__zoom" aria-label="See the admin portal full size">⤢</button></span>
 		<ul class="eco__needs">
-			<li>Turn on service lines</li>
-			<li>Manage provider networks</li>
-			<li>Set clinical rules</li>
-			<li>Control patient access</li>
+			<li><svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="10" rx="5"/><circle cx="16" cy="12" r="3"/></svg><span>Turn on service lines</span></li>
+			<li><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><path d="M3 19c0-3.3 2.7-5.5 6-5.5s6 2.2 6 5.5"/><circle cx="17" cy="9" r="2.4"/><path d="M16 13.6c2.8.2 5 2 5 4.9"/></svg><span>Manage provider networks</span></li>
+			<li><svg viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V3h6v1M8.5 12.5l2.2 2.2 4.8-4.8"/></svg><span>Set clinical rules</span></li>
+			<li><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg><span>Control patient access</span></li>
 		</ul>
 	</div>
 	<p class="eco__hint">Click a portal to bring it forward, then ⤢ to see it full size.</p>
@@ -171,8 +171,8 @@ const scenes: { id: string; label: string; nav: string; beats: Beat[] }[] = [
 			},
 			{
 				title: 'What one simple task felt like.',
-				text: 'Turning on Urgent Care for one health system meant cryptic rule names, no organization context, two orgs with nearly the same name, a lost session, and a numeric ID to decode. This reenactment, drawn from usability testing and the admin tickets, is why every later decision puts the organization first.',
-				media: { kind: 'clip', src: `${A}/before.mp4`, poster: `${A}/before.jpg`, alt: 'A reenactment of an admin wandering through the legacy portal to turn on a service line' },
+				text: 'Turning on Urgent Care for one health system meant cryptic rule names, no organization context, two orgs with nearly the same name, a lost session, and a numeric ID to decode. This is why every later decision puts the organization first.',
+				media: { kind: 'clip', src: `${A}/before.mp4`, poster: `${A}/before.jpg`, alt: 'An admin wandering through the legacy portal to turn on a service line' },
 			},
 			{
 				title: 'Tickets, shadowing, and interviews.',
@@ -433,13 +433,18 @@ const scenes: { id: string; label: string; nav: string; beats: Beat[] }[] = [
 	lede="Amwell’s admin portal was fragmented and hard to navigate. I explored 113 screens by hand and redesigned it as one role-based system. In usability testing, task completion rose from 45% to 82%."
 	tools="Figma · User testing · Converge design system · No AI tools"
 	short={{
-		title: 'One admin portal that fits every role, from Amwell’s own team to clients like CVS Health.',
+		title: 'One admin portal for every role, from Amwell’s own team to clients like CVS Health.',
 		rows: [
-			{ k: 'The problem', v: 'Leadership asked to “make it faster.” The tickets said otherwise: 30% traced back to navigation in a fragmented portal shared by 400+ admins across four roles.' },
-			{ k: 'What I owned', v: 'I led the research and owned the information architecture, the navigation framework (including the collapse-rator) and 113 high-fidelity screens, working with PM, engineering and architecture.' },
-			{ k: 'Craft highlights', v: 'A tenant switcher, so the organization comes first on every page. A menu that steps aside for wide tables. A calm dark theme where status and actions stand out. All by hand, no AI tools.' },
+			{ k: 'The problem', v: 'Leadership asked to “make it faster.” The tickets pointed at navigation: 30% of them, across 400+ admins.' },
+			{ k: 'What I owned', v: 'The research, the information architecture, the navigation framework and 113 high-fidelity screens.' },
+			{ k: 'Craft highlights', v: 'The organization first on every page, a menu that steps aside for wide tables, a calm dark theme. All by hand.' },
 		],
-		img: { src: '/amwell/cs/hero-screen.webp', alt: 'The redesigned admin dashboard' },
+		compare: {
+			ratio: '1280 / 780',
+			label: 'Compare the legacy admin console with the redesigned portal',
+			before: { mp4: '/amwell/cs/cmp-before.mp4', poster: '/amwell/cs/cmp-before.webp', label: 'Before · legacy console', alt: 'The legacy admin console, one task in progress' },
+			after: { mp4: '/amwell/cs/cmp-after.mp4', poster: '/amwell/cs/cmp-after.webp', label: 'After · redesigned portal', alt: 'The redesigned admin portal prototype, in use' },
+		},
 		stats: [
 			{ v: '45% → 82%', l: 'task completion, in usability testing' },
 			{ v: '113', l: 'screens explored' },
