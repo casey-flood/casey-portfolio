@@ -16209,3 +16209,4 @@ video.cmp__img:not(.cmp__img--new){object-position:left center}
 @media (max-width: 899px) { .tm__av { width: 1.2rem; height: 1.2rem; } .tm__av--gen svg { width: 0.7rem; height: 0.7rem; } .tm thead th .tm__avs { margin-bottom: 0.25rem !important; } }
 .tm thead th .tm__avs .tm__av { width: 1.7rem; height: 1.7rem; } @media (max-width: 899px) { .tm thead th .tm__avs .tm__av { width: 1.2rem; height: 1.2rem; } }
 .tm--basic .tm__av { box-shadow: 0 0 0 2px #0b1a36, 0 0 0 3px rgba(214, 221, 232, 0.6); }
+.tm thead th small.tm__note { margin-top: 0.3rem !important; font-size: 0.64rem !important; font-weight: 400 !important; color: #9db6dc !important; line-height: 1.3; }
