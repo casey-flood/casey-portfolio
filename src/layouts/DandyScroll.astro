@@ -380,6 +380,12 @@ const slug = Astro.url.pathname.split('/').filter(Boolean).pop() ?? 'page';
 		if (bul) Array.from(bul.children).forEach((li, j) => { li.addEventListener('mouseenter', () => pick(j)); li.addEventListener('click', () => pick(j)); });
 		if (row) new MutationObserver(() => { if (row.classList.contains('on')) { set(0); loop(); } else clearInterval(timer); }).observe(row, { attributes: true, attributeFilter: ['class'] });
 	});
+	// tool tiles: hover (or tap) to see what admins used each one for
+	document.querySelectorAll<HTMLElement>('.sw2').forEach((w) => {
+		const btns = Array.from(w.querySelectorAll<HTMLButtonElement>('[data-k]')).filter((b) => b.tagName === 'BUTTON');
+		const set = (k: string) => { w.dataset.k = k; btns.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.k === k))); };
+		btns.forEach((b) => { b.addEventListener('mouseenter', () => set(b.dataset.k!)); b.addEventListener('focus', () => set(b.dataset.k!)); b.addEventListener('click', () => set(b.dataset.k!)); });
+	});
 	// anything marked data-full opens that image full size
 	document.querySelectorAll<HTMLElement>('.sc__viz--html [data-full]').forEach((el) => {
 		const open = () => { const im = new Image(); im.src = el.dataset.full!; im.alt = el.getAttribute('aria-label') ?? ''; expand(im); };

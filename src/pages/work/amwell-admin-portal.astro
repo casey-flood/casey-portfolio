@@ -157,11 +157,11 @@ const jargon = `
 </div>`;
 
 const sw = `
-<div class="sw" role="img" aria-label="40% of admin time went to switching between the admin portal, Looker, Jira, Salesforce and the provisioning server">
-	<p class="sw__big"><b>40%</b><span>of admin time went to switching tools</span></p>
-	<ol class="sw__tools"><li style="--i:0"><i></i>Admin portal</li><li style="--i:1"><i></i>Looker</li><li style="--i:2"><i></i>Jira</li><li style="--i:3"><i></i>Salesforce</li><li style="--i:4"><i></i>Provisioning server</li></ol>
-	<p class="sw__cap">One task, five places to look</p>
-	<p class="sw__src">Source: what admins described in 8 interviews, checked against tasks I timed in 5 shadowing sessions</p>
+<div class="sw2" data-k="0">
+	<p class="sw2__big"><b>40%</b><span>of admin time went to switching tools. One client setup touched five:</span></p>
+	<ol class="sw2__tools"><li><button type="button" data-k="0" aria-pressed="true"><i><svg viewBox="0 0 24 24"><path d="M7.5 18a4.5 4.5 0 0 1-.6-8.96A5 5 0 0 1 16.4 8a4 4 0 1 1 1.1 10z" fill="#00a1e0"/></svg></i><span>Salesforce</span></button></li><li><button type="button" data-k="1" aria-pressed="false"><i><svg viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z" fill="none" stroke="#8cc8ff" stroke-width="2"/><path d="M9 11.5l2 2 4-4" fill="none" stroke="#8cc8ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></i><span>Admin portal</span></button></li><li><button type="button" data-k="2" aria-pressed="false"><i><svg viewBox="0 0 24 24" fill="none" stroke="#c8d2e2" stroke-width="1.8"><rect x="4" y="4" width="16" height="6" rx="1.5"/><rect x="4" y="14" width="16" height="6" rx="1.5"/><circle cx="8" cy="7" r=".9" fill="#c8d2e2"/><circle cx="8" cy="17" r=".9" fill="#c8d2e2"/></svg></i><span>Provisioning server</span></button></li><li><button type="button" data-k="3" aria-pressed="false"><i><svg viewBox="0 0 24 24"><path d="M12 3l9 9-9 9-9-9z" fill="none" stroke="#2684ff" stroke-width="2"/><path d="M12 8l4 4-4 4-4-4z" fill="#2684ff"/></svg></i><span>Jira</span></button></li><li><button type="button" data-k="4" aria-pressed="false"><i><svg viewBox="0 0 24 24"><circle cx="13" cy="13" r="6" fill="none" stroke="#a57bf6" stroke-width="2"/><circle cx="6" cy="5" r="2" fill="#a57bf6"/><circle cx="13" cy="13" r="2" fill="#a57bf6"/></svg></i><span>Looker</span></button></li></ol>
+	<div class="sw2__det"><p data-for="0"><b>1. Salesforce</b> Check what the client bought and who to contact.</p><p data-for="1"><b>2. Admin portal</b> Configure the tenant: service lines, rules and access.</p><p data-for="2"><b>3. Provisioning server</b> Create and unlock the provider accounts behind it.</p><p data-for="3"><b>4. Jira</b> File a ticket for anything the portal couldn’t change.</p><p data-for="4"><b>5. Looker</b> Check visit volume, and whether the setup worked.</p></div>
+	<p class="sw2__src">Source: 8 admin interviews, checked against tasks I timed in 5 shadowing sessions</p>
 </div>`;
 
 const scenes: { id: string; label: string; nav: string; beats: Beat[] }[] = [
@@ -233,7 +233,7 @@ const scenes: { id: string; label: string; nav: string; beats: Beat[] }[] = [
 		beats: [
 			{
 				title: 'Admins lost 40% of their time switching tools.',
-				text: 'Admins bounced between the portal, Looker, Jira, Salesforce and the provisioning server to finish one task. Different roles needed different information hierarchies, but everyone got the same sprawling structure.',
+				text: 'Setting up one client meant hopping between five tools. Different roles needed different information hierarchies, but everyone got the same sprawling structure.',
 				html: sw,
 			},
 			{
