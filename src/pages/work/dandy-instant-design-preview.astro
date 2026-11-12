@@ -82,7 +82,7 @@ const scenes: { id: string; label: string; nav: string; beats: Beat[] }[] = [
 			},
 			{
 				title: 'Then I wrote the copy so it adds up.',
-				text: 'This is our best guess at the crown from your scan. Fix what’s flagged and we’ll rebuild a more accurate one, eligible to go straight to the lab.',
+				text: '“This is our best guess at the crown from your scan. Fix what’s flagged and we’ll rebuild a more accurate one, eligible to go straight to the lab.” One message, instead of two systems the dentist has to reconcile.',
 			},
 		],
 	},
@@ -164,8 +164,15 @@ const scenes: { id: string; label: string; nav: string; beats: Beat[] }[] = [
 	lede="I lead the design of a chairside preview: an ML-generated crown appears on the scan, so the dentist can approve it, fix the prep or leave a note before the patient leaves."
 	tools="Claude Design · Figma · FigJam · Hex and Amplitude data"
 	hero={{ src: '/work/behind/proto.mp4', poster: '/work/behind/proto.jpg' }}
+	brand={{ logo: '/brand/dandy-wordmark.svg', alt: 'Dandy', backHref: '/work/dandy', backLabel: '← Dandy overview', cls: 'idp' }}
 	scenes={scenes}
 	endTitle="Decide the crown in the chair."
 	endText="The bet is simple: show the result while it can still change, and fewer crowns loop back through a designer."
 	endLinks={[{ href: '/work/dandy', label: '← Dandy overview' }, { href: '/work/dandy-design-editor', label: 'The Design Editor case study →', ghost: true }]}
 />
+
+<style is:global>
+	/* Diagrams are drawn on the same green, so show them whole instead of cropping. */
+	.idp .sc__viz--shots { background: #13251d; }
+	.idp .sc__viz--shots > img { object-fit: contain !important; background: #13251d !important; }
+</style>
