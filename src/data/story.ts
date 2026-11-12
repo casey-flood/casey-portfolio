@@ -50,7 +50,8 @@ export const chapters: Chapter[] = [
 			{
 				kicker: 'The pivot', date: 'Spring 2017',
 				title: 'I paused school to test the field first.',
-				text: 'Graduating seniors told me the degree was too broad, spread across journalism, cinematography and every other concentration. UX was still young, but I knew it was what I wanted. Before paying for more school, I went to find out if I was right.',
+				text: 'The degree was spread across journalism, film and everything in between. I wanted UX, so before paying for more school, I went to find out if I was right.',
+				media: { src: '/story/jmu-leave-notice.webp', alt: 'JMU leave of absence notice from the Office of the Registrar, May 4, 2017', fit: 'contain' },
 			},
 		],
 	},
