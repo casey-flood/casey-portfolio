@@ -156,6 +156,13 @@ const jargon = `
 	<span class="jg__same" style="left:30%;top:84%"><b>Doctor</b><b>Provider</b><b>Clinician</b><b>Practitioner</b><small>Same thing, four words</small></span>
 </div>`;
 
+const sw = `
+<div class="sw" role="img" aria-label="40% of admin time went to switching between the admin portal, Looker, Jira, Salesforce and the provisioning server">
+	<p class="sw__big"><b>40%</b><span>of admin time went to switching tools</span></p>
+	<ol class="sw__tools"><li style="--i:0"><i></i>Admin portal</li><li style="--i:1"><i></i>Looker</li><li style="--i:2"><i></i>Jira</li><li style="--i:3"><i></i>Salesforce</li><li style="--i:4"><i></i>Provisioning server</li></ol>
+	<p class="sw__cap">One task, five places to look</p>
+</div>`;
+
 const scenes: { id: string; label: string; nav: string; beats: Beat[] }[] = [
 	{
 		id: 'context',
@@ -225,8 +232,8 @@ const scenes: { id: string; label: string; nav: string; beats: Beat[] }[] = [
 		beats: [
 			{
 				title: 'Admins lost 40% of their time switching tools.',
-				text: 'Different roles needed different information hierarchies, but everyone got the same sprawling structure.',
-				metric: { to: 40, suffix: '%', unit: 'of admin time spent switching between tools' },
+				text: 'Admins bounced between the portal, Looker, Jira, Salesforce and the provisioning server to finish one task. Different roles needed different information hierarchies, but everyone got the same sprawling structure.',
+				html: sw,
 			},
 			{
 				title: 'No clear paths meant 2+ weeks of training.',
