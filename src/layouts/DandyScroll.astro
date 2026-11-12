@@ -75,7 +75,7 @@ const slug = Astro.url.pathname.split('/').filter(Boolean).pop() ?? 'page';
 						<p class="hv__eyebrow sc__label">{sc.label}</p>
 						<div class="sc__rows">
 							{sc.beats.map((b, i) => (
-								<article class:list={['sc__row', { 'sc__row--solo': !b.media && !b.viz && !b.metric && !b.cards }]} data-i={i}>
+								<article class:list={['sc__row', { 'sc__row--solo': !b.media && !b.viz && !b.metric && !b.cards && !b.html }]} data-i={i}>
 									<div class="sc__text">
 										<h3>{b.title}</h3>
 										<p>{b.text}</p>
@@ -97,6 +97,7 @@ const slug = Astro.url.pathname.split('/').filter(Boolean).pop() ?? 'page';
 											))}
 										</ol>
 									)}
+									{b.html && <div class="sc__viz sc__viz--html" set:html={b.html} />}
 									{(b.media || b.viz || b.metric) && (
 										<div class:list={['sc__viz', { 'sc__viz--metric': !!b.metric, 'sc__viz--shots': b.media?.kind === 'image' }]}>
 											{b.media?.kind === 'image' && <img src={b.media.src} alt={b.media.alt} loading="lazy" decoding="async" />}

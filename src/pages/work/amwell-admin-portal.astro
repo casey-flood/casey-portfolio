@@ -3,6 +3,52 @@ import DandyScroll from '../../layouts/DandyScroll.astro';
 import type { Beat } from '../../data/dandy-scroll-types';
 
 const A = '/amwell/cs';
+const eco = `
+<div class="eco" role="img" aria-label="Patients and providers meet in virtual visits; the admin portal sits behind both and configures what each side sees">
+	<svg class="eco__lines" viewBox="0 0 100 62" preserveAspectRatio="none" aria-hidden="true">
+		<path class="eco__visit" d="M27 20 L73 20" />
+		<path class="eco__cfg eco__cfg--l" d="M50 40 L22 28" />
+		<path class="eco__cfg eco__cfg--r" d="M50 40 L78 28" />
+	</svg>
+	<span class="eco__tag eco__tag--visit">Virtual visit</span>
+	<div class="eco__side eco__side--pat">
+		<img class="eco__face" src="/amwell/cs/pat-persona.webp" alt="" />
+		<b>Patient</b><small>Patient portal</small>
+		<img class="eco__ui" src="/amwell/cs/pat-portal.webp" alt="" />
+	</div>
+	<div class="eco__side eco__side--prov">
+		<img class="eco__face" src="/amwell/cs/prov-persona.webp" alt="" />
+		<b>Provider</b><small>Provider portal</small>
+		<img class="eco__ui" src="/amwell/cs/prov-portal.webp" alt="" />
+	</div>
+	<div class="eco__admin">
+		<div class="eco__ahead"><img class="eco__face" src="/amwell/cs/admin-persona.webp" alt="" /><span><b>Health system admin</b><small>Admin portal · configures both sides</small></span></div>
+		<img class="eco__ui" src="/amwell/cs/admin-portal.webp" alt="" />
+		<ul class="eco__needs">
+			<li>Turn on service lines</li>
+			<li>Manage provider networks</li>
+			<li>Set clinical rules</li>
+			<li>Control patient access</li>
+		</ul>
+	</div>
+</div>`;
+
+const who = `
+<div class="who" role="img" aria-label="Two groups use the admin portal: Amwell's internal team (implementation managers and NOC agents) and external clients (client healthcare admins and client IT teams)">
+	<div class="who__portal"><img src="/amwell/cs/legacy-sysadmin.webp" alt="" /><span>One admin portal</span></div>
+	<svg class="who__lines" viewBox="0 0 100 20" preserveAspectRatio="none" aria-hidden="true"><path d="M50 0 L50 8 M50 8 L25 8 L25 20 M50 8 L75 8 L75 20" /></svg>
+	<div class="who__grp who__grp--in">
+		<p class="who__h">Internal · <b>Amwell team</b></p>
+		<div class="who__p"><img src="/amwell/cs/av-impl.webp" alt="" /><b>Implementation managers</b><small>Set up and configure the platform for each client.</small></div>
+		<div class="who__p"><img src="/amwell/cs/av-noc.webp" alt="" /><b>NOC agents</b><small>Monitor platform health and fix performance issues.</small></div>
+	</div>
+	<div class="who__grp who__grp--out">
+		<p class="who__h">External · <b>Client organizations</b></p>
+		<div class="who__p"><img src="/amwell/cs/av-client.webp" alt="" /><b>Client healthcare admins</b><small>Run their own instance, e.g. CVS Health.</small></div>
+		<div class="who__p"><img src="/amwell/cs/av-it.webp" alt="" /><b>Client IT teams</b><small>Connect Amwell to their existing systems.</small></div>
+	</div>
+</div>`;
+
 const scenes: { id: string; label: string; nav: string; beats: Beat[] }[] = [
 	{
 		id: 'context',
@@ -12,12 +58,12 @@ const scenes: { id: string; label: string; nav: string; beats: Beat[] }[] = [
 			{
 				title: 'The admin portal is the control hub.',
 				text: 'Amwell connects patients and providers for virtual visits. The admin portal is where healthcare organizations configure the experience both sides see: service lines, provider networks, clinical rules, and patient access.',
-				media: { kind: 'image', src: `${A}/how.webp`, alt: 'The admin portal sits between the patient portal and the provider portal' },
+				html: eco,
 			},
 			{
 				title: 'Two kinds of admins, four roles.',
 				text: 'Amwell’s own implementation managers and NOC agents build and support the platform. Clients like CVS Health, through their health system admins and IT teams, manage their own instance.',
-				media: { kind: 'image', src: `${A}/users.webp`, alt: 'Internal and external users of the Amwell admin portal' },
+				html: who,
 			},
 			{
 				title: 'My role: Senior Product Designer.',
