@@ -40,12 +40,16 @@ const chapters = [
 			<div class="shell ch__in">
 				<p class="who rv"><img src="/casey.jpg" alt="" width="600" height="800" /><span><b>Casey Flood</b> · Senior Product Designer at Dandy</span></p>
 				<h1 class="rv">I design in code, so great ideas <em>actually ship</em>.</h1>
-				<p class="lede rv">
-					I design for every side of complex healthcare systems. At
-					<a class="lk" href="/work/dandy" data-peek="/work/dde/hero.mp4" data-poster="/work/dde/hero.jpg" data-cap="Dandy’s Design Editor">Dandy</a>,
-					that’s the whole life of a crown: the dentists who order it, the dental designers who shape it in 3D, and the lab that makes it. At
-					<a class="lk" href="/work/amwell" data-peek="/amwell/cs/hero.webp" data-cap="Amwell’s admin portal">Amwell</a>,
-					it was telehealth for patients, providers and admins, where I led 86% of our research, work that fed a #1 J.D. Power ranking.
+				<p class="lede rv">I design for every side of complex healthcare systems.</p>
+				<p class="lede lede--tight rv">
+					At
+					<a class="lk lk--logo" href="/work/dandy" data-peek="/work/vision-scan.mp4" data-cap="Dandy overview"><img class="lk__logo" src="/brand/dandy-wordmark.svg" alt="Dandy" /></a>,
+					that’s the whole life of a crown: the dentists who order it, the dental designers who shape it in 3D, and the lab that makes it.
+				</p>
+				<p class="lede lede--tight rv">
+					At
+					<a class="lk lk--logo" href="/work/amwell" data-peek="/amwell/hero-platform.webp" data-cap="Amwell overview"><img class="lk__logo lk__logo--amwell" src="/brand/amwell-white.svg" alt="Amwell" /></a>,
+					it was telehealth for patients, providers and admins. I led 86% of our research, work that fed a #1 J.D. Power ranking.
 				</p>
 				<a class="next rv" href="#impact"><span>Start with the impact</span><i aria-hidden="true">↓</i></a>
 			</div>
@@ -201,6 +205,11 @@ const chapters = [
 	.who b { color: var(--ink); font-weight: 600; }
 	.hp h1 { font-size: clamp(2.4rem, 6vw, 4.2rem); line-height: 1.02; letter-spacing: -0.035em; margin: 0; max-width: 14ch; }
 	.hp h1 em { font-style: normal; color: var(--accent); }
+	.lede--tight { margin-top: 0.9rem !important; }
+	.lk__logo { display: inline-block; height: 1em; width: auto; vertical-align: -0.12em; filter: brightness(0); }
+	.lk__logo--amwell { height: 0.92em; vertical-align: -0.06em; }
+	:global([data-theme='dark']) .lk__logo { filter: brightness(0) invert(1); }
+	.lk--logo:hover .lk__logo { opacity: 0.75; }
 	.lede { margin: 1.5rem 0 0; font-size: clamp(1.05rem, 1.6vw, 1.2rem); line-height: 1.6; color: var(--muted); max-width: 36rem; }
 
 	.label { margin: 0 0 1.25rem; font-family: var(--mono); font-size: 0.74rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
@@ -254,7 +263,9 @@ const chapters = [
 	.peek:global(.on) { opacity: 1; transform: translateY(calc(-100% - 0.6rem)); filter: none; }
 	.peek__media { aspect-ratio: 16 / 10; border-radius: 0.9rem; overflow: hidden; background: var(--paper); border: 1px solid var(--line-strong); box-shadow: 0 24px 48px -16px rgba(0, 0, 0, 0.5); }
 	.peek__media :global(img), .peek__media :global(video) { width: 100%; height: 100%; object-fit: cover; display: block; }
-	.peek__cap { display: block; margin-top: 0.4rem; font-size: 0.75rem; color: var(--muted); text-align: center; }
+	.peek__media :global(img[src*='hero-platform']) { object-fit: contain; padding: 0.5rem; }
+	.peek__cap { position: absolute; left: 0.6rem; bottom: 0.5rem; padding: 0.2rem 0.5rem; border-radius: 99px; background: rgba(0, 0, 0, 0.6); color: #fff; font-size: 0.72rem; backdrop-filter: blur(6px); }
+	.peek__cap:empty { display: none; }
 	.toast { position: fixed; left: 50%; bottom: 1.5rem; translate: -50% 0; z-index: 50; margin: 0; padding: 0.55rem 0.9rem; border-radius: 99px; background: var(--ink); color: var(--bg); font-size: 0.88rem; opacity: 0; transform: translateY(8px); transition: opacity 0.2s, transform 0.2s; pointer-events: none; }
 	.toast:global(.on) { opacity: 1; transform: none; }
 
