@@ -53,7 +53,7 @@ const hl = [
 
 const toc = [
 	{ id: 'aw-top', label: 'Overview' },
-	{ id: 'aw-what', label: 'What Amwell is' },
+	{ id: 'aw-what', label: 'The journey' },
 	{ id: 'aw-fit', label: 'Where I fit in' },
 	{ id: 'aw-projects', label: 'My projects' },
 	{ id: 'aw-impact', label: 'My impact' },
@@ -98,38 +98,41 @@ const more = companies.filter((c) => c.id !== 'amwell' && c.cta);
 			</div>
 		</section>
 
-		<section class="aw__story" id="aw-what" data-story aria-labelledby="aw-what-h">
-			<div class="aw__pin">
-				<h2 id="aw-what-h" class="hv__big hv__big--md">What Amwell is.</h2>
-				<p class="aw__cap" aria-live="polite">
-					<span data-cap="0">A patient starts a visit in the patient portal.</span>
-					<span data-cap="1">A provider picks it up in the provider portal.</span>
-					<span data-cap="2">Care and follow-ups flow back to the patient.</span>
-					<span data-cap="3">The admin is the link behind both: they configure the whole experience.</span>
-				</p>
-				<div class="aw__stage" data-stage data-ph="3">
-					<figure class="aw__el aw__pat" data-s="0">
-						<figcaption>Patient</figcaption>
-						<img class="aw__persona" src="/amwell/cs/pat-persona.webp" alt="A patient checking a health concern on his phone" />
-						<img class="aw__shot" src="/amwell/cs/pat-portal.webp" alt="The Amwell patient portal" loading="lazy" />
-					</figure>
-					<div class="aw__wires" aria-hidden="true">
-						<i class="aw__arr aw__arr--to" data-s="1"></i>
-						<i class="aw__arr aw__arr--back" data-s="2"></i>
-					</div>
-					<figure class="aw__el aw__prov" data-s="1">
-						<figcaption>Provider</figcaption>
-						<img class="aw__persona aw__persona--cut" src="/amwell/cs/prov-persona.webp" alt="A provider reviewing patient information on a tablet" />
-						<img class="aw__shot" src="/amwell/cs/prov-portal.webp" alt="The Amwell for Clinicians provider portal" loading="lazy" />
-					</figure>
-					<figure class="aw__el aw__adm" data-s="3">
-						<i class="aw__vline" aria-hidden="true"></i>
-						<figcaption>Admin</figcaption>
-						<img class="aw__persona" src="/amwell/cs/admin-persona.webp" alt="An administrator at a health system" />
-						<img class="aw__shot" src="/amwell/cs/admin-portal.webp" alt="The Amwell admin console" loading="lazy" />
-					</figure>
+		<section class="jr" id="aw-what" aria-labelledby="aw-what-h" data-journey>
+			<div class="jr__head">
+				<h2 id="aw-what-h" class="hv__big hv__big--md">The journey.</h2>
+				<p class="jr__sub">Three people meet in every visit. I designed for all of them.</p>
+			</div>
+			<div class="jr__body">
+				<ol class="jr__steps" role="tablist" aria-label="The three roles in a visit">
+					{[
+						{ role: 'Patient', t: 'Starts a visit.', d: 'Chooses care, answers intake and waits for a provider, on web or in the app.', img: '/amwell/cs/pat-persona.webp' },
+						{ role: 'Provider', t: 'Treats the patient.', d: 'Reviews intake, runs the video visit, prescribes and follows up.', img: '/amwell/cs/prov-persona.webp' },
+						{ role: 'Health admin', t: 'Connects the two.', d: 'Sets up services, providers and rules for their health system, so each patient reaches the right provider.', img: '/amwell/cs/admin-persona.webp' },
+					].map((x, i) => (
+						<li>
+							<button type="button" role="tab" aria-selected={i === 0 ? 'true' : 'false'} aria-controls={`jr-p${i}`} data-i={i}>
+								<img src={x.img} alt="" />
+								<span class="jr__txt"><small>{String(i + 1).padStart(2, '0')} · {x.role}</small><b>{x.t}</b><span>{x.d}</span></span>
+								<i class="jr__bar" aria-hidden="true"></i>
+							</button>
+						</li>
+					))}
+				</ol>
+				<div class="jr__view">
+					{[
+						{ src: '/amwell/cs/pat-portal.webp', alt: 'The Amwell patient portal' },
+						{ src: '/amwell/cs/prov-portal.webp', alt: 'The Amwell provider portal' },
+						{ src: '/amwell/cs/admin-portal.webp', alt: 'The Amwell admin console' },
+					].map((x, i) => (
+						<button type="button" class:list={['jr__shot', { on: i === 0 }]} id={`jr-p${i}`} role="tabpanel" data-zoom={x.src} aria-label={`Expand: ${x.alt}`}>
+							<img src={x.src} alt={x.alt} loading={i === 0 ? 'eager' : 'lazy'} />
+							<span class="jr__zoom" aria-hidden="true">⤢</span>
+						</button>
+					))}
 				</div>
 			</div>
+			<dialog class="jr__lb" aria-label="Enlarged screen"><button type="button" class="jr__x" aria-label="Close">×</button><img alt="" /></dialog>
 		</section>
 
 		<section class="aw__sec" id="aw-fit" aria-labelledby="aw-fit-h">
@@ -269,6 +272,33 @@ const more = companies.filter((c) => c.id !== 'amwell' && c.cta);
 		}
 	}
 
+	// The journey: three roles, auto-advancing, click a step to jump, click a screen to expand.
+	document.querySelectorAll<HTMLElement>('[data-journey]').forEach((jr) => {
+		const tabs = Array.from(jr.querySelectorAll<HTMLButtonElement>('[role="tab"]'));
+		const shots = Array.from(jr.querySelectorAll<HTMLElement>('.jr__shot'));
+		const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+		let cur = 0, timer: number | undefined, playing = false;
+		const DUR = 5200;
+		const show = (i: number) => {
+			cur = i;
+			tabs.forEach((t, k) => { t.setAttribute('aria-selected', String(k === i)); t.classList.toggle('done', k < i); });
+			shots.forEach((s, k) => s.classList.toggle('on', k === i));
+			jr.style.setProperty('--dur', playing ? `${DUR}ms` : '0ms');
+		};
+		const stop = () => { playing = false; clearInterval(timer); jr.classList.remove('is-playing'); };
+		const play = () => {
+			if (reduce) return;
+			playing = true; jr.classList.add('is-playing'); show(cur);
+			timer = window.setInterval(() => { if (cur === tabs.length - 1) return stop(); show(cur + 1); }, DUR);
+		};
+		tabs.forEach((t, i) => t.addEventListener('click', () => { stop(); show(i); }));
+		const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { io.disconnect(); play(); } }, { threshold: 0.5 });
+		io.observe(jr);
+		const lb = jr.querySelector<HTMLDialogElement>('.jr__lb')!;
+		shots.forEach((s) => s.addEventListener('click', () => { stop(); lb.querySelector('img')!.src = s.dataset.zoom!; lb.showModal(); }));
+		lb.addEventListener('click', () => lb.close());
+	});
+
 	const toc = document.querySelector<HTMLElement>('[data-toc]');
 	if (toc) {
 		const items = Array.from(toc.querySelectorAll<HTMLElement>('.toc__item'));
@@ -295,3 +325,39 @@ const more = companies.filter((c) => c.id !== 'amwell' && c.cta);
 		tick2();
 	}
 </script>
+
+<style>
+	.jr { padding: clamp(4rem, 10vh, 7rem) clamp(1.25rem, 5vw, 4rem); max-width: 72rem; margin: 0 auto; }
+	.jr__head :global(h2) { float: none !important; display: block; margin: 0; }
+	.jr__sub { display: block !important; max-width: 36rem; clear: both; margin: 0.75rem 0 0; color: var(--muted); font-size: 1.1rem; }
+	.jr__body { display: grid; grid-template-columns: minmax(0, 22rem) minmax(0, 1fr); gap: clamp(1.5rem, 4vw, 3.5rem); align-items: center; margin-top: 2.5rem; }
+	.jr__steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.5rem; }
+	.jr__steps button { position: relative; display: grid; grid-template-columns: 3rem 1fr; gap: 0.9rem; align-items: start; width: 100%; padding: 0.9rem 1rem 1.1rem; border: 1px solid transparent; border-radius: 1rem; background: none; color: inherit; font: inherit; text-align: left; cursor: pointer; overflow: hidden; transition: background 0.35s ease, border-color 0.35s ease, opacity 0.35s ease; opacity: 0.55; }
+	.jr__steps button:hover { opacity: 0.85; }
+	.jr__steps button[aria-selected='true'] { opacity: 1; background: color-mix(in srgb, var(--ink) 5%, transparent); border-color: var(--line); }
+	.jr__steps img { width: 3rem; height: 3rem; border-radius: 50%; object-fit: cover; background: var(--paper); }
+	.jr__txt { display: flex; flex-direction: column; gap: 0.2rem; }
+	.jr__txt small { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+	.jr__txt b { font-size: 1.05rem; }
+	.jr__txt > span { display: grid; grid-template-rows: 0fr; overflow: hidden; color: var(--muted); font-size: 0.9rem; line-height: 1.45; transition: grid-template-rows 0.45s cubic-bezier(0.2, 0.7, 0.2, 1), opacity 0.35s; opacity: 0; max-height: 0; }
+	.jr__steps button[aria-selected='true'] .jr__txt > span { opacity: 1; max-height: 6rem; margin-top: 0.2rem; }
+	.jr__bar { position: absolute; left: 1rem; right: 1rem; bottom: 0.45rem; height: 2px; border-radius: 2px; background: var(--line); transform-origin: left; transform: scaleX(0); }
+	.jr__steps button[aria-selected='true'] .jr__bar { background: var(--accent); }
+	:global(.is-playing) .jr__steps button[aria-selected='true'] .jr__bar { animation: jrfill var(--dur, 0ms) linear forwards; }
+	@keyframes jrfill { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+	.jr__view { position: relative; aspect-ratio: 16 / 10.5; }
+	.jr__shot { position: absolute; inset: 0; padding: 0; border: 1px solid var(--line); border-radius: 1rem; overflow: hidden; background: #fff; cursor: zoom-in; opacity: 0; transform: translateY(12px) scale(0.985); transition: opacity 0.55s ease, transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1); pointer-events: none; box-shadow: 0 30px 60px -30px rgba(0, 0, 0, 0.55); }
+	.jr__shot.on { opacity: 1; transform: none; pointer-events: auto; }
+	.jr__shot img { width: 100%; height: 100%; object-fit: cover; object-position: top left; display: block; }
+	.jr__zoom { position: absolute; right: 0.75rem; top: 0.75rem; width: 2.1rem; height: 2.1rem; border-radius: 50%; display: grid; place-items: center; background: rgba(0, 0, 0, 0.55); color: #fff; font-size: 1rem; opacity: 0; transition: opacity 0.2s; }
+	.jr__shot:hover .jr__zoom, .jr__shot:focus-visible .jr__zoom { opacity: 1; }
+	.jr__lb { border: 0; padding: 0; background: transparent; max-width: 96vw; max-height: 94vh; }
+	.jr__lb::backdrop { background: rgba(10, 12, 20, 0.88); }
+	.jr__lb img { max-width: 96vw; max-height: 92vh; display: block; border-radius: 0.6rem; }
+	.jr__x { position: fixed; top: 1rem; right: 1rem; width: 2.5rem; height: 2.5rem; border-radius: 50%; border: 0; background: #fff; font-size: 1.4rem; cursor: pointer; }
+	@media (max-width: 860px) {
+		.jr__body { grid-template-columns: 1fr; }
+		.jr__view { order: -1; }
+	}
+	@media (prefers-reduced-motion: reduce) { .jr__shot, .jr__steps button, .jr__txt > span { transition: none; } }
+</style>
