@@ -55,7 +55,7 @@ export const chapters: Chapter[] = [
 		id: 'pratt', year: '2018', name: 'Pratt', role: 'UX/UI certificate', dates: '2018', place: 'Pratt Institute, New York',
 		title: 'Then I trained for it, on purpose.',
 		text: 'Instead of a broad degree, I chose a UX/UI mobile design certificate at Pratt: research methods, interface design, and testing with real people. The same year I started freelancing, which I’ve kept up alongside every role since.',
-		nums: [{ v: '−94%', l: 'time to share a trip in My Trips' }],
+		nums: [{ v: 'All A’s', l: 'across the 4 certificate courses' }, { v: '−94%', l: 'time to share a trip in My Trips' }],
 		media: { src: '/journey/pratt-scrapbook.png', alt: 'Pratt scrapbook', fit: 'contain' },
 		moments: [
 			{ kicker: 'Testing', date: 'Summer 2018', title: 'People dropped off when asked to review everything at once.', text: 'So I added daily review prompts. My first lesson in designing for how people actually behave.', media: { src: '/journey/usertesting.mp4', poster: '/journey/usertesting-poster.jpg', alt: 'In-person testing sessions', video: true } },
