@@ -16190,3 +16190,9 @@ video.cmp__img:not(.cmp__img--new){object-position:left center}
 	.cx.cx--mob .sc .sc__row .sc__viz.sc__viz--html > .tmx { position: relative !important; transform: none !important; }
 	.tmx__caps p { font-size: 0.72rem; } .tmx__caps { margin-top: 0.5rem; }
 }
+/* tier bullets light up with the chart column in focus, so text and chart point at the same thing */
+.sc__bul--sync li { padding: 0.35rem 0.6rem 0.35rem 1.4rem; border-radius: 0.5rem; transition: background 0.45s, color 0.45s, opacity 0.45s; }
+.sc__bul--sync li::before { left: 0.55rem; }
+.sc__bul--sync.has-focus li { opacity: 0.45; }
+.sc__bul--sync.has-focus li.is-on { opacity: 1; background: rgba(255, 255, 255, 0.06); }
+.tmx .tq__more { margin-top: 0.9rem; }

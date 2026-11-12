@@ -369,8 +369,9 @@ const slug = Astro.url.pathname.split('/').filter(Boolean).pop() ?? 'page';
 	document.querySelectorAll<HTMLElement>('.tmx').forEach((mx) => {
 		const row = mx.closest('.sc__row');
 		let timer = 0, manual = false;
-		const set = (k: number) => { mx.dataset.c = String(k); };
-		const loop = () => { clearInterval(timer); if (manual || reduceMo) return; timer = window.setInterval(() => set((Number(mx.dataset.c) + 1) % 3), 3600); };
+		const bul = row?.querySelector<HTMLElement>('.sc__bul--sync');
+		const set = (k: number) => { mx.dataset.c = String(k); if (bul) { bul.classList.add('has-focus'); Array.from(bul.children).forEach((li, j) => li.classList.toggle('is-on', j === k)); } };
+		const loop = () => { clearInterval(timer); if (manual || reduceMo) return; timer = window.setInterval(() => set((Number(mx.dataset.c) + 1) % 3), 4200); };
 		mx.querySelectorAll<HTMLElement>('th[data-c]').forEach((th) => th.addEventListener('click', () => { manual = true; clearInterval(timer); set(Number(th.dataset.c)); }));
 		if (row) new MutationObserver(() => { if (row.classList.contains('on')) { set(0); loop(); } else clearInterval(timer); }).observe(row, { attributes: true, attributeFilter: ['class'] });
 	});
