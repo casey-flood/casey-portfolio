@@ -16487,4 +16487,4 @@ video.cmp__img:not(.cmp__img--new){object-position:left center}
 .em::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 2rem; background: linear-gradient(transparent, rgba(255, 255, 255, 0.95)); pointer-events: none; }
 @media (max-width: 899px) { @keyframes em-scroll { 0%, 10% { transform: translateY(0); } 50%, 60% { transform: translateY(calc(-100% + 10.5rem)); } 100% { transform: translateY(0); } } }
 @media (prefers-reduced-motion: reduce) { .fbk--v2 .em__img { animation: none; } }
-.tk__c blockquote { font-style: italic; } .tk { align-content: center; gap: 0.8rem; }
+.tk { align-content: center; gap: 0.8rem; }
