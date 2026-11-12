@@ -4,26 +4,26 @@ import type { Beat } from '../../data/dandy-scroll-types';
 
 const A = '/amwell/cs';
 const eco = `
-<div class="eco" role="img" aria-label="Patients and providers meet in virtual visits; the admin portal sits behind both and configures what each side sees">
+<div class="eco" role="group" aria-label="Patients and providers meet in virtual visits; the admin portal sits behind both and configures what each side sees">
 	<svg class="eco__lines" viewBox="0 0 100 62" preserveAspectRatio="none" aria-hidden="true">
 		<path class="eco__visit" d="M27 20 L73 20" />
 		<path class="eco__cfg eco__cfg--l" d="M50 40 L22 28" />
 		<path class="eco__cfg eco__cfg--r" d="M50 40 L78 28" />
 	</svg>
 	<span class="eco__tag eco__tag--visit">Virtual visit</span>
-	<div class="eco__side eco__side--pat">
+	<div class="eco__side eco__side--pat" data-part="pat" tabindex="0" role="button" aria-label="Bring the patient portal into focus">
 		<img class="eco__face" src="/amwell/cs/pat-persona.webp" alt="" />
 		<b>Patient</b><small>Patient portal</small>
-		<img class="eco__ui" src="/amwell/cs/pat-portal.webp" alt="" />
+		<span class="eco__shot"><img class="eco__ui" src="/amwell/cs/pat-portal.webp" alt="Patient portal" /><button type="button" class="eco__zoom" aria-label="See the patient portal full size">⤢</button></span>
 	</div>
-	<div class="eco__side eco__side--prov">
+	<div class="eco__side eco__side--prov" data-part="prov" tabindex="0" role="button" aria-label="Bring the provider portal into focus">
 		<img class="eco__face" src="/amwell/cs/prov-persona.webp" alt="" />
 		<b>Provider</b><small>Provider portal</small>
-		<img class="eco__ui" src="/amwell/cs/prov-portal.webp" alt="" />
+		<span class="eco__shot"><img class="eco__ui" src="/amwell/cs/prov-portal.webp" alt="Provider portal" /><button type="button" class="eco__zoom" aria-label="See the provider portal full size">⤢</button></span>
 	</div>
-	<div class="eco__admin">
+	<div class="eco__admin" data-part="admin" tabindex="0" role="button" aria-label="Bring the admin portal into focus">
 		<div class="eco__ahead"><img class="eco__face" src="/amwell/cs/admin-persona.webp" alt="" /><span><b>Health system admin</b><small>Admin portal · configures both sides</small></span></div>
-		<img class="eco__ui" src="/amwell/cs/admin-portal.webp" alt="" />
+		<span class="eco__shot"><img class="eco__ui" src="/amwell/cs/admin-portal.webp" alt="Admin portal" /><button type="button" class="eco__zoom" aria-label="See the admin portal full size">⤢</button></span>
 		<ul class="eco__needs">
 			<li>Turn on service lines</li>
 			<li>Manage provider networks</li>
@@ -31,22 +31,63 @@ const eco = `
 			<li>Control patient access</li>
 		</ul>
 	</div>
+	<p class="eco__hint">Click a portal to bring it forward, then ⤢ to see it full size.</p>
 </div>`;
 
 const who = `
-<div class="who" role="img" aria-label="Two groups use the admin portal: Amwell's internal team (implementation managers and NOC agents) and external clients (client healthcare admins and client IT teams)">
-	<div class="who__portal"><img src="/amwell/cs/legacy-sysadmin.webp" alt="" /><span>One admin portal</span></div>
+<div class="who" role="group" aria-label="Two groups use the admin portal: Amwell's internal team (implementation managers and NOC agents) and external clients (client healthcare admins and client IT teams)">
+	<div class="who__portal"><span class="eco__shot"><img class="eco__ui" src="/amwell/cs/legacy-sysadmin.webp" alt="The legacy admin portal" /><button type="button" class="eco__zoom" aria-label="See the legacy admin portal full size">⤢</button></span><span>One admin portal</span></div>
 	<svg class="who__lines" viewBox="0 0 100 20" preserveAspectRatio="none" aria-hidden="true"><path d="M50 0 L50 8 M50 8 L25 8 L25 20 M50 8 L75 8 L75 20" /></svg>
-	<div class="who__grp who__grp--in">
+	<div class="who__grp who__grp--in" data-part="in" tabindex="0" role="button" aria-label="Focus on the internal Amwell team">
 		<p class="who__h">Internal · <b>Amwell team</b></p>
 		<div class="who__p"><img src="/amwell/cs/av-impl.webp" alt="" /><b>Implementation managers</b><small>Set up and configure the platform for each client.</small></div>
 		<div class="who__p"><img src="/amwell/cs/av-noc.webp" alt="" /><b>NOC agents</b><small>Monitor platform health and fix performance issues.</small></div>
 	</div>
-	<div class="who__grp who__grp--out">
+	<div class="who__grp who__grp--out" data-part="out" tabindex="0" role="button" aria-label="Focus on external client organizations">
 		<p class="who__h">External · <b>Client organizations</b></p>
 		<div class="who__p"><img src="/amwell/cs/av-client.webp" alt="" /><b>Client healthcare admins</b><small>Run their own instance, e.g. CVS Health.</small></div>
 		<div class="who__p"><img src="/amwell/cs/av-it.webp" alt="" /><b>Client IT teams</b><small>Connect Amwell to their existing systems.</small></div>
 	</div>
+	<p class="eco__hint">Click a group to focus on it, or ⤢ to see the portal full size.</p>
+</div>`;
+
+const tix = `
+<div class="tix" role="img" aria-label="A support queue of admin tickets keeps scrolling: can’t find permissions, logged out when switching, searching for a tenant is hard. Callout: 400+ users, and 30% of support tickets tied to navigation and workflow, high priority.">
+	<div class="tix__win">
+		<div class="tix__bar"><span class="tix__dots"><i></i><i></i><i></i></span><b>Admin support · Open incidents</b></div>
+		<div class="tix__head"><span>Key</span><span>Summary</span><span>Status</span></div>
+		<div class="tix__view"><ul class="tix__list"><li><span class="tix__k">RD-121</span><span class="tix__s">Can’t find right permissions<i>Navigation</i></span><span class="tix__st tix__st--open">Open</span></li><li><span class="tix__k">RD-113</span><span class="tix__s">Logged out when switching between provider management and scheduling<i>Navigation</i></span><span class="tix__st tix__st--open">Open</span></li><li><span class="tix__k">RD-111</span><span class="tix__s">Slow tenant admin onboarding</span><span class="tix__st tix__st--in">In progress</span></li><li><span class="tix__k">RD-123</span><span class="tix__s">Wrong permissions for admin user<i>Navigation</i></span><span class="tix__st tix__st--in">In progress</span></li><li><span class="tix__k">RD-124</span><span class="tix__s">Need a separate view for urgent care</span><span class="tix__st tix__st--in">In progress</span></li><li><span class="tix__k">RD-127</span><span class="tix__s">Important alerts get lost among notifications</span><span class="tix__st tix__st--waiting">Waiting</span></li><li><span class="tix__k">RD-130</span><span class="tix__s">Searching for a specific tenant is hard<i>Navigation</i></span><span class="tix__st tix__st--waiting">Waiting</span></li><li><span class="tix__k">RD-131</span><span class="tix__s">Where is access to the all-tenants view?<i>Navigation</i></span><span class="tix__st tix__st--waiting">Waiting</span></li><li><span class="tix__k">RD-133</span><span class="tix__s">Tenant configurations are blocked</span><span class="tix__st tix__st--waiting">Waiting</span></li><li><span class="tix__k">RD-136</span><span class="tix__s">Can’t customize the dashboard</span><span class="tix__st tix__st--waiting">Waiting</span></li><li><span class="tix__k">RD-140</span><span class="tix__s">Hard to keep settings consistent across tenants<i>Navigation</i></span><span class="tix__st tix__st--waiting">Waiting</span></li><li><span class="tix__k">RD-145</span><span class="tix__s">Complex issue prioritization</span><span class="tix__st tix__st--waiting">Waiting</span></li><li><span class="tix__k">RD-151</span><span class="tix__s">Why do I see mental health settings when I only work with urgent care?<i>Navigation</i></span><span class="tix__st tix__st--waiting">Waiting</span></li></ul><ul class="tix__list" aria-hidden="true"><li><span class="tix__k">RD-121</span><span class="tix__s">Can’t find right permissions<i>Navigation</i></span><span class="tix__st tix__st--open">Open</span></li><li><span class="tix__k">RD-113</span><span class="tix__s">Logged out when switching between provider management and scheduling<i>Navigation</i></span><span class="tix__st tix__st--open">Open</span></li><li><span class="tix__k">RD-111</span><span class="tix__s">Slow tenant admin onboarding</span><span class="tix__st tix__st--in">In progress</span></li><li><span class="tix__k">RD-123</span><span class="tix__s">Wrong permissions for admin user<i>Navigation</i></span><span class="tix__st tix__st--in">In progress</span></li><li><span class="tix__k">RD-124</span><span class="tix__s">Need a separate view for urgent care</span><span class="tix__st tix__st--in">In progress</span></li><li><span class="tix__k">RD-127</span><span class="tix__s">Important alerts get lost among notifications</span><span class="tix__st tix__st--waiting">Waiting</span></li><li><span class="tix__k">RD-130</span><span class="tix__s">Searching for a specific tenant is hard<i>Navigation</i></span><span class="tix__st tix__st--waiting">Waiting</span></li><li><span class="tix__k">RD-131</span><span class="tix__s">Where is access to the all-tenants view?<i>Navigation</i></span><span class="tix__st tix__st--waiting">Waiting</span></li><li><span class="tix__k">RD-133</span><span class="tix__s">Tenant configurations are blocked</span><span class="tix__st tix__st--waiting">Waiting</span></li><li><span class="tix__k">RD-136</span><span class="tix__s">Can’t customize the dashboard</span><span class="tix__st tix__st--waiting">Waiting</span></li><li><span class="tix__k">RD-140</span><span class="tix__s">Hard to keep settings consistent across tenants<i>Navigation</i></span><span class="tix__st tix__st--waiting">Waiting</span></li><li><span class="tix__k">RD-145</span><span class="tix__s">Complex issue prioritization</span><span class="tix__st tix__st--waiting">Waiting</span></li><li><span class="tix__k">RD-151</span><span class="tix__s">Why do I see mental health settings when I only work with urgent care?<i>Navigation</i></span><span class="tix__st tix__st--waiting">Waiting</span></li></ul></div>
+	</div>
+	<div class="tix__call"><p><b>400+ users</b> and <b>30%</b> of support tickets tied to navigation and workflow</p><span class="tix__pri">▲ High priority</span></div>
+</div>`;
+
+const res = `
+<div class="res">
+	<ul class="res__stats">
+		<li><b>3 mo</b><span>of admin support tickets analyzed</span></li>
+		<li><b>5</b><span>shadowing sessions</span></li>
+		<li><b>8</b><span>contextual interviews</span></li>
+		<li><b>400+</b><span>users across internal teams and clients</span></li>
+	</ul>
+	<figure class="res__map"><span class="eco__shot"><img class="eco__ui" src="/amwell/cs/sitemaps.webp" alt="The legacy portal’s information architecture, mapped screen by screen" /><button type="button" class="eco__zoom" aria-label="See the IA map full size">⤢</button></span><figcaption>Mapping the legacy IA, screen by screen</figcaption></figure>
+</div>`;
+
+const pains = `
+<ol class="pains" aria-label="Three pain points">
+	<li><figure><img src="/amwell/cs/pp-nav.webp" alt="One branch of the legacy sitemap, nested several levels deep" /></figure><b><i>1</i>Navigation confusion</b><span>Settings buried several levels deep, with no organization context to steer by.</span></li>
+	<li><figure><img src="/amwell/cs/pp-roles.webp" alt="A matrix of what each admin tier can do" /></figure><b><i>2</i>Unclear role-based access</b><span>Every tier saw the same sprawling system, so admins ran into things they couldn’t, or shouldn’t, change.</span></li>
+	<li><figure><img src="/amwell/cs/pp-task.webp" alt="The legacy System Admin page stuck on Loading" /></figure><b><i>3</i>Task completion barriers</b><span>Lost sessions, near-duplicate org names, and numeric IDs turned small tasks into long ones.</span></li>
+</ol>`;
+
+const deck = `
+<div class="pdeck" data-focus="0">
+	<figure class="pdeck__card" data-part="0" tabindex="0" role="button" aria-label="Sarah, senior implementation manager"><img src="/amwell/cs/pc1.webp" alt="Persona: Sarah, senior implementation manager, super admin" /></figure>
+	<figure class="pdeck__card" data-part="1" tabindex="0" role="button" aria-label="David, NOC specialist"><img src="/amwell/cs/pc2.webp" alt="Persona: David, NOC specialist, tenant admin" /></figure>
+	<figure class="pdeck__card" data-part="2" tabindex="0" role="button" aria-label="Jennifer, health system admin"><img src="/amwell/cs/pc3.webp" alt="Persona: Jennifer, health system admin" /></figure>
+	<p class="pdeck__call" data-for="0"><small>Implementation manager</small>Builds and configures client instances across many tenants. Needs every configuration, and teaches clients the platform.</p>
+	<p class="pdeck__call" data-for="1"><small>NOC specialist</small>Supports the whole platform across clients. Troubleshoots anything, so needs broad access and the full architecture.</p>
+	<p class="pdeck__call" data-for="2"><small>Health system admin</small>Runs one organization: its service lines, provider network, and patient workflows. Only cares about hers.</p>
+	<p class="eco__hint">Click a card to bring it forward.</p>
 </div>`;
 
 const scenes: { id: string; label: string; nav: string; beats: Beat[] }[] = [
@@ -77,9 +118,9 @@ const scenes: { id: string; label: string; nav: string; beats: Beat[] }[] = [
 		nav: 'The problem',
 		beats: [
 			{
-				title: 'Leadership asked to “make it faster.”',
-				text: 'The portal had become a major pain point, used by internal teams and clients like CVS Health and Cleveland Clinic. The real problem was a complex, outdated structure that made even small tasks cumbersome.',
-				media: { kind: 'image', src: `${A}/context.webp`, alt: 'The legacy admin portal, with a callout about navigation inefficiencies' },
+				title: '30% of support tickets traced back to navigation.',
+				text: 'Leadership’s ask was “make it faster.” But across 400+ users, from internal teams to clients like CVS Health and Cleveland Clinic, the tickets pointed somewhere else: a complex, outdated structure that made even small tasks cumbersome.',
+				html: tix,
 			},
 			{
 				title: 'What one simple task felt like.',
@@ -87,20 +128,20 @@ const scenes: { id: string; label: string; nav: string; beats: Beat[] }[] = [
 				media: { kind: 'clip', src: `${A}/before.mp4`, poster: `${A}/before.jpg`, alt: 'A reenactment of an admin wandering through the legacy portal to turn on a service line' },
 			},
 			{
-				title: 'Navigation was behind a third of support tickets.',
-				text: 'Across 400+ users, support tickets tied to navigation and workflow inefficiencies were piling up.',
-				metric: { to: 30, suffix: '%', unit: 'of support tickets tied to navigation and workflow' },
+				title: 'Tickets, shadowing, and interviews.',
+				text: 'I wanted to see the work, not just hear about it. We read through the support queue, sat with admins while they worked, interviewed them in context, and mapped every screen of the legacy portal.',
+				html: res,
 			},
 			{
-				title: 'Tickets, shadowing, and interviews.',
-				text: 'We analyzed 3 months of support tickets, ran 5 shadowing sessions and 8 contextual interviews, and mapped workflows across the departments that touch the portal. Three pain points surfaced: navigation confusion, unclear role-based access, and task completion barriers.',
+				title: 'Three pain points kept coming up.',
+				text: 'Every ticket, session, and interview landed in one of three places.',
 				quote: ['“I spend more time figuring out how to do things than actually doing them.”', 'Admin, contextual interview'],
+				html: pains,
 			},
 			{
 				title: 'Three roles, three very different needs.',
 				text: 'Implementation managers configure everything across many clients. NOC specialists troubleshoot the whole platform. Health system admins only care about their own organization.',
-				quote: ['“When looking for something specific, I need to ask if someone else knows or search random words in the platform. There is no documentation.”', 'Senior implementation manager, interview'],
-				media: { kind: 'image', src: `${A}/persona1.webp`, alt: 'The implementation manager persona' },
+				html: deck,
 			},
 			{
 				title: 'Three tiers of access.',

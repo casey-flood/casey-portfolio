@@ -194,19 +194,12 @@ const slug = Astro.url.pathname.split('/').filter(Boolean).pop() ?? 'page';
 			dots: Array.from(el.querySelectorAll<HTMLElement>('.sc__dots li')),
 			last: -1,
 		}));
-		if (mob) {
-			scenes.forEach((s) => s.rows.forEach((row) => {
-				const v = row.querySelector('video');
-				new IntersectionObserver((es) => es.forEach((e) => {
-					if (e.isIntersecting) { row.classList.add('on'); if (!row.dataset.counted) { row.dataset.counted = '1'; countUp(row); } play(v); }
-					else v?.pause();
-				}), { threshold: 0.35 }).observe(row);
-			}));
-		} else {
+		{
 			const tick = () => {
 				for (const s of scenes) {
 					const r = s.el.getBoundingClientRect();
-					const p = Math.max(0, Math.min(0.9999, -r.top / Math.max(1, r.height - innerHeight)));
+					const pinH = mob ? (s.el.querySelector<HTMLElement>('.sc__pin')?.offsetHeight ?? innerHeight) : innerHeight;
+					const p = Math.max(0, Math.min(0.9999, -r.top / Math.max(1, r.height - pinH)));
 					const i = Math.min(s.rows.length - 1, Math.floor(p * s.rows.length));
 					if (i === s.last) continue;
 					s.last = i;
@@ -276,6 +269,7 @@ const slug = Astro.url.pathname.split('/').filter(Boolean).pop() ?? 'page';
 		dlg.showModal();
 	};
 	document.querySelectorAll<HTMLElement>('.sc__viz, .dsx__vid').forEach((box) => {
+		if (box.matches('.sc__viz--html')) return;
 		const media = box.querySelector<HTMLVideoElement | HTMLImageElement>('video, img');
 		if (!media) return;
 		const bar = document.createElement('div');
@@ -296,6 +290,74 @@ const slug = Astro.url.pathname.split('/').filter(Boolean).pop() ?? 'page';
 		ex.addEventListener('click', (e) => { e.stopPropagation(); expand(media); });
 		bar.append(ex);
 		box.append(bar);
+	});
+	// animated context visuals: when the sequence ends, parts become clickable (focus) and screenshots expandable
+	const reduceMo = matchMedia('(prefers-reduced-motion: reduce)').matches;
+	document.querySelectorAll<HTMLElement>('.eco, .who').forEach((viz) => {
+		const isEco = viz.classList.contains('eco');
+		const row = viz.closest('.sc__row');
+		const parts = Array.from(viz.querySelectorAll<HTMLElement>('[data-part]'));
+		let timer = 0;
+		const finish = () => {
+			if (viz.classList.contains('is-done')) return;
+			viz.classList.add('is-done');
+			if (isEco) viz.dataset.focus = 'admin';
+		};
+		const arm = () => { clearTimeout(timer); timer = window.setTimeout(finish, reduceMo ? 0 : isEco ? 4600 : 2400); };
+		if (row) {
+			new MutationObserver(() => { if (row.classList.contains('on')) arm(); else clearTimeout(timer); }).observe(row, { attributes: true, attributeFilter: ['class'] });
+			if (row.classList.contains('on')) arm();
+		}
+		const focus = (p: HTMLElement) => {
+			finish();
+			const k = p.dataset.part!;
+			if (!isEco && viz.dataset.focus === k) { delete viz.dataset.focus; parts.forEach((q) => q.setAttribute('aria-pressed', 'false')); return; }
+			viz.dataset.focus = k;
+			parts.forEach((q) => q.setAttribute('aria-pressed', String(q === p)));
+		};
+		parts.forEach((p) => {
+			p.addEventListener('click', (e) => {
+				const t = e.target as HTMLElement;
+				if (t.closest('.eco__zoom')) return;
+				if (isEco && viz.dataset.focus === p.dataset.part && t.closest('.eco__ui')) { expand(t.closest('.eco__ui') as HTMLImageElement); return; }
+				focus(p);
+			});
+			p.addEventListener('keydown', (e) => { if ((e.key === 'Enter' || e.key === ' ') && e.target === p) { e.preventDefault(); focus(p); } });
+		});
+		viz.querySelectorAll<HTMLButtonElement>('.eco__zoom').forEach((b) => b.addEventListener('click', (e) => {
+			e.stopPropagation();
+			finish();
+			const im = b.parentElement!.querySelector<HTMLImageElement>('.eco__ui');
+			if (im) expand(im);
+		}));
+		if (!isEco) viz.querySelector<HTMLImageElement>('.who__portal .eco__ui')?.addEventListener('click', (e) => { if (viz.classList.contains('is-done')) expand(e.currentTarget as HTMLImageElement); });
+	});
+	// zoomable screenshots inside other visuals (IA map)
+	document.querySelectorAll<HTMLElement>('.res').forEach((r) => {
+		const im = r.querySelector<HTMLImageElement>('.eco__ui');
+		if (!im) return;
+		im.addEventListener('click', () => expand(im));
+		r.querySelector('.eco__zoom')?.addEventListener('click', (e) => { e.stopPropagation(); expand(im); });
+	});
+	// persona deck: click a card to bring it forward (the front card opens full size)
+	document.querySelectorAll<HTMLElement>('.pdeck').forEach((dk) => {
+		const cards = Array.from(dk.querySelectorAll<HTMLElement>('.pdeck__card'));
+		const order = (front: number) => {
+			cards.forEach((c, k) => { c.dataset.slot = String((k - front + cards.length) % cards.length); c.setAttribute('aria-pressed', String(k === front)); });
+			dk.dataset.focus = String(front);
+		};
+		order(0);
+		const pick = (c: HTMLElement) => {
+			const k = cards.indexOf(c);
+			if (c.dataset.slot === '0') { const im = c.querySelector('img'); if (im) expand(im); return; }
+			dk.classList.add('is-swapped');
+			order(k);
+			dk.querySelectorAll<HTMLElement>('.pdeck__call').forEach((p) => { p.style.animation = 'none'; void p.offsetWidth; p.style.animation = ''; });
+		};
+		cards.forEach((c) => {
+			c.addEventListener('click', () => pick(c));
+			c.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pick(c); } });
+		});
 	});
 </script>
 
