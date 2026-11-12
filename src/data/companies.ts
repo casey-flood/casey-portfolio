@@ -58,7 +58,7 @@ export const companies: Company[] = [
 			{ title: 'Dandy Design Editor', href: '/work/dandy-design-editor', tag: { label: 'Designer experience', kind: 'designer' }, note: 'Sole product designer · in progress', visual: { alt: '', label: '', hint: '' } },
 			{ title: 'Instant Design Preview', tag: { label: 'Dentist experience', kind: 'dentist' }, note: 'Chairside · coming soon', visual: { alt: '', label: '', hint: '' } },
 			{ title: 'Perfect Fit (Goldilocks)', tag: { label: 'Dentist experience', kind: 'dentist' }, note: 'Three fits, one right crown · coming soon', visual: { alt: '', label: '', hint: '' } },
-			{ title: 'Design Editor design system', href: '/work/dandy-design-system', tag: { label: 'Systems design', kind: 'systems' }, metric: { value: '5–10 min', label: 'iteration, down from 30–45' }, visual: { alt: '', label: '', hint: '' } },
+			{ title: 'Design Editor design system', href: '/work/dandy-design-system', tag: { label: 'Systems design', kind: 'systems' }, metric: { value: '5–10 min', label: 'per product design iteration, down from 30–45' }, visual: { alt: '', label: '', hint: '' } },
 			{ title: 'Clickable prototypes', href: '/work/dandy-prototype', tag: { label: 'Systems design', kind: 'systems' }, note: 'Real components, full flows', visual: { alt: '', label: '', hint: '' } },
 			{ title: 'Product Design Hub', href: '/work/dandy-product-design-hub', tag: { label: 'Systems design', kind: 'systems' }, note: 'Design-in-code, taught', visual: { alt: '', label: '', hint: '' } },
 		],
