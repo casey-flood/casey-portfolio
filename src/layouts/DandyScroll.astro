@@ -260,8 +260,31 @@ const slug = Astro.url.pathname.split('/').filter(Boolean).pop() ?? 'page';
 	dlg.querySelector('.mx__x')!.addEventListener('click', () => dlg.close());
 	dlg.addEventListener('click', (e) => { if (e.target === dlg) dlg.close(); });
 	dlg.addEventListener('close', () => { mxBody.textContent = ''; });
-	const expand = (el: HTMLVideoElement | HTMLImageElement) => {
+	// lightbox: one image or video, or a group you can page through with ← → (or the on-screen arrows)
+	let group: HTMLImageElement[] = [];
+	let gi = 0;
+	const nav = document.createElement('div');
+	nav.className = 'mx__nav';
+	nav.innerHTML = '<button type="button" class="mx__pv" aria-label="Previous">‹</button><span class="mx__ct"></span><button type="button" class="mx__nx" aria-label="Next">›</button>';
+	dlg.append(nav);
+	const ct = nav.querySelector<HTMLElement>('.mx__ct')!;
+	const showImg = (src: string, alt: string) => { mxBody.textContent = ''; const im = document.createElement('img'); im.src = src; im.alt = alt; mxBody.append(im); };
+	const paint = () => { const g = group[gi]; showImg(g.currentSrc || g.src, g.alt); ct.textContent = `${gi + 1} / ${group.length}`; };
+	const step = (d: number) => { if (group.length < 2) return; gi = (gi + d + group.length) % group.length; paint(); };
+	nav.querySelector('.mx__pv')!.addEventListener('click', () => step(-1));
+	nav.querySelector('.mx__nx')!.addEventListener('click', () => step(1));
+	dlg.addEventListener('keydown', (e) => { if (e.key === 'ArrowRight') { e.preventDefault(); step(1); } else if (e.key === 'ArrowLeft') { e.preventDefault(); step(-1); } });
+	dlg.addEventListener('close', () => { group = []; dlg.classList.remove('is-group'); });
+	const expand = (el: HTMLVideoElement | HTMLImageElement, list?: HTMLImageElement[]) => {
 		mxBody.textContent = '';
+		group = list && list.length > 1 ? list : [];
+		dlg.classList.toggle('is-group', group.length > 1);
+		if (group.length > 1 && el instanceof HTMLImageElement) {
+			gi = Math.max(0, group.indexOf(el));
+			paint();
+			dlg.showModal();
+			return;
+		}
 		if (el instanceof HTMLVideoElement) {
 			const v = document.createElement('video');
 			v.src = el.currentSrc || el.src; v.poster = el.poster; v.loop = true; v.muted = true; v.autoplay = true; v.controls = true; v.playsInline = true;
@@ -270,7 +293,7 @@ const slug = Astro.url.pathname.split('/').filter(Boolean).pop() ?? 'page';
 			mxBody.append(v);
 			v.play().catch(() => {});
 		} else {
-			const im = document.createElement('img'); im.src = el.src; im.alt = el.alt; mxBody.append(im);
+			showImg(el.src, el.alt);
 		}
 		dlg.showModal();
 	};
@@ -334,7 +357,8 @@ const slug = Astro.url.pathname.split('/').filter(Boolean).pop() ?? 'page';
 			e.stopPropagation();
 			finish();
 			const im = b.parentElement!.querySelector<HTMLImageElement>('.eco__ui');
-			if (im) expand(im);
+			const all = Array.from(viz.querySelectorAll<HTMLImageElement>('.eco__ui'));
+			if (im) expand(im, all);
 		}));
 		if (!isEco) viz.querySelector<HTMLImageElement>('.who__portal .eco__ui')?.addEventListener('click', (e) => { if (viz.classList.contains('is-done')) expand(e.currentTarget as HTMLImageElement); });
 	});
@@ -421,7 +445,8 @@ const slug = Astro.url.pathname.split('/').filter(Boolean).pop() ?? 'page';
 		};
 		deck.addEventListener('click', (e) => { if ((e.target as HTMLElement).closest('.dk2__exp')) return; show(front + 1); });
 		deck.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); show(front + 1); } });
-		w.querySelector('.dk2__exp')?.addEventListener('click', (e) => { e.stopPropagation(); const im = figs[front].querySelector('img'); if (im) expand(im); });
+		const imgs = figs.map((f) => f.querySelector('img')!).filter(Boolean);
+		w.querySelector('.dk2__exp')?.addEventListener('click', (e) => { e.stopPropagation(); const im = figs[front].querySelector('img'); if (im) expand(im, imgs); });
 	});
 	// anything marked data-full opens that image full size
 	document.querySelectorAll<HTMLElement>('.sc__viz--html [data-full]').forEach((el) => {
@@ -446,7 +471,7 @@ const slug = Astro.url.pathname.split('/').filter(Boolean).pop() ?? 'page';
 		order(0);
 		const pick = (c: HTMLElement) => {
 			const k = cards.indexOf(c);
-			if (c.dataset.slot === '0') { const im = c.querySelector<HTMLImageElement>(':scope > img'); if (im) expand(im); return; }
+			if (c.dataset.slot === '0') { const im = c.querySelector<HTMLImageElement>(':scope > img'); const all = cards.map((x) => x.querySelector<HTMLImageElement>(':scope > img')).filter((x): x is HTMLImageElement => !!x); if (im) expand(im, all); return; }
 			dk.classList.add('is-swapped');
 			order(k);
 			dk.querySelectorAll<HTMLElement>('.pdeck__call').forEach((p) => { p.style.animation = 'none'; void p.offsetWidth; p.style.animation = ''; });

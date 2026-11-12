@@ -16397,3 +16397,9 @@ video.cmp__img:not(.cmp__img--new){object-position:left center}
 .pcx--key dt { color: #fff; font-size: 0.76rem; font-weight: 600; }
 .pcx--key dd { margin: 0; color: #c3d3ea; font-size: 0.8rem; line-height: 1.3; }
 @media (max-width: 899px) { .pcx--key dt { font-size: 0.6rem; } .pcx--key dd { font-size: 0.6rem; } }
+/* lightbox paging */
+.mx__nav { display: none; position: absolute; left: 0; right: 0; bottom: -3rem; align-items: center; justify-content: center; gap: 1rem; color: #fff; }
+.mx.is-group .mx__nav { display: flex; }
+.mx__nav button { width: 2.4rem; height: 2.4rem; border-radius: 50%; border: 1px solid rgba(255, 255, 255, 0.3); background: rgba(11, 26, 54, 0.85); color: #fff; font-size: 1.4rem; line-height: 1; cursor: pointer; }
+.mx__nav button:hover { background: rgba(140, 200, 255, 0.25); }
+.mx__ct { font-family: var(--mono, monospace); font-size: 0.8rem; color: #c3d3ea; min-width: 3rem; text-align: center; }
