@@ -158,6 +158,11 @@ const scenes: { id: string; label: string; nav: string; beats: Beat[] }[] = [
 				media: img('options.webp', 'Option A stacks scan flags and the crown; option B, chosen for the pilot, waits for the crown and shows issues on it'),
 			},
 			{
+				title: 'Scoped in three releases, each with one question.',
+				text: 'This was net new: dentists had never seen a generated crown chairside. So with our PM I scoped it to learn fast. V0 asks if dentists will wait, look and act. V0+ asks which edits they want. V1 merges three preview experiences into one. Editing waits until we know they’ll wait.',
+				media: img('roadmap.webp', 'Three releases: V0 testable MVP with about 20 practices, V0+ faster with more editing, V1 one preview experience'),
+			},
+			{
 				title: 'Then every path ends somewhere useful.',
 				text: 'If we can’t build a preview, a designer takes it from here. If the margin is unsure, redraw or rescan. If clearance is tight, show the heatmap. If nothing’s wrong, approve.',
 				media: img('tree.webp', 'Decision tree: preview built or not, then which issue, then what the dentist can do'),
@@ -300,7 +305,7 @@ const scenes: { id: string; label: string; nav: string; beats: Beat[] }[] = [
 			},
 			{
 				title: 'How we’ll know it worked.',
-				text: 'The target is 5–10% more crowns going straight to the lab, without hurting crown order conversion. I’ll be watching how many dentists wait, approve without edits, add a note, or reject.',
+				text: 'The target is 5–10% more crowns going straight to the lab, with guardrails: near-zero remakes caused by dentist-approved designs, no rise in manufacturing exceptions, and no drop in orders. I’ll be watching how many dentists wait, approve without edits, add a note, or reject.',
 				metric: { text: '+5–10%', unit: 'crowns going straight to the lab, the pilot target' },
 			},
 			{
@@ -315,7 +320,7 @@ const scenes: { id: string; label: string; nav: string; beats: Beat[] }[] = [
 <DandyScroll
 	title="Instant Design Preview · Dandy"
 	description="How I designed a chairside crown preview so dentists see and approve their crown while the patient is still in the chair."
-	eyebrow="Instant Design Preview · 2026, in build"
+	eyebrow="Instant Design Preview · 0 → 1 · 2026, in build"
 	heroTitle="Showing dentists the crown while the patient is still in the chair."
 	lede="I lead the design of a chairside preview: an ML-generated crown appears on the scan, so the dentist can approve it, fix the prep or leave a note before the patient leaves."
 	tools="Claude Design · Figma · FigJam · Hex and Amplitude data"
