@@ -99,39 +99,36 @@ const more = companies.filter((c) => c.id !== 'amwell' && c.cta);
 		</section>
 
 		<section class="jr" id="aw-what" aria-labelledby="aw-what-h" data-journey>
-			<div class="jr__head">
-				<h2 id="aw-what-h" class="hv__big hv__big--md">The journey.</h2>
-				<p class="jr__sub">Three people meet in every visit. I designed for all of them.</p>
+			<h2 id="aw-what-h" class="jr__h">The journey.</h2>
+			<div class="jr__map">
+				<figure class="jr__side jr__side--l">
+					<figcaption>Patients</figcaption>
+					<img class="jr__face" src="/amwell/cs/pat-persona.webp" alt="" />
+					<span class="jr__portal">Patient portal</span>
+					<button type="button" class="jr__shot" data-zoom="/amwell/cs/pat-portal.webp" aria-label="Expand the patient portal"><img src="/amwell/cs/pat-portal.webp" alt="The Amwell patient portal" loading="lazy" /></button>
+				</figure>
+				<i class="jr__wire jr__wire--l" aria-hidden="true"></i>
+				<figure class="jr__mid">
+					<figcaption>Healthcare orgs</figcaption>
+					<img class="jr__face" src="/amwell/cs/admin-persona.webp" alt="" />
+					<span class="jr__portal">Admin portal</span>
+					<button type="button" class="jr__shot" data-zoom="/amwell/cs/admin-portal.webp" aria-label="Expand the admin portal"><img src="/amwell/cs/admin-portal.webp" alt="The Amwell admin console" loading="lazy" /></button>
+				</figure>
+				<i class="jr__wire jr__wire--r" aria-hidden="true"></i>
+				<figure class="jr__side jr__side--r">
+					<figcaption>Providers</figcaption>
+					<img class="jr__face" src="/amwell/cs/prov-persona.webp" alt="" />
+					<span class="jr__portal">Provider portal</span>
+					<button type="button" class="jr__shot" data-zoom="/amwell/cs/prov-portal.webp" aria-label="Expand the provider portal"><img src="/amwell/cs/prov-portal.webp" alt="The Amwell provider portal" loading="lazy" /></button>
+				</figure>
 			</div>
-			<div class="jr__body">
-				<ol class="jr__steps" role="tablist" aria-label="The three roles in a visit">
-					{[
-						{ role: 'Patient', t: 'Starts a visit.', d: 'Chooses care, answers intake and waits for a provider, on web or in the app.', img: '/amwell/cs/pat-persona.webp' },
-						{ role: 'Provider', t: 'Treats the patient.', d: 'Reviews intake, runs the video visit, prescribes and follows up.', img: '/amwell/cs/prov-persona.webp' },
-						{ role: 'Health admin', t: 'Connects the two.', d: 'Sets up services, providers and rules for their health system, so each patient reaches the right provider.', img: '/amwell/cs/admin-persona.webp' },
-					].map((x, i) => (
-						<li>
-							<button type="button" role="tab" aria-selected={i === 0 ? 'true' : 'false'} aria-controls={`jr-p${i}`} data-i={i}>
-								<img src={x.img} alt="" />
-								<span class="jr__txt"><small>{String(i + 1).padStart(2, '0')} · {x.role}</small><b>{x.t}</b><span>{x.d}</span></span>
-								<i class="jr__bar" aria-hidden="true"></i>
-							</button>
-						</li>
-					))}
-				</ol>
-				<div class="jr__view">
-					{[
-						{ src: '/amwell/cs/pat-portal.webp', alt: 'The Amwell patient portal' },
-						{ src: '/amwell/cs/prov-portal.webp', alt: 'The Amwell provider portal' },
-						{ src: '/amwell/cs/admin-portal.webp', alt: 'The Amwell admin console' },
-					].map((x, i) => (
-						<button type="button" class:list={['jr__shot', { on: i === 0 }]} id={`jr-p${i}`} role="tabpanel" data-zoom={x.src} aria-label={`Expand: ${x.alt}`}>
-							<img src={x.src} alt={x.alt} loading={i === 0 ? 'eager' : 'lazy'} />
-							<span class="jr__zoom" aria-hidden="true">⤢</span>
-						</button>
-					))}
-				</div>
-			</div>
+			<ul class="jr__does" aria-label="What a healthcare admin does">
+				<li>Configure service lines, like urgent care and behavioral health</li>
+				<li>Manage provider networks and scheduling</li>
+				<li>Set clinical rules and workflows</li>
+				<li>Control patient access and eligibility</li>
+				<li>Monitor system analytics</li>
+			</ul>
 			<dialog class="jr__lb" aria-label="Enlarged screen"><button type="button" class="jr__x" aria-label="Close">×</button><img alt="" /></dialog>
 		</section>
 
@@ -272,30 +269,21 @@ const more = companies.filter((c) => c.id !== 'amwell' && c.cta);
 		}
 	}
 
-	// The journey: three roles, auto-advancing, click a step to jump, click a screen to expand.
+	// The journey: patients and providers appear, then the admin in the middle comes into focus.
 	document.querySelectorAll<HTMLElement>('[data-journey]').forEach((jr) => {
-		const tabs = Array.from(jr.querySelectorAll<HTMLButtonElement>('[role="tab"]'));
-		const shots = Array.from(jr.querySelectorAll<HTMLElement>('.jr__shot'));
 		const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-		let cur = 0, timer: number | undefined, playing = false;
-		const DUR = 5200;
-		const show = (i: number) => {
-			cur = i;
-			tabs.forEach((t, k) => { t.setAttribute('aria-selected', String(k === i)); t.classList.toggle('done', k < i); });
-			shots.forEach((s, k) => s.classList.toggle('on', k === i));
-			jr.style.setProperty('--dur', playing ? `${DUR}ms` : '0ms');
-		};
-		const stop = () => { playing = false; clearInterval(timer); jr.classList.remove('is-playing'); };
-		const play = () => {
-			if (reduce) return;
-			playing = true; jr.classList.add('is-playing'); show(cur);
-			timer = window.setInterval(() => { if (cur === tabs.length - 1) return stop(); show(cur + 1); }, DUR);
-		};
-		tabs.forEach((t, i) => t.addEventListener('click', () => { stop(); show(i); }));
-		const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { io.disconnect(); play(); } }, { threshold: 0.5 });
-		io.observe(jr);
+		if (reduce) jr.classList.add('is-in', 'is-focus');
+		else {
+			const io = new IntersectionObserver(([e]) => {
+				if (!e.isIntersecting) return;
+				io.disconnect();
+				jr.classList.add('is-in');
+				setTimeout(() => jr.classList.add('is-focus'), 900);
+			}, { threshold: 0.35 });
+			io.observe(jr);
+		}
 		const lb = jr.querySelector<HTMLDialogElement>('.jr__lb')!;
-		shots.forEach((s) => s.addEventListener('click', () => { stop(); lb.querySelector('img')!.src = s.dataset.zoom!; lb.showModal(); }));
+		jr.querySelectorAll<HTMLElement>('[data-zoom]').forEach((s) => s.addEventListener('click', () => { lb.querySelector('img')!.src = s.dataset.zoom!; lb.showModal(); }));
 		lb.addEventListener('click', () => lb.close());
 	});
 
@@ -327,37 +315,49 @@ const more = companies.filter((c) => c.id !== 'amwell' && c.cta);
 </script>
 
 <style>
-	.jr { padding: clamp(4rem, 10vh, 7rem) clamp(1.25rem, 5vw, 4rem); max-width: 72rem; margin: 0 auto; }
-	.jr__head :global(h2) { float: none !important; display: block; margin: 0; }
-	.jr__sub { display: block !important; max-width: 36rem; clear: both; margin: 0.75rem 0 0; color: var(--muted); font-size: 1.1rem; }
-	.jr__body { display: grid; grid-template-columns: minmax(0, 22rem) minmax(0, 1fr); gap: clamp(1.5rem, 4vw, 3.5rem); align-items: center; margin-top: 2.5rem; }
-	.jr__steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.5rem; }
-	.jr__steps button { position: relative; display: grid; grid-template-columns: 3rem 1fr; gap: 0.9rem; align-items: start; width: 100%; padding: 0.9rem 1rem 1.1rem; border: 1px solid transparent; border-radius: 1rem; background: none; color: inherit; font: inherit; text-align: left; cursor: pointer; overflow: hidden; transition: background 0.35s ease, border-color 0.35s ease, opacity 0.35s ease; opacity: 0.55; }
-	.jr__steps button:hover { opacity: 0.85; }
-	.jr__steps button[aria-selected='true'] { opacity: 1; background: color-mix(in srgb, var(--ink) 5%, transparent); border-color: var(--line); }
-	.jr__steps img { width: 3rem; height: 3rem; border-radius: 50%; object-fit: cover; background: var(--paper); }
-	.jr__txt { display: flex; flex-direction: column; gap: 0.2rem; }
-	.jr__txt small { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
-	.jr__txt b { font-size: 1.05rem; }
-	.jr__txt > span { display: grid; grid-template-rows: 0fr; overflow: hidden; color: var(--muted); font-size: 0.9rem; line-height: 1.45; transition: grid-template-rows 0.45s cubic-bezier(0.2, 0.7, 0.2, 1), opacity 0.35s; opacity: 0; max-height: 0; }
-	.jr__steps button[aria-selected='true'] .jr__txt > span { opacity: 1; max-height: 6rem; margin-top: 0.2rem; }
-	.jr__bar { position: absolute; left: 1rem; right: 1rem; bottom: 0.45rem; height: 2px; border-radius: 2px; background: var(--line); transform-origin: left; transform: scaleX(0); }
-	.jr__steps button[aria-selected='true'] .jr__bar { background: var(--accent); }
-	:global(.is-playing) .jr__steps button[aria-selected='true'] .jr__bar { animation: jrfill var(--dur, 0ms) linear forwards; }
-	@keyframes jrfill { from { transform: scaleX(0); } to { transform: scaleX(1); } }
-	.jr__view { position: relative; aspect-ratio: 16 / 10.5; }
-	.jr__shot { position: absolute; inset: 0; padding: 0; border: 1px solid var(--line); border-radius: 1rem; overflow: hidden; background: #fff; cursor: zoom-in; opacity: 0; transform: translateY(12px) scale(0.985); transition: opacity 0.55s ease, transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1); pointer-events: none; box-shadow: 0 30px 60px -30px rgba(0, 0, 0, 0.55); }
-	.jr__shot.on { opacity: 1; transform: none; pointer-events: auto; }
-	.jr__shot img { width: 100%; height: 100%; object-fit: cover; object-position: top left; display: block; }
-	.jr__zoom { position: absolute; right: 0.75rem; top: 0.75rem; width: 2.1rem; height: 2.1rem; border-radius: 50%; display: grid; place-items: center; background: rgba(0, 0, 0, 0.55); color: #fff; font-size: 1rem; opacity: 0; transition: opacity 0.2s; }
-	.jr__shot:hover .jr__zoom, .jr__shot:focus-visible .jr__zoom { opacity: 1; }
+	.jr { padding: clamp(3rem, 8vh, 5rem) clamp(1.25rem, 4vw, 3rem); max-width: 76rem; margin: 0 auto; min-height: calc(100svh - 4.5rem); display: flex !important; flex-direction: column; justify-content: center; }
+	.jr__h { margin: 0 0 2rem; font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 500; letter-spacing: -0.03em; color: #fff; }
+	.jr__map { display: grid; grid-template-columns: 1fr 5rem minmax(0, 1.25fr) 5rem 1fr; align-items: start; }
+	.jr figure { margin: 0; display: flex; flex-direction: column; align-items: center; text-align: center; }
+	.jr figcaption { font-size: clamp(1.1rem, 2vw, 1.5rem); font-weight: 600; letter-spacing: -0.02em; color: #fff; }
+	.jr__face { width: clamp(4.5rem, 8vw, 6.5rem); height: clamp(4.5rem, 8vw, 6.5rem); border-radius: 50%; object-fit: cover; margin: 0.9rem 0 0.6rem; background: rgba(255, 255, 255, 0.08); }
+	.jr__portal { font-size: 0.9rem; color: rgba(255, 255, 255, 0.7); margin-bottom: 0.9rem; }
+	.jr__shot { display: block; width: 100%; padding: 0; border: 0; border-radius: 0.6rem; overflow: hidden; background: #fff; cursor: zoom-in; box-shadow: 0 18px 40px -20px rgba(0, 0, 0, 0.6); }
+	.jr__shot img { display: block; width: 100%; height: auto; }
+
+	/* the admin card: the focus */
+	.jr__mid { padding: 1.4rem 1.4rem 1.6rem; border: 1.5px dashed color-mix(in srgb, var(--accent) 70%, transparent); border-radius: 1.1rem; background: rgba(255, 255, 255, 0.04); position: relative; }
+	.jr__wire { align-self: start; margin-top: calc(1.4rem + 1.6rem + 3.5rem); height: 0; border-top: 1.5px dashed color-mix(in srgb, var(--accent) 70%, transparent); position: relative; }
+	.jr__wire::after { content: ''; position: absolute; top: -4px; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); }
+	.jr__wire--l::after { right: -4px; }
+	.jr__wire--r::after { left: -4px; }
+
+	/* motion: sides arrive sharp, then soften as the admin takes focus */
+	.jr__side, .jr__mid, .jr__wire, .jr__does { transition: opacity 0.7s ease, filter 0.7s ease, transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1), clip-path 0.7s ease; }
+	:global(.is-live) .jr:not(.is-in) .jr__side { opacity: 0; transform: translateY(14px); }
+	:global(.is-live) .jr:not(.is-in) .jr__mid { opacity: 0; transform: scale(0.96); }
+	:global(.is-live) .jr:not(.is-focus) .jr__wire { clip-path: inset(0 100% 0 0); }
+	:global(.is-live) .jr:not(.is-focus) .jr__does { opacity: 0; transform: translateY(10px); }
+	.jr__side--r { transition-delay: 0.12s; }
+	.jr__mid { transition-delay: 0.25s; }
+	.jr.is-focus .jr__side { filter: blur(3px); opacity: 0.45; }
+	.jr.is-focus .jr__side:hover, .jr.is-focus .jr__side:focus-within { filter: none; opacity: 1; }
+	.jr.is-focus .jr__mid { transform: scale(1.02); }
+
+	.jr__does { list-style: none; margin: 1.75rem auto 0; padding: 0; max-width: 34rem; display: grid; gap: 0.55rem; color: rgba(255, 255, 255, 0.85); font-size: 0.98rem; transition-delay: 0.2s; }
+	.jr__does li { position: relative; padding-left: 1.3rem; }
+	.jr__does li::before { content: ''; position: absolute; left: 0.2rem; top: 0.6rem; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); }
+
 	.jr__lb { border: 0; padding: 0; background: transparent; max-width: 96vw; max-height: 94vh; }
 	.jr__lb::backdrop { background: rgba(10, 12, 20, 0.88); }
 	.jr__lb img { max-width: 96vw; max-height: 92vh; display: block; border-radius: 0.6rem; }
 	.jr__x { position: fixed; top: 1rem; right: 1rem; width: 2.5rem; height: 2.5rem; border-radius: 50%; border: 0; background: #fff; font-size: 1.4rem; cursor: pointer; }
+
 	@media (max-width: 860px) {
-		.jr__body { grid-template-columns: 1fr; }
-		.jr__view { order: -1; }
+		.jr__map { grid-template-columns: 1fr 1fr; gap: 1.5rem 1rem; }
+		.jr__mid { grid-column: 1 / -1; grid-row: 1; }
+		.jr__wire { display: none; }
+		.jr.is-focus .jr__side { filter: blur(1.5px); opacity: 0.6; }
 	}
-	@media (prefers-reduced-motion: reduce) { .jr__shot, .jr__steps button, .jr__txt > span { transition: none; } }
+	@media (prefers-reduced-motion: reduce) { .jr__side, .jr__mid, .jr__wire, .jr__does { transition: none; } }
 </style>
