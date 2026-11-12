@@ -16690,3 +16690,15 @@ video.cmp__img:not(.cmp__img--new){object-position:left center}
 	.uxm__row img { height: 7rem; }
 	.uxm__stats { gap: 1rem; } .uxm__stats b { font-size: 1.35rem; } .uxm__stats span { font-size: 0.68rem; }
 }
+
+.gnv--tn .gnv__frame { aspect-ratio: 1.519; }
+.gnv__pin--9::before { bottom: 100%; height: calc(1.9cqw + 0.35rem); transform-origin: bottom; }
+.gnv__pin--10::before { top: 100%; height: calc(27cqw - 0.2rem); transform-origin: top; }
+.gnv__call--9 { margin-right: max(0px, calc(18% - 10rem)); transform-origin: right bottom; }
+.gnv__call--10 { margin: 0.55rem auto 0 max(0px, calc(14.5% - 1.2rem)); transform-origin: left top; }
+.sc__row.on .gnv[data-s="1"] .gnv__pin--9 { animation: tix-pop 0.45s 0.9s cubic-bezier(0.3, 1.4, 0.5, 1) forwards, wf-ping 1.6s 1.3s ease-out 2; }
+.sc__row.on .gnv[data-s="1"] .gnv__pin--9::before { animation: wf-line 0.35s 1.2s ease-out forwards; }
+.sc__row.on .gnv[data-s="1"] .gnv__call--9 { animation: tix-pop 0.55s 1.45s cubic-bezier(0.3, 1.3, 0.5, 1) forwards; }
+.sc__row.on .gnv[data-s="1"] .gnv__pin--10 { animation: tix-pop 0.45s 2.4s cubic-bezier(0.3, 1.4, 0.5, 1) forwards, wf-ping 1.6s 2.8s ease-out 2; }
+.sc__row.on .gnv[data-s="1"] .gnv__pin--10::before { animation: wf-line 0.4s 2.7s ease-out forwards; }
+.sc__row.on .gnv[data-s="1"] .gnv__call--10 { animation: tix-pop 0.55s 3.05s cubic-bezier(0.3, 1.3, 0.5, 1) forwards; }

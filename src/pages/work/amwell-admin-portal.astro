@@ -239,6 +239,20 @@ const uxm = `
 	</ul>
 </div>`;
 
+const gtn = `
+<div class="gnv gnv--tn" data-s="1">
+	<p class="gnv__who gnv__who--av"><img src="/amwell/cs/av-basic.webp" alt="" />Tenant basic admin · a department manager, one department</p>
+	<div class="gnv__slot gnv__slot--top">
+		<p class="gnv__call gnv__call--9" data-s="1"><b>1</b><span><strong>The shortest nav yet.</strong> Home, their tenant and products. No admin management, no global view.</span></p>
+	</div>
+	<div class="gnv__frame">
+		<figure data-s="1"><img src="/amwell/cs/tn-screen.webp" alt="The Urgent Care service line: a short nav, breadcrumbs, a menu for intake, visit settings, cost and branding, and editable details" /><i class="gnv__hl" style="left:73%;top:0.5%;width:18%;height:5.5%"></i><i class="gnv__hl" style="left:3.5%;top:22%;width:22.5%;height:37%"></i><i class="gnv__pin gnv__pin--9" style="--x:82%;--y:2.9%"><b>1</b></i><i class="gnv__pin gnv__pin--10" style="--x:14.5%;--y:59%"><b>2</b></i></figure>
+	</div>
+	<div class="gnv__slot gnv__slot--bot">
+		<p class="gnv__call gnv__call--10" data-s="1"><b>2</b><span><strong>Manage, not add.</strong> They configure a line’s intake, visit settings, cost and branding. Creating new lines stays with super admins.</span></p>
+	</div>
+</div>`;
+
 const tiers = `
 <div class="tmx" data-c="0">
 	<table class="tm">
@@ -543,14 +557,9 @@ const scenes: { id: string; label: string; nav: string; beats: Beat[] }[] = [
 				html: gsl,
 			},
 			{
-				title: 'The same system, more screens.',
-				text: 'Service line details, a guided add flow, patients, and practitioners, all from the same components.',
-				media: { kind: 'image', src: `${A}/screens.webp`, alt: 'Service line, patient, and practitioner screens' },
-			},
-			{
 				title: 'For tenant admins: manage, not add.',
-				text: 'Department managers manage service lines, configure workflow and branding, and see only what applies to them. Help desk staff get view-only access.',
-				media: { kind: 'image', src: `${A}/tenant.webp`, alt: 'The tenant basic admin view' },
+				text: 'A department manager runs service lines day to day. They can change how a line works but not create one, and help desk staff get view-only access. Across all three tiers, each admin sees exactly what they’re allowed to do, and nothing else.',
+				html: gtn,
 			},
 		],
 	},
