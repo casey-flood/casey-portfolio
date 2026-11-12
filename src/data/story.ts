@@ -80,7 +80,7 @@ export const chapters: Chapter[] = [
 		id: 'amwell', year: '2019', name: 'Amwell', role: 'UX Designer → Senior Product Designer', dates: 'Jan 2019 – Feb 2024', place: 'Amwell',
 		title: 'Research, then ownership, then leadership.',
 		text: 'Telehealth for patients, providers and admins. I started by running research and grew into owning design direction.',
-		nums: [{ v: '2', l: 'promotions' }, { v: '86%', l: 'of our research, led by me' }],
+		nums: [{ v: '2', l: 'promotions' }, { v: '86%', l: 'of our research, led by me' }, { v: 'Meets → Exceeds', l: 'expectations, performance rating' }],
 		media: { src: '/amwell/admin-dashboard.webp', alt: 'The Amwell admin portal I redesigned' },
 		link: { href: '/work/amwell', label: 'See the Amwell work' },
 		moments: [
@@ -101,7 +101,7 @@ export const chapters: Chapter[] = [
 		id: 'dandy', year: '2025', name: 'Dandy', role: 'Senior Product Designer', dates: 'Mar 2025 – now', place: 'Dandy',
 		title: 'Today, I design in the real material.',
 		text: 'I’ve designed both sides of the crown: the dentists who order it and the designers who shape it in 3D. I prototype in code.',
-		nums: [{ v: '−11.5%', l: 'dental designer time per order' }],
+		nums: [{ v: '−11.5%', l: 'dental designer time per order' }, { v: 'Meets → Exceeds', l: 'expectations, performance rating' }],
 		quote: { q: 'A strong trajectory toward broader leadership.', who: 'Mid-year review, 2025' },
 		media: { src: '/work/dde/hero.jpg', alt: 'The Design Editor' },
 		link: { href: '/work/dandy-design-editor', label: 'Read the Design Editor case study' },
