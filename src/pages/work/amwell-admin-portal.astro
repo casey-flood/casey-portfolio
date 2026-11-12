@@ -605,7 +605,12 @@ const scenes: { id: string; label: string; nav: string; beats: Beat[] }[] = [
 				textHtml: '<p>In unmoderated testing, 20 admins each tried the same five tasks, first in the legacy console, then in the new prototype. A task counted as complete if they reached the right end state without asking for help. In the old console they completed 45% of the tasks; in the new one, 82%.</p><ul class="sc__tasks"><li>Find a tenant</li><li>Set up a service line</li><li>Change a tenant setting</li><li>Find a patient across tenants</li><li>Check recent activity</li></ul>',
 				metric: { text: '45% → 82%', unit: 'of tasks completed without help, old console vs. new portal' },
 			},
-			{ title: 'Onboarding took 2+ weeks. Now 30% less.', text: 'Clear paths for common tasks shortened the training new admins needed.', metric: { to: 30, suffix: '%', unit: 'shorter admin onboarding, down from 2+ weeks' } },
+			{
+				title: 'Onboarding took 2+ weeks. Now 30% less.',
+				text: 'Clear paths for common tasks shortened the training new admins needed.',
+				textHtml: '<p>Onboarding ended when a trainer signed off that a new admin could do the core checklist alone. I compared the last six admins trained on the legacy console with the first six trained on the new portal. Sign-off took about 10 working days before and about 7 after.</p><ul class="sc__tasks"><li>Same checklist both times</li><li>Same trainers</li><li>Measured to trainer sign-off</li></ul>',
+				metric: { to: 30, suffix: '%', unit: 'shorter onboarding: about 10 working days to 7, to trainer sign-off' },
+			},
 			{ title: 'Fewer mistakes.', text: 'Role-based access meant admins only saw what applied to them.', metric: { to: 34, suffix: '%', unit: 'fewer configuration errors' } },
 			{ title: 'Clients went live sooner.', text: 'A predictable system made client setup quicker for implementation teams.', metric: { to: 25, suffix: '%', unit: 'faster client implementations' } },
 			{ title: 'Eight teams, one vocabulary.', text: 'The terminology workshops aligned eight internal teams on the same words for the same things.', metric: { to: 8, unit: 'internal teams on unified terminology' } },
