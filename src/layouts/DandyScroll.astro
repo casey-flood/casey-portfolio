@@ -372,7 +372,12 @@ const slug = Astro.url.pathname.split('/').filter(Boolean).pop() ?? 'page';
 		const bul = row?.querySelector<HTMLElement>('.sc__bul--sync');
 		const set = (k: number) => { mx.dataset.c = String(k); if (bul) { bul.classList.add('has-focus'); Array.from(bul.children).forEach((li, j) => li.classList.toggle('is-on', j === k)); } };
 		const loop = () => { clearInterval(timer); if (manual || reduceMo) return; timer = window.setInterval(() => set((Number(mx.dataset.c) + 1) % 3), 4200); };
-		mx.querySelectorAll<HTMLElement>('th[data-c]').forEach((th) => th.addEventListener('click', () => { manual = true; clearInterval(timer); set(Number(th.dataset.c)); }));
+		const pick = (k: number) => { if (k < 0 || k > 2) return; manual = true; clearInterval(timer); set(k); };
+		const fromCell = (e: Event) => { const cell = (e.target as HTMLElement).closest<HTMLTableCellElement>('td, th'); if (cell && cell.closest('.tm')) pick(cell.cellIndex - 1); };
+		const tbl = mx.querySelector('.tm');
+		tbl?.addEventListener('mouseover', fromCell);
+		tbl?.addEventListener('click', fromCell);
+		if (bul) Array.from(bul.children).forEach((li, j) => { li.addEventListener('mouseenter', () => pick(j)); li.addEventListener('click', () => pick(j)); });
 		if (row) new MutationObserver(() => { if (row.classList.contains('on')) { set(0); loop(); } else clearInterval(timer); }).observe(row, { attributes: true, attributeFilter: ['class'] });
 	});
 	// anything marked data-full opens that image full size

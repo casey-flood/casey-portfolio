@@ -16196,3 +16196,6 @@ video.cmp__img:not(.cmp__img--new){object-position:left center}
 .sc__bul--sync.has-focus li { opacity: 0.45; }
 .sc__bul--sync.has-focus li.is-on { opacity: 1; background: rgba(255, 255, 255, 0.06); }
 .tmx .tq__more { margin-top: 0.9rem; }
+.sc__bul--sync li { cursor: pointer; }
+.sc__bul--sync li:hover { opacity: 1; }
+.tmx .tm td, .tmx .tm tbody th { cursor: pointer; }
