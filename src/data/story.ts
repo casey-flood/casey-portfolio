@@ -8,7 +8,7 @@
 
 export type Media = { src: string; alt: string; poster?: string; video?: boolean; fit?: 'contain'; pos?: string; bare?: boolean };
 export type Num = { v: string; l: string };
-export type Moment = { kicker: string; date: string; title: string; text: string; num?: Num; media?: Media; link?: { href: string; label: string; external?: boolean } };
+export type Moment = { kicker: string; date: string; title: string; text: string; num?: Num; media?: Media | Media[]; link?: { href: string; label: string; external?: boolean } };
 export type Chapter = {
 	id: string;
 	year: string;
@@ -21,7 +21,7 @@ export type Chapter = {
 	nums?: Num[];
 	ladder?: { t: string; when: string }[];
 	quote?: { q: string; who: string };
-	media?: Media;
+	media?: Media | Media[];
 	link?: { href: string; label: string };
 	moments: Moment[];
 };
@@ -56,10 +56,10 @@ export const chapters: Chapter[] = [
 		title: 'Then I trained for it, on purpose.',
 		text: 'Instead of a broad degree, I chose a UX/UI mobile design certificate at Pratt: research methods, interface design, and testing with real people. The same year I started freelancing, which I’ve kept up alongside every role since.',
 		nums: [{ v: 'All A’s', l: 'across the 4 certificate courses' }, { v: '−94%', l: 'time to share a trip in My Trips' }],
-		media: { src: '/journey/pratt-scrapbook.png', alt: 'Pratt scrapbook', fit: 'contain' },
+		media: [{ src: '/story/pratt-transcript.webp', alt: 'Pratt official transcript: four courses, all A’s', fit: 'contain' }, { src: '/journey/pratt-scrapbook.png', alt: 'My Pratt scrapbook', fit: 'contain' }],
 		moments: [
 			{ kicker: 'Testing', date: 'Summer 2018', title: 'People dropped off when asked to review everything at once.', text: 'So I added daily review prompts. My first lesson in designing for how people actually behave.', media: { src: '/journey/usertesting.mp4', poster: '/journey/usertesting-poster.jpg', alt: 'In-person testing sessions', video: true } },
-			{ kicker: 'New York', date: '2018', title: 'New York made me obsessed with design.', text: 'Living in one of the biggest design communities in the world, with the Cooper Hewitt as my favorite museum.', media: { src: '/story/nyc-2018.webp', alt: 'Casey on the Met rooftop above Central Park' } },
+			{ kicker: 'New York', date: '2018', title: 'New York made me obsessed with design.', text: 'Living in one of the biggest design communities in the world, with the Cooper Hewitt as my favorite museum.', media: [{ src: '/story/nyc-2018.webp', alt: 'On the Met rooftop above Central Park' }, { src: '/journey/cooper-hewitt-scrapbook.png', alt: 'My Cooper Hewitt scrapbook', fit: 'contain' }] },
 			{ kicker: 'Back to Boston', date: 'Fall 2018', title: 'I chose the work over four years of art school.', text: 'A semester at MassArt made it clear its BFA meant four years of traditional art classes. Not my path. I freelanced, worked part-time and applied for UX roles, and joined Amwell that January.' },
 		],
 	},

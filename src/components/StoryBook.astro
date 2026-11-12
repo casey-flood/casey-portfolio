@@ -3,6 +3,8 @@
 // moment, grouped by year. Swipe on phones; arrows, keys or the ticks on desktop. /journey#amwell opens a chapter.
 import { chapters } from '../data/story';
 
+type M = { src: string; alt: string; poster?: string; video?: boolean; fit?: 'contain'; pos?: string; bare?: boolean };
+const list = (m: any): M[] | undefined => (m ? (Array.isArray(m) ? m : [m]) : undefined);
 type P = {
 	ch: (typeof chapters)[number];
 	cover: boolean;
@@ -14,13 +16,13 @@ type P = {
 	nums?: { v: string; l: string }[];
 	ladder?: { t: string; when: string }[];
 	quote?: { q: string; who: string };
-	media?: { src: string; alt: string; poster?: string; video?: boolean; fit?: 'contain'; pos?: string; bare?: boolean };
+	media?: M[];
 	link?: { href: string; label: string; external?: boolean };
 	tip: string;
 };
 const pages: P[] = chapters.flatMap((c) => [
-	{ ch: c, cover: true, kicker: `${c.name} · ${c.role}`, head: c.place, date: c.dates, title: c.title, text: c.text, nums: c.nums, ladder: c.ladder, quote: c.quote, media: c.media, link: c.link, tip: c.name },
-	...c.moments.map((m) => ({ ch: c, cover: false, kicker: m.kicker, head: c.name, date: m.date, title: m.title, text: m.text, nums: m.num ? [m.num] : undefined, media: m.media, link: m.link, tip: m.kicker })),
+	{ ch: c, cover: true, kicker: `${c.name} · ${c.role}`, head: c.place, date: c.dates, title: c.title, text: c.text, nums: c.nums, ladder: c.ladder, quote: c.quote, media: list(c.media), link: c.link, tip: c.name },
+	...c.moments.map((m) => ({ ch: c, cover: false, kicker: m.kicker, head: c.name, date: m.date, title: m.title, text: m.text, nums: m.num ? [m.num] : undefined, media: list(m.media), link: m.link, tip: m.kicker })),
 ]);
 ---
 
@@ -42,9 +44,19 @@ const pages: P[] = chapters.flatMap((c) => [
 							{p.link && <a class="sb__link" href={p.link.href} target={p.link.external ? '_blank' : undefined} rel={p.link.external ? 'noopener' : undefined}>{p.link.label} {p.link.external ? '↗' : '→'}</a>}
 						</div>
 						{p.media && (
-							<figure class:list={['sb__fig', { 'is-contain': p.media.fit === 'contain', 'is-bare': p.media.bare }]}>
-								{p.media.video ? <video src={p.media.src} poster={p.media.poster} muted loop playsinline preload="none" aria-label={p.media.alt}></video> : <img src={p.media.src} alt={p.media.alt} loading="lazy" decoding="async" style={p.media.pos ? `object-position:${p.media.pos}` : undefined} />}
-							</figure>
+							<div class:list={['sb__deck', { 'is-multi': p.media.length > 1 }]} data-n={p.media.length}>
+								{p.media.map((m, k) => (
+									<figure class:list={['sb__fig', { 'is-contain': m.fit === 'contain', 'is-bare': m.bare }]} style={`--o:${k}`} data-o={k} data-cap={m.alt}>
+										{m.video ? <video src={m.src} poster={m.poster} muted loop playsinline preload="none" aria-label={m.alt}></video> : <img src={m.src} alt={m.alt} loading="lazy" decoding="async" style={m.pos ? `object-position:${m.pos}` : undefined} />}
+									</figure>
+								))}
+								{p.media.length > 1 && (
+									<div class="sb__dots">
+										{p.media.map((m, k) => <button type="button" data-k={k} aria-label={`Show photo ${k + 1}: ${m.alt}`} class:list={{ 'is-on': k === 0 }}></button>)}
+										<span>Tap to flip</span>
+									</div>
+								)}
+							</div>
 						)}
 					</div>
 				</article>
@@ -111,6 +123,18 @@ const pages: P[] = chapters.flatMap((c) => [
 	.sb__fig.is-bare img { object-fit: contain; filter: drop-shadow(0 18px 30px rgba(0, 0, 0, 0.35)); }
 	.sb__fig.is-contain img { object-fit: contain; }
 
+
+	/* Photo deck: several photos stacked; tap to send the front one to the back */
+	.sb__deck { position: relative; aspect-ratio: 4 / 3; }
+	.sb__deck .sb__fig { position: absolute; inset: 0; }
+	.sb__deck.is-multi { cursor: pointer; margin-bottom: 1.6rem; }
+	.sb__deck.is-multi .sb__fig { transform: rotate(calc(0.6deg + var(--o) * -3.5deg)) translate(calc(var(--o) * -3.5%), calc(var(--o) * 2.5%)) scale(calc(1 - var(--o) * 0.035)); z-index: calc(10 - var(--o)); transition: transform 0.55s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.4s; }
+	.sb__deck.is-multi .sb__fig:is([data-o='3'], [data-o='4'], [data-o='5']) { opacity: 0; }
+	.sb__deck.is-multi:hover .sb__fig[data-o='0'] { transform: rotate(0deg) translateY(-4px); }
+	.sb__dots { position: absolute; left: 0; right: 0; bottom: -1.7rem; display: flex; align-items: center; justify-content: center; gap: 0.4rem; }
+	.sb__dots button { width: 0.45rem; height: 0.45rem; padding: 0; border-radius: 999px; border: 0; background: color-mix(in srgb, var(--ink) 25%, transparent); cursor: pointer; transition: width 0.25s, background 0.25s; }
+	.sb__dots button.is-on { width: 1.2rem; background: var(--acc); }
+	.sb__dots span { margin-left: 0.4rem; font-family: var(--mono, monospace); font-size: 0.6rem; color: var(--muted); }
 	.sb__side { position: absolute; top: calc(50% - 1.25rem); z-index: 2; width: 2.75rem; height: 2.75rem; border-radius: 999px; border: 1px solid var(--line); background: var(--sb-bg, #fff); color: var(--ink); font-size: 1.05rem; cursor: pointer; box-shadow: 0 8px 20px -12px rgba(0, 0, 0, 0.4); transition: opacity 0.2s, background 0.2s, transform 0.2s; }
 	.sb__side--l { left: calc((100% - var(--cw)) / 2 - 1.375rem); }
 	.sb__side--r { right: calc((100% - var(--cw)) / 2 - 1.375rem); }
@@ -202,6 +226,24 @@ const pages: P[] = chapters.flatMap((c) => [
 		root.querySelectorAll<HTMLElement>('[data-go]').forEach((b) => b.addEventListener('click', () => go(Number(b.dataset.go))));
 		root.querySelectorAll<HTMLElement>('[data-step]').forEach((b) => b.addEventListener('click', () => go(cur + Number(b.dataset.step))));
 		pages.forEach((p, k) => p.addEventListener('click', (e) => { if (k !== cur && !(e.target as HTMLElement).closest('a')) go(k); }));
+		root.querySelectorAll<HTMLElement>('.sb__deck.is-multi').forEach((deck) => {
+			const figs = Array.from(deck.querySelectorAll<HTMLElement>('.sb__fig'));
+			const dots = Array.from(deck.querySelectorAll<HTMLButtonElement>('.sb__dots button'));
+			const n = figs.length;
+			let front = 0;
+			const show = (k: number) => {
+				front = (k + n) % n;
+				figs.forEach((f, i) => { const o = String((i - front + n) % n); f.style.setProperty('--o', o); f.dataset.o = o; });
+				dots.forEach((d, i) => d.classList.toggle('is-on', i === front));
+				figs.forEach((f, i) => f.querySelectorAll('video').forEach((v) => (i === front ? v.play().catch(() => {}) : v.pause())));
+			};
+			deck.addEventListener('click', (e) => {
+				if (!deck.closest('.sb__page')?.classList.contains('is-on')) return;
+				e.stopPropagation();
+				const dot = (e.target as HTMLElement).closest<HTMLButtonElement>('.sb__dots button');
+				show(dot ? Number(dot.dataset.k) : front + 1);
+			});
+		});
 		track.addEventListener('keydown', (e) => {
 			if (e.key === 'ArrowRight') { e.preventDefault(); go(cur + 1); }
 			if (e.key === 'ArrowLeft') { e.preventDefault(); go(cur - 1); }
