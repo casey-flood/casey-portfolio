@@ -138,26 +138,13 @@ const wire = `
 </div>`;
 
 const tiers = `
-<div class="tz" data-t="0">
-	<div class="tz__tabs" role="tablist" aria-label="Admin tiers">
-		<button type="button" role="tab" data-t="0" aria-selected="true"><img src="/brand/amwell-white.svg" alt="Amwell" /> Super admin</button>
-		<button type="button" role="tab" data-t="1" aria-selected="false">Tenant super admin</button>
-		<button type="button" role="tab" data-t="2" aria-selected="false">Tenant basic admin</button>
-	</div>
-	<div class="tz__map" aria-hidden="true">
-		<div class="tz__l0"><span class="tz__lbl">Amwell platform · every tenant</span>
-			<div class="tz__orgs">
-				<div class="tz__l1"><span class="tz__lbl">Tenant · CVS Health</span>
-					<div class="tz__depts"><div class="tz__l2"><span class="tz__lbl">Urgent care</span></div><div class="tz__l2 tz__l2--off"><span class="tz__lbl">Behavioral health</span></div></div>
-				</div>
-				<div class="tz__l1 tz__l1--off"><span class="tz__lbl">Tenant · Cleveland Clinic</span>
-					<div class="tz__depts"><div class="tz__l2 tz__l2--off"><span class="tz__lbl">Primary care</span></div></div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="tz__caps"><ul class="tz__can" data-for="0"><li><i class="tz__y">✓</i>Create tenants</li><li><i class="tz__y">✓</i>System-wide settings</li><li><i class="tz__y">✓</i>Manage every admin</li></ul><ul class="tz__can" data-for="1"><li><i class="tz__y">✓</i>Service lines and branding</li><li><i class="tz__y">✓</i>Manage their admins</li><li><i class="tz__n">✕</i>Create tenants</li></ul><ul class="tz__can" data-for="2"><li><i class="tz__y">✓</i>Their service lines</li><li><i class="tz__y">✓</i>Department reports</li><li><i class="tz__n">✕</i>Change org settings</li></ul></div>
-	<p class="tiers__more"><button type="button" data-full="/amwell/cs/tiers.webp">The full tier chart ⤢</button><button type="button" data-full="/amwell/cs/matrix.webp">The permissions matrix ⤢</button></p>
+<div class="tq">
+	<ol class="tq__list">
+		<li class="tq__row tq--amw"><div class="tq__head"><b><img src="/brand/amwell-white.svg" alt="Amwell" /> Super admin</b><span>Every tenant</span></div><p>Creates tenants and sets the rules for the whole platform.</p></li>
+		<li class="tq__row tq--ten"><div class="tq__head"><b>Tenant super admin</b><span>One tenant, like CVS Health</span></div><p>Runs their organization: service lines, branding and their admins.</p></li>
+		<li class="tq__row tq--basic"><div class="tq__head"><b>Tenant basic admin</b><span>One department</span></div><p>Manages their department’s service lines. Sees org settings, can’t change them.</p></li>
+	</ol>
+	<p class="tq__more">See the <button type="button" data-full="/amwell/cs/tiers.webp">full tier chart</button> or the <button type="button" data-full="/amwell/cs/matrix.webp">permissions matrix</button></p>
 </div>`;
 
 const jargon = `

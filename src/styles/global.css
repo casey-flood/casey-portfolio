@@ -16144,3 +16144,27 @@ video.cmp__img:not(.cmp__img--new){object-position:left center}
 	.tz__l0 { padding: 1.4rem 0.5rem 0.5rem; } .tz__l1 { padding: 1.3rem 0.4rem 0.4rem; } .tz__l2 { min-height: 2.2rem; padding: 1.2rem 0.4rem 0.3rem; }
 	.tz__can li { font-size: 0.62rem; padding: 0.28rem 0.55rem; } .tiers__more button { font-size: 0.62rem; }
 }
+
+/* tiers, final: a simple three-step hierarchy, each step nested one level deeper */
+.tq { color: #eef3fb; }
+.tq__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.7rem; }
+.tq__row { position: relative; padding: 0.9rem 1.1rem; border-radius: 0.8rem; background: rgba(255, 255, 255, 0.04); border-left: 4px solid var(--c); opacity: 0; transform: translateX(16px); }
+.tq--amw { --c: #8cc8ff; } .tq--ten { --c: #f08ca0; margin-left: 2rem; } .tq--basic { --c: #c8d2e2; margin-left: 4rem; }
+.tq--ten::before, .tq--basic::before { content: ''; position: absolute; left: -1.4rem; top: -0.7rem; width: 1.1rem; height: 2rem; border-left: 1.5px solid rgba(255, 255, 255, 0.22); border-bottom: 1.5px solid rgba(255, 255, 255, 0.22); border-bottom-left-radius: 0.5rem; }
+.tq__head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.3rem 0.7rem; }
+.tq__head b { display: inline-flex; align-items: center; gap: 0.35rem; font-size: 1.05rem; font-weight: 600; color: #fff; }
+.tq__head b img { height: 0.9rem; width: auto; }
+.tq__head span { color: var(--c); font-size: 0.82rem; font-weight: 500; }
+.tq__row p { margin: 0.3rem 0 0; color: #b4c6e4; font-size: 0.88rem; line-height: 1.45; }
+.tq__more { margin: 1rem 0 0; color: rgba(180, 198, 228, 0.6); font-size: 0.8rem; }
+.tq__more button { padding: 0; border: 0; background: none; color: rgba(180, 198, 228, 0.85); font: inherit; text-decoration: underline; text-decoration-color: rgba(180, 198, 228, 0.35); text-underline-offset: 3px; cursor: zoom-in; }
+.tq__more button:hover { color: #fff; text-decoration-color: #fff; }
+.sc__row.on .tq__row { animation: eco-in 0.55s ease-out forwards; }
+.sc__row.on .tq--ten { animation-delay: 0.3s; } .sc__row.on .tq--basic { animation-delay: 0.6s; }
+@media (prefers-reduced-motion: reduce) { .tq__row { opacity: 1 !important; transform: none !important; animation: none !important; } }
+@media (max-width: 899px) {
+	.cx.cx--mob .sc .sc__row .sc__viz.sc__viz--html > .tq { position: relative !important; transform: none !important; }
+	.tq__list { gap: 0.45rem; } .tq__row { padding: 0.6rem 0.75rem; } .tq--ten { margin-left: 1.2rem; } .tq--basic { margin-left: 2.4rem; }
+	.tq--ten::before, .tq--basic::before { left: -0.95rem; width: 0.7rem; }
+	.tq__head b { font-size: 0.85rem; } .tq__head span { font-size: 0.68rem; } .tq__row p { font-size: 0.72rem; } .tq__more { font-size: 0.68rem; margin-top: 0.6rem; }
+}
