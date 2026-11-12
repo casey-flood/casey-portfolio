@@ -16311,3 +16311,4 @@ video.cmp__img:not(.cmp__img--new){object-position:left center}
 	.cx.cx--mob .sc .sc__row .sc__viz.sc__viz--html > .bt { position: relative !important; transform: none !important; }
 	.bt__re { font-size: 0.82rem; margin-bottom: 0.8rem; } .bt__cards { gap: 0.5rem; } .bt__c { padding: 0.7rem; } .bt__c p { display: none; } .bt__c b { font-size: 0.82rem; } .bt__m { font-size: 0.62rem; } .bt__ic { width: 2rem; height: 2rem; }
 }
+.bt__c:first-child { border-color: rgba(140, 200, 255, 0.55); background: rgba(140, 200, 255, 0.07); }
