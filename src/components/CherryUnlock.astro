@@ -1,0 +1,158 @@
+---
+// Easter egg for the Work page: type "cherry" (or tap the little cherry, or open /work#cherry)
+// to unlock a short, Cherry-specific cut of the portfolio.
+const picks = [
+	{ n: '01', k: 'Career deep dive', t: 'My story, with the numbers', d: 'From high school to today: grades, promotions, reviews and the metrics behind each step.', href: '/journey', stat: '20 moments' },
+	{ n: '02', k: 'Impact', t: 'Dandy Design Editor', d: 'One editor for the whole restoration, measured in designer time and adoption.', href: '/work/dandy-design-editor', stat: '−11.5% designer time · ~80% ML adoption' },
+	{ n: '03', k: 'Craft', t: 'Amwell admin portal', d: 'Every screen by hand: the directions I explored and the details I obsessed over.', href: '/work/amwell-admin-portal', stat: '113 screens explored · 45% → 82%' },
+];
+const maps = [
+	{ a: 'One admin, many practices', b: 'At Amwell, one system that every health organization tailored to itself.', c: 'Connectors: patterns that scale, tailored to each tool.' },
+	{ a: 'Prototypes people can click', b: 'At Dandy, I prototype in production code, so dentists react to real flows in days.', c: 'The prototyping muscle Cherry wants to build.' },
+	{ a: 'Close to providers', b: 'Dentists, clinicians and admins, in the tools they live in all day.', c: 'Deep provider empathy, inside their own software.' },
+];
+---
+
+<button type="button" class="ch-pip" data-cherry-open aria-label="Unlock the Cherry cut">
+	<svg viewBox="0 0 32 32" aria-hidden="true"><path class="st" d="M16 4c-1 6-5 9-8 13M16 4c2 5 5 8 8 11" /><path class="lf" d="M16 4c3-2 7-2 9 0-3 2-6 2-9 0z" /><circle class="b1" cx="9" cy="22" r="6" /><circle class="b2" cx="23" cy="20" r="6" /></svg>
+</button>
+
+<div class="ch" hidden aria-hidden="true">
+	<div class="ch__bg" data-cherry-close></div>
+	<div class="ch__burst" aria-hidden="true">{Array.from({ length: 16 }).map((_, i) => <i style={`--a:${i * 22.5}deg;--d:${0.85 + (i % 3) * 0.2}`}></i>)}</div>
+	<div class="ch__wrap">
+		<div class="ch__fruit" aria-hidden="true">
+			<svg viewBox="0 0 64 64"><path class="st" d="M32 8c-2 12-10 18-16 26M32 8c4 10 10 16 16 22" /><path class="lf" d="M32 8c6-5 14-5 18 0-6 4-12 4-18 0z" /><circle class="b1" cx="17" cy="44" r="12" /><circle class="b2" cx="47" cy="40" r="12" /><circle class="sh" cx="13" cy="40" r="3" /><circle class="sh" cx="43" cy="36" r="3" /></svg>
+		</div>
+	<div class="ch__panel" role="dialog" aria-modal="true" aria-labelledby="ch-title">
+		<button type="button" class="ch__x" data-cherry-close aria-label="Close">×</button>
+
+		<p class="ch__chip">Unlocked</p>
+		<h2 id="ch-title" class="ch__h">You found the <span>Cherry</span> cut.</h2>
+		<p class="ch__sub">Everything for our conversation, in one place.</p>
+
+		<ol class="ch__picks">
+			{picks.map((p) => (
+				<li><a href={p.href}><small>{p.n} · {p.k}</small><b>{p.t}</b><span>{p.d}</span><em>{p.stat}</em><i aria-hidden="true">→</i></a></li>
+			))}
+		</ol>
+
+		<p class="ch__lbl">Why my work maps to Connectors</p>
+		<ul class="ch__maps">
+			{maps.map((m) => (
+				<li><b>{m.a}</b><span>{m.b}</span><span class="to">{m.c}</span></li>
+			))}
+		</ul>
+	</div>
+	</div>
+</div>
+
+<script>
+	const root = document.querySelector<HTMLElement>('.ch');
+	if (root) {
+		let last: Element | null = null;
+		const open = () => {
+			if (!root.hidden) return;
+			last = document.activeElement;
+			root.hidden = false;
+			root.setAttribute('aria-hidden', 'false');
+			document.documentElement.style.overflow = 'hidden';
+			requestAnimationFrame(() => requestAnimationFrame(() => root.classList.add('on')));
+			setTimeout(() => root.querySelector<HTMLElement>('.ch__picks a')?.focus({ preventScroll: true }), 900);
+			try { history.replaceState(null, '', '#cherry'); } catch {}
+		};
+		const close = () => {
+			root.classList.remove('on');
+			document.documentElement.style.overflow = '';
+			setTimeout(() => { root.hidden = true; root.setAttribute('aria-hidden', 'true'); }, 300);
+			(last as HTMLElement | null)?.focus?.();
+			try { if (location.hash === '#cherry') history.replaceState(null, '', location.pathname); } catch {}
+		};
+		document.querySelectorAll('[data-cherry-open]').forEach((b) => b.addEventListener('click', open));
+		root.querySelectorAll('[data-cherry-close]').forEach((b) => b.addEventListener('click', close));
+		let typed = '';
+		addEventListener('keydown', (e) => {
+			if (e.key === 'Escape' && !root.hidden) return close();
+			const t = e.target as Element | null;
+			if (e.metaKey || e.ctrlKey || e.altKey || t?.closest?.('input, textarea, select, [contenteditable]')) return;
+			if (e.key.length !== 1) return;
+			typed = (typed + e.key.toLowerCase()).slice(-6);
+			if (typed === 'cherry') { typed = ''; open(); }
+		});
+		if (location.hash === '#cherry') setTimeout(open, 400);
+	}
+</script>
+
+<style>
+	.ch-pip { display: block; margin: 3rem auto 0; width: 2.25rem; height: 2.25rem; padding: 0.3rem; border: 0; border-radius: 50%; background: none; cursor: pointer; opacity: 0.35; transition: opacity 0.2s, transform 0.3s cubic-bezier(0.3, 1.6, 0.5, 1); }
+	.ch-pip:hover, .ch-pip:focus-visible { opacity: 1; transform: rotate(-12deg) scale(1.15); }
+	.ch-pip svg, .ch__fruit svg { width: 100%; height: 100%; overflow: visible; }
+	.st { fill: none; stroke: #4b7a3a; stroke-width: 2.2; stroke-linecap: round; }
+	.lf { fill: #6ea84f; }
+	.b1 { fill: #d61f4d; }
+	.b2 { fill: #ef3b63; }
+	.sh { fill: rgba(255, 255, 255, 0.55); }
+
+	.ch { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; padding: 3.75rem 1rem 1rem; }
+	.ch[hidden] { display: none; }
+	.ch__bg { position: absolute; inset: 0; background: rgba(12, 10, 14, 0.55); backdrop-filter: blur(10px); opacity: 0; transition: opacity 0.3s; }
+	.ch.on .ch__bg { opacity: 1; }
+
+	.ch__wrap { position: relative; width: min(44rem, 100%); }
+	.ch__panel { position: relative; width: 100%; max-height: calc(100svh - 5rem); overflow: auto; padding: 3.5rem clamp(1.25rem, 4vw, 2.5rem) 2rem; border-radius: 1.5rem; background: var(--bg); color: var(--ink); box-shadow: 0 40px 100px -30px rgba(0, 0, 0, 0.6); opacity: 0; transform: translateY(24px) scale(0.96); transition: opacity 0.35s 0.35s, transform 0.55s 0.35s cubic-bezier(0.2, 1.2, 0.3, 1); }
+	.ch.on .ch__panel { opacity: 1; transform: none; }
+	.ch__x { position: absolute; top: 0.9rem; right: 0.9rem; width: 2.2rem; height: 2.2rem; border-radius: 50%; border: 1px solid var(--line); background: none; color: var(--ink); font-size: 1.3rem; cursor: pointer; }
+
+	.ch__fruit { position: absolute; z-index: 2; top: -2.6rem; left: 50%; width: 5.5rem; height: 5.5rem; margin-left: -2.75rem; transform-origin: 50% 10%; }
+	.ch.on .ch__fruit { animation: drop 0.9s 0.2s cubic-bezier(0.3, 1.5, 0.5, 1) both, sway 3.2s 1.2s ease-in-out infinite; }
+	@keyframes drop { from { transform: translateY(-60vh) rotate(-25deg); } to { transform: none; } }
+	@keyframes sway { 50% { transform: rotate(6deg); } }
+
+	.ch__burst { position: absolute; top: 50%; left: 50%; width: 0; height: 0; pointer-events: none; }
+	.ch__burst i { position: absolute; width: 0.7rem; height: 0.7rem; margin: -0.35rem; border-radius: 50%; background: #ef3b63; opacity: 0; }
+	.ch__burst i:nth-child(3n) { background: #6ea84f; width: 0.45rem; height: 0.45rem; }
+	.ch__burst i:nth-child(4n) { background: #ffb3c4; }
+	.ch.on .ch__burst i { animation: pop 1s 0.55s cubic-bezier(0.1, 0.8, 0.3, 1) both; }
+	@keyframes pop { 0% { opacity: 1; transform: rotate(var(--a)) translateY(0) scale(0.4); } 100% { opacity: 0; transform: rotate(var(--a)) translateY(calc(-18rem * var(--d))) scale(1); } }
+
+	.ch__chip { display: block; width: max-content; margin: 0 auto; padding: 0.25rem 0.7rem; border-radius: 99px; background: #ef3b63; color: #fff; font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; }
+	.ch__h { margin: 0.8rem 0 0; text-align: center; font-size: clamp(1.8rem, 5vw, 2.6rem); letter-spacing: -0.035em; line-height: 1.05; }
+	.ch__h span { color: #ef3b63; }
+	.ch__sub { margin: 0.6rem 0 0; text-align: center; color: var(--muted); }
+
+	.ch__picks { list-style: none; margin: 2rem 0 0; padding: 0; display: grid; gap: 0.6rem; }
+	.ch__picks a { position: relative; display: grid; gap: 0.2rem; padding: 1rem 2.75rem 1rem 1.1rem; border-radius: 1rem; border: 1px solid var(--line); color: inherit; text-decoration: none; transition: border-color 0.2s, transform 0.25s, background 0.2s; }
+	.ch__picks a:hover, .ch__picks a:focus-visible { border-color: #ef3b63; transform: translateX(4px); background: color-mix(in srgb, #ef3b63 6%, transparent); outline: none; }
+	.ch__picks small { font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.08em; text-transform: uppercase; color: #ef3b63; }
+	.ch__picks b { font-size: 1.1rem; }
+	.ch__picks span { color: var(--muted); font-size: 0.9rem; line-height: 1.45; }
+	.ch__picks em { font-style: normal; font-weight: 600; font-size: 0.85rem; }
+	.ch__picks i { position: absolute; right: 1.1rem; top: 50%; transform: translateY(-50%); font-style: normal; color: var(--muted); }
+
+	.ch__lbl { margin: 2rem 0 0.6rem; font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+	.ch__maps { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.9rem; }
+	.ch__maps li { display: grid; grid-template-columns: 11rem 1fr; gap: 0.15rem 1rem; padding-top: 0.9rem; border-top: 1px solid var(--line); }
+	.ch__maps b { grid-row: span 2; font-size: 0.95rem; }
+	.ch__maps span { font-size: 0.88rem; color: var(--muted); line-height: 1.45; }
+	.ch__maps .to { color: var(--ink); }
+	.ch__maps .to::before { content: '→ '; color: #ef3b63; }
+
+	.ch__picks li, .ch__lbl, .ch__maps li { opacity: 0; transform: translateY(10px); transition: opacity 0.4s, transform 0.4s; }
+	.ch.on :is(.ch__picks li, .ch__lbl, .ch__maps li) { opacity: 1; transform: none; }
+	.ch.on .ch__picks li:nth-child(1) { transition-delay: 0.7s; }
+	.ch.on .ch__picks li:nth-child(2) { transition-delay: 0.8s; }
+	.ch.on .ch__picks li:nth-child(3) { transition-delay: 0.9s; }
+	.ch.on .ch__lbl { transition-delay: 1s; }
+	.ch.on .ch__maps li:nth-child(1) { transition-delay: 1.05s; }
+	.ch.on .ch__maps li:nth-child(2) { transition-delay: 1.12s; }
+	.ch.on .ch__maps li:nth-child(3) { transition-delay: 1.19s; }
+
+	@media (max-width: 600px) {
+		.ch__maps li { grid-template-columns: 1fr; }
+		.ch__maps b { grid-row: auto; }
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.ch.on .ch__fruit, .ch.on .ch__burst i { animation: none; }
+		.ch__panel, .ch__picks li, .ch__lbl, .ch__maps li { transition-duration: 0.01s !important; transition-delay: 0s !important; }
+	}
+</style>

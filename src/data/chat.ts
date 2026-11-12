@@ -10,7 +10,7 @@ export const starters = [
 
 // Offline answers used until the AI worker is connected. Links use [[Label|/path]].
 export const offline: { match: RegExp; reply: string }[] = [
-	{ match: /design system|storybook|floss|component/i, reply: "Dandy Design Center had no design system, so I built one from scratch in Storybook with Cursor, on production code. Iteration went from 30–45 minutes to 5–10. [[Read the case study|/work/dandy-design-system]]" },
+	{ match: /design system|storybook|floss|component/i, reply: "Dandy Design Center had no design system, so I built one with Cursor: I reused our chairside system where I could, added the net-new components the editor needed, and hosted it in Storybook, where engineering already works. Iteration went from 30–45 minutes to 5–10. [[Read the case study|/work/dandy-design-system]]" },
 	{ match: /prototype|clickable/i, reply: "With real components I can build full, clickable flows in Storybook instead of static frames. [[See how|/work/dandy-prototype]]" },
 	{ match: /teach|hub|onboard|jam/i, reply: "I turned a personal workflow into a team practice: onboarding, design jams, and the Product Design Hub. [[Read more|/work/dandy-product-design-hub]]" },
 	{ match: /dandy|design editor|dental|teeth/i, reply: "At Dandy I'm the sole designer on the Design Editor, essentially Figma for teeth, where lab designers prep scans and design restorations. [[My Dandy story|/journey#dandy]] · [[Design system|/work/dandy-design-system]]" },

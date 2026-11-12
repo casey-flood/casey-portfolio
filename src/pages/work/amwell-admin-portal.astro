@@ -211,8 +211,39 @@ const scenes: { id: string; label: string; nav: string; beats: Beat[] }[] = [
 		],
 	},
 	{
+		id: 'craft',
+		label: '07 · Craft decisions',
+		nav: 'Craft decisions',
+		beats: [
+			{
+				title: 'Three ways to navigate. One fits how admins think.',
+				text: 'I explored separate apps per role, a top nav plus a side nav, and a tenant switcher above one left nav. Admins always start with “which organization am I in?”, so the switcher won: the organization is the first thing on every page, and the left nav only shows what that admin can touch.',
+				media: { kind: 'image', src: `${A}/fig-tenant.webp`, alt: 'The tenant switcher at the top of a tenant summary page' },
+			},
+			{
+				title: 'The details I obsessed over.',
+				text: 'A strict 24px grid with a 36px header band, so dense pages still breathe. Tables that read left to right the way admins scan: name first, status as a word and a color, actions last. Breadcrumbs on every deep page, and a menu that remembers if you collapsed it.',
+				media: { kind: 'image', src: '/amwell/story-component.webp', alt: 'Spacing specs for the sliding panel: 24px gutters and a 36px header' },
+			},
+			{
+				title: 'Color and type: calm, so the data can speak.',
+				text: 'Admins sit in this tool all day, so I chose a dark, low-glare theme where status colors and blue actions stand out. Amwell’s gradient became a thin brand bar instead of a background, so it never competes with the work. Type follows a tight scale: a large page title for orientation, clear section heads, and small, even table text, with contrast checked for accessibility.',
+				media: { kind: 'image', src: `${A}/hifi1.webp`, alt: 'The dark admin UI with a thin gradient brand bar and blue actions' },
+			},
+			{
+				title: 'Motion that explains, never decorates.',
+				text: 'Collapsing the menu slides the page into the space, so you see where it went. Nav sections expand in place, so you never lose your spot. My Tools slides over the page instead of leaving it. Every transition is short and quiet, because this is a tool, not a show.',
+				media: { kind: 'clip', src: '/amwell/cs/prototype.mp4', poster: '/amwell/cs/prototype.jpg', alt: 'The prototype showing menu collapse, expanding nav and page transitions' },
+			},
+			{
+				title: 'All of it by hand.',
+				text: 'This was 2023: every screen, component and prototype here is mine, built in Figma on the Converge design system, with no AI tools.',
+			},
+		],
+	},
+	{
 		id: 'impact',
-		label: '07 · The impact',
+		label: '08 · The impact',
 		nav: 'The impact',
 		beats: [
 			{ title: 'Admins finished their tasks.', text: 'Task completion rose with role-based access controls and a navigation framework built for each admin.', metric: { text: '45% → 82%', unit: 'task completion rate, user testing' } },
@@ -224,7 +255,7 @@ const scenes: { id: string; label: string; nav: string; beats: Beat[] }[] = [
 	},
 	{
 		id: 'reflect',
-		label: '08 · Reflection',
+		label: '09 · Reflection',
 		nav: 'Reflection',
 		beats: [
 			{
@@ -250,8 +281,8 @@ const scenes: { id: string; label: string; nav: string; beats: Beat[] }[] = [
 	description="Redesigning Amwell's admin portal into one scalable, role-based platform. Task completion rose from 45% to 82% in usability testing."
 	eyebrow="Amwell · Senior Product Designer"
 	heroTitle="From “make it faster” to a platform that scales."
-	lede="Amwell’s admin portal was fragmented and hard to navigate. I redesigned it as one role-based system, and task completion rose from 45% to 82% in usability testing."
-	tools="Figma · User testing · Converge design system"
+	lede="Amwell’s admin portal was fragmented and hard to navigate. I explored 113 screens by hand and redesigned it as one role-based system. In usability testing, task completion rose from 45% to 82%."
+	tools="Figma · User testing · Converge design system · No AI tools"
 	hero={{ src: '/amwell/cs/hero.webp', image: true, alt: 'The redesigned Amwell admin dashboard on a laptop' }}
 	scenes={scenes}
 	endTitle="One platform for every kind of admin."

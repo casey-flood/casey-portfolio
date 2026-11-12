@@ -1,6 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
 import { companies } from '../../data/companies';
+import CherryUnlock from '../../components/CherryUnlock.astro';
 
 // One entry per project. Lead with the result, then a clear title.
 type P = { co: string; title: string; line: string; d?: string; metric?: { v: string; l: string }; note?: string; tags: string[]; img?: string; vid?: string; ph?: string; href?: string };
@@ -8,7 +9,7 @@ const projects: P[] = [
 	{ co: 'dandy', title: 'Dandy Design Editor', line: 'Designed the in-house crown design tool, cutting hands-on designer time per order <b>11.5%</b> as crown volume grew 57%.', d: 'One end-to-end tool for designing the whole restoration in house.', metric: { v: '−11.5%', l: 'hands-on designer time per order' }, tags: ['designer experience', 'dental', 'in-house design', 'machine learning', 'sole designer'], img: '/scan-to-smile/04-design.webp', href: '/work/dandy-design-editor' },
 	{ co: 'dandy', title: 'Instant Design Preview', line: 'Dentists approve the generated crown before it’s made, so fewer get remade.', d: 'Dentists review and approve the crown before it’s made.', note: 'Chairside · case study coming soon', tags: ['dentist experience', 'dental', 'crown'], img: '/work/behind/proto.jpg', vid: '/work/behind/proto.mp4' },
 	{ co: 'dandy', title: 'Three-crown Perfect Fit', line: 'Three crown fits in one order: quicker turnaround and fewer seating appointments.', d: 'Three crowns in one order; the dentist seats the best fit.', metric: { v: '+60%', l: 'feedback submissions' }, note: 'Three fits, one right crown · coming soon', tags: ['dentist experience', 'patient', 'crown'], img: '/story/dandy/pf-final.webp' },
-	{ co: 'dandy', title: 'Design Editor design system', line: 'Built its first design system, cutting each iteration from 30–45 to <b>5–10 minutes</b>.', d: 'Built from scratch in Storybook, on real production code.', metric: { v: '5–10 min', l: 'per iteration, down from 30–45' }, tags: ['systems design', 'design system', 'storybook', 'cursor'], img: '/journey/storybook-ds-cover.jpg', href: '/work/dandy-design-system' },
+	{ co: 'dandy', title: 'Design Editor design system', line: 'Built its first design system, cutting each iteration from 30–45 to <b>5–10 minutes</b>.', d: 'Extended our chairside system with net-new components, in Storybook.', metric: { v: '5–10 min', l: 'per iteration, down from 30–45' }, tags: ['systems design', 'design system', 'storybook', 'cursor'], img: '/journey/storybook-ds-cover.jpg', href: '/work/dandy-design-system' },
 	{ co: 'dandy', title: 'Prototypes in production code', line: 'Prototyped real flows from production components for early feedback.', d: 'Real components, full flows, early feedback.', note: 'Systems', tags: ['systems design', 'prototype', 'code'], img: '/work/behind/proto.jpg', href: '/work/dandy-prototype' },
 	{ co: 'dandy', title: 'Prototyping hub for designers', line: 'A guided path that teaches the whole team to prototype in code.', d: 'A guided path that teaches the team to prototype in code.', note: 'Systems', tags: ['systems design', 'education', 'hub'], img: '/work/behind/hub.jpg', href: '/work/dandy-product-design-hub' },
 	{ co: 'amwell', title: 'Role-based admin portal', line: 'Redesigned the admin portal around each role, lifting task completion from <b>45% to 82%</b>.', d: 'One role-based system for a fragmented enterprise portal.', metric: { v: '45% → 82%', l: 'admin task completion' }, tags: ['admin', 'navigation', 'information architecture', 'healthcare', 'enterprise', 'design system'], img: '/amwell/admin-dashboard.webp', href: '/work/amwell-admin-portal' },
@@ -109,6 +110,7 @@ const pos = (i: number, n: number) => { const { cols } = geo(n); return `--i:${i
 			))}
 		</div>
 		<div class="wk2__peek" aria-hidden="true"><img alt="" /></div>
+		<CherryUnlock />
 	</div>
 </Base>
 
