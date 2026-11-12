@@ -16023,3 +16023,14 @@ video.cmp__img:not(.cmp__img--new){object-position:left center}
 .sc__split .ptag { display: flex; width: max-content; margin-bottom: 0.45rem; font-size: 0.78rem; }
 .sc__split p { color: #c3d3ea; font-size: 1.05rem; line-height: 1.5; }
 @media (max-width: 899px) { .sc__split { gap: 0.6rem; } .sc__split p { font-size: 0.95rem; line-height: 1.4; } }
+/* tiers, simplified: equal cards, one scope bar each instead of lists */
+.tiers { align-items: stretch; }
+.tier--ten, .tier--basic { margin-top: 0 !important; }
+.tier { gap: 0.35rem; }
+.tier small { min-height: 2.7em; }
+.tier__scope { display: block; height: 6px; margin-top: 0.5rem; border-radius: 99px; background: rgba(255, 255, 255, 0.1); position: relative; overflow: hidden; }
+.tier__scope::after { content: ''; position: absolute; inset: 0 auto 0 0; width: var(--w); border-radius: 99px; background: #8cc8ff; transform: scaleX(0); transform-origin: left; transition: transform 0.9s 0.4s cubic-bezier(0.2, 0.7, 0.2, 1); }
+.tier--ten .tier__scope::after { background: #f08ca0; } .tier--basic .tier__scope::after { background: #9aa4b8; }
+.sc__row.on .tier__scope::after { transform: none; }
+@media (max-width: 899px) { .tier small { display: block !important; font-size: 0.6rem; min-height: 0; } }
+.tier__k { white-space: nowrap; font-size: 0.66rem !important; letter-spacing: 0.04em !important; } .tier b { font-size: 1.1rem; }
