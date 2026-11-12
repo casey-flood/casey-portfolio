@@ -15968,3 +15968,18 @@ video.cmp__img:not(.cmp__img--new){object-position:left center}
 	.cx--mob .eco { aspect-ratio: 100 / 78; font-size: 0.6rem; }
 	.cx--mob .eco__admin { width: 60%; }
 }
+
+/* research: the IA map on top (running off the right edge), four numbers in one clean row beneath */
+.res { grid-template-columns: 1fr !important; gap: 1.4rem; }
+.res__map { order: -1; }
+.res__stats { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; margin-right: 8vw; border-top: 1px solid rgba(140, 200, 255, 0.2); }
+.res__stats li { display: flex !important; flex-direction: column; gap: 0.35rem; padding: 0.9rem 1rem 0 0; border-bottom: 0 !important; }
+.res__stats li + li { padding-left: 1rem; border-left: 1px solid rgba(140, 200, 255, 0.2); }
+.res__stats b { font-size: clamp(1.6rem, 2.4vw, 2.1rem) !important; }
+.res__stats span { font-size: 0.8rem !important; line-height: 1.3; color: #b4c6e4; }
+@media (max-width: 899px) {
+	.res__stats { margin-right: 1.5rem; }
+	.res__stats li { padding: 0.6rem 0.5rem 0 0; } .res__stats li + li { padding-left: 0.5rem; }
+	.res__stats b { font-size: 1.25rem !important; } .res__stats span { font-size: 0.62rem !important; }
+}
+.res__stats span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
