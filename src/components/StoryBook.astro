@@ -41,7 +41,7 @@ const pages: P[] = chapters.flatMap((c) => [
 							{p.ladder && <ol class="sb__ladder">{p.ladder.map((s) => <li><b>{s.t}</b><span>{s.when}</span></li>)}</ol>}
 							{p.nums && <ul class="sb__nums">{p.nums.map((n) => <li><b>{n.v}</b><span>{n.l}</span></li>)}</ul>}
 							{p.quote && <blockquote class="sb__quote"><p>“{p.quote.q}”</p><cite>{p.quote.who}</cite></blockquote>}
-							{p.link && <a class="sb__link" href={p.link.href} target={p.link.external ? '_blank' : undefined} rel={p.link.external ? 'noopener' : undefined}>{p.link.label} {p.link.external ? '↗' : '→'}</a>}
+							{p.link && <a class="sb__link" href={p.link.href} target={p.link.external ? '_blank' : undefined} rel={p.link.external ? 'noopener' : undefined}>{p.link.label} {p.link.external ? '↗\uFE0E' : '→'}</a>}
 						</div>
 						{p.media && (
 							<div class:list={['sb__deck', { 'is-multi': p.media.length > 1 }]} data-n={p.media.length}>
@@ -197,10 +197,30 @@ const pages: P[] = chapters.flatMap((c) => [
 
 	@media (max-width: 760px) {
 		.sb { --cw: calc(100vw - 2.5rem); }
-		.sb__track { gap: 0.75rem; }
+		.sb__track { gap: 0.75rem; align-items: flex-start; }
 		.sb__page { min-height: 0; opacity: 0.45; filter: none; transform: scale(0.97); }
 		.sb__page.has-media .sb__body { grid-template-columns: 1fr; }
 		.sb__fig { order: -1; aspect-ratio: 16 / 10; }
+		/* Phones: photo first, everything compact, so the whole moment fits on one screen */
+		.sb__deck { order: -1; aspect-ratio: 16 / 10; margin-bottom: 0.25rem; }
+		.sb__deck.is-multi { margin-bottom: 1.5rem; }
+		.sb__page { padding: 0.9rem 0.9rem 1.1rem; border-radius: 1.1rem; }
+		.sb__head { flex-direction: row; justify-content: center; gap: 0.5rem; margin-bottom: 0.7rem; }
+		.sb__head span::before { content: '·'; margin-right: 0.5rem; }
+		.sb__body { gap: 0.8rem; }
+		.sb__txt h2 { font-size: 1.35rem; }
+		.sb__text { font-size: 0.9rem; margin-top: 0.45rem; line-height: 1.5; }
+		.sb__kick { margin-bottom: 0.35rem; font-size: 0.62rem; }
+		.sb__nums { margin-top: 0.8rem; gap: 0.75rem 1.25rem; }
+		.sb__nums b { font-size: 1.3rem; }
+		.sb__nums span { font-size: 0.7rem; }
+		.sb__quote { margin-top: 0.7rem; }
+		.sb__link { margin-top: 0.7rem; font-size: 0.85rem; }
+		.sb__ladder { margin-top: 0.6rem; }
+		.sb__page:not(.has-media) .sb__body { padding: 0.5rem 0; }
+		.sb__scrub { position: sticky; bottom: 0; z-index: 4; padding: 0 0.25rem 0.6rem; background: linear-gradient(transparent, var(--sb-bg, #000) 30%); }
+		.sb__groups { padding-top: 1.2rem; }
+		.sb__now { margin-top: 0.5rem; }
 		.sb__side { display: none; }
 		.sb__groups { justify-content: flex-start; }
 		.sb__ticks button { width: 1.15rem; }
