@@ -164,11 +164,7 @@ const values = [
 									<h4>{r.title}</h4>
 									{r.text && <p>{r.text}</p>}
 									{r.bullets && (
-										<ul>
-											{r.bullets.map((b) => (
-												<li>{b}</li>
-											))}
-										</ul>
+										<details class="rs__more" open><summary>{r.bullets.length} highlights</summary><ul>{r.bullets.map((b) => <li>{b}</li>)}</ul></details>
 									)}
 								</article>
 							))}
@@ -218,10 +214,26 @@ const values = [
 	</section>
 </Base>
 
+<script>
+	// On phones, role highlights start collapsed so the page scans by company and title.
+	if (matchMedia('(max-width: 640px)').matches) document.querySelectorAll<HTMLDetailsElement>('.rs__more').forEach((d) => d.removeAttribute('open'));
+</script>
+
 <style>
 	.rs__stats { list-style: none; margin: 0.9rem 0 0.4rem; padding: 0; display: flex; flex-wrap: wrap; gap: 0.5rem 1.75rem; }
 	.rs__stats li { display: flex; align-items: baseline; gap: 0.45rem; }
 	.rs__stats b { font-family: var(--display); font-size: 1.05rem; letter-spacing: -0.02em; white-space: nowrap; }
 	.rs__stats span { color: var(--muted); font-size: 0.8rem; }
-	@media (max-width: 640px) { .rs__stats { gap: 0.4rem 1.2rem; } }
+	.rs__more summary { display: none; }
+	@media (max-width: 640px) {
+		.rs__stats { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem 1rem; margin: 0.75rem 0 0.25rem; }
+		.rs__stats li { flex-direction: column; gap: 0.1rem; }
+		.rs__stats b { font-size: 1.15rem; }
+		.rs__stats span { font-size: 0.75rem; line-height: 1.3; }
+		.rs__more summary { display: inline-flex; align-items: center; gap: 0.35rem; margin-top: 0.6rem; padding: 0.35rem 0.75rem; border: 1px solid var(--line); border-radius: 99px; font-size: 0.8rem; color: var(--muted); cursor: pointer; list-style: none; }
+		.rs__more summary::-webkit-details-marker { display: none; }
+		.rs__more summary::after { content: '+'; }
+		.rs__more[open] summary::after { content: '−'; }
+		:global(.rs__role p), .rs__more li { font-size: 0.92rem; }
+	}
 </style>
