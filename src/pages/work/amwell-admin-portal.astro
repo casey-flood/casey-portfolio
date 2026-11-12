@@ -208,6 +208,21 @@ const opt2 = `
 	</div>
 </div>`;
 
+const opt3 = `
+<div class="dk2">
+	<div class="dk2__deck" role="button" tabindex="0" aria-label="Option 3 screens. Click to flip to the next one.">
+		<figure class="dk2__fig" data-o="0" style="--o:0"><img src="/amwell/cs/o3-a.webp" alt="Super admin dashboard with platform totals, visit charts and recent activity" /><figcaption><b>Super admin dashboard</b>A global view across every tenant</figcaption></figure>
+		<figure class="dk2__fig" data-o="1" style="--o:1"><img src="/amwell/cs/o3-b.webp" alt="Practitioners list with tabs for provider groups and tag settings, filtered by tenant" /><figcaption><b>Practitioners</b>One list, filtered by tenant</figcaption></figure>
+		<figure class="dk2__fig" data-o="2" style="--o:2"><img src="/amwell/cs/o3-c.webp" alt="A tenant page for Abundant Health with its settings in a nested left nav" /><figcaption><b>Inside a tenant</b>The tenant first, its settings in one left nav</figcaption></figure>
+		<button type="button" class="dk2__exp" aria-label="See it full size">⤢</button>
+	</div>
+	<p class="dk2__cap"><em>Click to flip · hover for details</em></p>
+	<div class="pcx"><span class="pcx__src">From user testing and engineering review</span>
+		<div class="pcx__col pcx--key"><b>What each tier gets</b><dl><dt>Amwell super admin</dt><dd>Global nav and search across tenants</dd><dt>Tenant super admin</dt><dd>Their dashboard, admins and service lines</dd><dt>Basic admin</dt><dd>Focused tools, limited configuration</dd></dl></div>
+		<div class="pcx__col pcx--good"><b>Why it won</b><ul><li>Admins found role transitions intuitive</li><li>One codebase, dynamic components</li><li>Scales to new roles and features</li><li>Shorter training for new admins</li></ul></div>
+	</div>
+</div>`;
+
 const scenes: { id: string; label: string; nav: string; beats: Beat[] }[] = [
 	{
 		id: 'context',
@@ -315,9 +330,10 @@ const scenes: { id: string; label: string; nav: string; beats: Beat[] }[] = [
 				html: opt2,
 			},
 			{
-				title: 'Option 3: a contextual interface. Selected.',
-				text: 'Dynamic global navigation for super admins, context-aware components by user type, and progressive disclosure by role. One codebase, built from reusable components, that scales to new roles and features.',
-				media: { kind: 'image', src: `${A}/final.webp`, alt: 'The contextual interface solution, with key features and why it won' },
+				title: 'The one that fit: a contextual interface.',
+				text: 'One interface that changes with who is signed in: dynamic global navigation for super admins, context-aware components by user type, and progressive disclosure by role. Selected.',
+				textHtml: '<div class="sc__opt sc__opt--win"><small>Option 3 · selected</small><b>Contextual interface</b><p>One interface that changes with who is signed in: dynamic global navigation for super admins, context-aware components by user type, and progressive disclosure by role.</p></div>',
+				html: opt3,
 			},
 		],
 	},
